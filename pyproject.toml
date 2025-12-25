@@ -40,11 +40,11 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/siglent-control/siglent"
-Documentation = "https://github.com/siglent-control/siglent#readme"
-Repository = "https://github.com/siglent-control/siglent"
-Issues = "https://github.com/siglent-control/siglent/issues"
-Changelog = "https://github.com/siglent-control/siglent/blob/master/CHANGELOG.md"
+Homepage = "https://github.com/little-did-I-know/Siglent-Oscilloscope"
+Documentation = "https://github.com/little-did-I-know/Siglent-Oscilloscope#readme"
+Repository = "https://github.com/little-did-I-know/Siglent-Oscilloscope"
+Issues = "https://github.com/little-did-I-know/Siglent-Oscilloscope/issues"
+Changelog = "https://github.com/little-did-I-know/Siglent-Oscilloscope/blob/main/CHANGELOG.md"
 
 [project.optional-dependencies]
 dev = [
