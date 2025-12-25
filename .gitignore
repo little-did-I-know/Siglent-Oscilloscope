@@ -19,7 +19,10 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
-MANIFEST
+MANIFEST.in
+PYPI_DEPLOYMENT.md
+PYPI_READY.md
+
 
 # Virtual Environment
 .venv/
