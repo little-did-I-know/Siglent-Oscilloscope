@@ -1,0 +1,188 @@
+"""TCP socket implementation for SCPI communication."""
+
+import socket
+import time
+from typing import Optional
+
+from siglent.connection.base import BaseConnection
+from siglent import exceptions
+
+
+class SocketConnection(BaseConnection):
+    """TCP socket connection for SCPI commands over Ethernet."""
+
+    def __init__(self, host: str, port: int = 5024, timeout: float = 5.0):
+        """Initialize socket connection.
+
+        Args:
+            host: IP address or hostname of the oscilloscope
+            port: TCP port number (default: 5024 for Siglent SCPI)
+            timeout: Command timeout in seconds (default: 5.0)
+        """
+        super().__init__(host, port, timeout)
+        self._socket: Optional[socket.socket] = None
+        self._buffer_size = 4096
+
+    def connect(self) -> None:
+        """Establish TCP connection to the oscilloscope.
+
+        Raises:
+            ConnectionError: If connection fails
+        """
+        if self._connected:
+            return
+
+        try:
+            self._socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            self._socket.settimeout(self.timeout)
+            self._socket.connect((self.host, self.port))
+            self._connected = True
+        except socket.timeout:
+            raise exceptions.TimeoutError(
+                f"Connection timeout: {self.host}:{self.port}"
+            )
+        except socket.error as e:
+            raise exceptions.ConnectionError(
+                f"Failed to connect to {self.host}:{self.port}: {e}"
+            )
+
+    def disconnect(self) -> None:
+        """Close the TCP connection."""
+        if self._socket:
+            try:
+                self._socket.close()
+            except Exception:
+                pass
+            finally:
+                self._socket = None
+                self._connected = False
+
+    def write(self, command: str) -> None:
+        """Send a SCPI command to the oscilloscope.
+
+        Args:
+            command: SCPI command string
+
+        Raises:
+            ConnectionError: If not connected
+            TimeoutError: If command times out
+            CommandError: If command fails
+        """
+        if not self._connected or not self._socket:
+            raise exceptions.ConnectionError("Not connected to oscilloscope")
+
+        try:
+            # Ensure command ends with newline
+            if not command.endswith('\n'):
+                command += '\n'
+
+            self._socket.sendall(command.encode('ascii'))
+        except socket.timeout:
+            raise exceptions.TimeoutError(f"Command timeout: {command}")
+        except socket.error as e:
+            self._connected = False
+            raise exceptions.ConnectionError(f"Write error: {e}")
+
+    def read(self) -> str:
+        """Read response from the oscilloscope.
+
+        Returns:
+            Response string from oscilloscope
+
+        Raises:
+            ConnectionError: If not connected
+            TimeoutError: If read times out
+        """
+        if not self._connected or not self._socket:
+            raise exceptions.ConnectionError("Not connected to oscilloscope")
+
+        try:
+            data = b''
+            while True:
+                chunk = self._socket.recv(self._buffer_size)
+                if not chunk:
+                    break
+                data += chunk
+                # Check if we received a complete response (ends with newline)
+                if data.endswith(b'\n'):
+                    break
+
+            return data.decode('ascii').strip()
+        except socket.timeout:
+            raise exceptions.TimeoutError("Read timeout")
+        except socket.error as e:
+            self._connected = False
+            raise exceptions.ConnectionError(f"Read error: {e}")
+
+    def query(self, command: str) -> str:
+        """Send a command and read the response.
+
+        Args:
+            command: SCPI query command
+
+        Returns:
+            Response string from oscilloscope
+
+        Raises:
+            ConnectionError: If not connected
+            TimeoutError: If command times out
+            CommandError: If command fails
+        """
+        self.write(command)
+        # Small delay to allow oscilloscope to process
+        time.sleep(0.01)
+        return self.read()
+
+    def read_raw(self, size: Optional[int] = None) -> bytes:
+        """Read raw binary data from oscilloscope.
+
+        Used for reading waveform data in binary format.
+
+        Args:
+            size: Number of bytes to read (None for all available)
+
+        Returns:
+            Raw binary data
+
+        Raises:
+            ConnectionError: If not connected
+            TimeoutError: If read times out
+        """
+        if not self._connected or not self._socket:
+            raise exceptions.ConnectionError("Not connected to oscilloscope")
+
+        try:
+            if size is not None:
+                # Read exact number of bytes
+                data = b''
+                remaining = size
+                while remaining > 0:
+                    chunk = self._socket.recv(min(remaining, self._buffer_size))
+                    if not chunk:
+                        break
+                    data += chunk
+                    remaining -= len(chunk)
+                return data
+            else:
+                # Read all available data
+                data = b''
+                self._socket.settimeout(0.5)  # Short timeout for binary reads
+                try:
+                    while True:
+                        chunk = self._socket.recv(self._buffer_size)
+                        if not chunk:
+                            break
+                        data += chunk
+                except socket.timeout:
+                    pass  # Expected when no more data
+                finally:
+                    self._socket.settimeout(self.timeout)  # Restore timeout
+                return data
+        except socket.error as e:
+            self._connected = False
+            raise exceptions.ConnectionError(f"Read error: {e}")
+
+    def __repr__(self) -> str:
+        """String representation of connection."""
+        status = "connected" if self._connected else "disconnected"
+        return f"SocketConnection({self.host}:{self.port}, {status})"

@@ -1,0 +1,67 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "siglent"
+version = "0.1.0"
+description = "Python package for controlling Siglent SD824x HD oscilloscopes via Ethernet"
+readme = "README.md"
+requires-python = ">=3.8"
+license = "MIT"
+keywords = ["siglent", "oscilloscope", "SDS", "SCPI", "test equipment", "instrumentation", "measurement"]
+authors = [
+    {name = "Siglent Control Contributors"}
+]
+maintainers = [
+    {name = "Siglent Control Contributors"}
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Scientific/Engineering :: Interface Engine/Protocol Translator",
+    "Topic :: System :: Hardware :: Hardware Drivers",
+    "Environment :: X11 Applications :: Qt",
+]
+
+dependencies = [
+    "PyQt6>=6.6.0",
+    "numpy>=1.24.0",
+    "matplotlib>=3.7.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/siglent-control/siglent"
+Documentation = "https://github.com/siglent-control/siglent#readme"
+Repository = "https://github.com/siglent-control/siglent"
+Issues = "https://github.com/siglent-control/siglent/issues"
+Changelog = "https://github.com/siglent-control/siglent/blob/master/CHANGELOG.md"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "black>=23.0",
+    "flake8>=6.0",
+    "build>=0.10.0",
+    "twine>=4.0.0",
+]
+
+[project.scripts]
+siglent-gui = "siglent.gui.app:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["siglent*"]
+
+[tool.black]
+line-length = 100
+target-version = ['py38', 'py39', 'py310', 'py311']
