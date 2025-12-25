@@ -5,6 +5,7 @@ from siglent.gui.widgets.channel_control import ChannelControl
 from siglent.gui.widgets.trigger_control import TriggerControl
 from siglent.gui.widgets.measurement_panel import MeasurementPanel
 from siglent.gui.widgets.timebase_control import TimebaseControl
+from siglent.gui.widgets.scope_web_view import ScopeWebView
 
 __all__ = [
     "WaveformDisplay",
@@ -12,4 +13,5 @@ __all__ = [
     "TriggerControl",
     "MeasurementPanel",
     "TimebaseControl",
+    "ScopeWebView",
 ]
