@@ -38,13 +38,9 @@ class SocketConnection(BaseConnection):
             self._socket.connect((self.host, self.port))
             self._connected = True
         except socket.timeout:
-            raise exceptions.TimeoutError(
-                f"Connection timeout: {self.host}:{self.port}"
-            )
+            raise exceptions.TimeoutError(f"Connection timeout: {self.host}:{self.port}")
         except socket.error as e:
-            raise exceptions.ConnectionError(
-                f"Failed to connect to {self.host}:{self.port}: {e}"
-            )
+            raise exceptions.ConnectionError(f"Failed to connect to {self.host}:{self.port}: {e}")
 
     def disconnect(self) -> None:
         """Close the TCP connection."""
@@ -73,10 +69,10 @@ class SocketConnection(BaseConnection):
 
         try:
             # Ensure command ends with newline
-            if not command.endswith('\n'):
-                command += '\n'
+            if not command.endswith("\n"):
+                command += "\n"
 
-            self._socket.sendall(command.encode('ascii'))
+            self._socket.sendall(command.encode("ascii"))
         except socket.timeout:
             raise exceptions.TimeoutError(f"Command timeout: {command}")
         except socket.error as e:
@@ -97,20 +93,20 @@ class SocketConnection(BaseConnection):
             raise exceptions.ConnectionError("Not connected to oscilloscope")
 
         try:
-            data = b''
+            data = b""
             while True:
                 chunk = self._socket.recv(self._buffer_size)
                 if not chunk:
                     break
                 data += chunk
                 # Check if we received a complete response (ends with newline)
-                if data.endswith(b'\n'):
+                if data.endswith(b"\n"):
                     break
 
             # Decode and strip whitespace and null bytes
-            response = data.decode('ascii').strip()
+            response = data.decode("ascii").strip()
             # Remove null bytes that some oscilloscopes prepend to responses
-            response = response.lstrip('\x00')
+            response = response.lstrip("\x00")
             return response
         except socket.timeout:
             raise exceptions.TimeoutError("Read timeout")
@@ -158,7 +154,7 @@ class SocketConnection(BaseConnection):
         try:
             if size is not None:
                 # Read exact number of bytes
-                data = b''
+                data = b""
                 remaining = size
                 while remaining > 0:
                     chunk = self._socket.recv(min(remaining, self._buffer_size))
@@ -169,7 +165,7 @@ class SocketConnection(BaseConnection):
                 return data
             else:
                 # Read all available data
-                data = b''
+                data = b""
                 self._socket.settimeout(0.5)  # Short timeout for binary reads
                 try:
                     while True:

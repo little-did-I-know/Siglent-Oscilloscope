@@ -12,20 +12,20 @@ logger = logging.getLogger(__name__)
 
 MeasurementType = Literal[
     "PKPK",  # Peak-to-peak
-    "MAX",   # Maximum
-    "MIN",   # Minimum
+    "MAX",  # Maximum
+    "MIN",  # Minimum
     "AMPL",  # Amplitude
-    "TOP",   # Top value
+    "TOP",  # Top value
     "BASE",  # Base value
-    "CMEAN", # Mean (cycle)
+    "CMEAN",  # Mean (cycle)
     "MEAN",  # Mean (all)
-    "RMS",   # RMS (all)
+    "RMS",  # RMS (all)
     "CRMS",  # RMS (cycle)
     "FREQ",  # Frequency
-    "PER",   # Period
+    "PER",  # Period
     "RISE",  # Rise time
     "FALL",  # Fall time
-    "WID",   # Positive width
+    "WID",  # Positive width
     "NWID",  # Negative width
     "DUTY",  # Duty cycle
 ]
@@ -60,9 +60,7 @@ class Measurement:
             InvalidParameterError: If parameters are invalid
         """
         if not 1 <= channel <= 4:
-            raise exceptions.InvalidParameterError(
-                f"Invalid channel number: {channel}. Must be 1-4."
-            )
+            raise exceptions.InvalidParameterError(f"Invalid channel number: {channel}. Must be 1-4.")
 
         mtype = mtype.upper()
         ch = f"C{channel}"
@@ -73,12 +71,12 @@ class Measurement:
         # Parse response (format typically: "PAVA PKPK,C1,1.23V")
         try:
             # Extract value from response
-            parts = response.split(',')
+            parts = response.split(",")
             if len(parts) >= 3:
                 value_str = parts[2].strip()
                 # Remove units (V, s, Hz, %, etc.)
-                for unit in ['V', 'S', 'HZ', '%', 'A']:
-                    value_str = value_str.replace(unit, '').replace(unit.lower(), '')
+                for unit in ["V", "S", "HZ", "%", "A"]:
+                    value_str = value_str.replace(unit, "").replace(unit.lower(), "")
                 return float(value_str)
             else:
                 raise ValueError(f"Unexpected response format: {response}")
@@ -223,45 +221,45 @@ class Measurement:
 
         # Basic voltage measurements
         try:
-            measurements['vpp'] = self.measure_vpp(channel)
+            measurements["vpp"] = self.measure_vpp(channel)
         except Exception:
-            measurements['vpp'] = None
+            measurements["vpp"] = None
 
         try:
-            measurements['amplitude'] = self.measure_amplitude(channel)
+            measurements["amplitude"] = self.measure_amplitude(channel)
         except Exception:
-            measurements['amplitude'] = None
+            measurements["amplitude"] = None
 
         try:
-            measurements['max'] = self.measure_max(channel)
+            measurements["max"] = self.measure_max(channel)
         except Exception:
-            measurements['max'] = None
+            measurements["max"] = None
 
         try:
-            measurements['min'] = self.measure_min(channel)
+            measurements["min"] = self.measure_min(channel)
         except Exception:
-            measurements['min'] = None
+            measurements["min"] = None
 
         try:
-            measurements['mean'] = self.measure_mean(channel)
+            measurements["mean"] = self.measure_mean(channel)
         except Exception:
-            measurements['mean'] = None
+            measurements["mean"] = None
 
         try:
-            measurements['rms'] = self.measure_rms(channel)
+            measurements["rms"] = self.measure_rms(channel)
         except Exception:
-            measurements['rms'] = None
+            measurements["rms"] = None
 
         # Timing measurements
         try:
-            measurements['frequency'] = self.measure_frequency(channel)
+            measurements["frequency"] = self.measure_frequency(channel)
         except Exception:
-            measurements['frequency'] = None
+            measurements["frequency"] = None
 
         try:
-            measurements['period'] = self.measure_period(channel)
+            measurements["period"] = self.measure_period(channel)
         except Exception:
-            measurements['period'] = None
+            measurements["period"] = None
 
         logger.info(f"Completed measurements on channel {channel}")
         return measurements
@@ -275,9 +273,7 @@ class Measurement:
             stat: Enable statistics for this measurement
         """
         if not 1 <= channel <= 4:
-            raise exceptions.InvalidParameterError(
-                f"Invalid channel number: {channel}. Must be 1-4."
-            )
+            raise exceptions.InvalidParameterError(f"Invalid channel number: {channel}. Must be 1-4.")
 
         ch = f"C{channel}"
         stat_flag = "ON" if stat else "OFF"
@@ -321,12 +317,10 @@ class Measurement:
                         VREF: Vertical reference
         """
         cursor_type = cursor_type.upper()
-        valid_types = ['OFF', 'HREL', 'VREL', 'HREF', 'VREF']
+        valid_types = ["OFF", "HREL", "VREL", "HREF", "VREF"]
 
         if cursor_type not in valid_types:
-            raise exceptions.InvalidParameterError(
-                f"Invalid cursor type: {cursor_type}. Must be one of {valid_types}."
-            )
+            raise exceptions.InvalidParameterError(f"Invalid cursor type: {cursor_type}. Must be one of {valid_types}.")
 
         self._scope.write(f"CRST {cursor_type}")
         logger.info(f"Cursor type set to {cursor_type}")
@@ -343,11 +337,8 @@ class Measurement:
         # Response format varies by cursor type
         # Example: "CRVA VREL,1.00V,2.00V,1.00V"
 
-        parts = response.split(',')
-        result = {
-            'type': parts[0].replace('CRVA', '').strip() if parts else 'UNKNOWN',
-            'values': [p.strip() for p in parts[1:]] if len(parts) > 1 else []
-        }
+        parts = response.split(",")
+        result = {"type": parts[0].replace("CRVA", "").strip() if parts else "UNKNOWN", "values": [p.strip() for p in parts[1:]] if len(parts) > 1 else []}
 
         return result
 

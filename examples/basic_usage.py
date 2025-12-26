@@ -67,9 +67,8 @@ def main():
             ch = getattr(scope, f"channel{i}")
             try:
                 config = ch.get_configuration()
-                if config['enabled']:
-                    print(f"  Channel {i}: {config['voltage_scale']}V/div, "
-                          f"{config['coupling']}, offset={config['voltage_offset']}V")
+                if config["enabled"]:
+                    print(f"  Channel {i}: {config['voltage_scale']}V/div, " f"{config['coupling']}, offset={config['voltage_offset']}V")
             except Exception:
                 pass
 

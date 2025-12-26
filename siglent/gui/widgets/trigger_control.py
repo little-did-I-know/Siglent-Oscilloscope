@@ -3,10 +3,7 @@
 import logging
 from typing import Optional
 
-from PyQt6.QtWidgets import (
-    QWidget, QVBoxLayout, QHBoxLayout, QGroupBox,
-    QComboBox, QDoubleSpinBox, QPushButton, QLabel, QGridLayout
-)
+from PyQt6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QGroupBox, QComboBox, QDoubleSpinBox, QPushButton, QLabel, QGridLayout
 from PyQt6.QtCore import Qt
 
 from siglent import Oscilloscope
@@ -57,7 +54,7 @@ class TriggerControl(QWidget):
         mode_combo.setCurrentText("AUTO")
         mode_combo.currentTextChanged.connect(self._on_mode_changed)
         settings_layout.addWidget(mode_combo, 0, 1)
-        self.widgets['mode'] = mode_combo
+        self.widgets["mode"] = mode_combo
 
         # Row 1: Trigger source
         settings_layout.addWidget(QLabel("Source:"), 1, 0)
@@ -66,7 +63,7 @@ class TriggerControl(QWidget):
         source_combo.setCurrentText("C1")
         source_combo.currentTextChanged.connect(self._on_source_changed)
         settings_layout.addWidget(source_combo, 1, 1)
-        self.widgets['source'] = source_combo
+        self.widgets["source"] = source_combo
 
         # Row 2: Trigger slope
         settings_layout.addWidget(QLabel("Slope:"), 2, 0)
@@ -75,7 +72,7 @@ class TriggerControl(QWidget):
         slope_combo.setCurrentText("POS")
         slope_combo.currentTextChanged.connect(self._on_slope_changed)
         settings_layout.addWidget(slope_combo, 2, 1)
-        self.widgets['slope'] = slope_combo
+        self.widgets["slope"] = slope_combo
 
         # Row 3: Trigger level
         settings_layout.addWidget(QLabel("Level:"), 3, 0)
@@ -88,7 +85,7 @@ class TriggerControl(QWidget):
         level_spin.setSingleStep(0.1)
         level_spin.valueChanged.connect(self._on_level_changed)
         settings_layout.addWidget(level_spin, 3, 1)
-        self.widgets['level'] = level_spin
+        self.widgets["level"] = level_spin
 
         # Row 4: Trigger coupling
         settings_layout.addWidget(QLabel("Coupling:"), 4, 0)
@@ -97,7 +94,7 @@ class TriggerControl(QWidget):
         coupling_combo.setCurrentText("DC")
         coupling_combo.currentTextChanged.connect(self._on_coupling_changed)
         settings_layout.addWidget(coupling_combo, 4, 1)
-        self.widgets['coupling'] = coupling_combo
+        self.widgets["coupling"] = coupling_combo
 
         # Row 5: Holdoff
         settings_layout.addWidget(QLabel("Holdoff:"), 5, 0)
@@ -110,7 +107,7 @@ class TriggerControl(QWidget):
         holdoff_spin.setSingleStep(0.000001)
         holdoff_spin.valueChanged.connect(self._on_holdoff_changed)
         settings_layout.addWidget(holdoff_spin, 5, 1)
-        self.widgets['holdoff'] = holdoff_spin
+        self.widgets["holdoff"] = holdoff_spin
 
         layout.addWidget(settings_group)
 
@@ -129,13 +126,7 @@ class TriggerControl(QWidget):
         layout.addWidget(actions_group)
 
         # Info label
-        info_label = QLabel(
-            "<b>Trigger Mode Info:</b><br>"
-            "<b>AUTO:</b> Always triggers (free-run if no signal)<br>"
-            "<b>NORMAL:</b> Triggers only on valid events<br>"
-            "<b>SINGLE:</b> Triggers once then stops<br>"
-            "<b>STOP:</b> Stops acquisition"
-        )
+        info_label = QLabel("<b>Trigger Mode Info:</b><br>" "<b>AUTO:</b> Always triggers (free-run if no signal)<br>" "<b>NORMAL:</b> Triggers only on valid events<br>" "<b>SINGLE:</b> Triggers once then stops<br>" "<b>STOP:</b> Stops acquisition")
         info_label.setWordWrap(True)
         info_label.setStyleSheet("QLabel { font-size: 9pt; color: #888; }")
         layout.addWidget(info_label)
@@ -163,15 +154,15 @@ class TriggerControl(QWidget):
                 widget.blockSignals(True)
 
             # Update values
-            self.widgets['mode'].setCurrentText(self.scope.trigger.mode)
-            self.widgets['source'].setCurrentText(self.scope.trigger.source)
-            self.widgets['slope'].setCurrentText(self.scope.trigger.slope)
-            self.widgets['level'].setValue(self.scope.trigger.level)
-            self.widgets['coupling'].setCurrentText(self.scope.trigger.coupling)
+            self.widgets["mode"].setCurrentText(self.scope.trigger.mode)
+            self.widgets["source"].setCurrentText(self.scope.trigger.source)
+            self.widgets["slope"].setCurrentText(self.scope.trigger.slope)
+            self.widgets["level"].setValue(self.scope.trigger.level)
+            self.widgets["coupling"].setCurrentText(self.scope.trigger.coupling)
 
             try:
                 holdoff = self.scope.trigger.holdoff
-                self.widgets['holdoff'].setValue(holdoff)
+                self.widgets["holdoff"].setValue(holdoff)
             except Exception:
                 pass  # Holdoff might not be supported
 
@@ -294,7 +285,7 @@ class TriggerControl(QWidget):
             # would read the actual signal amplitude and set to 50%
             # For now, just set to 0V
             self.scope.trigger.level = 0.0
-            self.widgets['level'].setValue(0.0)
+            self.widgets["level"].setValue(0.0)
             logger.info("Set trigger level to 0V (50%)")
         except Exception as e:
             logger.error(f"Failed to set trigger level: {e}")

@@ -3,11 +3,7 @@
 import logging
 from typing import Optional
 
-from PyQt6.QtWidgets import (
-    QMainWindow, QWidget, QVBoxLayout, QHBoxLayout,
-    QSplitter, QStatusBar, QMessageBox, QInputDialog,
-    QGroupBox, QTabWidget
-)
+from PyQt6.QtWidgets import QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QSplitter, QStatusBar, QMessageBox, QInputDialog, QGroupBox, QTabWidget
 from PyQt6.QtCore import Qt, QTimer
 from PyQt6.QtGui import QAction
 
@@ -241,11 +237,7 @@ class MainWindow(QMainWindow):
     def _on_connect(self):
         """Handle connect action."""
         # Get IP address from user
-        ip, ok = QInputDialog.getText(
-            self, "Connect to Oscilloscope",
-            "Enter oscilloscope IP address:",
-            text="192.168.1.100"
-        )
+        ip, ok = QInputDialog.getText(self, "Connect to Oscilloscope", "Enter oscilloscope IP address:", text="192.168.1.100")
 
         if ok and ip:
             try:
@@ -254,7 +246,7 @@ class MainWindow(QMainWindow):
                 self.scope.connect()
 
                 device_info = self.scope.device_info
-                model = device_info.get('model', 'Unknown') if device_info else 'Unknown'
+                model = device_info.get("model", "Unknown") if device_info else "Unknown"
 
                 # Pass scope reference to all control widgets
                 self.channel_control.set_scope(self.scope)
@@ -266,18 +258,12 @@ class MainWindow(QMainWindow):
                 self.scope_web_view.set_scope_ip(ip)
 
                 self.statusBar().showMessage(f"Connected to {model} at {ip}")
-                QMessageBox.information(
-                    self, "Connected",
-                    f"Successfully connected to {model}\nIP: {ip}"
-                )
+                QMessageBox.information(self, "Connected", f"Successfully connected to {model}\nIP: {ip}")
                 logger.info(f"Connected to oscilloscope at {ip}")
 
             except (ConnectionError, SiglentError) as e:
                 self.statusBar().showMessage("Connection failed")
-                QMessageBox.critical(
-                    self, "Connection Error",
-                    f"Failed to connect to oscilloscope:\n{str(e)}"
-                )
+                QMessageBox.critical(self, "Connection Error", f"Failed to connect to oscilloscope:\n{str(e)}")
                 logger.error(f"Connection failed: {e}")
                 self.scope = None
 
@@ -371,20 +357,13 @@ class MainWindow(QMainWindow):
 
             if not any_enabled:
                 # Ask user if they want to enable channel 1
-                reply = QMessageBox.question(
-                    self, "No Channels Enabled",
-                    "No channels are currently enabled.\n\nWould you like to enable Channel 1?",
-                    QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No
-                )
+                reply = QMessageBox.question(self, "No Channels Enabled", "No channels are currently enabled.\n\nWould you like to enable Channel 1?", QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
                 if reply == QMessageBox.StandardButton.Yes:
                     try:
                         self.scope.channel1.enable()
                         logger.info("Enabled channel 1 for capture")
                     except Exception as e:
-                        QMessageBox.critical(
-                            self, "Error",
-                            f"Could not enable channel 1:\n{str(e)}"
-                        )
+                        QMessageBox.critical(self, "Error", f"Could not enable channel 1:\n{str(e)}")
                         return
                 else:
                     return
@@ -455,10 +434,7 @@ class MainWindow(QMainWindow):
                     try:
                         self.scope.channel1.enable()
                         logger.info("Auto-enabled channel 1 for live view")
-                        QMessageBox.information(
-                            self, "Channel Enabled",
-                            "Channel 1 has been automatically enabled for live view."
-                        )
+                        QMessageBox.information(self, "Channel Enabled", "Channel 1 has been automatically enabled for live view.")
                     except Exception as e:
                         logger.error(f"Could not enable channel 1: {e}")
 
@@ -469,10 +445,7 @@ class MainWindow(QMainWindow):
 
             except Exception as e:
                 logger.error(f"Failed to start live view: {e}")
-                QMessageBox.warning(
-                    self, "Live View Error",
-                    f"Could not start live view:\n{str(e)}\n\nMake sure the oscilloscope is connected."
-                )
+                QMessageBox.warning(self, "Live View Error", f"Could not start live view:\n{str(e)}\n\nMake sure the oscilloscope is connected.")
                 self.is_live_view = False
         else:
             # Stop live view
@@ -507,16 +480,12 @@ class MainWindow(QMainWindow):
                 self.waveform_display.plot_multiple_waveforms(waveforms)
                 # Update status with success info
                 num_channels = len(waveforms)
-                self.statusBar().showMessage(
-                    f"Live view: {num_channels} channel(s) updating"
-                )
+                self.statusBar().showMessage(f"Live view: {num_channels} channel(s) updating")
             else:
                 # No waveforms acquired
                 if errors:
                     logger.warning(f"Live view errors: {'; '.join(errors)}")
-                    self.statusBar().showMessage(
-                        f"Live view: No data (check signal and trigger)"
-                    )
+                    self.statusBar().showMessage(f"Live view: No data (check signal and trigger)")
                 else:
                     logger.debug("No enabled channels for live view")
                     self.statusBar().showMessage("Live view: No enabled channels")
@@ -528,13 +497,7 @@ class MainWindow(QMainWindow):
 
     def _on_about(self):
         """Show about dialog."""
-        QMessageBox.about(
-            self, "About",
-            "<h3>Siglent Oscilloscope Control</h3>"
-            "<p>Version 0.1.0</p>"
-            "<p>Control application for Siglent SD824x HD oscilloscopes</p>"
-            "<p>Python package for programmatic and GUI-based oscilloscope control</p>"
-        )
+        QMessageBox.about(self, "About", "<h3>Siglent Oscilloscope Control</h3>" "<p>Version 0.1.0</p>" "<p>Control application for Siglent SD824x HD oscilloscopes</p>" "<p>Python package for programmatic and GUI-based oscilloscope control</p>")
 
     def closeEvent(self, event):
         """Handle window close event."""

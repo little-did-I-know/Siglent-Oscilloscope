@@ -8,10 +8,7 @@ from PyQt6.QtCore import Qt
 from siglent.gui.main_window import MainWindow
 
 # Configure logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-)
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 
 logger = logging.getLogger(__name__)
 
@@ -19,9 +16,7 @@ logger = logging.getLogger(__name__)
 def main():
     """Main entry point for the GUI application."""
     # Enable High DPI scaling
-    QApplication.setHighDpiScaleFactorRoundingPolicy(
-        Qt.HighDpiScaleFactorRoundingPolicy.PassThrough
-    )
+    QApplication.setHighDpiScaleFactorRoundingPolicy(Qt.HighDpiScaleFactorRoundingPolicy.PassThrough)
 
     # Create application
     app = QApplication(sys.argv)

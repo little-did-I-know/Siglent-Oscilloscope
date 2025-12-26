@@ -33,9 +33,7 @@ class Channel:
         self._prefix = f"C{channel_number}"
 
         if not 1 <= channel_number <= 4:
-            raise exceptions.InvalidParameterError(
-                f"Invalid channel number: {channel_number}. Must be 1-4."
-            )
+            raise exceptions.InvalidParameterError(f"Invalid channel number: {channel_number}. Must be 1-4.")
 
     @property
     def enabled(self) -> bool:
@@ -85,9 +83,7 @@ class Channel:
         """
         mode = mode.upper()
         if mode not in ["DC", "AC", "GND"]:
-            raise exceptions.InvalidParameterError(
-                f"Invalid coupling mode: {mode}. Must be DC, AC, or GND."
-            )
+            raise exceptions.InvalidParameterError(f"Invalid coupling mode: {mode}. Must be DC, AC, or GND.")
         self._scope.write(f"{self._prefix}:CPL {mode}")
         logger.info(f"Channel {self._channel} coupling set to {mode}")
 
@@ -101,13 +97,13 @@ class Channel:
         response = self._scope.query(f"{self._prefix}:VDIV?")
         # Response may include echo like "C1:VDIV 1.0E+00V" or just "1.0E+00V"
         # Remove the echo prefix if present
-        if ':' in response:
-            response = response.split(':', 1)[1]  # Get everything after first ':'
+        if ":" in response:
+            response = response.split(":", 1)[1]  # Get everything after first ':'
         # Remove command part if present (e.g., "VDIV 1.0E+00")
-        if ' ' in response:
-            response = response.split(' ', 1)[1]  # Get everything after first space
+        if " " in response:
+            response = response.split(" ", 1)[1]  # Get everything after first space
         # Remove unit
-        value = response.replace('V', '').strip()
+        value = response.replace("V", "").strip()
         return float(value)
 
     @voltage_scale.setter
@@ -121,9 +117,7 @@ class Channel:
                        1.0, 2.0, 5.0, 10.0
         """
         if volts_per_div <= 0:
-            raise exceptions.InvalidParameterError(
-                f"Voltage scale must be positive: {volts_per_div}"
-            )
+            raise exceptions.InvalidParameterError(f"Voltage scale must be positive: {volts_per_div}")
         self._scope.write(f"{self._prefix}:VDIV {volts_per_div}")
         logger.info(f"Channel {self._channel} scale set to {volts_per_div} V/div")
 
@@ -136,11 +130,11 @@ class Channel:
         """
         response = self._scope.query(f"{self._prefix}:OFST?")
         # Response may include echo like "C1:OFST 1.0E+00V"
-        if ':' in response:
-            response = response.split(':', 1)[1]
-        if ' ' in response:
-            response = response.split(' ', 1)[1]
-        value = response.replace('V', '').strip()
+        if ":" in response:
+            response = response.split(":", 1)[1]
+        if " " in response:
+            response = response.split(" ", 1)[1]
+        value = response.replace("V", "").strip()
         return float(value)
 
     @voltage_offset.setter
@@ -162,10 +156,10 @@ class Channel:
         """
         response = self._scope.query(f"{self._prefix}:ATTN?")
         # Response may include echo like "C1:ATTN 10"
-        if ':' in response:
-            response = response.split(':', 1)[1]
-        if ' ' in response:
-            response = response.split(' ', 1)[1]
+        if ":" in response:
+            response = response.split(":", 1)[1]
+        if " " in response:
+            response = response.split(" ", 1)[1]
         return float(response.strip())
 
     @probe_ratio.setter
@@ -178,9 +172,7 @@ class Channel:
         Common values: 0.1, 0.2, 0.5, 1, 2, 5, 10, 20, 50, 100, 200, 500, 1000
         """
         if ratio <= 0:
-            raise exceptions.InvalidParameterError(
-                f"Probe ratio must be positive: {ratio}"
-            )
+            raise exceptions.InvalidParameterError(f"Probe ratio must be positive: {ratio}")
         self._scope.write(f"{self._prefix}:ATTN {ratio}")
         logger.info(f"Channel {self._channel} probe ratio set to {ratio}X")
 
@@ -203,9 +195,7 @@ class Channel:
         """
         limit = limit.upper()
         if limit not in ["ON", "OFF", "FULL"]:
-            raise exceptions.InvalidParameterError(
-                f"Invalid bandwidth limit: {limit}. Must be ON, OFF, or FULL."
-            )
+            raise exceptions.InvalidParameterError(f"Invalid bandwidth limit: {limit}. Must be ON, OFF, or FULL.")
         # Convert FULL to OFF for compatibility
         if limit == "FULL":
             limit = "OFF"
@@ -250,22 +240,20 @@ class Channel:
             Dictionary with all channel settings
         """
         return {
-            'channel': self._channel,
-            'enabled': self.enabled,
-            'coupling': self.coupling,
-            'voltage_scale': self.voltage_scale,
-            'voltage_offset': self.voltage_offset,
-            'probe_ratio': self.probe_ratio,
-            'bandwidth_limit': self.bandwidth_limit,
-            'unit': self.unit,
+            "channel": self._channel,
+            "enabled": self.enabled,
+            "coupling": self.coupling,
+            "voltage_scale": self.voltage_scale,
+            "voltage_offset": self.voltage_offset,
+            "probe_ratio": self.probe_ratio,
+            "bandwidth_limit": self.bandwidth_limit,
+            "unit": self.unit,
         }
 
     def __repr__(self) -> str:
         """String representation."""
         try:
             config = self.get_configuration()
-            return (f"Channel{self._channel}(enabled={config['enabled']}, "
-                   f"scale={config['voltage_scale']}V/div, "
-                   f"coupling={config['coupling']})")
+            return f"Channel{self._channel}(enabled={config['enabled']}, " f"scale={config['voltage_scale']}V/div, " f"coupling={config['coupling']})"
         except Exception:
             return f"Channel{self._channel}"

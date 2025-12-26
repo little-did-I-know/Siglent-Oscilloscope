@@ -29,6 +29,7 @@ class WaveformData:
         voltage_scale: Voltage scale (volts/division)
         voltage_offset: Voltage offset in volts
     """
+
     time: np.ndarray
     voltage: np.ndarray
     channel: int
@@ -73,9 +74,7 @@ class Waveform:
             CommandError: If acquisition fails
         """
         if not 1 <= channel <= 4:
-            raise exceptions.InvalidParameterError(
-                f"Invalid channel number: {channel}. Must be 1-4."
-            )
+            raise exceptions.InvalidParameterError(f"Invalid channel number: {channel}. Must be 1-4.")
 
         logger.info(f"Acquiring waveform from channel {channel}")
 
@@ -128,7 +127,7 @@ class Waveform:
             Voltage scale in V/div
         """
         response = self._scope.query(f"{channel}:VDIV?")
-        value = response.replace('V', '').strip()
+        value = response.replace("V", "").strip()
         return float(value)
 
     def _get_voltage_offset(self, channel: str) -> float:
@@ -141,7 +140,7 @@ class Waveform:
             Voltage offset in volts
         """
         response = self._scope.query(f"{channel}:OFST?")
-        value = response.replace('V', '').strip()
+        value = response.replace("V", "").strip()
         return float(value)
 
     def _get_timebase(self) -> float:
@@ -151,7 +150,7 @@ class Waveform:
             Timebase in seconds/division
         """
         response = self._scope.query("TDIV?")
-        value = response.replace('S', '').strip()
+        value = response.replace("S", "").strip()
         return float(value)
 
     def _get_sample_rate(self) -> float:
@@ -162,7 +161,7 @@ class Waveform:
         """
         response = self._scope.query("SARA?")
         # Response format may vary: "1.00E+09Sa/s" or similar
-        value = response.replace('Sa/s', '').replace('SA/S', '').strip()
+        value = response.replace("Sa/s", "").replace("SA/S", "").strip()
         return float(value)
 
     def _parse_waveform(self, raw_data: bytes, format: str = "BYTE") -> np.ndarray:
@@ -180,7 +179,7 @@ class Waveform:
         # Find the start of binary data (after header)
 
         # Look for the # character indicating block data
-        header_end = raw_data.find(b'#')
+        header_end = raw_data.find(b"#")
         if header_end == -1:
             raise exceptions.CommandError("Invalid waveform format: no # found")
 
@@ -188,11 +187,11 @@ class Waveform:
         # Format: #<n><length><data>
         # where n is number of digits in length
         n_digits = int(chr(raw_data[header_end + 1]))
-        data_length = int(raw_data[header_end + 2:header_end + 2 + n_digits])
+        data_length = int(raw_data[header_end + 2 : header_end + 2 + n_digits])
         data_start = header_end + 2 + n_digits
 
         # Extract binary data
-        binary_data = raw_data[data_start:data_start + data_length]
+        binary_data = raw_data[data_start : data_start + data_length]
 
         # Convert to numpy array
         if format == "BYTE":
@@ -206,12 +205,7 @@ class Waveform:
 
         return data
 
-    def _convert_to_voltage(
-        self,
-        codes: np.ndarray,
-        voltage_scale: float,
-        voltage_offset: float
-    ) -> np.ndarray:
+    def _convert_to_voltage(self, codes: np.ndarray, voltage_scale: float, voltage_offset: float) -> np.ndarray:
         """Convert raw ADC codes to voltage values.
 
         Args:
@@ -239,12 +233,7 @@ class Waveform:
 
         return voltage
 
-    def _generate_time_axis(
-        self,
-        num_samples: int,
-        sample_rate: float,
-        timebase: float
-    ) -> np.ndarray:
+    def _generate_time_axis(self, num_samples: int, sample_rate: float, timebase: float) -> np.ndarray:
         """Generate time axis for waveform.
 
         Args:
@@ -277,18 +266,16 @@ class Waveform:
             Dictionary with waveform metadata
         """
         if not 1 <= channel <= 4:
-            raise exceptions.InvalidParameterError(
-                f"Invalid channel number: {channel}. Must be 1-4."
-            )
+            raise exceptions.InvalidParameterError(f"Invalid channel number: {channel}. Must be 1-4.")
 
         ch = f"C{channel}"
 
         return {
-            'channel': channel,
-            'voltage_scale': self._get_voltage_scale(ch),
-            'voltage_offset': self._get_voltage_offset(ch),
-            'timebase': self._get_timebase(),
-            'sample_rate': self._get_sample_rate(),
+            "channel": channel,
+            "voltage_scale": self._get_voltage_scale(ch),
+            "voltage_offset": self._get_voltage_offset(ch),
+            "timebase": self._get_timebase(),
+            "sample_rate": self._get_sample_rate(),
         }
 
     def save_waveform(self, waveform: WaveformData, filename: str, format: str = "CSV") -> None:
@@ -302,9 +289,10 @@ class Waveform:
         if format.upper() == "CSV":
             # Save as CSV
             import csv
-            with open(filename, 'w', newline='') as f:
+
+            with open(filename, "w", newline="") as f:
                 writer = csv.writer(f)
-                writer.writerow(['Time (s)', 'Voltage (V)'])
+                writer.writerow(["Time (s)", "Voltage (V)"])
                 for t, v in zip(waveform.time, waveform.voltage):
                     writer.writerow([t, v])
             logger.info(f"Waveform saved to {filename} (CSV format)")

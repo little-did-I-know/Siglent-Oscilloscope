@@ -3,11 +3,7 @@
 import logging
 from typing import Optional, Dict, List
 
-from PyQt6.QtWidgets import (
-    QWidget, QVBoxLayout, QHBoxLayout, QGroupBox,
-    QComboBox, QPushButton, QTableWidget, QTableWidgetItem,
-    QLabel, QHeaderView
-)
+from PyQt6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QGroupBox, QComboBox, QPushButton, QTableWidget, QTableWidgetItem, QLabel, QHeaderView
 from PyQt6.QtCore import Qt, QTimer
 
 from siglent import Oscilloscope
@@ -115,12 +111,7 @@ class MeasurementPanel(QWidget):
         layout.addLayout(controls_layout)
 
         # Info label
-        info_label = QLabel(
-            "<b>Tips:</b><br>"
-            "• Add measurements to track specific parameters<br>"
-            "• Enable Auto Update to continuously refresh values<br>"
-            "• Remove measurements by clicking the 'X' button"
-        )
+        info_label = QLabel("<b>Tips:</b><br>" "• Add measurements to track specific parameters<br>" "• Enable Auto Update to continuously refresh values<br>" "• Remove measurements by clicking the 'X' button")
         info_label.setWordWrap(True)
         info_label.setStyleSheet("QLabel { font-size: 9pt; color: #888; }")
         layout.addWidget(info_label)
@@ -157,17 +148,12 @@ class MeasurementPanel(QWidget):
 
         # Check if this measurement already exists
         for meas in self.active_measurements:
-            if meas['channel'] == channel_num and meas['type'] == measurement_type:
+            if meas["channel"] == channel_num and meas["type"] == measurement_type:
                 logger.info(f"Measurement already exists: {channel_text} {measurement_name}")
                 return
 
         # Add to active measurements
-        self.active_measurements.append({
-            'channel': channel_num,
-            'type': measurement_type,
-            'name': measurement_name,
-            'value': None
-        })
+        self.active_measurements.append({"channel": channel_num, "type": measurement_type, "name": measurement_name, "value": None})
 
         self._refresh_table()
         logger.info(f"Added measurement: {channel_text} {measurement_name}")
@@ -217,12 +203,12 @@ class MeasurementPanel(QWidget):
             self.table.setItem(i, 0, channel_item)
 
             # Measurement name
-            name_item = QTableWidgetItem(meas['name'])
+            name_item = QTableWidgetItem(meas["name"])
             name_item.setFlags(name_item.flags() & ~Qt.ItemFlag.ItemIsEditable)
             self.table.setItem(i, 1, name_item)
 
             # Value
-            value_text = meas['value'] if meas['value'] is not None else "---"
+            value_text = meas["value"] if meas["value"] is not None else "---"
             value_item = QTableWidgetItem(value_text)
             value_item.setFlags(value_item.flags() & ~Qt.ItemFlag.ItemIsEditable)
             self.table.setItem(i, 2, value_item)
@@ -241,18 +227,18 @@ class MeasurementPanel(QWidget):
         for i, meas in enumerate(self.active_measurements):
             try:
                 # Get measurement value
-                value = self._get_measurement_value(meas['channel'], meas['type'])
+                value = self._get_measurement_value(meas["channel"], meas["type"])
 
                 # Format the value
                 if value is not None:
-                    formatted_value = self._format_measurement_value(meas['type'], value)
-                    meas['value'] = formatted_value
+                    formatted_value = self._format_measurement_value(meas["type"], value)
+                    meas["value"] = formatted_value
                 else:
-                    meas['value'] = "Error"
+                    meas["value"] = "Error"
 
             except Exception as e:
                 logger.debug(f"Error measuring {meas['name']} on C{meas['channel']}: {e}")
-                meas['value'] = "Error"
+                meas["value"] = "Error"
 
         self._refresh_table()
 
@@ -297,7 +283,7 @@ class MeasurementPanel(QWidget):
             return "---"
 
         # Format based on measurement type
-        if meas_type in ['frequency']:
+        if meas_type in ["frequency"]:
             if value >= 1e6:
                 return f"{value/1e6:.3f} MHz"
             elif value >= 1e3:
@@ -305,7 +291,7 @@ class MeasurementPanel(QWidget):
             else:
                 return f"{value:.3f} Hz"
 
-        elif meas_type in ['period', 'rise_time', 'fall_time', 'positive_width', 'negative_width']:
+        elif meas_type in ["period", "rise_time", "fall_time", "positive_width", "negative_width"]:
             if value >= 1.0:
                 return f"{value:.3f} s"
             elif value >= 1e-3:
@@ -315,7 +301,7 @@ class MeasurementPanel(QWidget):
             else:
                 return f"{value*1e9:.3f} ns"
 
-        elif meas_type in ['duty_cycle']:
+        elif meas_type in ["duty_cycle"]:
             return f"{value:.2f} %"
 
         else:  # Voltage measurements

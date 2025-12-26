@@ -31,13 +31,7 @@ class Oscilloscope:
         ...     print(scope.identify())
     """
 
-    def __init__(
-        self,
-        host: str,
-        port: int = 5024,
-        timeout: float = 5.0,
-        connection: Optional[BaseConnection] = None
-    ):
+    def __init__(self, host: str, port: int = 5024, timeout: float = 5.0, connection: Optional[BaseConnection] = None):
         """Initialize oscilloscope connection.
 
         Args:
@@ -236,12 +230,12 @@ class Oscilloscope:
         Returns:
             Dictionary with manufacturer, model, serial, firmware
         """
-        parts = idn.split(',')
+        parts = idn.split(",")
         return {
-            'manufacturer': parts[0].strip() if len(parts) > 0 else '',
-            'model': parts[1].strip() if len(parts) > 1 else '',
-            'serial': parts[2].strip() if len(parts) > 2 else '',
-            'firmware': parts[3].strip() if len(parts) > 3 else '',
+            "manufacturer": parts[0].strip() if len(parts) > 0 else "",
+            "model": parts[1].strip() if len(parts) > 1 else "",
+            "serial": parts[2].strip() if len(parts) > 2 else "",
+            "firmware": parts[3].strip() if len(parts) > 3 else "",
         }
 
     def __enter__(self):
@@ -257,6 +251,6 @@ class Oscilloscope:
     def __repr__(self) -> str:
         """String representation."""
         if self.is_connected and self._device_info:
-            model = self._device_info.get('model', 'Unknown')
+            model = self._device_info.get("model", "Unknown")
             return f"Oscilloscope({model} at {self.host}:{self.port})"
         return f"Oscilloscope({self.host}:{self.port}, disconnected)"

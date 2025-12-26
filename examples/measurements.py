@@ -86,9 +86,9 @@ def main():
 
         for name, value in all_measurements.items():
             if value is not None:
-                if 'freq' in name.lower():
+                if "freq" in name.lower():
                     print(f"{name:12s}: {value/1e6:.6f} MHz")
-                elif 'period' in name.lower():
+                elif "period" in name.lower():
                     print(f"{name:12s}: {value*1e6:.6f} µs")
                 else:
                     print(f"{name:12s}: {value:.6f} V")

@@ -14,10 +14,10 @@ SCOPE_IP = "192.168.1.100"
 
 # Channel colors (matching oscilloscope theme)
 CHANNEL_COLORS = {
-    1: '#FFD700',  # Yellow
-    2: '#00CED1',  # Cyan
-    3: '#FF1493',  # Magenta
-    4: '#00FF00',  # Green
+    1: "#FFD700",  # Yellow
+    2: "#00CED1",  # Cyan
+    3: "#FF1493",  # Magenta
+    4: "#00FF00",  # Green
 }
 
 
@@ -36,19 +36,19 @@ class LivePlotter:
 
         # Create figure
         self.fig, self.ax = plt.subplots(figsize=(12, 6))
-        self.ax.set_xlabel('Time (µs)')
-        self.ax.set_ylabel('Voltage (V)')
-        self.ax.set_title('Live Waveform Display')
+        self.ax.set_xlabel("Time (µs)")
+        self.ax.set_ylabel("Voltage (V)")
+        self.ax.set_title("Live Waveform Display")
         self.ax.grid(True, alpha=0.3)
 
         # Store line objects
         self.lines = {}
         for ch in channels:
-            color = CHANNEL_COLORS.get(ch, 'white')
-            line, = self.ax.plot([], [], color=color, linewidth=1.0, label=f'CH{ch}')
+            color = CHANNEL_COLORS.get(ch, "white")
+            (line,) = self.ax.plot([], [], color=color, linewidth=1.0, label=f"CH{ch}")
             self.lines[ch] = line
 
-        self.ax.legend(loc='upper right')
+        self.ax.legend(loc="upper right")
 
     def update(self, frame):
         """Animation update function.
@@ -82,13 +82,7 @@ class LivePlotter:
         Args:
             interval: Update interval in milliseconds (default: 200)
         """
-        anim = animation.FuncAnimation(
-            self.fig,
-            self.update,
-            interval=interval,
-            blit=False,
-            cache_frame_data=False
-        )
+        anim = animation.FuncAnimation(self.fig, self.update, interval=interval, blit=False, cache_frame_data=False)
         plt.show()
 
 
@@ -129,6 +123,7 @@ def main():
     except Exception as e:
         print(f"\nError: {e}")
         import traceback
+
         traceback.print_exc()
 
     finally:

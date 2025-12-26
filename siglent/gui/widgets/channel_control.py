@@ -3,11 +3,7 @@
 import logging
 from typing import Optional
 
-from PyQt6.QtWidgets import (
-    QWidget, QVBoxLayout, QHBoxLayout, QGroupBox,
-    QCheckBox, QComboBox, QDoubleSpinBox, QPushButton,
-    QLabel, QGridLayout
-)
+from PyQt6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QGroupBox, QCheckBox, QComboBox, QDoubleSpinBox, QPushButton, QLabel, QGridLayout
 from PyQt6.QtCore import Qt
 
 from siglent import Oscilloscope
@@ -20,13 +16,7 @@ class ChannelControl(QWidget):
     """Widget for controlling oscilloscope channels."""
 
     # Standard voltage scales (V/div)
-    VOLTAGE_SCALES = [
-        0.001, 0.002, 0.005,
-        0.01, 0.02, 0.05,
-        0.1, 0.2, 0.5,
-        1.0, 2.0, 5.0,
-        10.0
-    ]
+    VOLTAGE_SCALES = [0.001, 0.002, 0.005, 0.01, 0.02, 0.05, 0.1, 0.2, 0.5, 1.0, 2.0, 5.0, 10.0]
 
     # Coupling modes
     COUPLING_MODES = ["DC", "AC", "GND"]
@@ -68,10 +58,10 @@ class ChannelControl(QWidget):
         """
         # Channel colors matching waveform display
         colors = {
-            1: '#FFD700',  # Yellow/Gold
-            2: '#00CED1',  # Cyan
-            3: '#FF1493',  # Deep Pink/Magenta
-            4: '#00FF00',  # Green
+            1: "#FFD700",  # Yellow/Gold
+            2: "#00CED1",  # Cyan
+            3: "#FF1493",  # Deep Pink/Magenta
+            4: "#00FF00",  # Green
         }
 
         group = QGroupBox(f"Channel {channel_num}")
@@ -85,7 +75,7 @@ class ChannelControl(QWidget):
         enable_cb = QCheckBox("Enable")
         enable_cb.toggled.connect(lambda checked: self._on_channel_enabled(channel_num, checked))
         layout.addWidget(enable_cb, 0, 0, 1, 2)
-        widgets['enable'] = enable_cb
+        widgets["enable"] = enable_cb
 
         auto_scale_btn = QPushButton("Auto Scale")
         auto_scale_btn.clicked.connect(lambda: self._on_auto_scale(channel_num))
@@ -101,7 +91,7 @@ class ChannelControl(QWidget):
         scale_spin.setSuffix(" V")
         scale_spin.valueChanged.connect(lambda val: self._on_scale_changed(channel_num, val))
         layout.addWidget(scale_spin, 1, 1, 1, 2)
-        widgets['scale'] = scale_spin
+        widgets["scale"] = scale_spin
 
         # Row 2: Coupling
         layout.addWidget(QLabel("Coupling:"), 2, 0)
@@ -109,7 +99,7 @@ class ChannelControl(QWidget):
         coupling_combo.addItems(self.COUPLING_MODES)
         coupling_combo.currentTextChanged.connect(lambda val: self._on_coupling_changed(channel_num, val))
         layout.addWidget(coupling_combo, 2, 1, 1, 2)
-        widgets['coupling'] = coupling_combo
+        widgets["coupling"] = coupling_combo
 
         # Row 3: Offset
         layout.addWidget(QLabel("Offset:"), 3, 0)
@@ -122,7 +112,7 @@ class ChannelControl(QWidget):
         offset_spin.setSingleStep(0.1)
         offset_spin.valueChanged.connect(lambda val: self._on_offset_changed(channel_num, val))
         layout.addWidget(offset_spin, 3, 1, 1, 2)
-        widgets['offset'] = offset_spin
+        widgets["offset"] = offset_spin
 
         # Row 4: Probe ratio
         layout.addWidget(QLabel("Probe:"), 4, 0)
@@ -131,13 +121,13 @@ class ChannelControl(QWidget):
         probe_combo.setCurrentText("10X")
         probe_combo.currentTextChanged.connect(lambda val: self._on_probe_changed(channel_num, val))
         layout.addWidget(probe_combo, 4, 1, 1, 2)
-        widgets['probe'] = probe_combo
+        widgets["probe"] = probe_combo
 
         # Row 5: Bandwidth limit
         bw_cb = QCheckBox("Bandwidth Limit (20MHz)")
         bw_cb.toggled.connect(lambda checked: self._on_bw_limit_changed(channel_num, checked))
         layout.addWidget(bw_cb, 5, 0, 1, 3)
-        widgets['bw_limit'] = bw_cb
+        widgets["bw_limit"] = bw_cb
 
         self.channel_widgets[channel_num] = widgets
 
@@ -182,17 +172,17 @@ class ChannelControl(QWidget):
                 widget.blockSignals(True)
 
             # Update values
-            widgets['enable'].setChecked(channel.enabled)
-            widgets['scale'].setValue(channel.voltage_scale)
-            widgets['coupling'].setCurrentText(channel.coupling)
-            widgets['offset'].setValue(channel.voltage_offset)
+            widgets["enable"].setChecked(channel.enabled)
+            widgets["scale"].setValue(channel.voltage_scale)
+            widgets["coupling"].setCurrentText(channel.coupling)
+            widgets["offset"].setValue(channel.voltage_offset)
 
             probe_text = f"{channel.probe_ratio}X"
-            idx = widgets['probe'].findText(probe_text)
+            idx = widgets["probe"].findText(probe_text)
             if idx >= 0:
-                widgets['probe'].setCurrentIndex(idx)
+                widgets["probe"].setCurrentIndex(idx)
 
-            widgets['bw_limit'].setChecked(channel.bandwidth_limit == "ON")
+            widgets["bw_limit"].setChecked(channel.bandwidth_limit == "ON")
 
         finally:
             # Unblock signals
@@ -283,7 +273,7 @@ class ChannelControl(QWidget):
 
         try:
             # Extract number from text
-            probe_ratio = float(probe_text.replace('X', ''))
+            probe_ratio = float(probe_text.replace("X", ""))
             channel = getattr(self.scope, f"channel{ch_num}")
             channel.probe_ratio = probe_ratio
             logger.info(f"Channel {ch_num} probe ratio: {probe_ratio}X")
@@ -323,9 +313,9 @@ class ChannelControl(QWidget):
                 channel.enable()
                 widgets = self.channel_widgets.get(ch_num)
                 if widgets:
-                    widgets['enable'].blockSignals(True)
-                    widgets['enable'].setChecked(True)
-                    widgets['enable'].blockSignals(False)
+                    widgets["enable"].blockSignals(True)
+                    widgets["enable"].setChecked(True)
+                    widgets["enable"].blockSignals(False)
 
             # Run auto setup for the scope
             self.scope.auto_setup()
