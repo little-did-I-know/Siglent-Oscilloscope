@@ -100,7 +100,7 @@ jobs:
 
       - name: Test CLI command availability
         run: |
-          python -m pip show siglent
+          python -m pip show siglent-oscilloscope
           which siglent-gui || where siglent-gui || echo "CLI command check"
 
   security:
