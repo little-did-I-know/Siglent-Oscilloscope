@@ -114,8 +114,8 @@ jobs:
 
       - name: Test import
         run: |
-          python -c "from siglent import Oscilloscope; print('✓ Import successful')"
-          python -c "import siglent; print(f'✓ Version: {siglent.__version__}')"
+          python -c "from siglent import Oscilloscope; print('Import successful')"
+          python -c "import siglent; print('Version:', siglent.__version__)"
 
       - name: Test CLI command availability
         run: |
