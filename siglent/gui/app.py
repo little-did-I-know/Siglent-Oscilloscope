@@ -2,11 +2,75 @@
 
 import logging
 import sys
+import warnings
 
 # Configure logging
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 
 logger = logging.getLogger(__name__)
+
+
+def _check_gui_dependencies():
+    """Check GUI dependencies and provide helpful installation instructions.
+
+    Raises:
+        ImportError: If required dependencies (PyQt6) are missing
+
+    Warnings:
+        Warns about missing optional dependencies (PyQtGraph, PyQt6-WebEngine)
+    """
+    missing_required = []
+    missing_optional = []
+
+    # Check required dependencies
+    try:
+        import PyQt6
+    except ImportError:
+        missing_required.append("PyQt6>=6.6.0")
+
+    # Check optional but recommended dependencies
+    try:
+        import pyqtgraph
+    except ImportError:
+        missing_optional.append("pyqtgraph>=0.13.0 (recommended for high-performance live view)")
+
+    try:
+        import PyQt6.QtWebEngineWidgets
+    except ImportError:
+        missing_optional.append("PyQt6-WebEngine>=6.6.0 (recommended for VNC display)")
+
+    # Handle missing required dependencies
+    if missing_required:
+        print("\n" + "=" * 70)
+        print("ERROR: Missing Required GUI Dependencies")
+        print("=" * 70)
+        print("\nThe following required packages are missing:")
+        for pkg in missing_required:
+            print(f"  - {pkg}")
+        print("\nPlease install the GUI version of Siglent-Oscilloscope:")
+        print('  pip install "Siglent-Oscilloscope[gui]"')
+        print("\nOr if installing from source:")
+        print('  pip install -e ".[gui]"')
+        print("=" * 70 + "\n")
+        sys.exit(1)
+
+    # Warn about missing optional dependencies
+    if missing_optional:
+        print("\n" + "=" * 70)
+        print("WARNING: Missing Optional GUI Dependencies")
+        print("=" * 70)
+        print("\nThe GUI will work, but some features may be limited:")
+        for pkg in missing_optional:
+            print(f"  - {pkg}")
+        print("\nFor the best experience, install the full GUI version:")
+        print('  pip install "Siglent-Oscilloscope[gui]"')
+        print("\nOr if installing from source:")
+        print('  pip install -e ".[gui]"')
+        print("=" * 70 + "\n")
+
+        # Give user a moment to read the warning
+        import time
+        time.sleep(2)
 
 
 def _require_gui_dependencies():
@@ -22,6 +86,9 @@ def _require_gui_dependencies():
 
 def main():
     """Main entry point for the GUI application."""
+    # Check dependencies and show helpful messages
+    _check_gui_dependencies()
+
     QApplication, Qt = _require_gui_dependencies()
 
     from siglent.gui.main_window import MainWindow

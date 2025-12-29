@@ -45,6 +45,8 @@ To include the optional GUI dependencies, install with the `gui` extra:
 pip install "Siglent-Oscilloscope[gui]"
 ```
 
+**Note**: The `siglent-gui` command includes automatic dependency checking. If you try to run the GUI without the required packages, you'll receive a clear error message with installation instructions. Missing optional dependencies (like PyQtGraph for high-performance live view) will trigger warnings but allow the GUI to launch.
+
 ### From source
 
 ```bash
@@ -141,9 +143,59 @@ To find your oscilloscope's IP address:
 2. Navigate to **I/O** settings
 3. Check the **LAN** configuration
 
+## GUI Application Overview
+
+The Siglent Oscilloscope Control GUI provides a comprehensive interface for controlling your oscilloscope, capturing waveforms, and performing measurements.
+
+> **Note**: Screenshots can be captured following the guide in [`docs/SCREENSHOT_GUIDE.md`](docs/SCREENSHOT_GUIDE.md). This provides visual documentation of all GUI features.
+
+### Main Window
+
+![Main Window](docs/images/main_window.png)
+
+The main interface consists of:
+- **Waveform Display**: High-performance real-time plotting area (center)
+- **Control Panels**: Tabbed interface with all oscilloscope controls (right)
+- **Menu Bar**: File operations, acquisition controls, and utilities (top)
+- **Status Bar**: Connection status and system information (bottom)
+
+### Getting Connected
+
+![Connection Dialog](docs/images/connection_dialog.png)
+
+To connect to your oscilloscope:
+
+1. Launch the GUI: `siglent-gui`
+2. Enter your oscilloscope's IP address
+3. Click **Connect**
+
+The oscilloscope must be connected to your network (default SCPI port: 5024).
+
+**Finding your oscilloscope's IP address**:
+- Press **Utility** on the oscilloscope
+- Navigate to **I/O** settings
+- Check the **LAN** configuration
+
+### Channel Controls
+
+![Channel Controls](docs/images/channel_controls.png)
+
+The **Channels** tab provides complete control over all input channels:
+
+- **Enable/Disable**: Toggle channels on/off with checkboxes
+- **Voltage Scale**: Adjust volts/division (0.001V to 10V)
+- **Coupling**: Set DC, AC, or GND coupling
+- **Probe Ratio**: Configure probe attenuation (1X, 10X, 100X, etc.)
+- **Bandwidth Limit**: Enable 20MHz bandwidth limiting
+- **Offset**: Adjust vertical position
+
+**Quick Tip**: Enable channels before starting Live View or capturing waveforms.
+
 ## GUI Application Guide
 
 ### Live View
+
+![Live View](docs/images/live_view.png)
 
 The GUI features **high-performance real-time waveform viewing** powered by PyQtGraph:
 
@@ -163,6 +215,8 @@ Acquisition → Live View (Ctrl+R)
 - Adjust update rate by modifying `update_interval` in `live_view_worker.py`
 
 ### Visual Measurements
+
+![Visual Measurements](docs/images/visual_measurements.png)
 
 Interactive measurement markers that you can place and adjust directly on waveforms:
 
@@ -197,12 +251,42 @@ Interactive measurement markers that you can place and adjust directly on wavefo
 # 6. Export Results → "results.csv"
 ```
 
-### Other GUI Features
+### Automated Measurements
 
-**Cursors:**
-- Vertical cursors for time measurements
-- Horizontal cursors for voltage measurements
-- Delta calculations (ΔT, ΔV, frequency)
+![Measurements Panel](docs/images/measurements_panel.png)
+
+The **Measurements** tab provides quick access to standard oscilloscope measurements:
+
+- 15+ measurement types (frequency, Vpp, RMS, rise time, etc.)
+- Channel selection
+- Results table with units
+- Export measurement results
+
+### Cursors
+
+![Cursors](docs/images/cursors.png)
+
+Interactive cursors for precise measurements:
+
+- **Vertical cursors** for time measurements
+- **Horizontal cursors** for voltage measurements
+- **Delta calculations** (ΔT, ΔV, frequency)
+- Draggable cursor lines
+- Real-time delta updates
+
+### FFT Analysis
+
+![FFT Analysis](docs/images/fft_analysis.png)
+
+Frequency domain analysis:
+
+- Fast Fourier Transform visualization
+- Peak detection and markers
+- Window function selection (Hanning, Hamming, Blackman)
+- Frequency and amplitude axes
+- Export FFT data
+
+### Other GUI Features
 
 **Reference Waveforms:**
 - Save waveforms as references

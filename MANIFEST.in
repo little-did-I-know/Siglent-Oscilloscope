@@ -1,0 +1,30 @@
+# Include documentation
+include README.md
+include CHANGELOG.md
+include LICENSE
+include pyproject.toml
+
+# Include user-facing documentation
+recursive-include docs/images *.png *.jpg
+include docs/VISUAL_MEASUREMENTS.md
+include docs/SCREENSHOT_GUIDE.md
+include docs/SDS800XHD_Series_ProgrammingGuide_EN11G.pdf
+
+# Include examples
+recursive-include examples *.py
+recursive-include examples *.md
+
+# Exclude development-only files
+exclude docs/development/*
+exclude docs/README_SCREENSHOTS.md
+exclude docs/SCREENSHOT_CHECKLIST.md
+exclude docs/CONTRIBUTING.md
+exclude docs/SECURITY.md
+recursive-exclude tests *
+recursive-exclude scripts *
+
+# Exclude compiled files and caches
+global-exclude __pycache__
+global-exclude *.py[cod]
+global-exclude .DS_Store
+global-exclude *.so

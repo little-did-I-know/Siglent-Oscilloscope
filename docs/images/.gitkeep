@@ -1,0 +1,18 @@
+# Screenshots directory
+
+This directory contains screenshots for README documentation.
+
+See `docs/SCREENSHOT_GUIDE.md` for instructions on capturing screenshots.
+
+## Required Screenshots
+
+- main_window.png - Main GUI window overview
+- connection_dialog.png - Connection manager dialog
+- channel_controls.png - Channel configuration panel
+- live_view.png - Live view in action
+- visual_measurements.png - Visual measurement markers
+- measurements_panel.png - Automated measurements panel
+- cursors.png - Cursor measurements
+- fft_analysis.png - FFT frequency analysis
+
+To capture screenshots, follow the guide in `docs/SCREENSHOT_GUIDE.md`.

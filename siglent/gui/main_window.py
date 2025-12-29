@@ -13,10 +13,18 @@ from PyQt6.QtGui import QAction
 
 from siglent import Oscilloscope
 from siglent.exceptions import ConnectionError, SiglentError
-# Use PyQtGraph for high-performance real-time plotting
-from siglent.gui.widgets.waveform_display_pg import WaveformDisplayPG as WaveformDisplay
-# Keep matplotlib version as backup:
-# from siglent.gui.widgets.waveform_display import WaveformDisplay
+
+# Try to use PyQtGraph for high-performance plotting, fallback to matplotlib
+try:
+    from siglent.gui.widgets.waveform_display_pg import WaveformDisplayPG as WaveformDisplay
+    USING_PYQTGRAPH = True
+    logger = logging.getLogger(__name__)
+    logger.info("Using PyQtGraph for waveform display (high performance mode)")
+except ImportError:
+    from siglent.gui.widgets.waveform_display import WaveformDisplay
+    USING_PYQTGRAPH = False
+    logger = logging.getLogger(__name__)
+    logger.warning("PyQtGraph not available, using matplotlib (install with: pip install 'Siglent-Oscilloscope[gui]')")
 from siglent.gui.widgets.channel_control import ChannelControl
 from siglent.gui.widgets.trigger_control import TriggerControl
 from siglent.gui.widgets.measurement_panel import MeasurementPanel
@@ -123,31 +131,31 @@ class MainWindow(QMainWindow):
         layout = QVBoxLayout(panel)
 
         # Create tab widget for controls
-        tabs = QTabWidget()
+        self.tabs = QTabWidget()
 
         # Channels tab
         self.channel_control = ChannelControl()
-        tabs.addTab(self.channel_control, "Channels")
+        self.tabs.addTab(self.channel_control, "Channels")
 
         # Trigger tab
         self.trigger_control = TriggerControl()
-        tabs.addTab(self.trigger_control, "Trigger")
+        self.tabs.addTab(self.trigger_control, "Trigger")
 
         # Timebase tab
         self.timebase_control = TimebaseControl()
-        tabs.addTab(self.timebase_control, "Timebase")
+        self.tabs.addTab(self.timebase_control, "Timebase")
 
         # Measurements tab
         self.measurement_panel = MeasurementPanel()
-        tabs.addTab(self.measurement_panel, "Measurements")
+        self.tabs.addTab(self.measurement_panel, "Measurements")
 
         # Visual Measurements tab
         self.visual_measurement_panel = VisualMeasurementPanel(self.waveform_display)
-        tabs.addTab(self.visual_measurement_panel, "Visual Measure")
+        self.tabs.addTab(self.visual_measurement_panel, "Visual Measure")
 
         # Cursors tab
         self.cursor_panel = CursorPanel()
-        tabs.addTab(self.cursor_panel, "Cursors")
+        self.tabs.addTab(self.cursor_panel, "Cursors")
 
         # Connect cursor panel signals to waveform display
         self.cursor_panel.cursor_mode_changed.connect(self.waveform_display.set_cursor_mode)
@@ -160,7 +168,7 @@ class MainWindow(QMainWindow):
 
         # Math tab
         self.math_panel = MathPanel()
-        tabs.addTab(self.math_panel, "Math")
+        self.tabs.addTab(self.math_panel, "Math")
 
         # Connect math panel signals
         self.math_panel.math1_expression_changed.connect(self._on_math1_expression_changed)
@@ -170,14 +178,14 @@ class MainWindow(QMainWindow):
 
         # FFT tab
         self.fft_display = FFTDisplay()
-        tabs.addTab(self.fft_display, "FFT")
+        self.tabs.addTab(self.fft_display, "FFT")
 
         # Connect FFT display signals
         self.fft_display.fft_compute_requested.connect(self._on_fft_compute_requested)
 
         # Reference tab
         self.reference_panel = ReferencePanel()
-        tabs.addTab(self.reference_panel, "Reference")
+        self.tabs.addTab(self.reference_panel, "Reference")
 
         # Connect reference panel signals
         self.reference_panel.save_reference.connect(self._on_save_reference)
@@ -190,7 +198,7 @@ class MainWindow(QMainWindow):
 
         # Protocol Decode tab
         self.protocol_decode_panel = ProtocolDecodePanel()
-        tabs.addTab(self.protocol_decode_panel, "Protocol")
+        self.tabs.addTab(self.protocol_decode_panel, "Protocol")
 
         # Connect protocol decode panel signals
         self.protocol_decode_panel.decode_requested.connect(self._on_protocol_decode_requested)
@@ -198,9 +206,9 @@ class MainWindow(QMainWindow):
 
         # Terminal tab
         self.terminal_widget = TerminalWidget()
-        tabs.addTab(self.terminal_widget, "Terminal")
+        self.tabs.addTab(self.terminal_widget, "Terminal")
 
-        layout.addWidget(tabs)
+        layout.addWidget(self.tabs)
 
         return panel
 
