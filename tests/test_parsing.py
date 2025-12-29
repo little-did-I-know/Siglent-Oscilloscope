@@ -3,15 +3,15 @@
 import sys
 
 # Add parent directory to path
-sys.path.insert(0, r'C:\Users\robin\Documents\Siglent')
+sys.path.insert(0, r"C:\Users\robin\Documents\Siglent")
 
 
 def test_parsing():
     """Test parsing of various oscilloscope response formats."""
 
-    print("\n" + "="*60)
+    print("\n" + "=" * 60)
     print("Response Parsing Test")
-    print("="*60)
+    print("=" * 60)
 
     # Test cases with various response formats
     test_cases = [
@@ -21,16 +21,13 @@ def test_parsing():
         ("2.00E+00V", "Voltage scale (no echo)"),
         ("C1:DI 2.00E+00", "Voltage scale (truncated - the error case)"),
         ("2.00E+00", "Voltage scale (minimal)"),
-
         # Offset responses
         ("C1:OFST 0.00E+00V", "Voltage offset (full echo)"),
         ("OFST 0.00E+00V", "Voltage offset (partial echo)"),
         ("0.00E+00V", "Voltage offset (no echo)"),
-
         # Timebase responses
         ("TDIV 1.00E-03S", "Timebase (with echo)"),
         ("1.00E-03S", "Timebase (no echo)"),
-
         # Sample rate responses
         ("SARA 1.00E+09Sa/s", "Sample rate (with echo)"),
         ("1.00E+09Sa/s", "Sample rate (no echo)"),
@@ -74,9 +71,9 @@ def test_parsing():
         except ValueError as e:
             print(f"  [FAIL] FAILED: {e}")
 
-    print("\n" + "="*60)
+    print("\n" + "=" * 60)
     print("Test Complete")
-    print("="*60 + "\n")
+    print("=" * 60 + "\n")
 
 
 if __name__ == "__main__":

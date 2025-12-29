@@ -2,9 +2,7 @@
 
 import logging
 from typing import Optional
-from PyQt6.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QGroupBox,
-                              QLabel, QPushButton, QLineEdit, QCheckBox, QComboBox,
-                              QGridLayout, QTextEdit)
+from PyQt6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QGroupBox, QLabel, QPushButton, QLineEdit, QCheckBox, QComboBox, QGridLayout, QTextEdit
 from PyQt6.QtCore import Qt, pyqtSignal
 
 logger = logging.getLogger(__name__)
@@ -130,9 +128,7 @@ class MathPanel(QWidget):
         channel_combo.addItems(["C1", "C2", "C3", "C4"])
         channel_layout.addWidget(channel_combo)
         insert_ch_btn = QPushButton("Insert")
-        insert_ch_btn.clicked.connect(
-            lambda: expr_input.insert(channel_combo.currentText())
-        )
+        insert_ch_btn.clicked.connect(lambda: expr_input.insert(channel_combo.currentText()))
         channel_layout.addWidget(insert_ch_btn)
         channel_layout.addStretch()
         layout.addLayout(channel_layout)
@@ -176,7 +172,8 @@ class MathPanel(QWidget):
         help_text = QTextEdit()
         help_text.setReadOnly(True)
         help_text.setMaximumHeight(150)
-        help_text.setHtml("""
+        help_text.setHtml(
+            """
 <b>Supported Operations:</b><br>
 <ul>
 <li><b>Basic:</b> C1 + C2, C1 - C2, C1 * C2, C1 / C2</li>
@@ -196,7 +193,8 @@ class MathPanel(QWidget):
 • Scaled sum: 2 * C1 + C2<br>
 • Power: C1 * C2 (voltage × current)<br>
 • Average: (C1 + C2) / 2 (not yet supported - use two steps)
-        """)
+        """
+        )
         layout.addWidget(help_text)
 
         return group

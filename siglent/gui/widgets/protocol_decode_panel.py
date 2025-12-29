@@ -2,10 +2,7 @@
 
 import logging
 from typing import Optional, Dict, Any
-from PyQt6.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QGroupBox,
-                              QLabel, QPushButton, QComboBox, QSpinBox, QDoubleSpinBox,
-                              QTableWidget, QTableWidgetItem, QFileDialog, QMessageBox,
-                              QGridLayout, QCheckBox)
+from PyQt6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QGroupBox, QLabel, QPushButton, QComboBox, QSpinBox, QDoubleSpinBox, QTableWidget, QTableWidgetItem, QFileDialog, QMessageBox, QGridLayout, QCheckBox
 from PyQt6.QtCore import Qt, pyqtSignal
 from PyQt6.QtGui import QColor
 
@@ -184,11 +181,7 @@ class ProtocolDecodePanel(QWidget):
         protocol = self.protocol_combo.currentText()
 
         # Define required channels for each protocol
-        channel_requirements = {
-            'I2C': ['SDA', 'SCL'],
-            'SPI': ['SCK', 'MOSI', 'MISO', 'CS'],
-            'UART': ['TX', 'RX']
-        }
+        channel_requirements = {"I2C": ["SDA", "SCL"], "SPI": ["SCK", "MOSI", "MISO", "CS"], "UART": ["TX", "RX"]}
 
         channels = channel_requirements.get(protocol, [])
 
@@ -221,7 +214,7 @@ class ProtocolDecodePanel(QWidget):
             addr_bits_combo = QComboBox()
             addr_bits_combo.addItems(["7", "10"])
             self.params_layout.addWidget(addr_bits_combo, row, 1)
-            self.protocol_param_widgets['address_bits'] = addr_bits_combo
+            self.protocol_param_widgets["address_bits"] = addr_bits_combo
 
         elif protocol == "SPI":
             # CPOL
@@ -229,7 +222,7 @@ class ProtocolDecodePanel(QWidget):
             cpol_combo = QComboBox()
             cpol_combo.addItems(["0", "1"])
             self.params_layout.addWidget(cpol_combo, row, 1)
-            self.protocol_param_widgets['cpol'] = cpol_combo
+            self.protocol_param_widgets["cpol"] = cpol_combo
             row += 1
 
             # CPHA
@@ -237,7 +230,7 @@ class ProtocolDecodePanel(QWidget):
             cpha_combo = QComboBox()
             cpha_combo.addItems(["0", "1"])
             self.params_layout.addWidget(cpha_combo, row, 1)
-            self.protocol_param_widgets['cpha'] = cpha_combo
+            self.protocol_param_widgets["cpha"] = cpha_combo
             row += 1
 
             # Bits per word
@@ -246,7 +239,7 @@ class ProtocolDecodePanel(QWidget):
             bits_spin.setRange(4, 16)
             bits_spin.setValue(8)
             self.params_layout.addWidget(bits_spin, row, 1)
-            self.protocol_param_widgets['bits_per_word'] = bits_spin
+            self.protocol_param_widgets["bits_per_word"] = bits_spin
             row += 1
 
             # Bit order
@@ -254,14 +247,14 @@ class ProtocolDecodePanel(QWidget):
             bit_order_combo = QComboBox()
             bit_order_combo.addItems(["MSB", "LSB"])
             self.params_layout.addWidget(bit_order_combo, row, 1)
-            self.protocol_param_widgets['bit_order'] = bit_order_combo
+            self.protocol_param_widgets["bit_order"] = bit_order_combo
             row += 1
 
             # CS active low
             cs_check = QCheckBox("CS active low")
             cs_check.setChecked(True)
             self.params_layout.addWidget(cs_check, row, 0, 1, 2)
-            self.protocol_param_widgets['cs_active_low'] = cs_check
+            self.protocol_param_widgets["cs_active_low"] = cs_check
 
         elif protocol == "UART":
             # Baud rate
@@ -270,7 +263,7 @@ class ProtocolDecodePanel(QWidget):
             baud_combo.addItems(["1200", "2400", "4800", "9600", "19200", "38400", "57600", "115200"])
             baud_combo.setCurrentText("9600")
             self.params_layout.addWidget(baud_combo, row, 1)
-            self.protocol_param_widgets['baud_rate'] = baud_combo
+            self.protocol_param_widgets["baud_rate"] = baud_combo
             row += 1
 
             # Data bits
@@ -279,7 +272,7 @@ class ProtocolDecodePanel(QWidget):
             data_bits_combo.addItems(["5", "6", "7", "8", "9"])
             data_bits_combo.setCurrentText("8")
             self.params_layout.addWidget(data_bits_combo, row, 1)
-            self.protocol_param_widgets['data_bits'] = data_bits_combo
+            self.protocol_param_widgets["data_bits"] = data_bits_combo
             row += 1
 
             # Parity
@@ -287,7 +280,7 @@ class ProtocolDecodePanel(QWidget):
             parity_combo = QComboBox()
             parity_combo.addItems(["none", "even", "odd", "mark", "space"])
             self.params_layout.addWidget(parity_combo, row, 1)
-            self.protocol_param_widgets['parity'] = parity_combo
+            self.protocol_param_widgets["parity"] = parity_combo
             row += 1
 
             # Stop bits
@@ -295,14 +288,14 @@ class ProtocolDecodePanel(QWidget):
             stop_bits_combo = QComboBox()
             stop_bits_combo.addItems(["1", "1.5", "2"])
             self.params_layout.addWidget(stop_bits_combo, row, 1)
-            self.protocol_param_widgets['stop_bits'] = stop_bits_combo
+            self.protocol_param_widgets["stop_bits"] = stop_bits_combo
             row += 1
 
             # Idle high
             idle_check = QCheckBox("Idle state high")
             idle_check.setChecked(True)
             self.params_layout.addWidget(idle_check, row, 0, 1, 2)
-            self.protocol_param_widgets['idle_high'] = idle_check
+            self.protocol_param_widgets["idle_high"] = idle_check
 
     def _on_decode(self):
         """Handle decode button click."""
@@ -314,22 +307,22 @@ class ProtocolDecodePanel(QWidget):
             channel_map[ch_name] = combo.currentText()
 
         # Get parameters
-        params = {'threshold': self.threshold_spin.value()}
+        params = {"threshold": self.threshold_spin.value()}
 
         if protocol == "I2C":
-            params['address_bits'] = int(self.protocol_param_widgets['address_bits'].currentText())
+            params["address_bits"] = int(self.protocol_param_widgets["address_bits"].currentText())
         elif protocol == "SPI":
-            params['cpol'] = int(self.protocol_param_widgets['cpol'].currentText())
-            params['cpha'] = int(self.protocol_param_widgets['cpha'].currentText())
-            params['bits_per_word'] = self.protocol_param_widgets['bits_per_word'].value()
-            params['bit_order'] = self.protocol_param_widgets['bit_order'].currentText()
-            params['cs_active_low'] = self.protocol_param_widgets['cs_active_low'].isChecked()
+            params["cpol"] = int(self.protocol_param_widgets["cpol"].currentText())
+            params["cpha"] = int(self.protocol_param_widgets["cpha"].currentText())
+            params["bits_per_word"] = self.protocol_param_widgets["bits_per_word"].value()
+            params["bit_order"] = self.protocol_param_widgets["bit_order"].currentText()
+            params["cs_active_low"] = self.protocol_param_widgets["cs_active_low"].isChecked()
         elif protocol == "UART":
-            params['baud_rate'] = int(self.protocol_param_widgets['baud_rate'].currentText())
-            params['data_bits'] = int(self.protocol_param_widgets['data_bits'].currentText())
-            params['parity'] = self.protocol_param_widgets['parity'].currentText()
-            params['stop_bits'] = float(self.protocol_param_widgets['stop_bits'].currentText())
-            params['idle_high'] = self.protocol_param_widgets['idle_high'].isChecked()
+            params["baud_rate"] = int(self.protocol_param_widgets["baud_rate"].currentText())
+            params["data_bits"] = int(self.protocol_param_widgets["data_bits"].currentText())
+            params["parity"] = self.protocol_param_widgets["parity"].currentText()
+            params["stop_bits"] = float(self.protocol_param_widgets["stop_bits"].currentText())
+            params["idle_high"] = self.protocol_param_widgets["idle_high"].isChecked()
 
         logger.info(f"Decode requested: {protocol} with params {params}, channels {channel_map}")
         self.decode_requested.emit(protocol, params, channel_map)
@@ -347,12 +340,7 @@ class ProtocolDecodePanel(QWidget):
             QMessageBox.warning(self, "No Data", "No events to export")
             return
 
-        filename, _ = QFileDialog.getSaveFileName(
-            self,
-            "Export Events",
-            "",
-            "CSV Files (*.csv);;All Files (*)"
-        )
+        filename, _ = QFileDialog.getSaveFileName(self, "Export Events", "", "CSV Files (*.csv);;All Files (*)")
 
         if filename:
             self.export_requested.emit()

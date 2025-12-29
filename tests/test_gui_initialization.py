@@ -22,13 +22,13 @@ def test_main_window_creation(qapp):
     window = MainWindow()
 
     # Verify critical attributes exist
-    assert hasattr(window, 'waveform_display'), "waveform_display not created"
-    assert hasattr(window, 'channel_control'), "channel_control not created"
-    assert hasattr(window, 'cursor_panel'), "cursor_panel not created"
-    assert hasattr(window, 'math_panel'), "math_panel not created"
-    assert hasattr(window, 'fft_display'), "fft_display not created"
-    assert hasattr(window, 'reference_panel'), "reference_panel not created"
-    assert hasattr(window, 'protocol_decode_panel'), "protocol_decode_panel not created"
+    assert hasattr(window, "waveform_display"), "waveform_display not created"
+    assert hasattr(window, "channel_control"), "channel_control not created"
+    assert hasattr(window, "cursor_panel"), "cursor_panel not created"
+    assert hasattr(window, "math_panel"), "math_panel not created"
+    assert hasattr(window, "fft_display"), "fft_display not created"
+    assert hasattr(window, "reference_panel"), "reference_panel not created"
+    assert hasattr(window, "protocol_decode_panel"), "protocol_decode_panel not created"
 
     # Verify waveform_display is created before cursor_panel connections
     assert window.waveform_display is not None
@@ -42,9 +42,9 @@ def test_waveform_display_creation(qapp):
 
     display = WaveformDisplay()
     assert display is not None
-    assert hasattr(display, 'ax')
-    assert hasattr(display, 'canvas')
-    assert hasattr(display, 'cursor_mode')
+    assert hasattr(display, "ax")
+    assert hasattr(display, "canvas")
+    assert hasattr(display, "cursor_mode")
 
 
 def test_cursor_panel_creation(qapp):
@@ -53,8 +53,8 @@ def test_cursor_panel_creation(qapp):
 
     panel = CursorPanel()
     assert panel is not None
-    assert hasattr(panel, 'cursor_mode_changed')
-    assert hasattr(panel, 'clear_cursors')
+    assert hasattr(panel, "cursor_mode_changed")
+    assert hasattr(panel, "clear_cursors")
 
 
 def test_math_panel_creation(qapp):
@@ -63,8 +63,8 @@ def test_math_panel_creation(qapp):
 
     panel = MathPanel()
     assert panel is not None
-    assert hasattr(panel, 'math1_expression_changed')
-    assert hasattr(panel, 'math2_expression_changed')
+    assert hasattr(panel, "math1_expression_changed")
+    assert hasattr(panel, "math2_expression_changed")
 
 
 def test_fft_display_creation(qapp):
@@ -73,7 +73,7 @@ def test_fft_display_creation(qapp):
 
     display = FFTDisplay()
     assert display is not None
-    assert hasattr(display, 'fft_compute_requested')
+    assert hasattr(display, "fft_compute_requested")
 
 
 def test_reference_panel_creation(qapp):
@@ -82,8 +82,8 @@ def test_reference_panel_creation(qapp):
 
     panel = ReferencePanel()
     assert panel is not None
-    assert hasattr(panel, 'load_reference')
-    assert hasattr(panel, 'save_reference')
+    assert hasattr(panel, "load_reference")
+    assert hasattr(panel, "save_reference")
 
 
 def test_protocol_decode_panel_creation(qapp):
@@ -92,8 +92,8 @@ def test_protocol_decode_panel_creation(qapp):
 
     panel = ProtocolDecodePanel()
     assert panel is not None
-    assert hasattr(panel, 'decode_requested')
-    assert hasattr(panel, 'export_requested')
+    assert hasattr(panel, "decode_requested")
+    assert hasattr(panel, "export_requested")
 
 
 if __name__ == "__main__":

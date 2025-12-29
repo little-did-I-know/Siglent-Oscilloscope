@@ -2,8 +2,7 @@
 
 import logging
 from typing import Optional
-from PyQt6.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QGroupBox,
-                              QLabel, QRadioButton, QPushButton, QGridLayout, QButtonGroup)
+from PyQt6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QGroupBox, QLabel, QRadioButton, QPushButton, QGridLayout, QButtonGroup
 from PyQt6.QtCore import Qt, pyqtSignal
 
 logger = logging.getLogger(__name__)
@@ -31,7 +30,7 @@ class CursorPanel(QWidget):
         """
         super().__init__(parent)
 
-        self.current_mode = 'off'
+        self.current_mode = "off"
 
         self._init_ui()
         logger.info("Cursor panel initialized")
@@ -66,22 +65,22 @@ class CursorPanel(QWidget):
         # Mode radio buttons
         self.off_radio = QRadioButton("Off")
         self.off_radio.setChecked(True)
-        self.off_radio.toggled.connect(lambda checked: self._on_mode_changed('off') if checked else None)
+        self.off_radio.toggled.connect(lambda checked: self._on_mode_changed("off") if checked else None)
         self.mode_button_group.addButton(self.off_radio)
         layout.addWidget(self.off_radio)
 
         self.vertical_radio = QRadioButton("Vertical (Time)")
-        self.vertical_radio.toggled.connect(lambda checked: self._on_mode_changed('vertical') if checked else None)
+        self.vertical_radio.toggled.connect(lambda checked: self._on_mode_changed("vertical") if checked else None)
         self.mode_button_group.addButton(self.vertical_radio)
         layout.addWidget(self.vertical_radio)
 
         self.horizontal_radio = QRadioButton("Horizontal (Voltage)")
-        self.horizontal_radio.toggled.connect(lambda checked: self._on_mode_changed('horizontal') if checked else None)
+        self.horizontal_radio.toggled.connect(lambda checked: self._on_mode_changed("horizontal") if checked else None)
         self.mode_button_group.addButton(self.horizontal_radio)
         layout.addWidget(self.horizontal_radio)
 
         self.both_radio = QRadioButton("Both")
-        self.both_radio.toggled.connect(lambda checked: self._on_mode_changed('both') if checked else None)
+        self.both_radio.toggled.connect(lambda checked: self._on_mode_changed("both") if checked else None)
         self.mode_button_group.addButton(self.both_radio)
         layout.addWidget(self.both_radio)
 
@@ -147,11 +146,7 @@ class CursorPanel(QWidget):
         layout.addWidget(self.frequency_label, 9, 1)
 
         # Instructions
-        instruction_label = QLabel(
-            "<i>Click on waveform to place cursors.<br>"
-            "Drag to move. Right-click to remove.<br>"
-            "ESC to clear all.</i>"
-        )
+        instruction_label = QLabel("<i>Click on waveform to place cursors.<br>" "Drag to move. Right-click to remove.<br>" "ESC to clear all.</i>")
         instruction_label.setWordWrap(True)
         instruction_label.setStyleSheet("color: #888888; font-size: 9pt;")
         layout.addWidget(instruction_label, 10, 0, 1, 2)
@@ -169,7 +164,7 @@ class CursorPanel(QWidget):
         self.cursor_mode_changed.emit(mode)
 
         # Clear values when switching modes
-        if mode == 'off':
+        if mode == "off":
             self.clear_values()
 
     def _on_clear_cursors(self):
@@ -185,17 +180,16 @@ class CursorPanel(QWidget):
             mode: Cursor mode ('off', 'vertical', 'horizontal', 'both')
         """
         mode = mode.lower()
-        if mode == 'off':
+        if mode == "off":
             self.off_radio.setChecked(True)
-        elif mode == 'vertical':
+        elif mode == "vertical":
             self.vertical_radio.setChecked(True)
-        elif mode == 'horizontal':
+        elif mode == "horizontal":
             self.horizontal_radio.setChecked(True)
-        elif mode == 'both':
+        elif mode == "both":
             self.both_radio.setChecked(True)
 
-    def update_cursor_values(self, x1: Optional[float] = None, y1: Optional[float] = None,
-                            x2: Optional[float] = None, y2: Optional[float] = None):
+    def update_cursor_values(self, x1: Optional[float] = None, y1: Optional[float] = None, x2: Optional[float] = None, y2: Optional[float] = None):
         """Update cursor value displays.
 
         Args:

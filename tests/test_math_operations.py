@@ -14,26 +14,8 @@ def sample_waveforms():
     voltage2 = np.cos(2 * np.pi * time)
 
     # Create WaveformData with all required parameters
-    wf1 = WaveformData(
-        time=time,
-        voltage=voltage1,
-        channel=1,
-        sample_rate=100.0,  # 100 samples per second
-        record_length=100,
-        timebase=0.1,  # 0.1 s/div
-        voltage_scale=1.0,  # 1 V/div
-        voltage_offset=0.0
-    )
-    wf2 = WaveformData(
-        time=time,
-        voltage=voltage2,
-        channel=2,
-        sample_rate=100.0,
-        record_length=100,
-        timebase=0.1,
-        voltage_scale=1.0,
-        voltage_offset=0.0
-    )
+    wf1 = WaveformData(time=time, voltage=voltage1, channel=1, sample_rate=100.0, record_length=100, timebase=0.1, voltage_scale=1.0, voltage_offset=0.0)  # 100 samples per second  # 0.1 s/div  # 1 V/div
+    wf2 = WaveformData(time=time, voltage=voltage2, channel=2, sample_rate=100.0, record_length=100, timebase=0.1, voltage_scale=1.0, voltage_offset=0.0)
 
     return wf1, wf2
 
@@ -45,9 +27,7 @@ def test_math_add(sample_waveforms):
 
     assert result is not None
     assert len(result.voltage) == len(wf1.voltage)
-    np.testing.assert_array_almost_equal(
-        result.voltage, wf1.voltage + wf2.voltage
-    )
+    np.testing.assert_array_almost_equal(result.voltage, wf1.voltage + wf2.voltage)
 
 
 def test_math_subtract(sample_waveforms):
@@ -57,9 +37,7 @@ def test_math_subtract(sample_waveforms):
 
     assert result is not None
     assert len(result.voltage) == len(wf1.voltage)
-    np.testing.assert_array_almost_equal(
-        result.voltage, wf1.voltage - wf2.voltage
-    )
+    np.testing.assert_array_almost_equal(result.voltage, wf1.voltage - wf2.voltage)
 
 
 def test_math_multiply(sample_waveforms):
@@ -69,9 +47,7 @@ def test_math_multiply(sample_waveforms):
 
     assert result is not None
     assert len(result.voltage) == len(wf1.voltage)
-    np.testing.assert_array_almost_equal(
-        result.voltage, wf1.voltage * wf2.voltage
-    )
+    np.testing.assert_array_almost_equal(result.voltage, wf1.voltage * wf2.voltage)
 
 
 def test_math_divide(sample_waveforms):
@@ -90,9 +66,7 @@ def test_math_scale(sample_waveforms):
     result = MathOperations.scale(wf1, factor)
 
     assert result is not None
-    np.testing.assert_array_almost_equal(
-        result.voltage, wf1.voltage * factor
-    )
+    np.testing.assert_array_almost_equal(result.voltage, wf1.voltage * factor)
 
 
 def test_math_offset(sample_waveforms):
@@ -102,9 +76,7 @@ def test_math_offset(sample_waveforms):
     result = MathOperations.offset(wf1, offset)
 
     assert result is not None
-    np.testing.assert_array_almost_equal(
-        result.voltage, wf1.voltage + offset
-    )
+    np.testing.assert_array_almost_equal(result.voltage, wf1.voltage + offset)
 
 
 def test_math_abs(sample_waveforms):
@@ -113,9 +85,7 @@ def test_math_abs(sample_waveforms):
     result = MathOperations.abs_value(wf1)
 
     assert result is not None
-    np.testing.assert_array_almost_equal(
-        result.voltage, np.abs(wf1.voltage)
-    )
+    np.testing.assert_array_almost_equal(result.voltage, np.abs(wf1.voltage))
 
 
 def test_math_invert(sample_waveforms):
@@ -124,9 +94,7 @@ def test_math_invert(sample_waveforms):
     result = MathOperations.invert(wf1)
 
     assert result is not None
-    np.testing.assert_array_almost_equal(
-        result.voltage, -wf1.voltage
-    )
+    np.testing.assert_array_almost_equal(result.voltage, -wf1.voltage)
 
 
 def test_math_integrate(sample_waveforms):

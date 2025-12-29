@@ -21,6 +21,7 @@ class FFTResult:
         sample_rate: Sample rate (Hz)
         magnitude_db: Whether magnitude is in dB
     """
+
     frequency: np.ndarray
     magnitude: np.ndarray
     phase: np.ndarray
@@ -61,20 +62,19 @@ class FFTAnalyzer:
     """FFT analyzer for frequency domain analysis of waveforms."""
 
     WINDOW_FUNCTIONS = {
-        'rectangular': np.ones,
-        'hanning': np.hanning,
-        'hamming': np.hamming,
-        'blackman': np.blackman,
-        'bartlett': np.bartlett,
-        'flattop': signal.windows.flattop,
+        "rectangular": np.ones,
+        "hanning": np.hanning,
+        "hamming": np.hamming,
+        "blackman": np.blackman,
+        "bartlett": np.bartlett,
+        "flattop": signal.windows.flattop,
     }
 
     def __init__(self):
         """Initialize FFT analyzer."""
         logger.info("FFT analyzer initialized")
 
-    def compute_fft(self, waveform, window: str = 'hanning',
-                    output_db: bool = True, detrend: bool = True) -> Optional[FFTResult]:
+    def compute_fft(self, waveform, window: str = "hanning", output_db: bool = True, detrend: bool = True) -> Optional[FFTResult]:
         """Compute FFT of a waveform.
 
         Args:
@@ -131,17 +131,9 @@ class FFTAnalyzer:
             else:
                 magnitude = magnitude_linear
 
-            result = FFTResult(
-                frequency=frequencies,
-                magnitude=magnitude,
-                phase=phase,
-                window=window,
-                sample_rate=sample_rate,
-                magnitude_db=output_db
-            )
+            result = FFTResult(frequency=frequencies, magnitude=magnitude, phase=phase, window=window, sample_rate=sample_rate, magnitude_db=output_db)
 
-            logger.info(f"FFT computed: {len(frequencies)} frequency bins, "
-                       f"sample rate {sample_rate/1e6:.3f} MHz, window={window}")
+            logger.info(f"FFT computed: {len(frequencies)} frequency bins, " f"sample rate {sample_rate/1e6:.3f} MHz, window={window}")
 
             return result
 
@@ -149,8 +141,7 @@ class FFTAnalyzer:
             logger.error(f"FFT computation error: {e}")
             return None
 
-    def compute_power_spectrum(self, waveform, window: str = 'hanning',
-                              nperseg: Optional[int] = None) -> Optional[Tuple[np.ndarray, np.ndarray]]:
+    def compute_power_spectrum(self, waveform, window: str = "hanning", nperseg: Optional[int] = None) -> Optional[Tuple[np.ndarray, np.ndarray]]:
         """Compute power spectral density using Welch's method.
 
         Args:
@@ -174,13 +165,7 @@ class FFTAnalyzer:
                 nperseg = min(256, len(voltage) // 4)
 
             # Compute power spectral density using Welch's method
-            frequencies, psd = signal.welch(
-                voltage,
-                fs=sample_rate,
-                window=window,
-                nperseg=nperseg,
-                scaling='density'
-            )
+            frequencies, psd = signal.welch(voltage, fs=sample_rate, window=window, nperseg=nperseg, scaling="density")
 
             logger.info(f"Power spectrum computed using Welch's method")
 
@@ -190,8 +175,7 @@ class FFTAnalyzer:
             logger.error(f"Power spectrum computation error: {e}")
             return None
 
-    def compute_spectrogram(self, waveform, window: str = 'hanning',
-                           nperseg: Optional[int] = None) -> Optional[Tuple[np.ndarray, np.ndarray, np.ndarray]]:
+    def compute_spectrogram(self, waveform, window: str = "hanning", nperseg: Optional[int] = None) -> Optional[Tuple[np.ndarray, np.ndarray, np.ndarray]]:
         """Compute spectrogram (time-frequency representation).
 
         Args:
@@ -215,12 +199,7 @@ class FFTAnalyzer:
                 nperseg = min(256, len(voltage) // 4)
 
             # Compute spectrogram
-            frequencies, times, Sxx = signal.spectrogram(
-                voltage,
-                fs=sample_rate,
-                window=window,
-                nperseg=nperseg
-            )
+            frequencies, times, Sxx = signal.spectrogram(voltage, fs=sample_rate, window=window, nperseg=nperseg)
 
             logger.info(f"Spectrogram computed: {len(frequencies)}x{len(times)} matrix")
 
@@ -230,8 +209,7 @@ class FFTAnalyzer:
             logger.error(f"Spectrogram computation error: {e}")
             return None
 
-    def apply_bandpass_filter(self, waveform, lowcut: float, highcut: float,
-                             order: int = 5):
+    def apply_bandpass_filter(self, waveform, lowcut: float, highcut: float, order: int = 5):
         """Apply bandpass filter to waveform.
 
         Args:
@@ -261,17 +239,13 @@ class FFTAnalyzer:
                 logger.error("Filter frequencies out of valid range")
                 return None
 
-            sos = signal.butter(order, [low, high], btype='band', output='sos')
+            sos = signal.butter(order, [low, high], btype="band", output="sos")
 
             # Apply filter
             filtered_voltage = signal.sosfilt(sos, voltage)
 
             # Create filtered waveform
-            result = type(waveform)(
-                time=time,
-                voltage=filtered_voltage,
-                channel=f"{waveform.channel}_FILTERED"
-            )
+            result = type(waveform)(time=time, voltage=filtered_voltage, channel=f"{waveform.channel}_FILTERED")
 
             logger.info(f"Bandpass filter applied: {lowcut:.2f}-{highcut:.2f} Hz, order={order}")
 
@@ -309,17 +283,13 @@ class FFTAnalyzer:
                 logger.error("Filter cutoff out of valid range")
                 return None
 
-            sos = signal.butter(order, normal_cutoff, btype='low', output='sos')
+            sos = signal.butter(order, normal_cutoff, btype="low", output="sos")
 
             # Apply filter
             filtered_voltage = signal.sosfilt(sos, voltage)
 
             # Create filtered waveform
-            result = type(waveform)(
-                time=time,
-                voltage=filtered_voltage,
-                channel=f"{waveform.channel}_FILTERED"
-            )
+            result = type(waveform)(time=time, voltage=filtered_voltage, channel=f"{waveform.channel}_FILTERED")
 
             logger.info(f"Lowpass filter applied: {cutoff:.2f} Hz, order={order}")
 
@@ -357,17 +327,13 @@ class FFTAnalyzer:
                 logger.error("Filter cutoff out of valid range")
                 return None
 
-            sos = signal.butter(order, normal_cutoff, btype='high', output='sos')
+            sos = signal.butter(order, normal_cutoff, btype="high", output="sos")
 
             # Apply filter
             filtered_voltage = signal.sosfilt(sos, voltage)
 
             # Create filtered waveform
-            result = type(waveform)(
-                time=time,
-                voltage=filtered_voltage,
-                channel=f"{waveform.channel}_FILTERED"
-            )
+            result = type(waveform)(time=time, voltage=filtered_voltage, channel=f"{waveform.channel}_FILTERED")
 
             logger.info(f"Highpass filter applied: {cutoff:.2f} Hz, order={order}")
 
@@ -378,8 +344,7 @@ class FFTAnalyzer:
             return None
 
     @staticmethod
-    def calculate_thd(fft_result: FFTResult, fundamental_freq: float,
-                     num_harmonics: int = 5) -> Optional[float]:
+    def calculate_thd(fft_result: FFTResult, fundamental_freq: float, num_harmonics: int = 5) -> Optional[float]:
         """Calculate Total Harmonic Distortion (THD).
 
         Args:
@@ -414,7 +379,7 @@ class FFTAnalyzer:
                         harm_mag = 10 ** (fft_result.magnitude[harmonic_idx] / 20.0)
                     else:
                         harm_mag = fft_result.magnitude[harmonic_idx]
-                    harmonic_power += harm_mag ** 2
+                    harmonic_power += harm_mag**2
 
             # Calculate THD
             thd = 100.0 * np.sqrt(harmonic_power) / fund_mag

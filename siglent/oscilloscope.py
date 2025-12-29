@@ -131,9 +131,9 @@ class Oscilloscope:
             self._create_math_channels()
 
             # Update device info with capability information
-            self._device_info['series'] = self.model_capability.series
-            self._device_info['num_channels'] = str(self.model_capability.num_channels)
-            self._device_info['bandwidth_mhz'] = str(self.model_capability.bandwidth_mhz)
+            self._device_info["series"] = self.model_capability.series
+            self._device_info["num_channels"] = str(self.model_capability.num_channels)
+            self._device_info["bandwidth_mhz"] = str(self.model_capability.bandwidth_mhz)
 
         except Exception as e:
             logger.error(f"Failed to identify device or initialize: {e}")

@@ -26,7 +26,7 @@ class UARTDecoder(ProtocolDecoder):
         Returns:
             List of required channels
         """
-        return ['TX']  # RX is optional
+        return ["TX"]  # RX is optional
 
     def get_parameters(self) -> Dict[str, Any]:
         """Get decoder parameters.
@@ -35,12 +35,12 @@ class UARTDecoder(ProtocolDecoder):
             Parameter dictionary
         """
         return {
-            'baud_rate': 9600,  # Baud rate in bps
-            'data_bits': 8,  # Data bits (5-9)
-            'parity': 'none',  # 'none', 'even', 'odd', 'mark', 'space'
-            'stop_bits': 1,  # Stop bits (1, 1.5, 2)
-            'threshold': 1.4,  # Voltage threshold
-            'idle_high': True,  # Idle state is high
+            "baud_rate": 9600,  # Baud rate in bps
+            "data_bits": 8,  # Data bits (5-9)
+            "parity": "none",  # 'none', 'even', 'odd', 'mark', 'space'
+            "stop_bits": 1,  # Stop bits (1, 1.5, 2)
+            "threshold": 1.4,  # Voltage threshold
+            "idle_high": True,  # Idle state is high
         }
 
     def decode(self, waveforms: Dict[str, Any], **params) -> List[DecodedEvent]:
@@ -56,35 +56,29 @@ class UARTDecoder(ProtocolDecoder):
         self.clear_events()
 
         # Get parameters
-        baud_rate = params.get('baud_rate', 9600)
-        data_bits = params.get('data_bits', 8)
-        parity = params.get('parity', 'none')
-        stop_bits = params.get('stop_bits', 1)
-        threshold = params.get('threshold', 1.4)
-        idle_high = params.get('idle_high', True)
+        baud_rate = params.get("baud_rate", 9600)
+        data_bits = params.get("data_bits", 8)
+        parity = params.get("parity", "none")
+        stop_bits = params.get("stop_bits", 1)
+        threshold = params.get("threshold", 1.4)
+        idle_high = params.get("idle_high", True)
 
         # Get waveforms
-        if 'TX' not in waveforms:
+        if "TX" not in waveforms:
             logger.error("UART decode requires TX channel")
             return self.events
 
-        tx_waveform = waveforms['TX']
-        rx_waveform = waveforms.get('RX')
+        tx_waveform = waveforms["TX"]
+        rx_waveform = waveforms.get("RX")
 
         try:
             # Decode TX channel
-            tx_events = self._decode_channel(
-                tx_waveform, 'TX', baud_rate, data_bits, parity,
-                stop_bits, threshold, idle_high
-            )
+            tx_events = self._decode_channel(tx_waveform, "TX", baud_rate, data_bits, parity, stop_bits, threshold, idle_high)
             self.events.extend(tx_events)
 
             # Decode RX channel if available
             if rx_waveform is not None:
-                rx_events = self._decode_channel(
-                    rx_waveform, 'RX', baud_rate, data_bits, parity,
-                    stop_bits, threshold, idle_high
-                )
+                rx_events = self._decode_channel(rx_waveform, "RX", baud_rate, data_bits, parity, stop_bits, threshold, idle_high)
                 self.events.extend(rx_events)
 
             # Sort events by timestamp
@@ -94,21 +88,11 @@ class UARTDecoder(ProtocolDecoder):
 
         except Exception as e:
             logger.error(f"UART decode error: {e}")
-            self.events.append(DecodedEvent(
-                timestamp=0.0,
-                event_type=EventType.ERROR,
-                data=None,
-                description=f"Decode error: {str(e)}",
-                channel="UART",
-                valid=False
-            ))
+            self.events.append(DecodedEvent(timestamp=0.0, event_type=EventType.ERROR, data=None, description=f"Decode error: {str(e)}", channel="UART", valid=False))
 
         return self.events
 
-    def _decode_channel(self, waveform, channel_name: str,
-                       baud_rate: int, data_bits: int, parity: str,
-                       stop_bits: float, threshold: float,
-                       idle_high: bool) -> List[DecodedEvent]:
+    def _decode_channel(self, waveform, channel_name: str, baud_rate: int, data_bits: int, parity: str, stop_bits: float, threshold: float, idle_high: bool) -> List[DecodedEvent]:
         """Decode a single UART channel.
 
         Args:
@@ -133,7 +117,7 @@ class UARTDecoder(ProtocolDecoder):
         bit_period = 1.0 / baud_rate
 
         # Find start bits (falling edges if idle high, rising if idle low)
-        edge_type = 'falling' if idle_high else 'rising'
+        edge_type = "falling" if idle_high else "rising"
         start_edges = self._detect_edge(signal, time, threshold, edge_type)
 
         logger.info(f"UART {channel_name}: Found {len(start_edges)} potential start bits")
@@ -162,26 +146,26 @@ class UARTDecoder(ProtocolDecoder):
                     bit_times.append(bit_time)
 
                     # LSB first
-                    data_value |= (bit_val << bit_idx)
+                    data_value |= bit_val << bit_idx
 
                 # Check parity (if enabled)
                 parity_valid = True
-                if parity != 'none':
+                if parity != "none":
                     parity_bit_time = start_time + (data_bits + 1) * bit_period + sample_offset
                     parity_bit = self._get_bit_at_time(signal, time, parity_bit_time, threshold)
 
-                    if parity == 'even':
-                        expected_parity = bin(data_value).count('1') % 2
-                    elif parity == 'odd':
-                        expected_parity = 1 - (bin(data_value).count('1') % 2)
-                    elif parity == 'mark':
+                    if parity == "even":
+                        expected_parity = bin(data_value).count("1") % 2
+                    elif parity == "odd":
+                        expected_parity = 1 - (bin(data_value).count("1") % 2)
+                    elif parity == "mark":
                         expected_parity = 1
-                    elif parity == 'space':
+                    elif parity == "space":
                         expected_parity = 0
                     else:
                         expected_parity = parity_bit
 
-                    parity_valid = (parity_bit == expected_parity)
+                    parity_valid = parity_bit == expected_parity
 
                 # Format data as character if printable
                 if 32 <= data_value < 127:
@@ -190,25 +174,11 @@ class UARTDecoder(ProtocolDecoder):
                     data_str = f"0x{data_value:02X}"
 
                 # Add data event
-                events.append(DecodedEvent(
-                    timestamp=start_time,
-                    event_type=EventType.DATA,
-                    data=data_value,
-                    description=f"{channel_name}: {data_str}",
-                    channel=channel_name,
-                    valid=parity_valid
-                ))
+                events.append(DecodedEvent(timestamp=start_time, event_type=EventType.DATA, data=data_value, description=f"{channel_name}: {data_str}", channel=channel_name, valid=parity_valid))
 
                 # Add parity error if invalid
                 if not parity_valid:
-                    events.append(DecodedEvent(
-                        timestamp=start_time,
-                        event_type=EventType.ERROR,
-                        data=None,
-                        description=f"{channel_name}: Parity error",
-                        channel=channel_name,
-                        valid=False
-                    ))
+                    events.append(DecodedEvent(timestamp=start_time, event_type=EventType.ERROR, data=None, description=f"{channel_name}: Parity error", channel=channel_name, valid=False))
 
             except Exception as e:
                 logger.warning(f"UART {channel_name}: Failed to decode byte at {start_time:.6f}s: {e}")

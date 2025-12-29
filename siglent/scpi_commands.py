@@ -22,7 +22,6 @@ class SCPICommandSet:
         "clear_status": "*CLS",
         "operation_complete": "*OPC?",
         "get_error": "SYST:ERR?",
-
         # Trigger control
         "set_trigger_mode": "TRIG_MODE {mode}",  # mode: AUTO, NORM, SINGLE, STOP
         "get_trigger_mode": "TRIG_MODE?",
@@ -30,10 +29,8 @@ class SCPICommandSet:
         "force_trigger": "FRTR",
         "stop": "STOP",
         "run": "TRIG_MODE AUTO",  # Equivalent to run/start
-
         # Auto setup
         "auto_setup": "ASET",
-
         # Channel control
         "set_channel_display": "C{ch}:TRA {state}",  # state: ON, OFF
         "get_channel_display": "C{ch}:TRA?",
@@ -47,14 +44,12 @@ class SCPICommandSet:
         "get_probe_ratio": "C{ch}:ATTN?",
         "set_bandwidth_limit": "C{ch}:BWL {state}",  # state: ON, OFF
         "get_bandwidth_limit": "C{ch}:BWL?",
-
         # Timebase control
         "set_time_div": "TDIV {tdiv}",
         "get_time_div": "TDIV?",
         "set_time_offset": "TRDL {offset}",
         "get_time_offset": "TRDL?",
         "get_sample_rate": "SARA?",
-
         # Trigger settings
         "set_trigger_select": "TRIG_SELECT {type},{src}",  # type: EDGE, SLEW, etc.
         "get_trigger_select": "TRIG_SELECT?",
@@ -64,24 +59,19 @@ class SCPICommandSet:
         "get_trigger_slope": "{src}:TRSL?",
         "set_trigger_coupling": "{src}:TRCP {coupling}",
         "get_trigger_coupling": "{src}:TRCP?",
-
         # Waveform acquisition - note: HD series uses DAT2, others may use different format
         "get_waveform": "C{ch}:WF? DAT2",
         "get_waveform_preamble": "C{ch}:WF? DESC",
-
         # Measurements
         "get_parameter_value": "C{ch}:PAVA? {param}",  # param: PKPK, FREQ, etc.
         "clear_measurements": "PACU CLEAR",
-
         # Cursor control
         "set_cursor_type": "CRST {type}",  # type: OFF, HREL, VREL, HREF, VREF
         "get_cursor_type": "CRST?",
         "get_cursor_value": "CRVA? {cursor}",  # cursor: TRDELTA, TRALPHA, etc.
-
         # Math operations (basic)
         "set_math_display": "MATH{n}:TRA {state}",
         "get_math_display": "MATH{n}:TRA?",
-
         # Screen capture
         "screen_dump": "SCDP",  # Get screen image
         "set_hardcopy_format": "HCSU DEV,FORMAT,{format}",  # format: PNG, BMP, JPEG

@@ -4,17 +4,15 @@ import sys
 import logging
 
 # Configure detailed logging
-logging.basicConfig(
-    level=logging.DEBUG,
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-)
+logging.basicConfig(level=logging.DEBUG, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 
 logger = logging.getLogger(__name__)
 
 # Add parent directory to path
-sys.path.insert(0, r'C:\Users\robin\Documents\Siglent')
+sys.path.insert(0, r"C:\Users\robin\Documents\Siglent")
 
 from siglent import Oscilloscope
+
 
 def test_channel_state(scope_ip: str):
     """Test channel enabled state detection.
@@ -22,9 +20,9 @@ def test_channel_state(scope_ip: str):
     Args:
         scope_ip: IP address of oscilloscope
     """
-    print("\n" + "="*60)
+    print("\n" + "=" * 60)
     print("Channel State Debug Test")
-    print("="*60)
+    print("=" * 60)
 
     try:
         print(f"\n1. Connecting to oscilloscope at {scope_ip}...")
@@ -47,6 +45,7 @@ def test_channel_state(scope_ip: str):
 
         # Wait a bit
         import time
+
         time.sleep(0.2)
 
         print("\n4. Checking channel states AFTER enabling Channel 1...")
@@ -71,19 +70,21 @@ def test_channel_state(scope_ip: str):
         except Exception as e:
             print(f"   FAILED - {e}")
             import traceback
+
             traceback.print_exc()
 
         print("\n6. Disconnecting...")
         scope.disconnect()
         print("   Disconnected")
 
-        print("\n" + "="*60)
+        print("\n" + "=" * 60)
         print("Test Complete")
-        print("="*60 + "\n")
+        print("=" * 60 + "\n")
 
     except Exception as e:
         print(f"\nFATAL ERROR: {e}")
         import traceback
+
         traceback.print_exc()
 
 

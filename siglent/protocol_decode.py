@@ -12,6 +12,7 @@ logger = logging.getLogger(__name__)
 
 class EventType(Enum):
     """Types of protocol events."""
+
     START = "START"
     STOP = "STOP"
     DATA = "DATA"
@@ -36,6 +37,7 @@ class DecodedEvent:
         channel: Source channel(s)
         valid: Whether event is valid (no errors)
     """
+
     timestamp: float
     event_type: EventType
     data: Any
@@ -110,19 +112,12 @@ class ProtocolDecoder(ABC):
         """
         import csv
 
-        with open(filename, 'w', newline='') as f:
+        with open(filename, "w", newline="") as f:
             writer = csv.writer(f)
-            writer.writerow(['Timestamp', 'Event Type', 'Data', 'Description', 'Channel', 'Valid'])
+            writer.writerow(["Timestamp", "Event Type", "Data", "Description", "Channel", "Valid"])
 
             for event in self.events:
-                writer.writerow([
-                    f"{event.timestamp:.9f}",
-                    event.event_type.value,
-                    str(event.data),
-                    event.description,
-                    event.channel,
-                    'Yes' if event.valid else 'No'
-                ])
+                writer.writerow([f"{event.timestamp:.9f}", event.event_type.value, str(event.data), event.description, event.channel, "Yes" if event.valid else "No"])
 
         logger.info(f"{self.name}: Exported {len(self.events)} events to {filename}")
 
@@ -139,8 +134,7 @@ class ProtocolDecoder(ABC):
 
         return summary
 
-    def _detect_edge(self, signal: np.ndarray, time: np.ndarray, threshold: float,
-                     edge_type: str = 'rising') -> List[float]:
+    def _detect_edge(self, signal: np.ndarray, time: np.ndarray, threshold: float, edge_type: str = "rising") -> List[float]:
         """Detect edges in a digital signal.
 
         Args:
@@ -160,18 +154,17 @@ class ProtocolDecoder(ABC):
 
         edge_times = []
 
-        if edge_type in ['rising', 'both']:
+        if edge_type in ["rising", "both"]:
             rising_indices = np.where(edges == 1)[0]
             edge_times.extend(time[rising_indices + 1].tolist())
 
-        if edge_type in ['falling', 'both']:
+        if edge_type in ["falling", "both"]:
             falling_indices = np.where(edges == -1)[0]
             edge_times.extend(time[falling_indices + 1].tolist())
 
         return sorted(edge_times)
 
-    def _sample_at_time(self, signal: np.ndarray, time: np.ndarray,
-                        sample_time: float, threshold: float) -> bool:
+    def _sample_at_time(self, signal: np.ndarray, time: np.ndarray, sample_time: float, threshold: float) -> bool:
         """Sample digital signal at a specific time.
 
         Args:
@@ -188,8 +181,7 @@ class ProtocolDecoder(ABC):
 
         return signal[idx] > threshold
 
-    def _get_bit_at_time(self, signal: np.ndarray, time: np.ndarray,
-                         sample_time: float, threshold: float) -> int:
+    def _get_bit_at_time(self, signal: np.ndarray, time: np.ndarray, sample_time: float, threshold: float) -> int:
         """Get bit value at a specific time.
 
         Args:

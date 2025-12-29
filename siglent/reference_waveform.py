@@ -71,26 +71,21 @@ class ReferenceWaveform:
         if metadata is None:
             metadata = {}
 
-        metadata['name'] = name
-        metadata['timestamp'] = datetime.now().isoformat()
-        metadata['channel'] = getattr(waveform, 'channel', 'Unknown')
+        metadata["name"] = name
+        metadata["timestamp"] = datetime.now().isoformat()
+        metadata["channel"] = getattr(waveform, "channel", "Unknown")
 
         # Add waveform statistics
-        metadata['min_voltage'] = float(np.min(waveform.voltage))
-        metadata['max_voltage'] = float(np.max(waveform.voltage))
-        metadata['mean_voltage'] = float(np.mean(waveform.voltage))
-        metadata['std_voltage'] = float(np.std(waveform.voltage))
-        metadata['num_samples'] = len(waveform.voltage)
-        metadata['time_span'] = float(waveform.time[-1] - waveform.time[0]) if len(waveform.time) > 1 else 0.0
+        metadata["min_voltage"] = float(np.min(waveform.voltage))
+        metadata["max_voltage"] = float(np.max(waveform.voltage))
+        metadata["mean_voltage"] = float(np.mean(waveform.voltage))
+        metadata["std_voltage"] = float(np.std(waveform.voltage))
+        metadata["num_samples"] = len(waveform.voltage)
+        metadata["time_span"] = float(waveform.time[-1] - waveform.time[0]) if len(waveform.time) > 1 else 0.0
 
         try:
             # Save as NPZ with compression
-            np.savez_compressed(
-                filepath,
-                time=waveform.time,
-                voltage=waveform.voltage,
-                metadata=metadata
-            )
+            np.savez_compressed(filepath, time=waveform.time, voltage=waveform.voltage, metadata=metadata)
 
             logger.info(f"Reference waveform saved: {filepath}")
             return str(filepath)
@@ -119,12 +114,7 @@ class ReferenceWaveform:
             # Load NPZ file
             data = np.load(filepath, allow_pickle=True)
 
-            result = {
-                'time': data['time'],
-                'voltage': data['voltage'],
-                'metadata': data['metadata'].item() if 'metadata' in data else {},
-                'filepath': str(filepath)
-            }
+            result = {"time": data["time"], "voltage": data["voltage"], "metadata": data["metadata"].item() if "metadata" in data else {}, "filepath": str(filepath)}
 
             logger.info(f"Reference waveform loaded: {filepath}")
             return result
@@ -147,21 +137,9 @@ class ReferenceWaveform:
                 try:
                     # Load metadata without loading full data
                     data = np.load(filepath, allow_pickle=True)
-                    metadata = data['metadata'].item() if 'metadata' in data else {}
+                    metadata = data["metadata"].item() if "metadata" in data else {}
 
-                    ref_info = {
-                        'filename': filepath.name,
-                        'filepath': str(filepath),
-                        'name': metadata.get('name', filepath.stem),
-                        'timestamp': metadata.get('timestamp', ''),
-                        'channel': metadata.get('channel', 'Unknown'),
-                        'num_samples': metadata.get('num_samples', 0),
-                        'time_span': metadata.get('time_span', 0.0),
-                        'min_voltage': metadata.get('min_voltage', 0.0),
-                        'max_voltage': metadata.get('max_voltage', 0.0),
-                        'file_size': filepath.stat().st_size,
-                        'modified_time': datetime.fromtimestamp(filepath.stat().st_mtime).isoformat()
-                    }
+                    ref_info = {"filename": filepath.name, "filepath": str(filepath), "name": metadata.get("name", filepath.stem), "timestamp": metadata.get("timestamp", ""), "channel": metadata.get("channel", "Unknown"), "num_samples": metadata.get("num_samples", 0), "time_span": metadata.get("time_span", 0.0), "min_voltage": metadata.get("min_voltage", 0.0), "max_voltage": metadata.get("max_voltage", 0.0), "file_size": filepath.stat().st_size, "modified_time": datetime.fromtimestamp(filepath.stat().st_mtime).isoformat()}
 
                     references.append(ref_info)
 
@@ -169,7 +147,7 @@ class ReferenceWaveform:
                     logger.warning(f"Failed to read reference {filepath.name}: {e}")
 
             # Sort by timestamp (most recent first)
-            references.sort(key=lambda x: x.get('timestamp', ''), reverse=True)
+            references.sort(key=lambda x: x.get("timestamp", ""), reverse=True)
 
             logger.info(f"Found {len(references)} reference waveform(s)")
             return references
@@ -221,12 +199,12 @@ class ReferenceWaveform:
         try:
             # Load and update metadata
             data = np.load(old_filepath, allow_pickle=True)
-            time = data['time']
-            voltage = data['voltage']
-            metadata = data['metadata'].item() if 'metadata' in data else {}
+            time = data["time"]
+            voltage = data["voltage"]
+            metadata = data["metadata"].item() if "metadata" in data else {}
 
             # Update name in metadata
-            metadata['name'] = new_name
+            metadata["name"] = new_name
 
             # Create new filename
             safe_name = self._sanitize_name(new_name)
@@ -235,12 +213,7 @@ class ReferenceWaveform:
             new_filepath = self.storage_dir / new_filename
 
             # Save with new name
-            np.savez_compressed(
-                new_filepath,
-                time=time,
-                voltage=voltage,
-                metadata=metadata
-            )
+            np.savez_compressed(new_filepath, time=time, voltage=voltage, metadata=metadata)
 
             # Delete old file
             old_filepath.unlink()
@@ -266,13 +239,13 @@ class ReferenceWaveform:
             return None
 
         try:
-            ref_voltage = reference_data['voltage']
+            ref_voltage = reference_data["voltage"]
 
             # Check if lengths match
             if len(waveform.voltage) != len(ref_voltage):
                 logger.warning("Waveform and reference have different lengths, interpolating...")
                 # Interpolate reference to match waveform time base
-                ref_time = reference_data['time']
+                ref_time = reference_data["time"]
                 ref_voltage_interp = np.interp(waveform.time, ref_time, ref_voltage)
                 return waveform.voltage - ref_voltage_interp
             else:
@@ -296,11 +269,11 @@ class ReferenceWaveform:
             return None
 
         try:
-            ref_voltage = reference_data['voltage']
+            ref_voltage = reference_data["voltage"]
 
             # Interpolate if needed
             if len(waveform.voltage) != len(ref_voltage):
-                ref_time = reference_data['time']
+                ref_time = reference_data["time"]
                 ref_voltage = np.interp(waveform.time, ref_time, ref_voltage)
 
             # Calculate correlation coefficient
@@ -322,15 +295,15 @@ class ReferenceWaveform:
             Sanitized name safe for filesystem
         """
         # Replace spaces with underscores
-        safe_name = name.strip().replace(' ', '_')
+        safe_name = name.strip().replace(" ", "_")
 
         # Remove special characters
         safe_chars = []
         for char in safe_name:
-            if char.isalnum() or char in ('_', '-'):
+            if char.isalnum() or char in ("_", "-"):
                 safe_chars.append(char)
 
-        safe_name = ''.join(safe_chars)
+        safe_name = "".join(safe_chars)
 
         # Limit length
         if len(safe_name) > 50:
@@ -360,7 +333,7 @@ class ReferenceWaveform:
             return filepath
 
         # Try with .npz extension
-        if not name.endswith('.npz'):
+        if not name.endswith(".npz"):
             filepath = self.storage_dir / f"{name}.npz"
             if filepath.exists():
                 return filepath
@@ -369,8 +342,8 @@ class ReferenceWaveform:
         for filepath in self.storage_dir.glob("*.npz"):
             try:
                 data = np.load(filepath, allow_pickle=True)
-                metadata = data['metadata'].item() if 'metadata' in data else {}
-                if metadata.get('name', '') == name:
+                metadata = data["metadata"].item() if "metadata" in data else {}
+                if metadata.get("name", "") == name:
                     return filepath
             except:
                 continue

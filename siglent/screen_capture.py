@@ -93,7 +93,7 @@ class ScreenCapture:
             if response and len(response) > 0:
                 logger.debug(f"SCDP? returned {len(response)} bytes, first bytes: {response[:20]}")
                 # Check if it starts with IEEE 488.2 format
-                if response[0:1] == b'#':
+                if response[0:1] == b"#":
                     logger.debug("Response is in IEEE 488.2 format")
                     return self._parse_ieee488_response(response)
                 else:
@@ -118,12 +118,12 @@ class ScreenCapture:
             logger.debug(f"Read header: {response}")
 
             # Check if it's IEEE 488.2 format
-            if response[0:1] == b'#':
+            if response[0:1] == b"#":
                 # Put the header back and read the full response
                 logger.debug("Detected IEEE 488.2 format, reading full response")
                 num_digits = int(chr(response[1]))
                 length_bytes = self._scope._connection.read_raw(num_digits)
-                data_length = int(length_bytes.decode('ascii'))
+                data_length = int(length_bytes.decode("ascii"))
                 image_data = self._scope._connection.read_raw(data_length)
 
                 if len(image_data) != data_length:
@@ -149,18 +149,18 @@ class ScreenCapture:
         Returns:
             Extracted data
         """
-        if response[0:1] != b'#':
+        if response[0:1] != b"#":
             raise Exception("Not IEEE 488.2 format")
 
         num_digits = int(chr(response[1]))
         if num_digits == 0:
             raise Exception("Invalid length format")
 
-        length_bytes = response[2:2+num_digits]
-        data_length = int(length_bytes.decode('ascii'))
+        length_bytes = response[2 : 2 + num_digits]
+        data_length = int(length_bytes.decode("ascii"))
 
         data_start = 2 + num_digits
-        image_data = response[data_start:data_start+data_length]
+        image_data = response[data_start : data_start + data_length]
 
         if len(image_data) != data_length:
             logger.warning(f"Data length mismatch: expected {data_length}, got {len(image_data)}")
@@ -181,6 +181,7 @@ class ScreenCapture:
 
         # Small delay for capture to complete
         import time
+
         time.sleep(0.2)
 
         # Query for the image data
@@ -216,7 +217,7 @@ class ScreenCapture:
         image_data = self.capture_screenshot()
 
         # Save to file (data will be in BMP format regardless of filename)
-        with open(filename, 'wb') as f:
+        with open(filename, "wb") as f:
             f.write(image_data)
 
         logger.info(f"Screenshot saved to {filename} (BMP format)")

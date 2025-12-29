@@ -387,16 +387,17 @@ class Waveform:
         # Auto-detect format from extension if not specified
         if format is None:
             import os
+
             ext = os.path.splitext(filename)[1].lower()
             format_map = {
-                '.csv': 'CSV',
-                '.npz': 'NPY',
-                '.npy': 'NPY',
-                '.mat': 'MAT',
-                '.h5': 'HDF5',
-                '.hdf5': 'HDF5',
+                ".csv": "CSV",
+                ".npz": "NPY",
+                ".npy": "NPY",
+                ".mat": "MAT",
+                ".h5": "HDF5",
+                ".hdf5": "HDF5",
             }
-            format = format_map.get(ext, 'CSV')
+            format = format_map.get(ext, "CSV")
             logger.debug(f"Auto-detected format: {format} from extension {ext}")
 
         format = format.upper()
@@ -467,11 +468,11 @@ class Waveform:
 
         # Build data dictionary
         data = {
-            'time': waveform.time,
-            'voltage': waveform.voltage,
-            'channel': waveform.channel,
-            'sample_rate': waveform.sample_rate,
-            'timestamp': datetime.now().isoformat(),
+            "time": waveform.time,
+            "voltage": waveform.voltage,
+            "channel": waveform.channel,
+            "sample_rate": waveform.sample_rate,
+            "timestamp": datetime.now().isoformat(),
         }
 
         # Add optional metadata
@@ -479,7 +480,7 @@ class Waveform:
             for key, value in metadata.items():
                 # Convert to numpy-compatible types
                 if isinstance(value, (str, int, float)):
-                    data[f'meta_{key}'] = value
+                    data[f"meta_{key}"] = value
 
         np.savez(filename, **data)
         logger.info(f"Waveform saved to {filename} (NPY format)")
@@ -504,11 +505,11 @@ class Waveform:
 
         # Build data dictionary for MATLAB
         data = {
-            'time': waveform.time,
-            'voltage': waveform.voltage,
-            'channel': waveform.channel,
-            'sample_rate': waveform.sample_rate,
-            'timestamp': datetime.now().isoformat(),
+            "time": waveform.time,
+            "voltage": waveform.voltage,
+            "channel": waveform.channel,
+            "sample_rate": waveform.sample_rate,
+            "timestamp": datetime.now().isoformat(),
         }
 
         # Add metadata
@@ -516,10 +517,10 @@ class Waveform:
             meta_dict = {}
             for key, value in metadata.items():
                 # MATLAB doesn't like some characters in field names
-                safe_key = key.replace(' ', '_').replace('-', '_')
+                safe_key = key.replace(" ", "_").replace("-", "_")
                 if isinstance(value, (int, float, str)):
                     meta_dict[safe_key] = value
-            data['metadata'] = meta_dict
+            data["metadata"] = meta_dict
 
         savemat(filename, data)
         logger.info(f"Waveform saved to {filename} (MAT format)")
@@ -542,20 +543,20 @@ class Waveform:
 
         from datetime import datetime
 
-        with h5py.File(filename, 'w') as f:
+        with h5py.File(filename, "w") as f:
             # Create datasets
-            f.create_dataset('time', data=waveform.time, compression='gzip')
-            f.create_dataset('voltage', data=waveform.voltage, compression='gzip')
+            f.create_dataset("time", data=waveform.time, compression="gzip")
+            f.create_dataset("voltage", data=waveform.voltage, compression="gzip")
 
             # Store metadata as attributes
-            f.attrs['channel'] = waveform.channel
-            f.attrs['sample_rate'] = waveform.sample_rate
-            f.attrs['num_samples'] = len(waveform.time)
-            f.attrs['timestamp'] = datetime.now().isoformat()
+            f.attrs["channel"] = waveform.channel
+            f.attrs["sample_rate"] = waveform.sample_rate
+            f.attrs["num_samples"] = len(waveform.time)
+            f.attrs["timestamp"] = datetime.now().isoformat()
 
             # Add optional metadata
             if metadata:
-                meta_group = f.create_group('metadata')
+                meta_group = f.create_group("metadata")
                 for key, value in metadata.items():
                     if isinstance(value, (int, float, str, bool)):
                         meta_group.attrs[key] = value

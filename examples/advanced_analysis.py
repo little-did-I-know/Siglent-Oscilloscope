@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 from siglent.automation import DataCollector
 
 # Replace with your oscilloscope's IP address
-SCOPE_IP = '192.168.1.100'
+SCOPE_IP = "192.168.1.100"
 
 
 def plot_waveform(waveform, channel_num, title="Waveform"):
@@ -20,8 +20,8 @@ def plot_waveform(waveform, channel_num, title="Waveform"):
 
     plt.figure(figsize=(12, 4))
     plt.plot(time_ms, waveform.voltage, linewidth=1)
-    plt.xlabel('Time (ms)')
-    plt.ylabel('Voltage (V)')
+    plt.xlabel("Time (ms)")
+    plt.ylabel("Voltage (V)")
     plt.title(f"{title} - Channel {channel_num}")
     plt.grid(True, alpha=0.3)
     plt.tight_layout()
@@ -43,8 +43,8 @@ def plot_fft(waveform, channel_num):
 
     plt.figure(figsize=(12, 4))
     plt.plot(freqs / 1e3, magnitude_db, linewidth=1)
-    plt.xlabel('Frequency (kHz)')
-    plt.ylabel('Magnitude (dB)')
+    plt.xlabel("Frequency (kHz)")
+    plt.ylabel("Magnitude (dB)")
     plt.title(f"FFT Spectrum - Channel {channel_num}")
     plt.grid(True, alpha=0.3)
     plt.xlim(0, freqs.max() / 1e3)
@@ -67,7 +67,7 @@ def analyze_signal_quality(waveform):
 
     # Estimate noise as high-frequency component
     # (This is a simple approximation)
-    filtered = np.convolve(voltage, np.ones(10)/10, mode='same')
+    filtered = np.convolve(voltage, np.ones(10) / 10, mode="same")
     noise = voltage - filtered
     noise_power = np.mean(noise**2)
 
@@ -78,25 +78,19 @@ def analyze_signal_quality(waveform):
     fft_magnitude = np.abs(fft_result)
 
     # Find fundamental frequency (largest peak)
-    fundamental_idx = np.argmax(fft_magnitude[1:len(fft_magnitude)//2]) + 1
-    fundamental_power = fft_magnitude[fundamental_idx]**2
+    fundamental_idx = np.argmax(fft_magnitude[1 : len(fft_magnitude) // 2]) + 1
+    fundamental_power = fft_magnitude[fundamental_idx] ** 2
 
     # Sum harmonics (2f, 3f, 4f, 5f)
     harmonic_power = 0
     for n in range(2, 6):
         harmonic_idx = fundamental_idx * n
         if harmonic_idx < len(fft_magnitude):
-            harmonic_power += fft_magnitude[harmonic_idx]**2
+            harmonic_power += fft_magnitude[harmonic_idx] ** 2
 
     thd = np.sqrt(harmonic_power / (fundamental_power + 1e-12)) * 100
 
-    return {
-        'mean': mean_val,
-        'std_dev': std_val,
-        'rms': rms_val,
-        'snr_db': snr_db,
-        'thd_percent': thd
-    }
+    return {"mean": mean_val, "std_dev": std_val, "rms": rms_val, "snr_db": snr_db, "thd_percent": thd}
 
 
 def main():
@@ -115,9 +109,9 @@ def main():
         print(f"Captured {len(waveform.voltage)} samples")
 
         # Basic analysis
-        print("\n" + "="*60)
+        print("\n" + "=" * 60)
         print("BASIC ANALYSIS")
-        print("="*60)
+        print("=" * 60)
         basic_stats = collector.analyze_waveform(waveform)
         print(f"Vpp:        {basic_stats['vpp']:.4f} V")
         print(f"Amplitude:  {basic_stats['amplitude']:.4f} V")
@@ -126,22 +120,22 @@ def main():
         print(f"Std Dev:    {basic_stats['std_dev']:.4f} V")
         print(f"Max:        {basic_stats['max']:.4f} V")
         print(f"Min:        {basic_stats['min']:.4f} V")
-        if basic_stats['frequency'] > 0:
+        if basic_stats["frequency"] > 0:
             print(f"Frequency:  {basic_stats['frequency'] / 1e3:.2f} kHz")
             print(f"Period:     {basic_stats['period'] * 1e6:.2f} µs")
 
         # Advanced signal quality analysis
-        print("\n" + "="*60)
+        print("\n" + "=" * 60)
         print("SIGNAL QUALITY ANALYSIS")
-        print("="*60)
+        print("=" * 60)
         quality = analyze_signal_quality(waveform)
         print(f"SNR:        {quality['snr_db']:.2f} dB")
         print(f"THD:        {quality['thd_percent']:.2f} %")
 
         # Statistical distribution
-        print("\n" + "="*60)
+        print("\n" + "=" * 60)
         print("STATISTICAL DISTRIBUTION")
-        print("="*60)
+        print("=" * 60)
         percentiles = np.percentile(waveform.voltage, [1, 5, 25, 50, 75, 95, 99])
         print(f"1st percentile:   {percentiles[0]:.4f} V")
         print(f"5th percentile:   {percentiles[1]:.4f} V")
@@ -152,9 +146,9 @@ def main():
         print(f"99th percentile:  {percentiles[6]:.4f} V")
 
         # Visualizations
-        print("\n" + "="*60)
+        print("\n" + "=" * 60)
         print("GENERATING VISUALIZATIONS")
-        print("="*60)
+        print("=" * 60)
 
         # Time domain plot
         print("Plotting time-domain waveform...")
@@ -167,10 +161,10 @@ def main():
         # Histogram
         print("Plotting voltage distribution...")
         plt.figure(figsize=(12, 4))
-        plt.hist(waveform.voltage, bins=100, edgecolor='black', alpha=0.7)
-        plt.xlabel('Voltage (V)')
-        plt.ylabel('Count')
-        plt.title('Voltage Distribution Histogram - Channel 1')
+        plt.hist(waveform.voltage, bins=100, edgecolor="black", alpha=0.7)
+        plt.xlabel("Voltage (V)")
+        plt.ylabel("Count")
+        plt.title("Voltage Distribution Histogram - Channel 1")
         plt.grid(True, alpha=0.3)
         plt.tight_layout()
 
@@ -179,23 +173,23 @@ def main():
 
         # Save waveform data
         print("\nSaving waveform data and analysis...")
-        collector.save_data(waveforms, 'analyzed_waveform.npz')
+        collector.save_data(waveforms, "analyzed_waveform.npz")
 
         # Save analysis results
-        with open('analysis_report.txt', 'w') as f:
+        with open("analysis_report.txt", "w") as f:
             f.write("WAVEFORM ANALYSIS REPORT\n")
-            f.write("="*60 + "\n\n")
+            f.write("=" * 60 + "\n\n")
             f.write(f"Oscilloscope: {collector.scope.identify()}\n")
             f.write(f"Samples: {len(waveform.voltage)}\n")
             f.write(f"Sample Rate: {waveform.sample_rate / 1e6:.2f} MSa/s\n\n")
 
             f.write("BASIC MEASUREMENTS\n")
-            f.write("-"*60 + "\n")
+            f.write("-" * 60 + "\n")
             for key, value in basic_stats.items():
                 f.write(f"{key:15s}: {value:.6f}\n")
 
             f.write("\nSIGNAL QUALITY\n")
-            f.write("-"*60 + "\n")
+            f.write("-" * 60 + "\n")
             for key, value in quality.items():
                 f.write(f"{key:15s}: {value:.6f}\n")
 
@@ -203,5 +197,5 @@ def main():
         print("Done!")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

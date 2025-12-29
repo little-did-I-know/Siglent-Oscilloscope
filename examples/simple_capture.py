@@ -7,7 +7,7 @@ and save it to a file.
 from siglent.automation import DataCollector
 
 # Replace with your oscilloscope's IP address
-SCOPE_IP = '192.168.1.100'
+SCOPE_IP = "192.168.1.100"
 
 
 def main():
@@ -35,17 +35,17 @@ def main():
             print(f"  Vpp: {analysis['vpp']:.3f}V")
             print(f"  Mean: {analysis['mean']:.3f}V")
             print(f"  RMS: {analysis['rms']:.3f}V")
-            if analysis['frequency'] > 0:
+            if analysis["frequency"] > 0:
                 print(f"  Frequency: {analysis['frequency'] / 1e3:.2f} kHz")
 
         # Save waveforms to file
         print("\nSaving waveforms to 'simple_capture.npz'...")
-        collector.save_data(waveforms, 'simple_capture.npz', format='npz')
+        collector.save_data(waveforms, "simple_capture.npz", format="npz")
         print("Done!")
 
     finally:
         collector.disconnect()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

@@ -8,7 +8,7 @@ sporadic events or signals that meet specific criteria.
 from siglent.automation import TriggerWaitCollector, DataCollector
 
 # Replace with your oscilloscope's IP address
-SCOPE_IP = '192.168.1.100'
+SCOPE_IP = "192.168.1.100"
 
 
 def main():
@@ -17,7 +17,7 @@ def main():
     with TriggerWaitCollector(SCOPE_IP) as tc:
         # Configure trigger: Channel 1, Rising edge, 1V threshold
         tc.collector.scope.trigger.set_source(1)
-        tc.collector.scope.trigger.set_slope('POS')  # Rising edge
+        tc.collector.scope.trigger.set_slope("POS")  # Rising edge
         tc.collector.scope.trigger.set_level(1, 1.0)  # 1V threshold
 
         print("Trigger configured:")
@@ -27,12 +27,7 @@ def main():
         print("\nWaiting for trigger (max 30 seconds)...")
 
         # Wait for trigger
-        waveforms = tc.wait_for_trigger(
-            channels=[1, 2],
-            max_wait=30.0,
-            save_on_trigger=True,
-            output_dir='trigger_captures'
-        )
+        waveforms = tc.wait_for_trigger(channels=[1, 2], max_wait=30.0, save_on_trigger=True, output_dir="trigger_captures")
 
         if waveforms:
             print("\nTrigger captured successfully!")
@@ -42,15 +37,15 @@ def main():
             print("\nNo trigger detected within timeout period")
 
     # Example 2: Capture multiple trigger events
-    print("\n" + "="*60)
+    print("\n" + "=" * 60)
     print("Example 2: Capturing 10 trigger events...")
 
     with DataCollector(SCOPE_IP) as collector:
         # Configure trigger
         collector.scope.trigger.set_source(1)
-        collector.scope.trigger.set_slope('POS')
+        collector.scope.trigger.set_slope("POS")
         collector.scope.trigger.set_level(1, 2.0)  # 2V threshold
-        collector.scope.trigger.set_mode('NORM')  # Normal trigger mode
+        collector.scope.trigger.set_mode("NORM")  # Normal trigger mode
 
         print("Trigger configured:")
         print("  Source: Channel 1")
@@ -65,11 +60,12 @@ def main():
 
             # Wait for trigger (simple polling)
             import time
+
             timeout = 5.0
             start = time.time()
             while (time.time() - start) < timeout:
-                status = collector.scope.query(':TRIG:STAT?').strip()
-                if status == 'Stop':
+                status = collector.scope.query(":TRIG:STAT?").strip()
+                if status == "Stop":
                     # Capture waveform
                     waveforms = collector.capture_single([1, 2])
                     captures.append(waveforms)
@@ -85,14 +81,10 @@ def main():
             # Save all captures
             print("Saving captures to 'multi_trigger_captures/'...")
             for i, waveforms in enumerate(captures):
-                collector.save_data(
-                    waveforms,
-                    f'multi_trigger_captures/event_{i+1:03d}',
-                    format='npz'
-                )
+                collector.save_data(waveforms, f"multi_trigger_captures/event_{i+1:03d}", format="npz")
 
             print("Done!")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

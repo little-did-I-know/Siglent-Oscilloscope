@@ -39,16 +39,7 @@ class MathOperations:
         if timebase is None and sample_rate:
             timebase = len(voltage) / sample_rate / 14.0
 
-        return type(source_waveform)(
-            time=source_waveform.time,
-            voltage=voltage,
-            channel=channel,
-            sample_rate=sample_rate,
-            record_length=len(voltage),
-            timebase=timebase,
-            voltage_scale=voltage_scale,
-            voltage_offset=0.0  # Math results typically have no offset
-        )
+        return type(source_waveform)(time=source_waveform.time, voltage=voltage, channel=channel, sample_rate=sample_rate, record_length=len(voltage), timebase=timebase, voltage_scale=voltage_scale, voltage_offset=0.0)  # Math results typically have no offset
 
     @staticmethod
     def add(waveform1, waveform2):
@@ -64,10 +55,7 @@ class MathOperations:
         if waveform1 is None or waveform2 is None:
             return None
 
-        return MathOperations._create_result_waveform(
-            waveform1,
-            waveform1.voltage + waveform2.voltage
-        )
+        return MathOperations._create_result_waveform(waveform1, waveform1.voltage + waveform2.voltage)
 
     @staticmethod
     def subtract(waveform1, waveform2):
@@ -83,10 +71,7 @@ class MathOperations:
         if waveform1 is None or waveform2 is None:
             return None
 
-        return MathOperations._create_result_waveform(
-            waveform1,
-            waveform1.voltage - waveform2.voltage
-        )
+        return MathOperations._create_result_waveform(waveform1, waveform1.voltage - waveform2.voltage)
 
     @staticmethod
     def multiply(waveform1, waveform2):
@@ -102,10 +87,7 @@ class MathOperations:
         if waveform1 is None or waveform2 is None:
             return None
 
-        return MathOperations._create_result_waveform(
-            waveform1,
-            waveform1.voltage * waveform2.voltage
-        )
+        return MathOperations._create_result_waveform(waveform1, waveform1.voltage * waveform2.voltage)
 
     @staticmethod
     def divide(waveform1, waveform2, epsilon=1e-12):
@@ -125,10 +107,7 @@ class MathOperations:
         # Prevent division by zero
         denominator = np.where(np.abs(waveform2.voltage) < epsilon, epsilon, waveform2.voltage)
 
-        return MathOperations._create_result_waveform(
-            waveform1,
-            waveform1.voltage / denominator
-        )
+        return MathOperations._create_result_waveform(waveform1, waveform1.voltage / denominator)
 
     @staticmethod
     def integrate(waveform):
@@ -149,10 +128,7 @@ class MathOperations:
         # Cumulative integration using trapezoidal rule
         integrated = np.cumsum(waveform.voltage) * dt
 
-        return MathOperations._create_result_waveform(
-            waveform,
-            integrated
-        )
+        return MathOperations._create_result_waveform(waveform, integrated)
 
     @staticmethod
     def differentiate(waveform):
@@ -171,10 +147,7 @@ class MathOperations:
         dt = np.mean(np.diff(waveform.time)) if len(waveform.time) > 1 else 1.0
         differentiated = np.gradient(waveform.voltage, dt)
 
-        return MathOperations._create_result_waveform(
-            waveform,
-            differentiated
-        )
+        return MathOperations._create_result_waveform(waveform, differentiated)
 
     @staticmethod
     def scale(waveform, factor):
@@ -190,10 +163,7 @@ class MathOperations:
         if waveform is None:
             return None
 
-        return MathOperations._create_result_waveform(
-            waveform,
-            waveform.voltage * factor
-        )
+        return MathOperations._create_result_waveform(waveform, waveform.voltage * factor)
 
     @staticmethod
     def offset(waveform, offset_value):
@@ -209,10 +179,7 @@ class MathOperations:
         if waveform is None:
             return None
 
-        return MathOperations._create_result_waveform(
-            waveform,
-            waveform.voltage + offset_value
-        )
+        return MathOperations._create_result_waveform(waveform, waveform.voltage + offset_value)
 
     @staticmethod
     def abs_value(waveform):
@@ -227,10 +194,7 @@ class MathOperations:
         if waveform is None:
             return None
 
-        return MathOperations._create_result_waveform(
-            waveform,
-            np.abs(waveform.voltage)
-        )
+        return MathOperations._create_result_waveform(waveform, np.abs(waveform.voltage))
 
     @staticmethod
     def invert(waveform):
@@ -245,10 +209,7 @@ class MathOperations:
         if waveform is None:
             return None
 
-        return MathOperations._create_result_waveform(
-            waveform,
-            -waveform.voltage
-        )
+        return MathOperations._create_result_waveform(waveform, -waveform.voltage)
 
 
 class MathChannel:
@@ -335,7 +296,7 @@ class MathChannel:
         expr = expr.upper()
 
         # INTG(C1)
-        intg_match = re.search(r'INTG\((C\d+)\)', expr)
+        intg_match = re.search(r"INTG\((C\d+)\)", expr)
         if intg_match:
             ch = intg_match.group(1)
             if ch in waveforms:
@@ -344,7 +305,7 @@ class MathChannel:
                 raise ValueError(f"Channel {ch} not available")
 
         # DIFF(C1)
-        diff_match = re.search(r'DIFF\((C\d+)\)', expr)
+        diff_match = re.search(r"DIFF\((C\d+)\)", expr)
         if diff_match:
             ch = diff_match.group(1)
             if ch in waveforms:
@@ -353,7 +314,7 @@ class MathChannel:
                 raise ValueError(f"Channel {ch} not available")
 
         # ABS(C1)
-        abs_match = re.search(r'ABS\((C\d+)\)', expr)
+        abs_match = re.search(r"ABS\((C\d+)\)", expr)
         if abs_match:
             ch = abs_match.group(1)
             if ch in waveforms:
@@ -362,7 +323,7 @@ class MathChannel:
                 raise ValueError(f"Channel {ch} not available")
 
         # INV(C1)
-        inv_match = re.search(r'INV\((C\d+)\)', expr)
+        inv_match = re.search(r"INV\((C\d+)\)", expr)
         if inv_match:
             ch = inv_match.group(1)
             if ch in waveforms:
@@ -389,8 +350,8 @@ class MathChannel:
 
         # Try to match: C1 op C2 patterns
         # Addition: C1 + C2
-        if '+' in expr and not expr.startswith('+'):
-            parts = expr.split('+')
+        if "+" in expr and not expr.startswith("+"):
+            parts = expr.split("+")
             if len(parts) == 2:
                 left = self._get_operand(parts[0], waveforms)
                 right = self._get_operand(parts[1], waveforms)
@@ -402,8 +363,8 @@ class MathChannel:
                     return MathOperations.add(left, right)
 
         # Subtraction: C1 - C2
-        if '-' in expr and not expr.startswith('-'):
-            parts = expr.split('-')
+        if "-" in expr and not expr.startswith("-"):
+            parts = expr.split("-")
             if len(parts) == 2:
                 left = self._get_operand(parts[0], waveforms)
                 right = self._get_operand(parts[1], waveforms)
@@ -413,8 +374,8 @@ class MathChannel:
                     return MathOperations.subtract(left, right)
 
         # Multiplication: C1 * C2 or 2 * C1
-        if '*' in expr:
-            parts = expr.split('*')
+        if "*" in expr:
+            parts = expr.split("*")
             if len(parts) == 2:
                 left = self._get_operand(parts[0], waveforms)
                 right = self._get_operand(parts[1], waveforms)
@@ -426,8 +387,8 @@ class MathChannel:
                     return MathOperations.multiply(left, right)
 
         # Division: C1 / C2
-        if '/' in expr:
-            parts = expr.split('/')
+        if "/" in expr:
+            parts = expr.split("/")
             if len(parts) == 2:
                 left = self._get_operand(parts[0], waveforms)
                 right = self._get_operand(parts[1], waveforms)

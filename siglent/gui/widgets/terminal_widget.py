@@ -2,10 +2,7 @@
 
 import logging
 from datetime import datetime
-from PyQt6.QtWidgets import (
-    QWidget, QVBoxLayout, QHBoxLayout, QTextEdit, QLineEdit,
-    QPushButton, QLabel, QSplitter, QCheckBox
-)
+from PyQt6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QTextEdit, QLineEdit, QPushButton, QLabel, QSplitter, QCheckBox
 from PyQt6.QtCore import Qt, pyqtSignal
 from PyQt6.QtGui import QFont, QTextCursor
 
@@ -39,10 +36,7 @@ class TerminalWidget(QWidget):
         layout = QVBoxLayout(self)
 
         # Info label
-        info_label = QLabel(
-            "Send custom SCPI commands to the oscilloscope. "
-            "Use '?' for queries (e.g., '*IDN?'). Press Up/Down for command history."
-        )
+        info_label = QLabel("Send custom SCPI commands to the oscilloscope. " "Use '?' for queries (e.g., '*IDN?'). Press Up/Down for command history.")
         info_label.setWordWrap(True)
         info_label.setStyleSheet("color: #666; padding: 5px; background-color: #f0f0f0; border-radius: 3px;")
         layout.addWidget(info_label)
@@ -62,7 +56,8 @@ class TerminalWidget(QWidget):
         self.output_display = QTextEdit()
         self.output_display.setReadOnly(True)
         self.output_display.setFont(QFont("Courier New", 9))
-        self.output_display.setStyleSheet("""
+        self.output_display.setStyleSheet(
+            """
             QTextEdit {
                 background-color: #1e1e1e;
                 color: #d4d4d4;
@@ -70,7 +65,8 @@ class TerminalWidget(QWidget):
                 border-radius: 3px;
                 padding: 5px;
             }
-        """)
+        """
+        )
         output_layout.addWidget(self.output_display)
 
         splitter.addWidget(output_widget)
@@ -88,7 +84,8 @@ class TerminalWidget(QWidget):
         self.examples_display.setReadOnly(True)
         self.examples_display.setFont(QFont("Courier New", 8))
         self.examples_display.setMaximumHeight(150)
-        self.examples_display.setHtml("""
+        self.examples_display.setHtml(
+            """
         <style>
             body { font-family: 'Courier New'; font-size: 9pt; }
             .cmd { color: #4ec9b0; font-weight: bold; }
@@ -102,7 +99,8 @@ class TerminalWidget(QWidget):
         <p><span class="cmd">TRIG_MODE AUTO</span> <span class="desc">- Set trigger to AUTO mode</span></p>
         <p><span class="cmd">C1:TRA?</span> <span class="desc">- Get channel 1 trace on/off</span></p>
         <p><span class="cmd">C1:TRA ON</span> <span class="desc">- Enable channel 1</span></p>
-        """)
+        """
+        )
         examples_layout.addWidget(self.examples_display)
 
         splitter.addWidget(examples_widget)
@@ -123,7 +121,8 @@ class TerminalWidget(QWidget):
         self.command_input.setPlaceholderText("Enter SCPI command here (e.g., *IDN?)")
         self.command_input.returnPressed.connect(self._on_send_command)
         self.command_input.setFont(QFont("Courier New", 10))
-        self.command_input.setStyleSheet("""
+        self.command_input.setStyleSheet(
+            """
             QLineEdit {
                 padding: 6px;
                 border: 2px solid #4CAF50;
@@ -133,7 +132,8 @@ class TerminalWidget(QWidget):
             QLineEdit:focus {
                 border-color: #45a049;
             }
-        """)
+        """
+        )
 
         # Enable Up/Down arrow keys for history
         self.command_input.keyPressEvent = self._handle_key_press
@@ -143,7 +143,8 @@ class TerminalWidget(QWidget):
         # Send button
         send_button = QPushButton("Send")
         send_button.clicked.connect(self._on_send_command)
-        send_button.setStyleSheet("""
+        send_button.setStyleSheet(
+            """
             QPushButton {
                 background-color: #4CAF50;
                 color: white;
@@ -158,13 +159,15 @@ class TerminalWidget(QWidget):
             QPushButton:pressed {
                 background-color: #3d8b40;
             }
-        """)
+        """
+        )
         input_layout.addWidget(send_button)
 
         # Clear button
         clear_button = QPushButton("Clear")
         clear_button.clicked.connect(self._on_clear_output)
-        clear_button.setStyleSheet("""
+        clear_button.setStyleSheet(
+            """
             QPushButton {
                 background-color: #f44336;
                 color: white;
@@ -179,7 +182,8 @@ class TerminalWidget(QWidget):
             QPushButton:pressed {
                 background-color: #c1170a;
             }
-        """)
+        """
+        )
         input_layout.addWidget(clear_button)
 
         layout.addLayout(input_layout)
@@ -251,7 +255,7 @@ class TerminalWidget(QWidget):
 
         try:
             # Check if it's a query command
-            if '?' in command:
+            if "?" in command:
                 # Query command - expects response
                 logger.info(f"Sending query: {command}")
                 response = self._scope.query(command)

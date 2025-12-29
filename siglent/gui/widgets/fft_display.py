@@ -2,9 +2,7 @@
 
 import logging
 from typing import Optional, Dict
-from PyQt6.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QGroupBox,
-                              QLabel, QPushButton, QCheckBox, QComboBox,
-                              QGridLayout, QSpinBox)
+from PyQt6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QGroupBox, QLabel, QPushButton, QCheckBox, QComboBox, QGridLayout, QSpinBox
 from PyQt6.QtCore import Qt, pyqtSignal
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavigationToolbar
@@ -233,7 +231,7 @@ class FFTDisplay(QWidget):
             ylabel = "Magnitude (dB)" if use_db else "Magnitude (Linear)"
 
         # Plot spectrum
-        self.ax.plot(fft_result.frequency, magnitude, 'b-', linewidth=1.5, label='FFT')
+        self.ax.plot(fft_result.frequency, magnitude, "b-", linewidth=1.5, label="FFT")
 
         # Set axis labels
         self.ax.set_xlabel("Frequency (Hz)")
@@ -243,9 +241,9 @@ class FFTDisplay(QWidget):
 
         # Set log/linear frequency scale
         if self.log_freq_check.isChecked():
-            self.ax.set_xscale('log')
+            self.ax.set_xscale("log")
         else:
-            self.ax.set_xscale('linear')
+            self.ax.set_xscale("linear")
 
         # Adjust limits to skip DC component
         if len(fft_result.frequency) > 1:
@@ -289,7 +287,7 @@ class FFTDisplay(QWidget):
             magnitude = self.fft_result.magnitude
 
         # Plot peak markers
-        colors = ['r', 'g', 'm', 'c', 'y', 'orange', 'purple', 'brown', 'pink', 'gray']
+        colors = ["r", "g", "m", "c", "y", "orange", "purple", "brown", "pink", "gray"]
         for i, (freq, mag_value) in enumerate(peaks):
             if i < len(self.peak_labels):
                 # Find magnitude at this frequency for current scale
@@ -298,8 +296,7 @@ class FFTDisplay(QWidget):
 
                 # Plot marker
                 color = colors[i % len(colors)]
-                marker = self.ax.plot(freq, display_mag, 'o', color=color, markersize=10,
-                                     label=f'Peak {i+1}')[0]
+                marker = self.ax.plot(freq, display_mag, "o", color=color, markersize=10, label=f"Peak {i+1}")[0]
                 self.peak_markers.append(marker)
 
                 # Update label

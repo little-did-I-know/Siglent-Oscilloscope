@@ -6,7 +6,7 @@ from PyQt6.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QWidget, QPu
 from PyQt6.QtCore import Qt
 
 # Add parent directory to path
-sys.path.insert(0, r'C:\Users\robin\Documents\Siglent')
+sys.path.insert(0, r"C:\Users\robin\Documents\Siglent")
 
 from siglent.gui.widgets.waveform_display import WaveformDisplay
 from siglent.waveform import WaveformData
@@ -59,13 +59,7 @@ class TestWindow(QMainWindow):
         v = np.sin(2 * np.pi * 1000 * t)  # 1kHz sine wave
 
         # Create waveform data
-        waveform = WaveformData(
-            time=t,
-            voltage=v,
-            channel=1,
-            source="Test",
-            description="1kHz Sine Wave"
-        )
+        waveform = WaveformData(time=t, voltage=v, channel=1, source="Test", description="1kHz Sine Wave")
 
         # Plot it
         self.display.plot_waveform(waveform, clear_others=True)
@@ -80,13 +74,7 @@ class TestWindow(QMainWindow):
         v = np.sign(np.sin(2 * np.pi * 1000 * t))  # 1kHz square wave
 
         # Create waveform data
-        waveform = WaveformData(
-            time=t,
-            voltage=v,
-            channel=2,
-            source="Test",
-            description="1kHz Square Wave"
-        )
+        waveform = WaveformData(time=t, voltage=v, channel=2, source="Test", description="1kHz Square Wave")
 
         # Plot it
         self.display.plot_waveform(waveform, clear_others=True)
@@ -99,31 +87,13 @@ class TestWindow(QMainWindow):
         t = np.linspace(0, 1e-3, 1000)
 
         # Sine wave on CH1
-        wf1 = WaveformData(
-            time=t,
-            voltage=np.sin(2 * np.pi * 1000 * t),
-            channel=1,
-            source="Test",
-            description="CH1: 1kHz Sine"
-        )
+        wf1 = WaveformData(time=t, voltage=np.sin(2 * np.pi * 1000 * t), channel=1, source="Test", description="CH1: 1kHz Sine")
 
         # Square wave on CH2
-        wf2 = WaveformData(
-            time=t,
-            voltage=0.5 * np.sign(np.sin(2 * np.pi * 500 * t)),
-            channel=2,
-            source="Test",
-            description="CH2: 500Hz Square"
-        )
+        wf2 = WaveformData(time=t, voltage=0.5 * np.sign(np.sin(2 * np.pi * 500 * t)), channel=2, source="Test", description="CH2: 500Hz Square")
 
         # Sawtooth on CH3
-        wf3 = WaveformData(
-            time=t,
-            voltage=0.8 * (2 * (t * 2000 % 1) - 1),
-            channel=3,
-            source="Test",
-            description="CH3: 2kHz Sawtooth"
-        )
+        wf3 = WaveformData(time=t, voltage=0.8 * (2 * (t * 2000 % 1) - 1), channel=3, source="Test", description="CH3: 2kHz Sawtooth")
 
         # Plot all
         self.display.plot_multiple_waveforms([wf1, wf2, wf3])
@@ -138,13 +108,13 @@ def main():
     window = TestWindow()
     window.show()
 
-    print("\n" + "="*60)
+    print("\n" + "=" * 60)
     print("Waveform Display Test")
-    print("="*60)
+    print("=" * 60)
     print("\nClick the buttons to test different waveform displays.")
     print("If the graphs update properly, the display widget is working correctly.")
     print("\nPress Ctrl+C in terminal or close window to exit.")
-    print("="*60 + "\n")
+    print("=" * 60 + "\n")
 
     sys.exit(app.exec())
 

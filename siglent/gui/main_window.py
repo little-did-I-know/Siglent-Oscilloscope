@@ -342,7 +342,8 @@ class MainWindow(QMainWindow):
 
         # Add styled connect/disconnect buttons that stand out
         connect_btn = QPushButton("Connect")
-        connect_btn.setStyleSheet("""
+        connect_btn.setStyleSheet(
+            """
             QPushButton {
                 background-color: #4CAF50;
                 color: white;
@@ -358,12 +359,14 @@ class MainWindow(QMainWindow):
             QPushButton:pressed {
                 background-color: #3d8b40;
             }
-        """)
+        """
+        )
         connect_btn.clicked.connect(self._on_connect)
         toolbar.addWidget(connect_btn)
 
         disconnect_btn = QPushButton("Disconnect")
-        disconnect_btn.setStyleSheet("""
+        disconnect_btn.setStyleSheet(
+            """
             QPushButton {
                 background-color: #f44336;
                 color: white;
@@ -379,7 +382,8 @@ class MainWindow(QMainWindow):
             QPushButton:pressed {
                 background-color: #c1170a;
             }
-        """)
+        """
+        )
         disconnect_btn.clicked.connect(self._on_disconnect)
         toolbar.addWidget(disconnect_btn)
 
@@ -447,20 +451,15 @@ class MainWindow(QMainWindow):
         Args:
             connection: Connection dictionary with host and port
         """
-        host = connection.get('host')
-        port = connection.get('port', 5024)
+        host = connection.get("host")
+        port = connection.get("port", 5024)
 
         if host:
             self._connect_to_scope(host, port)
 
     def _on_clear_recent_connections(self):
         """Clear recent connections."""
-        reply = QMessageBox.question(
-            self,
-            "Clear Recent Connections",
-            "Are you sure you want to clear all recent connections?",
-            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No
-        )
+        reply = QMessageBox.question(self, "Clear Recent Connections", "Are you sure you want to clear all recent connections?", QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
 
         if reply == QMessageBox.StandardButton.Yes:
             self.connection_manager.clear_recent_connections()
@@ -471,7 +470,7 @@ class MainWindow(QMainWindow):
         """Handle connect action."""
         # Get default IP from last connection
         last_connection = self.connection_manager.get_last_connection()
-        default_ip = last_connection.get('host', '192.168.1.100') if last_connection else '192.168.1.100'
+        default_ip = last_connection.get("host", "192.168.1.100") if last_connection else "192.168.1.100"
 
         # Get IP address from user
         ip, ok = QInputDialog.getText(self, "Connect to Oscilloscope", "Enter oscilloscope IP address:", text=default_ip)
@@ -511,12 +510,7 @@ class MainWindow(QMainWindow):
             if self.scope.model_capability:
                 cap = self.scope.model_capability
                 status_msg = f"Connected: {model} | {cap.series} | {cap.num_channels}ch | {cap.bandwidth_mhz}MHz | {ip}"
-                info_msg = (f"Successfully connected to:\n\n"
-                           f"Model: {model}\n"
-                           f"Series: {cap.series}\n"
-                           f"Channels: {cap.num_channels}\n"
-                           f"Bandwidth: {cap.bandwidth_mhz} MHz\n"
-                           f"IP Address: {ip}")
+                info_msg = f"Successfully connected to:\n\n" f"Model: {model}\n" f"Series: {cap.series}\n" f"Channels: {cap.num_channels}\n" f"Bandwidth: {cap.bandwidth_mhz} MHz\n" f"IP Address: {ip}"
             else:
                 status_msg = f"Connected to {model} at {ip}"
                 info_msg = f"Successfully connected to {model}\nIP: {ip}"
@@ -612,14 +606,7 @@ class MainWindow(QMainWindow):
         try:
             from siglent.gui.vnc_window import VNCWindow
         except ImportError as e:
-            QMessageBox.critical(
-                self,
-                "Missing Dependency",
-                "The VNC viewer requires PyQt6-WebEngine to be installed.\n\n"
-                "Please install it using:\n"
-                "pip install PyQt6-WebEngine\n\n"
-                f"Error: {str(e)}"
-            )
+            QMessageBox.critical(self, "Missing Dependency", "The VNC viewer requires PyQt6-WebEngine to be installed.\n\n" "Please install it using:\n" "pip install PyQt6-WebEngine\n\n" f"Error: {str(e)}")
             logger.error(f"Failed to import VNCWindow: {e}")
             return
 
@@ -633,12 +620,7 @@ class MainWindow(QMainWindow):
                 self.vnc_window.set_scope_ip(self.scope.host)
             elif not self.vnc_window.scope_ip:
                 # No scope connected and no IP previously set, show info
-                QMessageBox.information(
-                    self,
-                    "VNC Viewer",
-                    "Enter your oscilloscope's IP address in the toolbar to connect.\n\n"
-                    "The VNC viewer will display your oscilloscope's screen interface."
-                )
+                QMessageBox.information(self, "VNC Viewer", "Enter your oscilloscope's IP address in the toolbar to connect.\n\n" "The VNC viewer will display your oscilloscope's screen interface.")
 
             # Show the window
             self.vnc_window.show()
@@ -647,11 +629,7 @@ class MainWindow(QMainWindow):
             logger.info("Opened VNC window")
 
         except Exception as e:
-            QMessageBox.critical(
-                self,
-                "VNC Window Error",
-                f"Failed to open VNC window:\n{str(e)}"
-            )
+            QMessageBox.critical(self, "VNC Window Error", f"Failed to open VNC window:\n{str(e)}")
             logger.error(f"Failed to open VNC window: {e}")
 
     def _on_save_screenshot(self):
@@ -664,12 +642,7 @@ class MainWindow(QMainWindow):
             # Ask user for file location
             # Note: SCDP command returns BMP format regardless of extension
             file_filter = "BMP Image (*.bmp);;All Files (*.*)"
-            filename, selected_filter = QFileDialog.getSaveFileName(
-                self,
-                "Save Screenshot",
-                "screenshot.bmp",
-                file_filter
-            )
+            filename, selected_filter = QFileDialog.getSaveFileName(self, "Save Screenshot", "screenshot.bmp", file_filter)
 
             if filename:
                 self.statusBar().showMessage("Capturing screenshot using SCDP...")
@@ -679,23 +652,12 @@ class MainWindow(QMainWindow):
                 self.scope.screen_capture.save_screenshot(filename)
 
                 self.statusBar().showMessage(f"Screenshot saved to {filename}")
-                QMessageBox.information(
-                    self,
-                    "Screenshot Saved",
-                    f"Screenshot successfully saved to:\n{filename}\n\n"
-                    f"Note: Image is in BMP format (from SCDP command)."
-                )
+                QMessageBox.information(self, "Screenshot Saved", f"Screenshot successfully saved to:\n{filename}\n\n" f"Note: Image is in BMP format (from SCDP command).")
                 logger.info(f"Screenshot saved successfully to {filename}")
 
         except Exception as e:
             self.statusBar().showMessage("Screenshot capture failed")
-            QMessageBox.critical(
-                self,
-                "Screenshot Error",
-                f"Failed to capture screenshot:\n{str(e)}\n\n"
-                f"The SCDP command is used per Siglent manual.\n"
-                f"Ensure your oscilloscope supports this command."
-            )
+            QMessageBox.critical(self, "Screenshot Error", f"Failed to capture screenshot:\n{str(e)}\n\n" f"The SCDP command is used per Siglent manual.\n" f"Ensure your oscilloscope supports this command.")
             logger.error(f"Screenshot capture failed: {e}")
 
     def _on_capture_waveform(self):
@@ -709,7 +671,7 @@ class MainWindow(QMainWindow):
 
             # Get list of enabled channels
             enabled_channels = []
-            supported_channels = self.scope.supported_channels if hasattr(self.scope, 'supported_channels') else range(1, 5)
+            supported_channels = self.scope.supported_channels if hasattr(self.scope, "supported_channels") else range(1, 5)
 
             for ch_num in supported_channels:
                 try:
@@ -732,6 +694,7 @@ class MainWindow(QMainWindow):
                         self.scope.channel1.enable()
                         # Wait a bit for scope to process
                         from PyQt6.QtCore import QThread
+
                         QThread.msleep(100)
                         enabled_channels = [1]
                         logger.info("Enabled channel 1 for capture")
@@ -773,6 +736,7 @@ class MainWindow(QMainWindow):
 
                 # Force GUI update
                 from PyQt6.QtWidgets import QApplication
+
                 QApplication.processEvents()
 
                 self.statusBar().showMessage(f"Captured {len(waveforms)} waveform(s)")
@@ -838,8 +802,7 @@ class MainWindow(QMainWindow):
                     try:
                         self.scope.channel1.enable()
                         logger.info("Auto-enabled channel 1 for live view")
-                        QMessageBox.information(self, "Channel Enabled",
-                            "Channel 1 has been automatically enabled for live view.")
+                        QMessageBox.information(self, "Channel Enabled", "Channel 1 has been automatically enabled for live view.")
                     except Exception as e:
                         logger.error(f"Could not enable channel 1: {e}")
                         raise RuntimeError(f"No channels are enabled and could not enable channel 1: {e}")
@@ -851,9 +814,7 @@ class MainWindow(QMainWindow):
 
             except Exception as e:
                 logger.error(f"Failed to start live view: {e}")
-                QMessageBox.warning(self, "Live View Error",
-                    f"Could not start live view:\n{str(e)}\n\n"
-                    f"Make sure the oscilloscope is connected and at least one channel is enabled.")
+                QMessageBox.warning(self, "Live View Error", f"Could not start live view:\n{str(e)}\n\n" f"Make sure the oscilloscope is connected and at least one channel is enabled.")
 
                 # Disable live view flag and uncheck the menu action
                 self.is_live_view = False
@@ -883,7 +844,7 @@ class MainWindow(QMainWindow):
             errors = []
 
             # Get supported channels (1-4 for most models)
-            supported_channels = self.scope.supported_channels if hasattr(self.scope, 'supported_channels') else range(1, 5)
+            supported_channels = self.scope.supported_channels if hasattr(self.scope, "supported_channels") else range(1, 5)
             logger.debug(f"Live view update: checking channels {list(supported_channels)}")
 
             for ch_num in supported_channels:
@@ -914,6 +875,7 @@ class MainWindow(QMainWindow):
 
                 # Force GUI update
                 from PyQt6.QtWidgets import QApplication
+
                 QApplication.processEvents()
 
                 # Update status with success info
@@ -940,29 +902,18 @@ class MainWindow(QMainWindow):
             return
 
         # Check if waveform display has data
-        if not hasattr(self.waveform_display, 'current_waveforms') or not self.waveform_display.current_waveforms:
+        if not hasattr(self.waveform_display, "current_waveforms") or not self.waveform_display.current_waveforms:
             QMessageBox.information(self, "No Data", "No waveform data to save.\n\nCapture a waveform first using F8 or the Capture button.")
             return
 
         try:
             # Ask user for file location and format
             file_filter = "CSV File (*.csv);;Enhanced CSV (*.csv);;NumPy Archive (*.npz);;MATLAB File (*.mat);;HDF5 File (*.h5);;All Files (*.*)"
-            filename, selected_filter = QFileDialog.getSaveFileName(
-                self,
-                "Save Waveform",
-                "waveform.csv",
-                file_filter
-            )
+            filename, selected_filter = QFileDialog.getSaveFileName(self, "Save Waveform", "waveform.csv", file_filter)
 
             if filename:
                 # Determine format from filter
-                format_map = {
-                    "CSV File (*.csv)": "CSV",
-                    "Enhanced CSV (*.csv)": "CSV_ENHANCED",
-                    "NumPy Archive (*.npz)": "NPY",
-                    "MATLAB File (*.mat)": "MAT",
-                    "HDF5 File (*.h5)": "HDF5"
-                }
+                format_map = {"CSV File (*.csv)": "CSV", "Enhanced CSV (*.csv)": "CSV_ENHANCED", "NumPy Archive (*.npz)": "NPY", "MATLAB File (*.mat)": "MAT", "HDF5 File (*.h5)": "HDF5"}
 
                 file_format = format_map.get(selected_filter)
 
@@ -977,6 +928,7 @@ class MainWindow(QMainWindow):
                 else:
                     # Multiple waveforms - save with channel suffix
                     import os
+
                     base, ext = os.path.splitext(filename)
                     for wf in waveforms:
                         ch_filename = f"{base}_CH{wf.channel}{ext}"
@@ -994,7 +946,7 @@ class MainWindow(QMainWindow):
 
     def _on_toggle_grid(self):
         """Toggle grid on waveform display."""
-        if hasattr(self.waveform_display, 'toggle_grid'):
+        if hasattr(self.waveform_display, "toggle_grid"):
             self.waveform_display.toggle_grid()
             logger.info("Toggled grid display")
         else:
@@ -1002,7 +954,7 @@ class MainWindow(QMainWindow):
 
     def _on_reset_zoom(self):
         """Reset zoom on waveform display."""
-        if hasattr(self.waveform_display, 'reset_zoom'):
+        if hasattr(self.waveform_display, "reset_zoom"):
             self.waveform_display.reset_zoom()
             self.statusBar().showMessage("Zoom reset")
             logger.info("Reset zoom")
@@ -1014,12 +966,12 @@ class MainWindow(QMainWindow):
         current_mode = self.cursor_panel.current_mode
 
         # Cycle through modes: off -> vertical -> both -> off
-        if current_mode == 'off':
-            self.cursor_panel.set_mode('vertical')
-        elif current_mode == 'vertical':
-            self.cursor_panel.set_mode('both')
+        if current_mode == "off":
+            self.cursor_panel.set_mode("vertical")
+        elif current_mode == "vertical":
+            self.cursor_panel.set_mode("both")
         else:
-            self.cursor_panel.set_mode('off')
+            self.cursor_panel.set_mode("off")
 
         logger.info(f"Toggled cursors to: {self.cursor_panel.current_mode}")
 
@@ -1029,12 +981,7 @@ class MainWindow(QMainWindow):
         values = self.waveform_display.get_cursor_values()
 
         # Update cursor panel
-        self.cursor_panel.update_cursor_values(
-            x1=values.get('x1'),
-            y1=values.get('y1'),
-            x2=values.get('x2'),
-            y2=values.get('y2')
-        )
+        self.cursor_panel.update_cursor_values(x1=values.get("x1"), y1=values.get("y1"), x2=values.get("x2"), y2=values.get("y2"))
 
     def _on_math1_expression_changed(self, expression: str):
         """Handle Math1 expression change.
@@ -1097,14 +1044,14 @@ class MainWindow(QMainWindow):
             # Get waveform data
             waveform = None
 
-            if channel.startswith('C'):
+            if channel.startswith("C"):
                 # Hardware channel
                 ch_num = int(channel[1])
                 waveform = self.scope.get_waveform(ch_num)
-            elif channel == 'M1':
+            elif channel == "M1":
                 # Math channel 1
                 waveform = self._compute_math_waveform(self.scope.math1)
-            elif channel == 'M2':
+            elif channel == "M2":
                 # Math channel 2
                 waveform = self._compute_math_waveform(self.scope.math2)
 
@@ -1167,10 +1114,7 @@ class MainWindow(QMainWindow):
                 waveform = self.waveform_display.current_waveforms[0]
 
                 # Create metadata
-                metadata = {
-                    'source': 'Live capture',
-                    'model': self.scope.device_info.get('model', 'Unknown') if self.scope else 'Unknown'
-                }
+                metadata = {"source": "Live capture", "model": self.scope.device_info.get("model", "Unknown") if self.scope else "Unknown"}
 
                 # Save reference
                 filepath = self.reference_manager.save_reference(waveform, name, metadata)
@@ -1241,7 +1185,7 @@ class MainWindow(QMainWindow):
 
                 # Clear if this was the loaded reference
                 if self.waveform_display.get_reference_data():
-                    ref_path = self.waveform_display.get_reference_data().get('filepath')
+                    ref_path = self.waveform_display.get_reference_data().get("filepath")
                     if ref_path == filepath:
                         self.waveform_display.clear_reference()
                         self.reference_panel._on_unload_reference()
@@ -1294,8 +1238,7 @@ class MainWindow(QMainWindow):
                 if waveform:
                     waveforms[signal_name] = waveform
                 else:
-                    QMessageBox.warning(self, "No Data",
-                                       f"No waveform data available for channel {channel_str}")
+                    QMessageBox.warning(self, "No Data", f"No waveform data available for channel {channel_str}")
                     return
 
             # Select decoder
@@ -1333,12 +1276,7 @@ class MainWindow(QMainWindow):
             return
 
         # Ask for filename
-        filename, _ = QFileDialog.getSaveFileName(
-            self,
-            "Export Protocol Events",
-            "",
-            "CSV Files (*.csv);;All Files (*)"
-        )
+        filename, _ = QFileDialog.getSaveFileName(self, "Export Protocol Events", "", "CSV Files (*.csv);;All Files (*)")
 
         if filename:
             try:
@@ -1353,18 +1291,12 @@ class MainWindow(QMainWindow):
                 else:
                     # Fallback: export manually
                     import csv
-                    with open(filename, 'w', newline='') as f:
+
+                    with open(filename, "w", newline="") as f:
                         writer = csv.writer(f)
-                        writer.writerow(['Timestamp', 'Event Type', 'Data', 'Description', 'Channel', 'Valid'])
+                        writer.writerow(["Timestamp", "Event Type", "Data", "Description", "Channel", "Valid"])
                         for event in events:
-                            writer.writerow([
-                                f"{event.timestamp:.9f}",
-                                event.event_type.value,
-                                str(event.data),
-                                event.description,
-                                event.channel,
-                                'Yes' if event.valid else 'No'
-                            ])
+                            writer.writerow([f"{event.timestamp:.9f}", event.event_type.value, str(event.data), event.description, event.channel, "Yes" if event.valid else "No"])
 
                 QMessageBox.information(self, "Export Complete", f"Events exported to:\n{filename}")
                 logger.info(f"Protocol events exported: {filename}")

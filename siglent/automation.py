@@ -122,7 +122,7 @@ class DataCollector:
         waveforms = {}
         for ch in channels:
             try:
-                channel = getattr(self.scope, f'channel{ch}')
+                channel = getattr(self.scope, f"channel{ch}")
                 if channel.is_displayed():
                     waveforms[ch] = self.scope.waveform.get_waveform(ch)
                     logger.info(f"Captured {len(waveforms[ch].voltage)} samples from channel {ch}")
@@ -133,14 +133,7 @@ class DataCollector:
 
         return waveforms
 
-    def batch_capture(
-        self,
-        channels: List[int],
-        timebase_scales: Optional[List[str]] = None,
-        voltage_scales: Optional[Dict[int, List[str]]] = None,
-        triggers_per_config: int = 1,
-        progress_callback: Optional[Callable[[int, int, str], None]] = None
-    ) -> List[Dict[str, Any]]:
+    def batch_capture(self, channels: List[int], timebase_scales: Optional[List[str]] = None, voltage_scales: Optional[Dict[int, List[str]]] = None, triggers_per_config: int = 1, progress_callback: Optional[Callable[[int, int, str], None]] = None) -> List[Dict[str, Any]]:
         """Capture multiple waveforms with different configurations.
 
         Args:
@@ -171,7 +164,7 @@ class DataCollector:
         configs = []
         if timebase_scales:
             for tb in timebase_scales:
-                configs.append({'timebase': tb})
+                configs.append({"timebase": tb})
         else:
             configs.append({})
 
@@ -181,7 +174,7 @@ class DataCollector:
                 for ch, scales in voltage_scales.items():
                     for scale in scales:
                         new_config = config.copy()
-                        new_config[f'ch{ch}_vdiv'] = scale
+                        new_config[f"ch{ch}_vdiv"] = scale
                         new_configs.append(new_config)
             if new_configs:
                 configs = new_configs
@@ -192,12 +185,12 @@ class DataCollector:
         # Execute batch capture
         for config in configs:
             # Apply configuration
-            if 'timebase' in config:
-                self.scope.set_timebase(config['timebase'])
+            if "timebase" in config:
+                self.scope.set_timebase(config["timebase"])
                 logger.info(f"Set timebase to {config['timebase']}")
 
-            for ch, scale in [(int(k[2]), v) for k, v in config.items() if k.startswith('ch') and k.endswith('_vdiv')]:
-                channel = getattr(self.scope, f'channel{ch}')
+            for ch, scale in [(int(k[2]), v) for k, v in config.items() if k.startswith("ch") and k.endswith("_vdiv")]:
+                channel = getattr(self.scope, f"channel{ch}")
                 channel.set_scale(scale)
                 logger.info(f"Set channel {ch} scale to {scale}")
 
@@ -213,25 +206,12 @@ class DataCollector:
 
                 waveforms = self.capture_single(channels)
 
-                results.append({
-                    'timestamp': datetime.now().isoformat(),
-                    'config': config.copy(),
-                    'waveforms': waveforms,
-                    'trigger_num': trigger_num
-                })
+                results.append({"timestamp": datetime.now().isoformat(), "config": config.copy(), "waveforms": waveforms, "trigger_num": trigger_num})
 
         logger.info(f"Batch capture complete: {len(results)} captures")
         return results
 
-    def start_continuous_capture(
-        self,
-        channels: List[int],
-        duration: float,
-        interval: float = 1.0,
-        output_dir: Optional[Union[str, Path]] = None,
-        file_format: str = 'npz',
-        progress_callback: Optional[Callable[[int, str], None]] = None
-    ) -> List[Dict[str, Any]]:
+    def start_continuous_capture(self, channels: List[int], duration: float, interval: float = 1.0, output_dir: Optional[Union[str, Path]] = None, file_format: str = "npz", progress_callback: Optional[Callable[[int, str], None]] = None) -> List[Dict[str, Any]]:
         """Capture waveforms continuously over a time period.
 
         Args:
@@ -268,7 +248,7 @@ class DataCollector:
         capture_count = 0
 
         # Set to AUTO trigger mode for continuous acquisition
-        self.scope.trigger.set_mode('AUTO')
+        self.scope.trigger.set_mode("AUTO")
 
         while (time.time() - start_time) < duration:
             try:
@@ -278,7 +258,7 @@ class DataCollector:
                 waveforms = {}
                 for ch in channels:
                     try:
-                        channel = getattr(self.scope, f'channel{ch}')
+                        channel = getattr(self.scope, f"channel{ch}")
                         if channel.is_displayed():
                             waveforms[ch] = self.scope.waveform.get_waveform(ch)
                     except Exception as e:
@@ -287,16 +267,11 @@ class DataCollector:
                 capture_count += 1
                 elapsed = time.time() - start_time
 
-                capture_data = {
-                    'timestamp': datetime.now().isoformat(),
-                    'elapsed_time': elapsed,
-                    'capture_num': capture_count,
-                    'waveforms': waveforms
-                }
+                capture_data = {"timestamp": datetime.now().isoformat(), "elapsed_time": elapsed, "capture_num": capture_count, "waveforms": waveforms}
 
                 # Save to file or memory
                 if output_dir:
-                    timestamp_str = datetime.now().strftime('%Y%m%d_%H%M%S_%f')
+                    timestamp_str = datetime.now().strftime("%Y%m%d_%H%M%S_%f")
                     for ch, waveform in waveforms.items():
                         filename = output_path / f"ch{ch}_{timestamp_str}.{file_format}"
                         self.scope.waveform.save_waveform(waveform, str(filename), format=file_format)
@@ -324,7 +299,7 @@ class DataCollector:
         logger.info(f"Continuous capture complete: {capture_count} captures over {duration}s")
         return results
 
-    def save_data(self, waveforms: Dict[int, WaveformData], filename: str, format: str = 'npz') -> None:
+    def save_data(self, waveforms: Dict[int, WaveformData], filename: str, format: str = "npz") -> None:
         """Save captured waveform data to file.
 
         Args:
@@ -337,12 +312,12 @@ class DataCollector:
             >>> collector.save_data(data, 'measurement.npz')
         """
         for ch, waveform in waveforms.items():
-            base, ext = filename.rsplit('.', 1) if '.' in filename else (filename, format)
+            base, ext = filename.rsplit(".", 1) if "." in filename else (filename, format)
             ch_filename = f"{base}_ch{ch}.{ext}"
             self.scope.waveform.save_waveform(waveform, ch_filename, format=format)
             logger.info(f"Saved channel {ch} to {ch_filename}")
 
-    def save_batch(self, batch_results: List[Dict[str, Any]], output_dir: str, format: str = 'npz') -> None:
+    def save_batch(self, batch_results: List[Dict[str, Any]], output_dir: str, format: str = "npz") -> None:
         """Save batch capture results to directory.
 
         Args:
@@ -358,28 +333,24 @@ class DataCollector:
         output_path.mkdir(parents=True, exist_ok=True)
 
         # Save metadata
-        metadata = {
-            'total_captures': len(batch_results),
-            'timestamp': datetime.now().isoformat(),
-            'configurations': [r['config'] for r in batch_results]
-        }
+        metadata = {"total_captures": len(batch_results), "timestamp": datetime.now().isoformat(), "configurations": [r["config"] for r in batch_results]}
 
-        metadata_file = output_path / 'metadata.txt'
-        with open(metadata_file, 'w') as f:
+        metadata_file = output_path / "metadata.txt"
+        with open(metadata_file, "w") as f:
             f.write(f"Batch Capture Metadata\n")
             f.write(f"=====================\n\n")
             f.write(f"Total Captures: {metadata['total_captures']}\n")
             f.write(f"Timestamp: {metadata['timestamp']}\n\n")
             f.write(f"Configurations:\n")
-            for i, config in enumerate(metadata['configurations']):
+            for i, config in enumerate(metadata["configurations"]):
                 f.write(f"  {i+1}. {config}\n")
 
         # Save waveforms
         for i, result in enumerate(batch_results):
-            config_str = '_'.join([f"{k}={v}" for k, v in result['config'].items()]).replace('/', '-')
-            trigger_num = result['trigger_num']
+            config_str = "_".join([f"{k}={v}" for k, v in result["config"].items()]).replace("/", "-")
+            trigger_num = result["trigger_num"]
 
-            for ch, waveform in result['waveforms'].items():
+            for ch, waveform in result["waveforms"].items():
                 filename = f"capture_{i:04d}_ch{ch}_{config_str}_trig{trigger_num}.{format}"
                 filepath = output_path / filename
                 self.scope.waveform.save_waveform(waveform, str(filepath), format=format)
@@ -403,30 +374,21 @@ class DataCollector:
         """
         voltage = waveform.voltage
 
-        analysis = {
-            'vpp': np.max(voltage) - np.min(voltage),
-            'amplitude': (np.max(voltage) - np.min(voltage)) / 2,
-            'max': np.max(voltage),
-            'min': np.min(voltage),
-            'mean': np.mean(voltage),
-            'rms': np.sqrt(np.mean(voltage**2)),
-            'std_dev': np.std(voltage),
-            'median': np.median(voltage)
-        }
+        analysis = {"vpp": np.max(voltage) - np.min(voltage), "amplitude": (np.max(voltage) - np.min(voltage)) / 2, "max": np.max(voltage), "min": np.min(voltage), "mean": np.mean(voltage), "rms": np.sqrt(np.mean(voltage**2)), "std_dev": np.std(voltage), "median": np.median(voltage)}
 
         # Try to detect frequency (simple zero-crossing method)
         try:
-            mean_val = analysis['mean']
+            mean_val = analysis["mean"]
             crossings = np.where(np.diff(np.sign(voltage - mean_val)))[0]
             if len(crossings) > 2:
                 # Average time between positive-going zero crossings
                 periods = np.diff(crossings[::2]) * waveform.time_interval
                 avg_period = np.mean(periods)
-                analysis['frequency'] = 1.0 / avg_period if avg_period > 0 else 0
-                analysis['period'] = avg_period
+                analysis["frequency"] = 1.0 / avg_period if avg_period > 0 else 0
+                analysis["period"] = avg_period
         except:
-            analysis['frequency'] = 0
-            analysis['period'] = 0
+            analysis["frequency"] = 0
+            analysis["period"] = 0
 
         return analysis
 
@@ -458,13 +420,7 @@ class TriggerWaitCollector:
         self.collector.disconnect()
         return False
 
-    def wait_for_trigger(
-        self,
-        channels: List[int],
-        max_wait: float = 60.0,
-        save_on_trigger: bool = True,
-        output_dir: Optional[str] = None
-    ) -> Optional[Dict[int, WaveformData]]:
+    def wait_for_trigger(self, channels: List[int], max_wait: float = 60.0, save_on_trigger: bool = True, output_dir: Optional[str] = None) -> Optional[Dict[int, WaveformData]]:
         """Wait for a trigger event and capture waveform.
 
         Args:
@@ -489,15 +445,15 @@ class TriggerWaitCollector:
             ...         print("Trigger captured!")
         """
         # Set to NORMAL trigger mode
-        self.collector.scope.trigger.set_mode('NORM')
+        self.collector.scope.trigger.set_mode("NORM")
         self.collector.scope.trigger_single()
 
         start_time = time.time()
         while (time.time() - start_time) < max_wait:
             # Check trigger status
-            status = self.collector.scope.query(':TRIG:STAT?').strip()
+            status = self.collector.scope.query(":TRIG:STAT?").strip()
 
-            if status == 'Stop':
+            if status == "Stop":
                 # Trigger occurred, capture waveform
                 logger.info("Trigger detected!")
                 waveforms = {}
@@ -508,7 +464,7 @@ class TriggerWaitCollector:
                         logger.error(f"Failed to capture channel {ch}: {e}")
 
                 if save_on_trigger and output_dir:
-                    timestamp_str = datetime.now().strftime('%Y%m%d_%H%M%S_%f')
+                    timestamp_str = datetime.now().strftime("%Y%m%d_%H%M%S_%f")
                     self.collector.save_data(waveforms, f"{output_dir}/trigger_{timestamp_str}")
 
                 return waveforms

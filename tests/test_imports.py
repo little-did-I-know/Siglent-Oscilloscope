@@ -6,12 +6,14 @@ import pytest
 def test_import_oscilloscope():
     """Test that oscilloscope module imports successfully."""
     from siglent import Oscilloscope
+
     assert Oscilloscope is not None
 
 
 def test_import_models():
     """Test that models module imports successfully."""
     from siglent.models import ModelCapability, detect_model_from_idn
+
     assert ModelCapability is not None
     assert detect_model_from_idn is not None
 
@@ -19,12 +21,14 @@ def test_import_models():
 def test_import_scpi_commands():
     """Test that SCPI commands module imports successfully."""
     from siglent.scpi_commands import SCPICommandSet
+
     assert SCPICommandSet is not None
 
 
 def test_import_math_channel():
     """Test that math channel module imports successfully."""
     from siglent.math_channel import MathChannel, MathOperations
+
     assert MathChannel is not None
     assert MathOperations is not None
 
@@ -32,6 +36,7 @@ def test_import_math_channel():
 def test_import_analysis():
     """Test that analysis module imports successfully."""
     from siglent.analysis import FFTAnalyzer, FFTResult
+
     assert FFTAnalyzer is not None
     assert FFTResult is not None
 
@@ -39,6 +44,7 @@ def test_import_analysis():
 def test_import_protocol_decode():
     """Test that protocol decode module imports successfully."""
     from siglent.protocol_decode import ProtocolDecoder, DecodedEvent, EventType
+
     assert ProtocolDecoder is not None
     assert DecodedEvent is not None
     assert EventType is not None
@@ -47,6 +53,7 @@ def test_import_protocol_decode():
 def test_import_protocol_decoders():
     """Test that protocol decoders import successfully."""
     from siglent.protocol_decoders import I2CDecoder, SPIDecoder, UARTDecoder
+
     assert I2CDecoder is not None
     assert SPIDecoder is not None
     assert UARTDecoder is not None
@@ -55,12 +62,14 @@ def test_import_protocol_decoders():
 def test_import_reference_waveform():
     """Test that reference waveform module imports successfully."""
     from siglent.reference_waveform import ReferenceWaveform
+
     assert ReferenceWaveform is not None
 
 
 def test_import_gui_main_window():
     """Test that main window imports successfully."""
     from siglent.gui.main_window import MainWindow
+
     assert MainWindow is not None
 
 

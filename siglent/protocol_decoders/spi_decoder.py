@@ -26,7 +26,7 @@ class SPIDecoder(ProtocolDecoder):
         Returns:
             List of required channels
         """
-        return ['SCK', 'MOSI', 'MISO', 'CS']
+        return ["SCK", "MOSI", "MISO", "CS"]
 
     def get_parameters(self) -> Dict[str, Any]:
         """Get decoder parameters.
@@ -35,12 +35,12 @@ class SPIDecoder(ProtocolDecoder):
             Parameter dictionary
         """
         return {
-            'threshold': 1.4,  # Voltage threshold
-            'cpol': 0,  # Clock polarity (0 or 1)
-            'cpha': 0,  # Clock phase (0 or 1)
-            'bits_per_word': 8,  # Bits per word
-            'bit_order': 'MSB',  # 'MSB' or 'LSB'
-            'cs_active_low': True,  # CS active level
+            "threshold": 1.4,  # Voltage threshold
+            "cpol": 0,  # Clock polarity (0 or 1)
+            "cpha": 0,  # Clock phase (0 or 1)
+            "bits_per_word": 8,  # Bits per word
+            "bit_order": "MSB",  # 'MSB' or 'LSB'
+            "cs_active_low": True,  # CS active level
         }
 
     def decode(self, waveforms: Dict[str, Any], **params) -> List[DecodedEvent]:
@@ -56,24 +56,24 @@ class SPIDecoder(ProtocolDecoder):
         self.clear_events()
 
         # Get parameters
-        threshold = params.get('threshold', 1.4)
-        cpol = params.get('cpol', 0)
-        cpha = params.get('cpha', 0)
-        bits_per_word = params.get('bits_per_word', 8)
-        bit_order = params.get('bit_order', 'MSB')
-        cs_active_low = params.get('cs_active_low', True)
+        threshold = params.get("threshold", 1.4)
+        cpol = params.get("cpol", 0)
+        cpha = params.get("cpha", 0)
+        bits_per_word = params.get("bits_per_word", 8)
+        bit_order = params.get("bit_order", "MSB")
+        cs_active_low = params.get("cs_active_low", True)
 
         # Get waveforms
-        required = ['SCK', 'MOSI', 'CS']
+        required = ["SCK", "MOSI", "CS"]
         for ch in required:
             if ch not in waveforms:
                 logger.error(f"SPI decode requires {ch} channel")
                 return self.events
 
-        sck_waveform = waveforms['SCK']
-        mosi_waveform = waveforms['MOSI']
-        cs_waveform = waveforms['CS']
-        miso_waveform = waveforms.get('MISO')  # MISO is optional
+        sck_waveform = waveforms["SCK"]
+        mosi_waveform = waveforms["MOSI"]
+        cs_waveform = waveforms["CS"]
+        miso_waveform = waveforms.get("MISO")  # MISO is optional
 
         sck = sck_waveform.voltage
         sck_time = sck_waveform.time
@@ -106,10 +106,10 @@ class SPIDecoder(ProtocolDecoder):
             # Determine clock edge for sampling
             if cpha == 0:
                 # Sample on first edge (leading edge)
-                sample_edge = 'falling' if cpol == 1 else 'rising'
+                sample_edge = "falling" if cpol == 1 else "rising"
             else:
                 # Sample on second edge (trailing edge)
-                sample_edge = 'rising' if cpol == 1 else 'falling'
+                sample_edge = "rising" if cpol == 1 else "falling"
 
             # Decode each transaction
             for start_time, end_time in cs_periods:
@@ -119,14 +119,7 @@ class SPIDecoder(ProtocolDecoder):
 
                 if len(transaction_edges) < bits_per_word:
                     # Not enough clock cycles
-                    self.events.append(DecodedEvent(
-                        timestamp=start_time,
-                        event_type=EventType.ERROR,
-                        data=None,
-                        description=f"Incomplete transaction ({len(transaction_edges)} bits)",
-                        channel="SPI",
-                        valid=False
-                    ))
+                    self.events.append(DecodedEvent(timestamp=start_time, event_type=EventType.ERROR, data=None, description=f"Incomplete transaction ({len(transaction_edges)} bits)", channel="SPI", valid=False))
                     continue
 
                 # Decode words
@@ -137,49 +130,29 @@ class SPIDecoder(ProtocolDecoder):
                     word_end_edge = word_start_edge + bits_per_word
 
                     # Decode MOSI
-                    mosi_word = self._decode_word(
-                        mosi, time, transaction_edges[word_start_edge:word_end_edge],
-                        threshold, bit_order
-                    )
+                    mosi_word = self._decode_word(mosi, time, transaction_edges[word_start_edge:word_end_edge], threshold, bit_order)
 
                     # Decode MISO (if available)
                     if miso is not None:
-                        miso_word = self._decode_word(
-                            miso, time, transaction_edges[word_start_edge:word_end_edge],
-                            threshold, bit_order
-                        )
+                        miso_word = self._decode_word(miso, time, transaction_edges[word_start_edge:word_end_edge], threshold, bit_order)
                         data_str = f"MOSI: 0x{mosi_word:02X}, MISO: 0x{miso_word:02X}"
-                        data_dict = {'mosi': mosi_word, 'miso': miso_word}
+                        data_dict = {"mosi": mosi_word, "miso": miso_word}
                     else:
                         data_str = f"MOSI: 0x{mosi_word:02X}"
-                        data_dict = {'mosi': mosi_word}
+                        data_dict = {"mosi": mosi_word}
 
                     # Add data event
-                    self.events.append(DecodedEvent(
-                        timestamp=transaction_edges[word_start_edge],
-                        event_type=EventType.DATA,
-                        data=data_dict,
-                        description=data_str,
-                        channel="SPI"
-                    ))
+                    self.events.append(DecodedEvent(timestamp=transaction_edges[word_start_edge], event_type=EventType.DATA, data=data_dict, description=data_str, channel="SPI"))
 
             logger.info(f"SPI: Decoded {len(self.events)} events")
 
         except Exception as e:
             logger.error(f"SPI decode error: {e}")
-            self.events.append(DecodedEvent(
-                timestamp=0.0,
-                event_type=EventType.ERROR,
-                data=None,
-                description=f"Decode error: {str(e)}",
-                channel="SPI",
-                valid=False
-            ))
+            self.events.append(DecodedEvent(timestamp=0.0, event_type=EventType.ERROR, data=None, description=f"Decode error: {str(e)}", channel="SPI", valid=False))
 
         return self.events
 
-    def _find_cs_active_periods(self, cs: np.ndarray, time: np.ndarray,
-                                threshold: float, cs_active_low: bool) -> List[tuple]:
+    def _find_cs_active_periods(self, cs: np.ndarray, time: np.ndarray, threshold: float, cs_active_low: bool) -> List[tuple]:
         """Find CS active periods (transactions).
 
         Args:
@@ -217,9 +190,7 @@ class SPIDecoder(ProtocolDecoder):
 
         return periods
 
-    def _decode_word(self, signal: np.ndarray, time: np.ndarray,
-                    clock_edges: List[float], threshold: float,
-                    bit_order: str) -> int:
+    def _decode_word(self, signal: np.ndarray, time: np.ndarray, clock_edges: List[float], threshold: float, bit_order: str) -> int:
         """Decode a word from signal at clock edges.
 
         Args:
@@ -237,7 +208,7 @@ class SPIDecoder(ProtocolDecoder):
         for i, edge_time in enumerate(clock_edges):
             bit = self._get_bit_at_time(signal, time, edge_time, threshold)
 
-            if bit_order == 'MSB':
+            if bit_order == "MSB":
                 # MSB first
                 word = (word << 1) | bit
             else:

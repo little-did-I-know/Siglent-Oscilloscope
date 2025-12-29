@@ -9,6 +9,7 @@ import matplotlib
 matplotlib.use("QtAgg")
 # Enable interactive mode for matplotlib
 import matplotlib.pyplot as plt
+
 plt.ion()
 
 from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg as FigureCanvas
@@ -55,9 +56,9 @@ class WaveformDisplay(QWidget):
         self.show_grid = True
 
         # Cursor state
-        self.cursor_mode = 'off'  # 'off', 'vertical', 'horizontal', 'both'
-        self.cursor_lines = {'v1': None, 'v2': None, 'h1': None, 'h2': None}
-        self.cursor_positions = {'v1': None, 'v2': None, 'h1': None, 'h2': None}
+        self.cursor_mode = "off"  # 'off', 'vertical', 'horizontal', 'both'
+        self.cursor_lines = {"v1": None, "v2": None, "h1": None, "h2": None}
+        self.cursor_positions = {"v1": None, "v2": None, "h1": None, "h2": None}
         self.dragging_cursor = None
 
         # Reference waveform state
@@ -94,11 +95,11 @@ class WaveformDisplay(QWidget):
         layout.addWidget(control_panel)
 
         # Connect mouse events
-        self.canvas.mpl_connect('scroll_event', self._on_scroll)
-        self.canvas.mpl_connect('button_press_event', self._on_mouse_press)
-        self.canvas.mpl_connect('button_release_event', self._on_mouse_release)
-        self.canvas.mpl_connect('motion_notify_event', self._on_mouse_move)
-        self.canvas.mpl_connect('key_press_event', self._on_key_press)
+        self.canvas.mpl_connect("scroll_event", self._on_scroll)
+        self.canvas.mpl_connect("button_press_event", self._on_mouse_press)
+        self.canvas.mpl_connect("button_release_event", self._on_mouse_release)
+        self.canvas.mpl_connect("motion_notify_event", self._on_mouse_move)
+        self.canvas.mpl_connect("key_press_event", self._on_key_press)
 
     def _configure_axes(self):
         """Configure matplotlib axes appearance."""
@@ -411,9 +412,9 @@ class WaveformDisplay(QWidget):
             return
 
         # Zoom factor
-        if event.button == 'up':
+        if event.button == "up":
             scale_factor = 1.1  # Zoom in
-        elif event.button == 'down':
+        elif event.button == "down":
             scale_factor = 0.9  # Zoom out
         else:
             return
@@ -433,11 +434,11 @@ class WaveformDisplay(QWidget):
         # Ctrl: X-axis only
         # Shift: Y-axis only
         # No modifier: Both axes
-        if event.key == 'control':
+        if event.key == "control":
             # Zoom X-axis only
             new_xlim = self._zoom_axis(xlim, xdata, scale_factor)
             self.ax.set_xlim(new_xlim)
-        elif event.key == 'shift':
+        elif event.key == "shift":
             # Zoom Y-axis only
             new_ylim = self._zoom_axis(ylim, ydata, scale_factor)
             self.ax.set_ylim(new_ylim)
@@ -487,7 +488,7 @@ class WaveformDisplay(QWidget):
         logger.info(f"Cursor mode set to: {self.cursor_mode}")
 
         # Clear existing cursors when changing modes
-        if self.cursor_mode == 'off':
+        if self.cursor_mode == "off":
             self._clear_all_cursors()
 
     def _clear_all_cursors(self):
@@ -507,7 +508,7 @@ class WaveformDisplay(QWidget):
         Args:
             event: Matplotlib mouse event
         """
-        if event.inaxes != self.ax or self.cursor_mode == 'off':
+        if event.inaxes != self.ax or self.cursor_mode == "off":
             return
 
         if event.button == 1:  # Left click
@@ -548,7 +549,7 @@ class WaveformDisplay(QWidget):
         Args:
             event: Matplotlib key event
         """
-        if event.key == 'escape':
+        if event.key == "escape":
             self._clear_all_cursors()
 
     def _place_cursor(self, x: float, y: float):
@@ -558,19 +559,19 @@ class WaveformDisplay(QWidget):
             x: X coordinate (time)
             y: Y coordinate (voltage)
         """
-        if self.cursor_mode in ['vertical', 'both']:
+        if self.cursor_mode in ["vertical", "both"]:
             # Place vertical cursor
-            if self.cursor_positions['v1'] is None:
-                self._create_vertical_cursor('v1', x)
-            elif self.cursor_positions['v2'] is None:
-                self._create_vertical_cursor('v2', x)
+            if self.cursor_positions["v1"] is None:
+                self._create_vertical_cursor("v1", x)
+            elif self.cursor_positions["v2"] is None:
+                self._create_vertical_cursor("v2", x)
 
-        if self.cursor_mode in ['horizontal', 'both']:
+        if self.cursor_mode in ["horizontal", "both"]:
             # Place horizontal cursor
-            if self.cursor_positions['h1'] is None:
-                self._create_horizontal_cursor('h1', y)
-            elif self.cursor_positions['h2'] is None:
-                self._create_horizontal_cursor('h2', y)
+            if self.cursor_positions["h1"] is None:
+                self._create_horizontal_cursor("h1", y)
+            elif self.cursor_positions["h2"] is None:
+                self._create_horizontal_cursor("h2", y)
 
     def _create_vertical_cursor(self, cursor_id: str, x: float):
         """Create a vertical cursor line.
@@ -579,8 +580,8 @@ class WaveformDisplay(QWidget):
             cursor_id: Cursor identifier ('v1' or 'v2')
             x: X position
         """
-        color = '#FFD700' if cursor_id == 'v1' else '#00CED1'  # Yellow or Cyan
-        line = self.ax.axvline(x, color=color, linestyle='--', linewidth=2, alpha=0.8, picker=5)
+        color = "#FFD700" if cursor_id == "v1" else "#00CED1"  # Yellow or Cyan
+        line = self.ax.axvline(x, color=color, linestyle="--", linewidth=2, alpha=0.8, picker=5)
         self.cursor_lines[cursor_id] = line
         self.cursor_positions[cursor_id] = x
         self.canvas.draw()
@@ -593,8 +594,8 @@ class WaveformDisplay(QWidget):
             cursor_id: Cursor identifier ('h1' or 'h2')
             y: Y position
         """
-        color = '#FFD700' if cursor_id == 'h1' else '#00CED1'  # Yellow or Cyan
-        line = self.ax.axhline(y, color=color, linestyle='--', linewidth=2, alpha=0.8, picker=5)
+        color = "#FFD700" if cursor_id == "h1" else "#00CED1"  # Yellow or Cyan
+        line = self.ax.axhline(y, color=color, linestyle="--", linewidth=2, alpha=0.8, picker=5)
         self.cursor_lines[cursor_id] = line
         self.cursor_positions[cursor_id] = y
         self.canvas.draw()
@@ -608,13 +609,13 @@ class WaveformDisplay(QWidget):
             x: New X position
             y: New Y position
         """
-        if cursor_id in ['v1', 'v2']:
+        if cursor_id in ["v1", "v2"]:
             # Move vertical cursor
             if self.cursor_lines[cursor_id]:
                 self.cursor_lines[cursor_id].set_xdata([x, x])
                 self.cursor_positions[cursor_id] = x
                 self.canvas.draw()
-        elif cursor_id in ['h1', 'h2']:
+        elif cursor_id in ["h1", "h2"]:
             # Move horizontal cursor
             if self.cursor_lines[cursor_id]:
                 self.cursor_lines[cursor_id].set_ydata([y, y])
@@ -659,13 +660,13 @@ class WaveformDisplay(QWidget):
             y_threshold = threshold
 
         # Check vertical cursors
-        for cursor_id in ['v1', 'v2']:
+        for cursor_id in ["v1", "v2"]:
             pos = self.cursor_positions[cursor_id]
             if pos is not None and abs(x - pos) < x_threshold:
                 return cursor_id
 
         # Check horizontal cursors
-        for cursor_id in ['h1', 'h2']:
+        for cursor_id in ["h1", "h2"]:
             pos = self.cursor_positions[cursor_id]
             if pos is not None and abs(y - pos) < y_threshold:
                 return cursor_id
@@ -679,10 +680,10 @@ class WaveformDisplay(QWidget):
             Dictionary with cursor positions
         """
         return {
-            'x1': self.cursor_positions.get('v1'),
-            'y1': self.cursor_positions.get('h1'),
-            'x2': self.cursor_positions.get('v2'),
-            'y2': self.cursor_positions.get('h2'),
+            "x1": self.cursor_positions.get("v1"),
+            "y1": self.cursor_positions.get("h1"),
+            "x2": self.cursor_positions.get("v2"),
+            "y2": self.cursor_positions.get("h2"),
         }
 
     # Reference waveform methods
@@ -734,8 +735,8 @@ class WaveformDisplay(QWidget):
             return
 
         try:
-            ref_time = self.reference_data['time']
-            ref_voltage = self.reference_data['voltage']
+            ref_time = self.reference_data["time"]
+            ref_voltage = self.reference_data["voltage"]
 
             # Convert time to appropriate units (same as live waveforms)
             time_data, time_unit = self._convert_time_units(ref_time)
@@ -751,27 +752,23 @@ class WaveformDisplay(QWidget):
                     difference = first_waveform.voltage - ref_voltage_interp
 
                     # Plot difference
-                    self.ax.plot(live_time_data, difference, color='#FF1493',
-                                linewidth=1.5, label='Difference', linestyle='-', alpha=0.8)
+                    self.ax.plot(live_time_data, difference, color="#FF1493", linewidth=1.5, label="Difference", linestyle="-", alpha=0.8)
                 else:
                     live_time_data, _ = self._convert_time_units(first_waveform.time)
                     difference = first_waveform.voltage - ref_voltage
 
                     # Plot difference
-                    self.ax.plot(live_time_data, difference, color='#FF1493',
-                                linewidth=1.5, label='Difference', linestyle='-', alpha=0.8)
+                    self.ax.plot(live_time_data, difference, color="#FF1493", linewidth=1.5, label="Difference", linestyle="-", alpha=0.8)
 
                 # Add zero reference line
-                self.ax.axhline(y=0, color='#888888', linestyle=':', linewidth=1, alpha=0.5)
+                self.ax.axhline(y=0, color="#888888", linestyle=":", linewidth=1, alpha=0.5)
 
             else:
                 # Show reference as overlay
-                self.ax.plot(time_data, ref_voltage, color='#FFA500',
-                            linewidth=1.5, label='Reference', linestyle='--', alpha=0.7)
+                self.ax.plot(time_data, ref_voltage, color="#FFA500", linewidth=1.5, label="Reference", linestyle="--", alpha=0.7)
 
             # Update legend
-            legend = self.ax.legend(loc="upper right", framealpha=0.8,
-                                  facecolor="#1a1a1a", edgecolor="#444444")
+            legend = self.ax.legend(loc="upper right", framealpha=0.8, facecolor="#1a1a1a", edgecolor="#444444")
             for text in legend.get_texts():
                 text.set_color("#cccccc")
 
@@ -785,4 +782,3 @@ class WaveformDisplay(QWidget):
             Reference data dictionary or None
         """
         return self.reference_data
-

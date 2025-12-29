@@ -2,9 +2,7 @@
 
 import logging
 from typing import Optional, Dict, Any
-from PyQt6.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QGroupBox,
-                              QLabel, QPushButton, QListWidget, QListWidgetItem,
-                              QMessageBox, QInputDialog)
+from PyQt6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QGroupBox, QLabel, QPushButton, QListWidget, QListWidgetItem, QMessageBox, QInputDialog
 from PyQt6.QtCore import Qt, pyqtSignal
 
 logger = logging.getLogger(__name__)
@@ -192,16 +190,11 @@ class ReferencePanel(QWidget):
             return
 
         item = selected_items[0]
-        name = item.text().split('\n')[0]  # Get first line (name)
+        name = item.text().split("\n")[0]  # Get first line (name)
         filepath = item.data(Qt.ItemDataRole.UserRole)
 
         # Confirm deletion
-        reply = QMessageBox.question(
-            self,
-            "Confirm Delete",
-            f"Are you sure you want to delete reference '{name}'?",
-            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No
-        )
+        reply = QMessageBox.question(self, "Confirm Delete", f"Are you sure you want to delete reference '{name}'?", QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
 
         if reply == QMessageBox.StandardButton.Yes:
             logger.info(f"Delete reference requested: {filepath}")
@@ -237,14 +230,15 @@ class ReferencePanel(QWidget):
 
         for ref in references:
             # Create display text
-            name = ref.get('name', 'Unknown')
-            channel = ref.get('channel', 'Unknown')
-            timestamp = ref.get('timestamp', '')
+            name = ref.get("name", "Unknown")
+            channel = ref.get("channel", "Unknown")
+            timestamp = ref.get("timestamp", "")
 
             # Format timestamp
             if timestamp:
                 try:
                     from datetime import datetime
+
                     dt = datetime.fromisoformat(timestamp)
                     time_str = dt.strftime("%Y-%m-%d %H:%M")
                 except:
@@ -253,7 +247,7 @@ class ReferencePanel(QWidget):
                 time_str = "Unknown time"
 
             # Format file size
-            file_size = ref.get('file_size', 0)
+            file_size = ref.get("file_size", 0)
             if file_size < 1024:
                 size_str = f"{file_size} B"
             elif file_size < 1024 * 1024:
@@ -266,7 +260,7 @@ class ReferencePanel(QWidget):
 
             # Create list item
             item = QListWidgetItem(item_text)
-            item.setData(Qt.ItemDataRole.UserRole, ref.get('filepath'))
+            item.setData(Qt.ItemDataRole.UserRole, ref.get("filepath"))
 
             self.reference_list.addItem(item)
 
@@ -281,11 +275,11 @@ class ReferencePanel(QWidget):
         self.loaded_reference = reference_data
 
         # Update info label
-        metadata = reference_data.get('metadata', {})
-        name = metadata.get('name', 'Unknown')
-        channel = metadata.get('channel', 'Unknown')
-        num_samples = metadata.get('num_samples', 0)
-        time_span = metadata.get('time_span', 0.0)
+        metadata = reference_data.get("metadata", {})
+        name = metadata.get("name", "Unknown")
+        channel = metadata.get("channel", "Unknown")
+        num_samples = metadata.get("num_samples", 0)
+        time_span = metadata.get("time_span", 0.0)
 
         # Format time span
         if time_span < 1e-6:
@@ -297,10 +291,7 @@ class ReferencePanel(QWidget):
         else:
             time_str = f"{time_span:.2f} s"
 
-        info_text = (f"<b>Loaded:</b> {name}<br>"
-                    f"<b>Channel:</b> {channel}<br>"
-                    f"<b>Samples:</b> {num_samples}<br>"
-                    f"<b>Time Span:</b> {time_str}")
+        info_text = f"<b>Loaded:</b> {name}<br>" f"<b>Channel:</b> {channel}<br>" f"<b>Samples:</b> {num_samples}<br>" f"<b>Time Span:</b> {time_str}"
 
         self.info_label.setText(info_text)
 
@@ -325,9 +316,7 @@ class ReferencePanel(QWidget):
             else:
                 color = "red"
 
-            self.correlation_label.setText(
-                f"Correlation: <span style='color: {color}; font-weight: bold;'>{correlation:.4f}</span>"
-            )
+            self.correlation_label.setText(f"Correlation: <span style='color: {color}; font-weight: bold;'>{correlation:.4f}</span>")
         else:
             self.correlation_label.setText("Correlation: --")
 

@@ -35,20 +35,20 @@ class ConnectionManager:
 
         # Create new connection entry
         new_connection = {
-            'host': host,
-            'port': port,
-            'model_name': model_name or 'Unknown',
-            'timestamp': datetime.now().isoformat(),
+            "host": host,
+            "port": port,
+            "model_name": model_name or "Unknown",
+            "timestamp": datetime.now().isoformat(),
         }
 
         # Remove duplicate if exists (update to latest)
-        recent = [conn for conn in recent if not (conn['host'] == host and conn['port'] == port)]
+        recent = [conn for conn in recent if not (conn["host"] == host and conn["port"] == port)]
 
         # Add new connection at the beginning
         recent.insert(0, new_connection)
 
         # Limit to max recent connections
-        recent = recent[:self.MAX_RECENT_CONNECTIONS]
+        recent = recent[: self.MAX_RECENT_CONNECTIONS]
 
         # Save to settings
         self.settings.setValue("recent_connections", recent)
@@ -84,7 +84,7 @@ class ConnectionManager:
             port: TCP port
         """
         recent = self.get_recent_connections()
-        recent = [conn for conn in recent if not (conn['host'] == host and conn['port'] == port)]
+        recent = [conn for conn in recent if not (conn["host"] == host and conn["port"] == port)]
         self.settings.setValue("recent_connections", recent)
         logger.info(f"Removed connection: {host}:{port}")
 
@@ -97,8 +97,7 @@ class ConnectionManager:
         recent = self.get_recent_connections()
         return recent[0] if recent else None
 
-    def save_connection_profile(self, name: str, host: str, port: int = 5024,
-                                model_name: Optional[str] = None, notes: Optional[str] = None) -> None:
+    def save_connection_profile(self, name: str, host: str, port: int = 5024, model_name: Optional[str] = None, notes: Optional[str] = None) -> None:
         """Save a named connection profile.
 
         Args:
@@ -111,12 +110,12 @@ class ConnectionManager:
         profiles = self.get_connection_profiles()
 
         profile = {
-            'name': name,
-            'host': host,
-            'port': port,
-            'model_name': model_name or 'Unknown',
-            'notes': notes or '',
-            'created': datetime.now().isoformat(),
+            "name": name,
+            "host": host,
+            "port": port,
+            "model_name": model_name or "Unknown",
+            "notes": notes or "",
+            "created": datetime.now().isoformat(),
         }
 
         # Update if exists, otherwise add
@@ -173,20 +172,20 @@ class ConnectionManager:
         Returns:
             Formatted string for display
         """
-        host = connection.get('host', 'Unknown')
-        port = connection.get('port', 5024)
-        model = connection.get('model_name', 'Unknown')
+        host = connection.get("host", "Unknown")
+        port = connection.get("port", 5024)
+        model = connection.get("model_name", "Unknown")
 
         # Parse timestamp if available
-        timestamp_str = connection.get('timestamp', '')
+        timestamp_str = connection.get("timestamp", "")
         if timestamp_str:
             try:
                 timestamp = datetime.fromisoformat(timestamp_str)
                 time_display = timestamp.strftime("%Y-%m-%d %H:%M")
             except:
-                time_display = 'Unknown time'
+                time_display = "Unknown time"
         else:
-            time_display = 'Unknown time'
+            time_display = "Unknown time"
 
         return f"{host}:{port} - {model} ({time_display})"
 
