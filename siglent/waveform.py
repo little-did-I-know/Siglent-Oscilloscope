@@ -4,6 +4,7 @@ from typing import TYPE_CHECKING, Optional, Tuple, Union
 from dataclasses import dataclass
 import struct
 import logging
+import re
 
 import numpy as np
 
@@ -160,23 +161,7 @@ class Waveform:
         response = self._scope.query(f"{channel}:VDIV?")
         logger.debug(f"Voltage scale response: '{response}'")
 
-        try:
-            # Response may include echo like "C1:VDIV 2.00E+00V" or just "2.00E+00V"
-            # Remove the echo prefix if present
-            if ":" in response:
-                response = response.split(":", 1)[1]  # Get everything after first ':'
-
-            # Remove command part if present (e.g., "VDIV 2.00E+00V")
-            if " " in response:
-                response = response.split(" ", 1)[1]  # Get everything after first space
-
-            # Remove unit
-            value = response.replace("V", "").strip()
-            logger.debug(f"Parsed voltage scale: {value}")
-            return float(value)
-        except (ValueError, IndexError) as e:
-            logger.error(f"Failed to parse voltage scale from response: '{response}'")
-            raise exceptions.CommandError(f"Invalid voltage scale response: '{response}'") from e
+        return self._parse_value_with_units(response, ("V",), "voltage scale")
 
     def _get_voltage_offset(self, channel: str) -> float:
         """Get voltage offset for channel.
@@ -190,19 +175,7 @@ class Waveform:
         response = self._scope.query(f"{channel}:OFST?")
         logger.debug(f"Voltage offset response: '{response}'")
 
-        try:
-            # Response may include echo like "C1:OFST 1.0E+00V"
-            if ":" in response:
-                response = response.split(":", 1)[1]
-            if " " in response:
-                response = response.split(" ", 1)[1]
-
-            value = response.replace("V", "").strip()
-            logger.debug(f"Parsed voltage offset: {value}")
-            return float(value)
-        except (ValueError, IndexError) as e:
-            logger.error(f"Failed to parse voltage offset from response: '{response}'")
-            raise exceptions.CommandError(f"Invalid voltage offset response: '{response}'") from e
+        return self._parse_value_with_units(response, ("V",), "voltage offset")
 
     def _get_timebase(self) -> float:
         """Get timebase setting.
@@ -213,19 +186,7 @@ class Waveform:
         response = self._scope.query("TDIV?")
         logger.debug(f"Timebase response: '{response}'")
 
-        try:
-            # Response may include echo like "TDIV 1.00E-03S"
-            if ":" in response:
-                response = response.split(":", 1)[1]
-            if " " in response:
-                response = response.split(" ", 1)[1]
-
-            value = response.replace("S", "").strip()
-            logger.debug(f"Parsed timebase: {value}")
-            return float(value)
-        except (ValueError, IndexError) as e:
-            logger.error(f"Failed to parse timebase from response: '{response}'")
-            raise exceptions.CommandError(f"Invalid timebase response: '{response}'") from e
+        return self._parse_value_with_units(response, ("S",), "timebase")
 
     def _get_sample_rate(self) -> float:
         """Get sample rate.
@@ -236,22 +197,7 @@ class Waveform:
         response = self._scope.query("SARA?")
         logger.debug(f"Sample rate response: '{response}'")
 
-        try:
-            # Response may include echo like "SARA 1.00E+09Sa/s"
-            if ":" in response:
-                response = response.split(":", 1)[1]
-            if " " in response:
-                response = response.split(" ", 1)[1]
-
-            # Response format may vary: "1.00E+09Sa/s" or similar
-            # Remove units - order matters! Do longer strings first
-            value = response.upper()  # Convert to uppercase for consistent handling
-            value = value.replace("SA/S", "").replace("SPS", "").strip()
-            logger.debug(f"Parsed sample rate: {value}")
-            return float(value)
-        except (ValueError, IndexError) as e:
-            logger.error(f"Failed to parse sample rate from response: '{response}'")
-            raise exceptions.CommandError(f"Invalid sample rate response: '{response}'") from e
+        return self._parse_value_with_units(response, ("SA/S", "SPS"), "sample rate")
 
     def _parse_waveform(self, raw_data: bytes, format: str = "BYTE") -> np.ndarray:
         """Parse waveform data from oscilloscope.
@@ -267,20 +213,46 @@ class Waveform:
         # Header: DESC,#9000000346...
         # Find the start of binary data (after header)
 
+        if not raw_data:
+            raise exceptions.CommandError("Invalid waveform format: empty response")
+
         # Look for the # character indicating block data
         header_end = raw_data.find(b"#")
         if header_end == -1:
-            raise exceptions.CommandError("Invalid waveform format: no # found")
+            raise exceptions.CommandError("Invalid waveform format: no # found in block header")
+
+        if header_end + 2 > len(raw_data):
+            raise exceptions.CommandError("Invalid waveform format: truncated block header")
 
         # Parse IEEE 488.2 definite length block
         # Format: #<n><length><data>
         # where n is number of digits in length
-        n_digits = int(chr(raw_data[header_end + 1]))
-        data_length = int(raw_data[header_end + 2 : header_end + 2 + n_digits])
-        data_start = header_end + 2 + n_digits
+        n_digit_char = chr(raw_data[header_end + 1])
+        if not n_digit_char.isdigit():
+            raise exceptions.CommandError(f"Invalid waveform format: non-numeric length digit '{n_digit_char}'")
+
+        n_digits = int(n_digit_char)
+        if n_digits <= 0:
+            raise exceptions.CommandError(f"Invalid waveform format: length digit must be positive (got {n_digits})")
+
+        length_field_start = header_end + 2
+        length_field_end = length_field_start + n_digits
+        if length_field_end > len(raw_data):
+            raise exceptions.CommandError("Invalid waveform format: truncated length field")
+
+        length_field = raw_data[length_field_start:length_field_end]
+        if not re.fullmatch(rb"\d+", length_field):
+            raise exceptions.CommandError(f"Invalid waveform format: non-numeric length field '{length_field.decode(errors='ignore')}'")
+
+        data_length = int(length_field)
+        data_start = length_field_end
+        data_end = data_start + data_length
+
+        if data_end > len(raw_data):
+            raise exceptions.CommandError("Invalid waveform format: declared data length exceeds available data")
 
         # Extract binary data
-        binary_data = raw_data[data_start : data_start + data_length]
+        binary_data = raw_data[data_start:data_end]
 
         # Convert to numpy array
         if format == "BYTE":
@@ -288,6 +260,8 @@ class Waveform:
             data = np.frombuffer(binary_data, dtype=np.int8)
         elif format == "WORD":
             # 16-bit signed data
+            if data_length % 2:
+                raise exceptions.CommandError("Invalid waveform format: WORD data length must be even")
             data = np.frombuffer(binary_data, dtype=np.int16)
         else:
             raise exceptions.InvalidParameterError(f"Invalid format: {format}")
@@ -344,6 +318,49 @@ class Waveform:
         time = np.arange(num_samples) * dt - trigger_position
 
         return time
+
+    def _parse_value_with_units(self, response: str, expected_units: Tuple[str, ...], quantity: str) -> float:
+        """Parse numeric values with expected units from SCPI responses.
+
+        Args:
+            response: Raw response string from the oscilloscope.
+            expected_units: Tuple of acceptable unit suffixes (case-insensitive).
+            quantity: Human-readable name of the value being parsed (for error messages).
+
+        Returns:
+            Parsed floating-point value.
+
+        Raises:
+            CommandError: If parsing fails or expected units are missing.
+        """
+        logger.debug(f"Parsing {quantity} from response '{response}' with expected units {expected_units}")
+
+        def _strip_prefix(value: str) -> str:
+            value = value.strip()
+            if ":" in value:
+                value = value.split(":", 1)[1].strip()
+            if " " in value:
+                parts = value.split(None, 1)
+                if len(parts) > 1:
+                    value = parts[1].strip()
+            return value
+
+        cleaned = _strip_prefix(response)
+        cleaned_upper = cleaned.upper()
+
+        for unit in expected_units:
+            unit_upper = unit.upper()
+            if cleaned_upper.endswith(unit_upper):
+                numeric_part = cleaned_upper[: -len(unit_upper)].strip()
+                try:
+                    value = float(numeric_part)
+                    logger.debug(f"Parsed {quantity}: {value} {unit}")
+                    return value
+                except ValueError as exc:
+                    raise exceptions.CommandError(f"Invalid {quantity} response: '{response}'") from exc
+
+        expected = " or ".join(expected_units)
+        raise exceptions.CommandError(f"Invalid {quantity} response: '{response}' (expected units: {expected})")
 
     def get_waveform_preamble(self, channel: int) -> dict:
         """Get waveform preamble information.
