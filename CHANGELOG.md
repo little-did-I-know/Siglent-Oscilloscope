@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.1] - 2025-12-29
+
+### Changed
+- **Project Structure Reorganization** to follow Python packaging best practices
+  - Moved all test files to `tests/` directory
+  - Moved development utilities to `scripts/` directory
+  - Consolidated documentation into `docs/` directory
+  - Created `docs/development/` for build and deployment documentation
+  - Updated MANIFEST.in to properly exclude development files from distribution
+  - Updated .gitignore to properly exclude build artifacts
+  - Added `docs/development/PROJECT_STRUCTURE.md` documenting the project layout
+
+### Fixed
+- Improved .gitignore to properly exclude dist/, build/, and egg-info directories
+
 ## [0.2.0] - 2025-12-29
 
 ### Added
