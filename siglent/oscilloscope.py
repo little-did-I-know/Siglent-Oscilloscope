@@ -259,6 +259,20 @@ class Oscilloscope:
         """Stop acquisition."""
         self.write("STOP")
 
+    @property
+    def timebase(self) -> float:
+        """Get timebase setting in seconds/division."""
+        return self.waveform._get_timebase()
+
+    @timebase.setter
+    def timebase(self, seconds_per_div: float) -> None:
+        """Set timebase (seconds/division)."""
+        self.write(f"TDIV {seconds_per_div}")
+
+    def set_timebase(self, seconds_per_div: float) -> None:
+        """Set timebase (alias for timebase setter)."""
+        self.timebase = seconds_per_div
+
     def auto_setup(self) -> None:
         """Perform automatic setup."""
         self.write("ASET")

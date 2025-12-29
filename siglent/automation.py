@@ -123,8 +123,8 @@ class DataCollector:
         for ch in channels:
             try:
                 channel = getattr(self.scope, f"channel{ch}")
-                if channel.is_displayed():
-                    waveforms[ch] = self.scope.waveform.get_waveform(ch)
+                if channel.enabled:
+                    waveforms[ch] = self.scope.waveform.acquire(ch)
                     logger.info(f"Captured {len(waveforms[ch].voltage)} samples from channel {ch}")
                 else:
                     logger.warning(f"Channel {ch} is not enabled, skipping")
@@ -186,12 +186,18 @@ class DataCollector:
         for config in configs:
             # Apply configuration
             if "timebase" in config:
-                self.scope.set_timebase(config["timebase"])
+                if hasattr(self.scope, "set_timebase"):
+                    self.scope.set_timebase(config["timebase"])
+                else:
+                    self.scope.timebase = config["timebase"]
                 logger.info(f"Set timebase to {config['timebase']}")
 
             for ch, scale in [(int(k[2]), v) for k, v in config.items() if k.startswith("ch") and k.endswith("_vdiv")]:
                 channel = getattr(self.scope, f"channel{ch}")
-                channel.set_scale(scale)
+                if hasattr(channel, "set_scale"):
+                    channel.set_scale(scale)
+                else:
+                    channel.voltage_scale = scale
                 logger.info(f"Set channel {ch} scale to {scale}")
 
             time.sleep(0.2)  # Allow settings to settle
@@ -248,7 +254,7 @@ class DataCollector:
         capture_count = 0
 
         # Set to AUTO trigger mode for continuous acquisition
-        self.scope.trigger.set_mode("AUTO")
+        self.scope.trigger.mode = "AUTO"
 
         while (time.time() - start_time) < duration:
             try:
@@ -259,8 +265,8 @@ class DataCollector:
                 for ch in channels:
                     try:
                         channel = getattr(self.scope, f"channel{ch}")
-                        if channel.is_displayed():
-                            waveforms[ch] = self.scope.waveform.get_waveform(ch)
+                        if channel.enabled:
+                            waveforms[ch] = self.scope.waveform.acquire(ch)
                     except Exception as e:
                         logger.error(f"Failed to capture channel {ch}: {e}")
 
@@ -445,7 +451,7 @@ class TriggerWaitCollector:
             ...         print("Trigger captured!")
         """
         # Set to NORMAL trigger mode
-        self.collector.scope.trigger.set_mode("NORM")
+        self.collector.scope.trigger.mode = "NORM"
         self.collector.scope.trigger_single()
 
         start_time = time.time()
@@ -459,7 +465,7 @@ class TriggerWaitCollector:
                 waveforms = {}
                 for ch in channels:
                     try:
-                        waveforms[ch] = self.collector.scope.waveform.get_waveform(ch)
+                        waveforms[ch] = self.collector.scope.waveform.acquire(ch)
                     except Exception as e:
                         logger.error(f"Failed to capture channel {ch}: {e}")
 
