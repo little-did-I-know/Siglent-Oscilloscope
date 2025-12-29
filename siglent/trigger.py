@@ -59,6 +59,10 @@ class Trigger:
         self._scope.write(f"TRIG_MODE {mode}")
         logger.info(f"Trigger mode set to {mode}")
 
+    def set_mode(self, mode: TriggerModeType) -> None:
+        """Set trigger mode (alias for mode property setter)."""
+        self.mode = mode
+
     def auto(self) -> None:
         """Set trigger to AUTO mode."""
         self.mode = "AUTO"

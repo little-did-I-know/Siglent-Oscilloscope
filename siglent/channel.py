@@ -121,6 +121,14 @@ class Channel:
         self._scope.write(f"{self._prefix}:VDIV {volts_per_div}")
         logger.info(f"Channel {self._channel} scale set to {volts_per_div} V/div")
 
+    def set_scale(self, volts_per_div: float) -> None:
+        """Set vertical scale (alias for voltage_scale setter).
+
+        Args:
+            volts_per_div: Voltage scale in volts/division
+        """
+        self.voltage_scale = volts_per_div
+
     @property
     def voltage_offset(self) -> float:
         """Get vertical offset voltage.
