@@ -9,13 +9,8 @@ For high-level automation and data collection, see the automation module:
 
 __version__ = "0.1.0"
 
+from siglent.exceptions import CommandError, ConnectionError, SiglentError, TimeoutError
 from siglent.oscilloscope import Oscilloscope
-from siglent.exceptions import (
-    SiglentError,
-    ConnectionError,
-    TimeoutError,
-    CommandError,
-)
 
 __all__ = [
     "Oscilloscope",

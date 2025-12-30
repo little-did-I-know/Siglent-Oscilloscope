@@ -2,9 +2,20 @@
 
 import logging
 from datetime import datetime
-from PyQt6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QTextEdit, QLineEdit, QPushButton, QLabel, QSplitter, QCheckBox
+
 from PyQt6.QtCore import Qt, pyqtSignal
 from PyQt6.QtGui import QFont, QTextCursor
+from PyQt6.QtWidgets import (
+    QCheckBox,
+    QHBoxLayout,
+    QLabel,
+    QLineEdit,
+    QPushButton,
+    QSplitter,
+    QTextEdit,
+    QVBoxLayout,
+    QWidget,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -36,9 +47,14 @@ class TerminalWidget(QWidget):
         layout = QVBoxLayout(self)
 
         # Info label
-        info_label = QLabel("Send custom SCPI commands to the oscilloscope. " "Use '?' for queries (e.g., '*IDN?'). Press Up/Down for command history.")
+        info_label = QLabel(
+            "Send custom SCPI commands to the oscilloscope. "
+            "Use '?' for queries (e.g., '*IDN?'). Press Up/Down for command history."
+        )
         info_label.setWordWrap(True)
-        info_label.setStyleSheet("color: #666; padding: 5px; background-color: #f0f0f0; border-radius: 3px;")
+        info_label.setStyleSheet(
+            "color: #666; padding: 5px; background-color: #f0f0f0; border-radius: 3px;"
+        )
         layout.addWidget(info_label)
 
         # Splitter for output and examples

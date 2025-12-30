@@ -245,20 +245,24 @@ Your pull request should:
 
 ```markdown
 ## Description
+
 Brief description of changes
 
 ## Type of Change
+
 - [ ] Bug fix (non-breaking change fixing an issue)
 - [ ] New feature (non-breaking change adding functionality)
 - [ ] Breaking change (fix or feature causing existing functionality to not work as expected)
 - [ ] Documentation update
 
 ## Testing
+
 - [ ] Tests pass locally
 - [ ] Added tests for new functionality
 - [ ] Tested with real hardware (if applicable)
 
 ## Checklist
+
 - [ ] Code follows style guidelines (Black, flake8)
 - [ ] Self-reviewed code
 - [ ] Commented complex code sections
@@ -284,12 +288,13 @@ Brief description of changes
 
 Use the GitHub issue template or include:
 
-```markdown
+````markdown
 **Describe the bug**
 Clear description of the problem
 
 **To Reproduce**
 Steps to reproduce:
+
 1. Connect to scope at '...'
 2. Call function '...'
 3. See error
@@ -301,11 +306,14 @@ What you expected to happen
 What actually happened
 
 **Error message/traceback**
+
 ```python
 Full traceback here
 ```
+````
 
 **Environment:**
+
 - OS: [e.g., Windows 11, Ubuntu 22.04]
 - Python version: [e.g., 3.11.5]
 - Package version: [e.g., 0.2.5]
@@ -313,7 +321,8 @@ Full traceback here
 
 **Additional context**
 Any other relevant information
-```
+
+````
 
 ## Suggesting Features
 
@@ -334,7 +343,7 @@ Other approaches you've considered
 
 **Additional Context**
 Mock-ups, examples, or references
-```
+````
 
 ### Feature Development Process
 
@@ -366,6 +375,7 @@ def test_real_connection():
 ```
 
 Run hardware tests separately:
+
 ```bash
 pytest -m hardware
 ```
@@ -420,6 +430,7 @@ To add support for a new oscilloscope model:
 ### Recognition
 
 Contributors are recognized in:
+
 - Git commit history
 - GitHub contributors page
 - Release notes (for significant contributions)

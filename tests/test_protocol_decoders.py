@@ -1,7 +1,8 @@
 """Test protocol decoders."""
 
-import pytest
 import numpy as np
+import pytest
+
 from siglent.protocol_decoders import I2CDecoder, SPIDecoder, UARTDecoder
 from siglent.waveform import WaveformData
 

@@ -4,8 +4,9 @@ This script demonstrates how to perform automated measurements
 on oscilloscope channels.
 """
 
-from siglent import Oscilloscope
 import time
+
+from siglent import Oscilloscope
 
 # Replace with your oscilloscope's IP address
 SCOPE_IP = "192.168.1.100"

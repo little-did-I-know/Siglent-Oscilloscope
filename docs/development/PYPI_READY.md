@@ -12,6 +12,7 @@ Your Siglent oscilloscope control package is **fully prepared** for PyPI distrib
 ## What's Been Done
 
 ### ✅ Package Configuration
+
 - [x] `pyproject.toml` - Complete with metadata, dependencies, and entry points
 - [x] Modern SPDX license format
 - [x] All required classifiers
@@ -19,6 +20,7 @@ Your Siglent oscilloscope control package is **fully prepared** for PyPI distrib
 - [x] Console script entry point (`siglent-gui`)
 
 ### ✅ Documentation
+
 - [x] `README.md` - Comprehensive with badges, installation, usage examples, API docs
 - [x] `LICENSE` - MIT License
 - [x] `MANIFEST.in` - Ensures examples and docs are included
@@ -27,6 +29,7 @@ Your Siglent oscilloscope control package is **fully prepared** for PyPI distrib
 - [x] `examples/` - 4 working example scripts with README
 
 ### ✅ Build & Verification
+
 - [x] Package builds successfully: `python -m build`
 - [x] Both distributions created:
   - `siglent-0.1.0.tar.gz` (source)
@@ -35,7 +38,9 @@ Your Siglent oscilloscope control package is **fully prepared** for PyPI distrib
 - [x] No errors, only deprecation warnings (ignorable)
 
 ### ✅ Package Contents
+
 The package includes:
+
 - All Python modules (`siglent/`, `connection/`, `gui/`, `widgets/`)
 - Example scripts (`examples/`)
 - Documentation (`README.md`, `LICENSE`)
@@ -84,10 +89,12 @@ twine upload dist/*
 ```
 
 You'll need:
+
 - PyPI account (https://pypi.org/account/register/)
 - API token (https://pypi.org/manage/account/token/)
 
 Enter credentials:
+
 - Username: `__token__`
 - Password: `pypi-...` (your API token)
 
@@ -140,6 +147,7 @@ siglent-0.1.0/
 ## Features Included
 
 ### Programmatic API
+
 - ✅ TCP socket SCPI communication (port 5024)
 - ✅ Channel control (all 4 channels)
 - ✅ Trigger configuration
@@ -148,6 +156,7 @@ siglent-0.1.0/
 - ✅ Context manager support
 
 ### GUI Application
+
 - ✅ PyQt6-based interface
 - ✅ Matplotlib waveform display
 - ✅ Multi-channel plotting
@@ -156,6 +165,7 @@ siglent-0.1.0/
 - ✅ Export functionality
 
 ### Documentation
+
 - ✅ Comprehensive README
 - ✅ API documentation
 - ✅ Working examples
@@ -170,6 +180,7 @@ When releasing updates:
    - `siglent/__init__.py` (line 7)
 
 2. Clean and rebuild:
+
    ```bash
    rm -rf dist/ build/ *.egg-info
    python -m build

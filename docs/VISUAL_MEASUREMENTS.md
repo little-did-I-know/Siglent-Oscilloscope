@@ -39,6 +39,7 @@ The visual measurement system allows you to interactively measure signal propert
 ### Prerequisites
 
 1. **Install with GUI support**:
+
    ```bash
    pip install "Siglent-Oscilloscope[gui]"
    ```
@@ -74,22 +75,26 @@ The visual measurement system allows you to interactively measure signal propert
 **Types**: `FREQ` (Frequency), `PER` (Period)
 
 **Visual Representation**:
+
 - Two vertical blue dashed lines spanning one signal cycle
 - Arc connector between gates showing measured period
 - Label displays frequency in Hz, kHz, or MHz
 
 **How It Works**:
+
 - Auto-detects signal period using zero-crossing detection
 - Falls back to peak detection for non-zero-crossing signals
 - Gates can be manually adjusted to measure specific cycles
 
 **Best Used For**:
+
 - Periodic signals (sine waves, square waves, etc.)
 - Clock signals
 - PWM signals
 - Any repetitive waveform
 
 **Example**:
+
 ```
 Signal: 1 kHz square wave
 Result: 1.000 kHz
@@ -99,6 +104,7 @@ Gates: Positioned at start and end of one complete cycle
 ### Voltage Measurements
 
 **Types**:
+
 - `PKPK` - Peak-to-Peak voltage
 - `AMPL` - Amplitude (peak to mid-level)
 - `MAX` - Maximum voltage
@@ -109,22 +115,26 @@ Gates: Positioned at start and end of one complete cycle
 - `BASE` - Base level (2% of signal)
 
 **Visual Representation**:
+
 - Yellow horizontal lines at measured voltage levels
 - Vertical brackets showing span (for PKPK, AMPL)
 - Label with voltage value in V, mV, or µV
 
 **How It Works**:
+
 - Analyzes voltage data within gate region
 - Computes statistical measures using NumPy
 - RMS uses true RMS calculation (not peak/√2)
 
 **Best Used For**:
+
 - Power supply ripple measurements
 - Signal amplitude verification
 - DC level measurements
 - Noise floor analysis
 
 **Example**:
+
 ```
 Signal: 3.3V ± 100mV square wave
 PKPK Result: 200 mV (min to max span)
@@ -135,6 +145,7 @@ MEAN Result: 3.30 V (average level)
 ### Timing Measurements
 
 **Types**:
+
 - `RISE` - Rise time (10% to 90%)
 - `FALL` - Fall time (90% to 10%)
 - `WID` - Positive pulse width (50% to 50%)
@@ -142,23 +153,27 @@ MEAN Result: 3.30 V (average level)
 - `DUTY` - Duty cycle (percentage)
 
 **Visual Representation**:
+
 - Magenta threshold lines at 10%/90% levels (for rise/fall)
 - Vertical gates spanning the measurement region
 - Shaded region highlighting measured time interval
 - Label with time in s, ms, µs, or ns
 
 **How It Works**:
+
 - Calculates 10%/90% thresholds from signal amplitude
 - Finds edge crossings using linear interpolation
 - Measures time between crossing points
 
 **Best Used For**:
+
 - Edge rate verification
 - Pulse width measurements
 - PWM duty cycle analysis
 - Signal integrity checks
 
 **Example**:
+
 ```
 Signal: 5V logic with 10ns rise time
 RISE Result: 10.2 ns
@@ -206,14 +221,17 @@ Gates: Show 10% (0.5V) and 90% (4.5V) thresholds
 ### Managing Markers
 
 **Enable/Disable**:
+
 - Check/uncheck marker in list
 - Disabled markers are hidden but configuration is preserved
 
 **Remove Marker**:
+
 - Select marker in list
 - Click "Clear Selected" or "Clear All"
 
 **Update Measurements**:
+
 - **Manual**: Click "Update All" button
 - **Automatic**: Enable "Auto-Update" checkbox
   - Refreshes every 1 second
@@ -225,6 +243,7 @@ Gates: Show 10% (0.5V) and 90% (4.5V) thresholds
 > Manual adjustment via dragging is available in the PyQtGraph version (future update).
 
 To adjust measurement region:
+
 1. Remove existing marker
 2. Add new marker (will auto-position to current waveform)
 3. Or modify gate positions in saved configuration file
@@ -288,6 +307,7 @@ Configurations are stored as JSON:
 ```
 
 You can edit these files manually to:
+
 - Adjust gate positions precisely
 - Change marker colors
 - Add metadata/notes
@@ -315,12 +335,14 @@ M3,RISE,2,45.2,ns,2025-12-29 10:30:15
 ```
 
 **Use Cases**:
+
 - Import into Excel, Google Sheets
 - Analysis with pandas/numpy
 - Charting and visualization
 - Automated test reporting
 
 **How to Export**:
+
 1. Update all measurements (click "Update All")
 2. Click "Export Results..."
 3. Choose "CSV" format
@@ -341,13 +363,14 @@ Exports complete configuration + results:
       "channel": 1,
       "value": 1234.5,
       "unit": "Hz",
-      "gates": {"start_x": -0.0001, "end_x": 0.0001}
+      "gates": { "start_x": -0.0001, "end_x": 0.0001 }
     }
   ]
 }
 ```
 
 **Use Cases**:
+
 - Machine-readable format
 - Integration with automated systems
 - Preserves full measurement context
@@ -375,6 +398,7 @@ Exports complete configuration + results:
 ### Working with Multiple Channels
 
 **Compare signals**:
+
 ```
 M1: CH1 Frequency → 1.000 kHz
 M2: CH2 Frequency → 1.000 kHz
@@ -384,6 +408,7 @@ M4: CH2 Rise Time → 25.8 ns
 ```
 
 **Analyze relationships**:
+
 ```
 M1: CH1 Duty Cycle → 25%
 M2: CH2 Phase shift → Measure delay between CH1/CH2 edges
@@ -392,6 +417,7 @@ M2: CH2 Phase shift → Measure delay between CH1/CH2 edges
 ### Batch Measurement Workflows
 
 **Power Supply Test**:
+
 1. Load "Power Supply Config" (FREQ, PKPK, RMS ripple)
 2. Connect to each supply output
 3. Update measurements
@@ -399,6 +425,7 @@ M2: CH2 Phase shift → Measure delay between CH1/CH2 edges
 5. Move to next supply
 
 **Signal Integrity Suite**:
+
 1. Load "Signal Integrity Config" (RISE, FALL, OVERSHOOT, RINGING)
 2. Apply to test signal
 3. Auto-update enabled
@@ -408,11 +435,13 @@ M2: CH2 Phase shift → Measure delay between CH1/CH2 edges
 ### Performance Tips
 
 **Live View Mode**:
+
 - Keep marker count reasonable (<10 markers)
 - Disable unused markers instead of removing
 - Auto-update adds ~1s overhead per refresh
 
 **Large Waveforms**:
+
 - Zoom in to region of interest first
 - Markers calculate over visible data only
 - Better performance with fewer samples
@@ -424,6 +453,7 @@ M2: CH2 Phase shift → Measure delay between CH1/CH2 edges
 **Symptom**: Click "Add Marker" but nothing shows on waveform
 
 **Possible Causes**:
+
 1. **No waveform data**
    - Solution: Capture waveform first (Single or Live View)
 
@@ -438,6 +468,7 @@ M2: CH2 Phase shift → Measure delay between CH1/CH2 edges
 **Symptom**: Measurement result seems wrong
 
 **Possible Causes**:
+
 1. **Auto-placement error**
    - Solution: Check gate positions visually
    - For frequency: Verify gates span exactly one cycle
@@ -459,6 +490,7 @@ M2: CH2 Phase shift → Measure delay between CH1/CH2 edges
 **Symptom**: Error when saving or loading configuration files
 
 **Possible Causes**:
+
 1. **Permission denied**
    - Solution: Check write permissions for config directory
    - Try saving to Documents folder instead
@@ -476,6 +508,7 @@ M2: CH2 Phase shift → Measure delay between CH1/CH2 edges
 **Symptom**: Measurements don't update automatically
 
 **Possible Causes**:
+
 1. **Auto-Update disabled**
    - Solution: Check "Auto-Update" checkbox
 
@@ -492,6 +525,7 @@ M2: CH2 Phase shift → Measure delay between CH1/CH2 edges
 **Symptom**: GUI lags when adding/updating markers
 
 **Possible Causes**:
+
 1. **Too many markers**
    - Solution: Remove unused markers
    - Disable instead of keeping all visible
@@ -511,12 +545,14 @@ M2: CH2 Phase shift → Measure delay between CH1/CH2 edges
 **Example: Power Supply Startup Analysis**
 
 Configuration:
+
 - M1: CH1 RISE (startup time)
 - M2: CH1 PKPK (overshoot)
 - M3: CH1 MEAN (final voltage)
 - M4: CH2 FREQ (switcher frequency)
 
 Workflow:
+
 1. Single-shot trigger on startup event
 2. Load configuration
 3. Update measurements
@@ -526,6 +562,7 @@ Workflow:
 ### Integration with Automation
 
 **Programmatic Control** (future enhancement):
+
 ```python
 from siglent.gui.widgets.visual_measurement_panel import VisualMeasurementPanel
 from siglent.measurement_config import MeasurementConfigSet
@@ -543,6 +580,7 @@ results = panel.get_all_measurements()
 ### Building Measurement Libraries
 
 **Organize by category**:
+
 ```
 ~/Documents/siglent/measurement_configs/
   ├── power_supply/
@@ -560,20 +598,21 @@ results = panel.get_all_measurements()
 ```
 
 **Share with team**:
+
 - Store in shared network location
 - Version control with git
 - Include documentation in metadata
 
 ## Keyboard Shortcuts
 
-| Action | Shortcut |
-|--------|----------|
-| Add Marker | `Ctrl+M` |
-| Update All | `Ctrl+U` |
-| Clear All | `Ctrl+Shift+C` |
-| Save Config | `Ctrl+S` |
-| Load Config | `Ctrl+O` |
-| Export Results | `Ctrl+E` |
+| Action         | Shortcut       |
+| -------------- | -------------- |
+| Add Marker     | `Ctrl+M`       |
+| Update All     | `Ctrl+U`       |
+| Clear All      | `Ctrl+Shift+C` |
+| Save Config    | `Ctrl+S`       |
+| Load Config    | `Ctrl+O`       |
+| Export Results | `Ctrl+E`       |
 
 > **Note**: Keyboard shortcuts available in future release
 
@@ -587,6 +626,7 @@ results = panel.get_all_measurements()
 ## Support
 
 For issues, questions, or feature requests:
+
 - GitHub Issues: https://github.com/little-did-I-know/Siglent-Oscilloscope/issues
 - Documentation: README.md
 - Examples: `examples/` directory

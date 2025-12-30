@@ -5,6 +5,7 @@ the oscilloscope and save it to a file.
 """
 
 import matplotlib.pyplot as plt
+
 from siglent import Oscilloscope
 
 # Replace with your oscilloscope's IP address

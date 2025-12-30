@@ -2,7 +2,8 @@
 
 import logging
 import re
-from typing import Optional, Dict, List
+from typing import Dict, List, Optional
+
 import numpy as np
 
 logger = logging.getLogger(__name__)
@@ -39,7 +40,16 @@ class MathOperations:
         if timebase is None and sample_rate:
             timebase = len(voltage) / sample_rate / 14.0
 
-        return type(source_waveform)(time=source_waveform.time, voltage=voltage, channel=channel, sample_rate=sample_rate, record_length=len(voltage), timebase=timebase, voltage_scale=voltage_scale, voltage_offset=0.0)  # Math results typically have no offset
+        return type(source_waveform)(
+            time=source_waveform.time,
+            voltage=voltage,
+            channel=channel,
+            sample_rate=sample_rate,
+            record_length=len(voltage),
+            timebase=timebase,
+            voltage_scale=voltage_scale,
+            voltage_offset=0.0,
+        )  # Math results typically have no offset
 
     @staticmethod
     def add(waveform1, waveform2):
@@ -55,7 +65,9 @@ class MathOperations:
         if waveform1 is None or waveform2 is None:
             return None
 
-        return MathOperations._create_result_waveform(waveform1, waveform1.voltage + waveform2.voltage)
+        return MathOperations._create_result_waveform(
+            waveform1, waveform1.voltage + waveform2.voltage
+        )
 
     @staticmethod
     def subtract(waveform1, waveform2):
@@ -71,7 +83,9 @@ class MathOperations:
         if waveform1 is None or waveform2 is None:
             return None
 
-        return MathOperations._create_result_waveform(waveform1, waveform1.voltage - waveform2.voltage)
+        return MathOperations._create_result_waveform(
+            waveform1, waveform1.voltage - waveform2.voltage
+        )
 
     @staticmethod
     def multiply(waveform1, waveform2):
@@ -87,7 +101,9 @@ class MathOperations:
         if waveform1 is None or waveform2 is None:
             return None
 
-        return MathOperations._create_result_waveform(waveform1, waveform1.voltage * waveform2.voltage)
+        return MathOperations._create_result_waveform(
+            waveform1, waveform1.voltage * waveform2.voltage
+        )
 
     @staticmethod
     def divide(waveform1, waveform2, epsilon=1e-12):

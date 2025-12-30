@@ -43,6 +43,7 @@ for %f in (dist\*.whl) do python -m pip install --upgrade pip "%f"
 ## Expected Output
 
 After `python -m build`, you should see:
+
 ```
 dist/
 ├── siglent_oscilloscope-0.1.0.tar.gz

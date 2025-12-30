@@ -9,6 +9,7 @@ This directory contains utility scripts for development and testing.
 Launch the GUI with comprehensive debug logging enabled.
 
 **Usage:**
+
 ```bash
 # Windows
 scripts\run_debug.bat
@@ -24,6 +25,7 @@ python scripts/run_debug.py
 Automated screenshot capture for documentation.
 
 **Usage:**
+
 ```bash
 python scripts/capture_screenshots.py
 ```
@@ -37,6 +39,7 @@ python scripts/capture_screenshots.py
 These scripts are not installed with the package - they're for development only.
 
 For package development documentation, see:
+
 - `docs/development/BUILD.md` - Build and packaging instructions
 - `docs/development/PYPI_DEPLOYMENT.md` - PyPI deployment guide
 - `docs/CONTRIBUTING.md` - Contributing guidelines

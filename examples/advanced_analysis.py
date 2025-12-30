@@ -5,8 +5,9 @@ waveforms, including FFT analysis, statistical analysis, and visualization
 using matplotlib.
 """
 
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
+
 from siglent.automation import DataCollector
 
 # Replace with your oscilloscope's IP address
@@ -90,7 +91,13 @@ def analyze_signal_quality(waveform):
 
     thd = np.sqrt(harmonic_power / (fundamental_power + 1e-12)) * 100
 
-    return {"mean": mean_val, "std_dev": std_val, "rms": rms_val, "snr_db": snr_db, "thd_percent": thd}
+    return {
+        "mean": mean_val,
+        "std_dev": std_val,
+        "rms": rms_val,
+        "snr_db": snr_db,
+        "thd_percent": thd,
+    }
 
 
 def main():

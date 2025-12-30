@@ -4,21 +4,20 @@ Supports multiple Siglent oscilloscope series including SDS800X HD, SDS1000X-E,
 SDS2000X Plus, and SDS5000X.
 """
 
-from typing import Optional, Dict, Any, List
 import logging
+from typing import Any, Dict, List, Optional
 
-from siglent.connection import SocketConnection, BaseConnection
 from siglent import exceptions
+from siglent.analysis import FFTAnalyzer
+from siglent.channel import Channel
+from siglent.connection import BaseConnection, SocketConnection
+from siglent.math_channel import MathChannel
+from siglent.measurement import Measurement
 from siglent.models import ModelCapability, detect_model_from_idn
 from siglent.scpi_commands import SCPICommandSet
-
-from siglent.channel import Channel
+from siglent.screen_capture import ScreenCapture
 from siglent.trigger import Trigger
 from siglent.waveform import Waveform, WaveformData
-from siglent.measurement import Measurement
-from siglent.screen_capture import ScreenCapture
-from siglent.math_channel import MathChannel
-from siglent.analysis import FFTAnalyzer
 
 logger = logging.getLogger(__name__)
 
@@ -45,7 +44,13 @@ class Oscilloscope:
         ...     print(scope.identify())
     """
 
-    def __init__(self, host: str, port: int = 5024, timeout: float = 5.0, connection: Optional[BaseConnection] = None):
+    def __init__(
+        self,
+        host: str,
+        port: int = 5024,
+        timeout: float = 5.0,
+        connection: Optional[BaseConnection] = None,
+    ):
         """Initialize oscilloscope connection.
 
         Args:
@@ -124,7 +129,10 @@ class Oscilloscope:
 
                 self._vector_display = VectorDisplay(self)
             except ImportError as e:
-                raise ImportError("Vector graphics features require the 'fun' extras.\n" 'Install with: pip install "Siglent-Oscilloscope[fun]"') from e
+                raise ImportError(
+                    "Vector graphics features require the 'fun' extras.\n"
+                    'Install with: pip install "Siglent-Oscilloscope[fun]"'
+                ) from e
         return self._vector_display
 
     def connect(self) -> None:

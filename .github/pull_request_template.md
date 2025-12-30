@@ -1,60 +1,91 @@
-# Pull Request
-
 ## Description
 
-Provide a clear and concise description of what this PR does.
-
-## Type of Change
-
-- [ ] Bug fix (non-breaking change which fixes an issue)
-- [ ] New feature (non-breaking change which adds functionality)
-- [ ] Breaking change (fix or feature that would cause existing functionality to not work as expected)
-- [ ] Documentation update
-- [ ] Code refactoring
-- [ ] Performance improvement
-- [ ] Other (please describe):
+<!-- Provide a brief description of the changes in this PR -->
 
 ## Related Issues
 
-Fixes #(issue number)
-Relates to #(issue number)
+<!-- Link to related issues using keywords: Fixes #123, Closes #456, Relates to #789 -->
+
+Fixes #
+
+## Type of Change
+
+<!-- Mark the relevant option with an "x" -->
+
+- [ ] Bug fix (non-breaking change fixing an issue)
+- [ ] New feature (non-breaking change adding functionality)
+- [ ] Breaking change (fix or feature causing existing functionality to change)
+- [ ] Documentation update
+- [ ] Performance improvement
+- [ ] Code refactoring
+- [ ] Test coverage improvement
+- [ ] CI/CD improvement
 
 ## Changes Made
 
-- Change 1
-- Change 2
-- Change 3
+<!-- Describe what you changed and why -->
+
+-
+-
+-
 
 ## Testing
 
-Describe how you tested your changes:
+<!-- Describe the tests you ran and their results -->
 
-- [ ] Tested with actual hardware (SDS824X HD)
-- [ ] Tested programmatic API
-- [ ] Tested GUI application
-- [ ] Ran existing examples
-- [ ] Added new example (if applicable)
+- [ ] Tests pass locally (`make test` or `pytest tests/`)
+- [ ] Added tests for new functionality
+- [ ] Tested with real hardware (if applicable)
+- [ ] All CI checks pass
 
-### Test Environment
+### Test Details
 
-- **OS**: [e.g., Windows 10, macOS 13, Ubuntu 22.04]
-- **Python version**: [e.g., 3.10.5]
-- **Oscilloscope model**: [e.g., SDS824X HD]
+<!-- Provide details about your testing -->
+
+**Test environment:**
+
+- OS:
+- Python version:
+- Oscilloscope model (if applicable):
+
+**Test results:**
+
+```
+# Paste test output here
+```
+
+## Code Quality
+
+<!-- Confirm your code meets quality standards -->
+
+- [ ] Code follows the project style guidelines (`make lint` passes)
+- [ ] Code is formatted with Black (`make format`)
+- [ ] Self-reviewed the code
+- [ ] Commented complex code sections
+- [ ] Updated docstrings for modified functions/classes
+- [ ] No new linting warnings introduced
+
+## Documentation
+
+<!-- Confirm documentation is updated -->
+
+- [ ] Updated README.md (if needed)
+- [ ] Updated CHANGELOG.md with changes
+- [ ] Added/updated docstrings
+- [ ] Added/updated examples (if applicable)
+- [ ] Updated type hints
 
 ## Checklist
 
-- [ ] My code follows the project's style guidelines
-- [ ] I have run `black` for code formatting
-- [ ] I have added docstrings to new functions/classes
-- [ ] I have updated the documentation (if needed)
-- [ ] I have added examples (if adding new features)
-- [ ] I have tested my changes
-- [ ] All existing examples still work
+<!-- Final checks before submitting -->
 
-## Screenshots (if applicable)
-
-Add screenshots to help explain your changes, especially for GUI updates.
+- [ ] I have read the [CONTRIBUTING.md](../CONTRIBUTING.md) guide
+- [ ] My code follows the project's code style
+- [ ] I have performed a self-review of my code
+- [ ] I have added tests that prove my fix is effective or that my feature works
+- [ ] New and existing unit tests pass locally with my changes
+- [ ] I have made corresponding changes to the documentation
 
 ## Additional Notes
 
-Add any additional notes or context about the PR here.
+<!-- Any additional information for reviewers -->

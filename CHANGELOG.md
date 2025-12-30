@@ -31,6 +31,41 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Comprehensive `CONTRIBUTING.md` with development guidelines
   - Code style, testing, and PR submission instructions
   - Development setup and best practices documentation
+- **Community Standards**
+  - Added `CODE_OF_CONDUCT.md` (Contributor Covenant 2.1)
+    - Private reporting contacts (email, GitHub, security advisory)
+    - Clear enforcement responsibilities (maintainers defined)
+    - Anti-retaliation policy
+    - Step-by-step "What Happens Next" process
+    - Appeals process for disputed decisions
+  - Added `SECURITY.md` with vulnerability reporting process
+  - Added security best practices and safe usage guidelines
+- **Development Automation**
+  - Added `.pre-commit-config.yaml` for automated code quality checks
+  - Configured Black, Flake8, isort, Bandit security scanning
+  - Added file cleanup and validation hooks
+- **Makefile for Development**
+  - Added comprehensive Makefile with common development tasks
+  - Commands for testing, linting, formatting, building, publishing
+  - Quick setup commands: `make dev-setup`, `make check`
+  - Shortcuts: `make test-cov`, `make format`, `make gui`
+- **GitHub Issue Templates**
+  - Structured bug report template (`.github/ISSUE_TEMPLATE/bug_report.yml`)
+  - Feature request template (`.github/ISSUE_TEMPLATE/feature_request.yml`)
+  - Issue template configuration with links to discussions
+- **Pull Request Template**
+  - Comprehensive PR template (`.github/PULL_REQUEST_TEMPLATE.md`)
+  - Checklists for code quality, testing, and documentation
+  - Sections for type of change, testing details, and migration guides
+- **Dependabot Configuration**
+  - Automated dependency updates (`.github/dependabot.yml`)
+  - Weekly updates for Python packages and GitHub Actions
+  - Grouped updates by dependency type (dev, security, GUI, core)
+- **Interactive Tutorial**
+  - Jupyter notebook tutorial (`examples/interactive_tutorial.ipynb`)
+  - Step-by-step guide for oscilloscope control
+  - Examples of waveform capture, FFT analysis, measurements
+  - Multi-channel capture and data export demonstrations
 
 ### Changed
 - **SEO and PyPI Metadata Improvements**
@@ -45,6 +80,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Moved manual test scripts to `scripts/` directory
   - Reorganized interactive GUI tests as manual scripts
   - Ensured automated tests properly handle optional dependencies
+- **README Improvements**
+  - Added Community and Support section with links to issues, discussions, security
+  - Added Resources section highlighting tutorial, examples, and guides
+  - Added Quick Start for Contributors with Makefile commands
+  - Improved Contributing section with detailed instructions
 
 ### Fixed
 - **Test Suite Issues**
@@ -52,6 +92,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Moved manual test scripts (`test_live_view.py`, `test_pyqtgraph.py`, `test_dependency_check.py`, `test_waveform_display.py`) to `scripts/` directory
   - Prevented pytest from collecting non-test GUI demo scripts
   - Ensured GUI tests skip gracefully when PyQt6 is not installed
+- **Python 3.8 Compatibility**
+  - Fixed `pyproject.toml` license field to use PEP 621 compliant format
+  - Changed `license = "MIT"` to `license = {text = "MIT"}` for Python 3.8 compatibility
+  - Resolved build errors in older setuptools versions
 
 ## [0.2.4] - 2025-12-29
 

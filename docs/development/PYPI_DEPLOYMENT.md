@@ -15,6 +15,7 @@ pip install build twine
 ```
 
 Or if you installed the dev dependencies:
+
 ```bash
 pip install -e ".[dev]"
 ```
@@ -35,6 +36,7 @@ python -m build
 ```
 
 This creates two files in the `dist/` directory:
+
 - `siglent-0.1.0.tar.gz` (source distribution)
 - `siglent-0.1.0-py3-none-any.whl` (wheel distribution)
 
@@ -57,6 +59,7 @@ twine upload --repository testpypi dist/*
 ```
 
 You'll be prompted for:
+
 - Username: `__token__`
 - Password: Your TestPyPI API token (including the `pypi-` prefix)
 
@@ -95,6 +98,7 @@ twine upload dist/*
 ```
 
 You'll be prompted for:
+
 - Username: `__token__`
 - Password: Your PyPI API token (including the `pypi-` prefix)
 
@@ -146,6 +150,7 @@ When releasing a new version:
 ### 1. Update Version Number
 
 Edit `pyproject.toml`:
+
 ```toml
 [project]
 name = "siglent"
@@ -153,6 +158,7 @@ version = "0.2.0"  # Update this
 ```
 
 Also update in `siglent/__init__.py`:
+
 ```python
 __version__ = "0.2.0"
 ```
@@ -195,20 +201,24 @@ twine upload dist/*
 ### Common Issues
 
 **"File already exists"**
+
 - You're trying to upload the same version twice
 - PyPI doesn't allow overwriting releases
 - Increment the version number
 
 **"Invalid distribution file"**
+
 - Clean build artifacts: `rm -rf dist/ build/ *.egg-info`
 - Rebuild: `python -m build`
 
 **"Package description failed to render"**
+
 - Run `twine check dist/*` to see the issue
 - Usually a syntax error in README.md
 - Fix and rebuild
 
 **Import errors after installation**
+
 - Check that all dependencies are listed in `pyproject.toml`
 - Verify package structure with `pip show siglent`
 

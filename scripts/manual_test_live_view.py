@@ -4,12 +4,15 @@ import logging
 import sys
 
 # Set up detailed logging
-logging.basicConfig(level=logging.DEBUG, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+logging.basicConfig(
+    level=logging.DEBUG, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+)
 
 logger = logging.getLogger(__name__)
 
 # Test the GUI
 from PyQt6.QtWidgets import QApplication
+
 from siglent.gui.main_window import MainWindow
 
 

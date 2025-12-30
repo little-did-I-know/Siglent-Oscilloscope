@@ -3,8 +3,18 @@
 import logging
 from typing import Optional
 
-from PyQt6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QGroupBox, QComboBox, QDoubleSpinBox, QPushButton, QLabel, QGridLayout
 from PyQt6.QtCore import Qt
+from PyQt6.QtWidgets import (
+    QComboBox,
+    QDoubleSpinBox,
+    QGridLayout,
+    QGroupBox,
+    QHBoxLayout,
+    QLabel,
+    QPushButton,
+    QVBoxLayout,
+    QWidget,
+)
 
 from siglent import Oscilloscope
 
@@ -126,7 +136,13 @@ class TriggerControl(QWidget):
         layout.addWidget(actions_group)
 
         # Info label
-        info_label = QLabel("<b>Trigger Mode Info:</b><br>" "<b>AUTO:</b> Always triggers (free-run if no signal)<br>" "<b>NORMAL:</b> Triggers only on valid events<br>" "<b>SINGLE:</b> Triggers once then stops<br>" "<b>STOP:</b> Stops acquisition")
+        info_label = QLabel(
+            "<b>Trigger Mode Info:</b><br>"
+            "<b>AUTO:</b> Always triggers (free-run if no signal)<br>"
+            "<b>NORMAL:</b> Triggers only on valid events<br>"
+            "<b>SINGLE:</b> Triggers once then stops<br>"
+            "<b>STOP:</b> Stops acquisition"
+        )
         info_label.setWordWrap(True)
         info_label.setStyleSheet("QLabel { font-size: 9pt; color: #888; }")
         layout.addWidget(info_label)

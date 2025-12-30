@@ -22,7 +22,15 @@ class TimingMarker(MeasurementMarker):
     - For DUTY: Two gates showing positive pulse width and total period
     """
 
-    def __init__(self, marker_id: str, measurement_type: str, channel: int, ax, canvas, color: Optional[str] = None):
+    def __init__(
+        self,
+        marker_id: str,
+        measurement_type: str,
+        channel: int,
+        ax,
+        canvas,
+        color: Optional[str] = None,
+    ):
         """Initialize timing marker.
 
         Args:
@@ -73,29 +81,65 @@ class TimingMarker(MeasurementMarker):
         alpha = self.DEFAULT_SELECTED_ALPHA if self.selected else self.DEFAULT_ALPHA
 
         # Draw vertical gates
-        line1 = self.ax.axvline(start_x, color=self.color, linestyle=self.DEFAULT_LINE_STYLE, linewidth=self.DEFAULT_LINE_WIDTH, alpha=alpha, picker=5)
+        line1 = self.ax.axvline(
+            start_x,
+            color=self.color,
+            linestyle=self.DEFAULT_LINE_STYLE,
+            linewidth=self.DEFAULT_LINE_WIDTH,
+            alpha=alpha,
+            picker=5,
+        )
         self.artists.append(line1)
 
-        line2 = self.ax.axvline(end_x, color=self.color, linestyle=self.DEFAULT_LINE_STYLE, linewidth=self.DEFAULT_LINE_WIDTH, alpha=alpha, picker=5)
+        line2 = self.ax.axvline(
+            end_x,
+            color=self.color,
+            linestyle=self.DEFAULT_LINE_STYLE,
+            linewidth=self.DEFAULT_LINE_WIDTH,
+            alpha=alpha,
+            picker=5,
+        )
         self.artists.append(line2)
 
         # Type-specific rendering
-        if self.measurement_type in ["RISE", "FALL"] and self.threshold_10 is not None and self.threshold_90 is not None:
+        if (
+            self.measurement_type in ["RISE", "FALL"]
+            and self.threshold_10 is not None
+            and self.threshold_90 is not None
+        ):
             # Draw horizontal threshold lines
             xlim = self.ax.get_xlim()
             x_start_norm = (start_x - xlim[0]) / (xlim[1] - xlim[0])
             x_end_norm = (end_x - xlim[0]) / (xlim[1] - xlim[0])
 
-            thresh_10_line = self.ax.axhline(self.threshold_10, xmin=x_start_norm, xmax=x_end_norm, color=self.color, linestyle=":", linewidth=1.5, alpha=alpha * 0.7)
+            thresh_10_line = self.ax.axhline(
+                self.threshold_10,
+                xmin=x_start_norm,
+                xmax=x_end_norm,
+                color=self.color,
+                linestyle=":",
+                linewidth=1.5,
+                alpha=alpha * 0.7,
+            )
             self.artists.append(thresh_10_line)
 
-            thresh_90_line = self.ax.axhline(self.threshold_90, xmin=x_start_norm, xmax=x_end_norm, color=self.color, linestyle=":", linewidth=1.5, alpha=alpha * 0.7)
+            thresh_90_line = self.ax.axhline(
+                self.threshold_90,
+                xmin=x_start_norm,
+                xmax=x_end_norm,
+                color=self.color,
+                linestyle=":",
+                linewidth=1.5,
+                alpha=alpha * 0.7,
+            )
             self.artists.append(thresh_90_line)
 
         elif self.measurement_type in ["WID", "NWID", "DUTY"]:
             # Draw shaded region between gates
             ylim = self.ax.get_ylim()
-            fill = self.ax.fill_between([start_x, end_x], ylim[0], ylim[1], color=self.color, alpha=0.15)
+            fill = self.ax.fill_between(
+                [start_x, end_x], ylim[0], ylim[1], color=self.color, alpha=0.15
+            )
             self.artists.append(fill)
 
         # Draw label
@@ -266,7 +310,12 @@ class TimingMarker(MeasurementMarker):
 
         # Find falling and rising edges
         t_falling = self._find_threshold_crossing(time, voltage, threshold, rising=False)
-        t_rising_next = self._find_threshold_crossing(time[time > t_falling] if t_falling else time, voltage[time > t_falling] if t_falling else voltage, threshold, rising=True)
+        t_rising_next = self._find_threshold_crossing(
+            time[time > t_falling] if t_falling else time,
+            voltage[time > t_falling] if t_falling else voltage,
+            threshold,
+            rising=True,
+        )
 
         if t_falling is None or t_rising_next is None or t_rising_next <= t_falling:
             return None
@@ -299,7 +348,9 @@ class TimingMarker(MeasurementMarker):
 
         return float(duty_cycle)
 
-    def _find_threshold_crossing(self, time: np.ndarray, voltage: np.ndarray, threshold: float, rising: bool = True) -> Optional[float]:
+    def _find_threshold_crossing(
+        self, time: np.ndarray, voltage: np.ndarray, threshold: float, rising: bool = True
+    ) -> Optional[float]:
         """Find time when waveform crosses threshold.
 
         Args:

@@ -3,11 +3,21 @@
 import logging
 from typing import Optional
 
-from PyQt6.QtWidgets import QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QLineEdit, QLabel, QToolBar, QMessageBox
-from PyQt6.QtWebEngineWidgets import QWebEngineView
-from PyQt6.QtWebEngineCore import QWebEngineSettings
-from PyQt6.QtCore import QUrl, Qt
+from PyQt6.QtCore import Qt, QUrl
 from PyQt6.QtGui import QAction
+from PyQt6.QtWebEngineCore import QWebEngineSettings
+from PyQt6.QtWebEngineWidgets import QWebEngineView
+from PyQt6.QtWidgets import (
+    QHBoxLayout,
+    QLabel,
+    QLineEdit,
+    QMainWindow,
+    QMessageBox,
+    QPushButton,
+    QToolBar,
+    QVBoxLayout,
+    QWidget,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -185,10 +195,22 @@ class VNCWindow(QMainWindow):
             self.statusBar().showMessage("Connected to oscilloscope")
         else:
             logger.error("Failed to load VNC interface")
-            self.statusBar().showMessage("Failed to load VNC interface - Check IP address and network connection")
+            self.statusBar().showMessage(
+                "Failed to load VNC interface - Check IP address and network connection"
+            )
 
             # Show helpful error message
-            QMessageBox.warning(self, "Connection Failed", f"Failed to load the oscilloscope VNC interface.\n\n" f"Troubleshooting:\n" f"1. Verify the oscilloscope IP address is correct\n" f"2. Ensure the oscilloscope is powered on and connected to the network\n" f"3. Check that VNC/web interface is enabled on the oscilloscope\n" f"4. Verify your computer can ping the oscilloscope\n\n" f"Current URL: http://{self.scope_ip}/Instrument/novnc/vnc_auto.php")
+            QMessageBox.warning(
+                self,
+                "Connection Failed",
+                f"Failed to load the oscilloscope VNC interface.\n\n"
+                f"Troubleshooting:\n"
+                f"1. Verify the oscilloscope IP address is correct\n"
+                f"2. Ensure the oscilloscope is powered on and connected to the network\n"
+                f"3. Check that VNC/web interface is enabled on the oscilloscope\n"
+                f"4. Verify your computer can ping the oscilloscope\n\n"
+                f"Current URL: http://{self.scope_ip}/Instrument/novnc/vnc_auto.php",
+            )
 
     def _show_help(self):
         """Show help dialog for VNC viewer."""

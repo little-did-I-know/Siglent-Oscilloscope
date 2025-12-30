@@ -5,7 +5,11 @@ import logging
 import sys
 
 # Configure logging to show EVERYTHING
-logging.basicConfig(level=logging.DEBUG, format="%(asctime)s [%(levelname)8s] %(name)s - %(message)s", datefmt="%H:%M:%S")
+logging.basicConfig(
+    level=logging.DEBUG,
+    format="%(asctime)s [%(levelname)8s] %(name)s - %(message)s",
+    datefmt="%H:%M:%S",
+)
 
 # Reduce noise from some libraries
 logging.getLogger("matplotlib").setLevel(logging.WARNING)
@@ -38,6 +42,7 @@ def main():
 
     # Import and run
     from PyQt6.QtWidgets import QApplication
+
     from siglent.gui.main_window import MainWindow
 
     app = QApplication(sys.argv)

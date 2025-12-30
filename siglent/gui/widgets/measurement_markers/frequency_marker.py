@@ -22,7 +22,15 @@ class FrequencyMarker(MeasurementMarker):
     - Draggable handles at line positions
     """
 
-    def __init__(self, marker_id: str, measurement_type: str, channel: int, ax, canvas, color: Optional[str] = None):
+    def __init__(
+        self,
+        marker_id: str,
+        measurement_type: str,
+        channel: int,
+        ax,
+        canvas,
+        color: Optional[str] = None,
+    ):
         """Initialize frequency marker.
 
         Args:
@@ -63,10 +71,24 @@ class FrequencyMarker(MeasurementMarker):
         # Draw vertical gates
         alpha = self.DEFAULT_SELECTED_ALPHA if self.selected else self.DEFAULT_ALPHA
 
-        line1 = self.ax.axvline(start_x, color=self.color, linestyle=self.DEFAULT_LINE_STYLE, linewidth=self.DEFAULT_LINE_WIDTH, alpha=alpha, picker=5)
+        line1 = self.ax.axvline(
+            start_x,
+            color=self.color,
+            linestyle=self.DEFAULT_LINE_STYLE,
+            linewidth=self.DEFAULT_LINE_WIDTH,
+            alpha=alpha,
+            picker=5,
+        )
         self.artists.append(line1)
 
-        line2 = self.ax.axvline(end_x, color=self.color, linestyle=self.DEFAULT_LINE_STYLE, linewidth=self.DEFAULT_LINE_WIDTH, alpha=alpha, picker=5)
+        line2 = self.ax.axvline(
+            end_x,
+            color=self.color,
+            linestyle=self.DEFAULT_LINE_STYLE,
+            linewidth=self.DEFAULT_LINE_WIDTH,
+            alpha=alpha,
+            picker=5,
+        )
         self.artists.append(line2)
 
         # Draw arc connecting the gates at top
@@ -74,7 +96,14 @@ class FrequencyMarker(MeasurementMarker):
         mid_x = (start_x + end_x) / 2
 
         # Create arc using a simple line
-        arc_line = self.ax.plot([start_x, mid_x, end_x], [arc_y, arc_y + y_range * 0.02, arc_y], color=self.color, linestyle="-", linewidth=self.DEFAULT_LINE_WIDTH, alpha=alpha)[0]
+        arc_line = self.ax.plot(
+            [start_x, mid_x, end_x],
+            [arc_y, arc_y + y_range * 0.02, arc_y],
+            color=self.color,
+            linestyle="-",
+            linewidth=self.DEFAULT_LINE_WIDTH,
+            alpha=alpha,
+        )[0]
         self.artists.append(arc_line)
 
         # Draw label at top center
@@ -158,7 +187,9 @@ class FrequencyMarker(MeasurementMarker):
             for i in range(len(voltage_ac) - 1):
                 if voltage_ac[i] <= 0 and voltage_ac[i + 1] > 0:
                     # Linear interpolation for more accurate crossing time
-                    t_cross = time[i] - voltage_ac[i] * (time[i + 1] - time[i]) / (voltage_ac[i + 1] - voltage_ac[i])
+                    t_cross = time[i] - voltage_ac[i] * (time[i + 1] - time[i]) / (
+                        voltage_ac[i + 1] - voltage_ac[i]
+                    )
                     zero_crossings.append(t_cross)
 
             if len(zero_crossings) >= 2:

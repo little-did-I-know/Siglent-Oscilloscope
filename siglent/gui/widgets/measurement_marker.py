@@ -38,13 +38,13 @@ Example:
     ...         return value
 """
 
-from abc import ABC, abstractmethod
-from typing import Optional, Tuple, List, Dict, Any, TYPE_CHECKING
 import logging
+from abc import ABC, abstractmethod
+from typing import TYPE_CHECKING, Any, Dict, List, Optional, Tuple
 
 import numpy as np
 from matplotlib.lines import Line2D
-from matplotlib.patches import Rectangle, FancyBboxPatch
+from matplotlib.patches import FancyBboxPatch, Rectangle
 from matplotlib.text import Text
 
 from siglent.waveform import WaveformData
@@ -85,7 +85,15 @@ class MeasurementMarker(ABC):
     LABEL_FONTSIZE = 9
     LABEL_PADDING = 4
 
-    def __init__(self, marker_id: str, measurement_type: str, channel: int, ax: "Axes", canvas: "FigureCanvasQTAgg", color: Optional[str] = None):
+    def __init__(
+        self,
+        marker_id: str,
+        measurement_type: str,
+        channel: int,
+        ax: "Axes",
+        canvas: "FigureCanvasQTAgg",
+        color: Optional[str] = None,
+    ):
         """Initialize measurement marker.
 
         Args:
@@ -351,9 +359,24 @@ class MeasurementMarker(ABC):
         label_text = self._create_label_text()
 
         # Create text with background box
-        bbox_props = dict(boxstyle=f"round,pad={self.LABEL_PADDING}", facecolor="#000000DD", edgecolor=self.color if self.selected else "#444444", linewidth=2 if self.selected else 1)
+        bbox_props = dict(
+            boxstyle=f"round,pad={self.LABEL_PADDING}",
+            facecolor="#000000DD",
+            edgecolor=self.color if self.selected else "#444444",
+            linewidth=2 if self.selected else 1,
+        )
 
-        self.label_artist = self.ax.text(x, y, label_text, fontsize=self.LABEL_FONTSIZE, color=self.color, bbox=bbox_props, verticalalignment="top", horizontalalignment="left", zorder=100)  # Draw on top
+        self.label_artist = self.ax.text(
+            x,
+            y,
+            label_text,
+            fontsize=self.LABEL_FONTSIZE,
+            color=self.color,
+            bbox=bbox_props,
+            verticalalignment="top",
+            horizontalalignment="left",
+            zorder=100,
+        )  # Draw on top
 
     def _get_default_color(self) -> str:
         """Get default color based on measurement type.
@@ -386,7 +409,16 @@ class MeasurementMarker(ABC):
         Returns:
             Configuration dictionary
         """
-        return {"id": self.marker_id, "type": self.measurement_type, "channel": self.channel, "enabled": self.enabled, "gates": self.gates.copy(), "color": self.color, "result": self.result, "unit": self.unit}
+        return {
+            "id": self.marker_id,
+            "type": self.measurement_type,
+            "channel": self.channel,
+            "enabled": self.enabled,
+            "gates": self.gates.copy(),
+            "color": self.color,
+            "result": self.result,
+            "unit": self.unit,
+        }
 
     def set_config(self, config: Dict[str, Any]) -> None:
         """Load marker configuration.

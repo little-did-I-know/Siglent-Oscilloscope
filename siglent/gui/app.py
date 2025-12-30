@@ -5,7 +5,9 @@ import sys
 import warnings
 
 # Configure logging
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+)
 
 logger = logging.getLogger(__name__)
 
@@ -77,10 +79,13 @@ def _check_gui_dependencies():
 def _require_gui_dependencies():
     """Import PyQt6 dependencies with a helpful error if missing."""
     try:
-        from PyQt6.QtWidgets import QApplication
         from PyQt6.QtCore import Qt
+        from PyQt6.QtWidgets import QApplication
     except ModuleNotFoundError as exc:
-        raise ImportError("PyQt6 is required for the GUI. Install the GUI extras with:\n" '  pip install "Siglent-Oscilloscope[gui]"') from exc
+        raise ImportError(
+            "PyQt6 is required for the GUI. Install the GUI extras with:\n"
+            '  pip install "Siglent-Oscilloscope[gui]"'
+        ) from exc
 
     return QApplication, Qt
 
@@ -98,7 +103,9 @@ def main():
     QApplication.setAttribute(Qt.ApplicationAttribute.AA_ShareOpenGLContexts)
 
     # Enable High DPI scaling
-    QApplication.setHighDpiScaleFactorRoundingPolicy(Qt.HighDpiScaleFactorRoundingPolicy.PassThrough)
+    QApplication.setHighDpiScaleFactorRoundingPolicy(
+        Qt.HighDpiScaleFactorRoundingPolicy.PassThrough
+    )
 
     # Create application
     app = QApplication(sys.argv)

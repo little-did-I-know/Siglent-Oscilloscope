@@ -1,6 +1,7 @@
 """Debug script to test channel state and capture functionality."""
 
 import logging
+
 import pytest
 
 pytest.skip("Interactive debug helper; skipped in automated CI runs", allow_module_level=True)
@@ -8,7 +9,9 @@ pytest.skip("Interactive debug helper; skipped in automated CI runs", allow_modu
 import sys
 
 # Configure detailed logging
-logging.basicConfig(level=logging.DEBUG, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+logging.basicConfig(
+    level=logging.DEBUG, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+)
 
 logger = logging.getLogger(__name__)
 
@@ -65,7 +68,9 @@ def test_channel_state(scope_ip: str):
                 print(f"   SUCCESS! Captured waveform:")
                 print(f"     - Samples: {len(waveform.voltage)}")
                 print(f"     - Time range: {waveform.time[0]:.6e} to {waveform.time[-1]:.6e} s")
-                print(f"     - Voltage range: {waveform.voltage.min():.3f} to {waveform.voltage.max():.3f} V")
+                print(
+                    f"     - Voltage range: {waveform.voltage.min():.3f} to {waveform.voltage.max():.3f} V"
+                )
             else:
                 print(f"   FAILED - No waveform data returned")
         except Exception as e:

@@ -1,8 +1,9 @@
 """Connection manager for storing and retrieving recent oscilloscope connections."""
 
 import logging
-from typing import List, Dict, Optional
 from datetime import datetime
+from typing import Dict, List, Optional
+
 from PyQt6.QtCore import QSettings
 
 logger = logging.getLogger(__name__)
@@ -97,7 +98,14 @@ class ConnectionManager:
         recent = self.get_recent_connections()
         return recent[0] if recent else None
 
-    def save_connection_profile(self, name: str, host: str, port: int = 5024, model_name: Optional[str] = None, notes: Optional[str] = None) -> None:
+    def save_connection_profile(
+        self,
+        name: str,
+        host: str,
+        port: int = 5024,
+        model_name: Optional[str] = None,
+        notes: Optional[str] = None,
+    ) -> None:
         """Save a named connection profile.
 
         Args:

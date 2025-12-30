@@ -38,15 +38,16 @@ Example:
 
 import logging
 import time
-from pathlib import Path
-from typing import List, Dict, Any, Optional, Callable, Union
 from datetime import datetime
+from pathlib import Path
+from typing import Any, Callable, Dict, List, Optional, Union
+
 import numpy as np
 
 from siglent import Oscilloscope
 from siglent.connection import BaseConnection
-from siglent.waveform import WaveformData
 from siglent.exceptions import SiglentError
+from siglent.waveform import WaveformData
 
 logger = logging.getLogger(__name__)
 
@@ -59,7 +60,13 @@ class DataCollector:
     measurements.
     """
 
-    def __init__(self, host: str, port: int = 5024, timeout: float = 5.0, connection: Optional[BaseConnection] = None):
+    def __init__(
+        self,
+        host: str,
+        port: int = 5024,
+        timeout: float = 5.0,
+        connection: Optional[BaseConnection] = None,
+    ):
         """Initialize data collector.
 
         Args:
@@ -94,7 +101,9 @@ class DataCollector:
         self.disconnect()
         return False
 
-    def capture_single(self, channels: List[int], auto_setup: bool = False) -> Dict[int, WaveformData]:
+    def capture_single(
+        self, channels: List[int], auto_setup: bool = False
+    ) -> Dict[int, WaveformData]:
         """Capture waveforms from specified channels.
 
         Args:
@@ -110,7 +119,9 @@ class DataCollector:
             >>> print(f"Sample rate: {data[1].sample_rate} Hz")
         """
         if not self._connected:
-            raise SiglentError(f"Not connected to oscilloscope at {self.scope.host}:{self.scope.port}")
+            raise SiglentError(
+                f"Not connected to oscilloscope at {self.scope.host}:{self.scope.port}"
+            )
 
         if auto_setup:
             self.scope.auto_setup()
@@ -135,7 +146,14 @@ class DataCollector:
 
         return waveforms
 
-    def batch_capture(self, channels: List[int], timebase_scales: Optional[List[str]] = None, voltage_scales: Optional[Dict[int, List[str]]] = None, triggers_per_config: int = 1, progress_callback: Optional[Callable[[int, int, str], None]] = None) -> List[Dict[str, Any]]:
+    def batch_capture(
+        self,
+        channels: List[int],
+        timebase_scales: Optional[List[str]] = None,
+        voltage_scales: Optional[Dict[int, List[str]]] = None,
+        triggers_per_config: int = 1,
+        progress_callback: Optional[Callable[[int, int, str], None]] = None,
+    ) -> List[Dict[str, Any]]:
         """Capture multiple waveforms with different configurations.
 
         Args:
@@ -158,7 +176,9 @@ class DataCollector:
             >>> print(f"Collected {len(results)} captures")
         """
         if not self._connected:
-            raise SiglentError(f"Not connected to oscilloscope at {self.scope.host}:{self.scope.port}")
+            raise SiglentError(
+                f"Not connected to oscilloscope at {self.scope.host}:{self.scope.port}"
+            )
 
         results = []
 
@@ -194,7 +214,11 @@ class DataCollector:
                     self.scope.timebase = config["timebase"]
                 logger.info(f"Set timebase to {config['timebase']}")
 
-            for ch, scale in [(int(k[2]), v) for k, v in config.items() if k.startswith("ch") and k.endswith("_vdiv")]:
+            for ch, scale in [
+                (int(k[2]), v)
+                for k, v in config.items()
+                if k.startswith("ch") and k.endswith("_vdiv")
+            ]:
                 channel = getattr(self.scope, f"channel{ch}")
                 if hasattr(channel, "set_scale"):
                     channel.set_scale(scale)
@@ -214,12 +238,27 @@ class DataCollector:
 
                 waveforms = self.capture_single(channels)
 
-                results.append({"timestamp": datetime.now().isoformat(), "config": config.copy(), "waveforms": waveforms, "trigger_num": trigger_num})
+                results.append(
+                    {
+                        "timestamp": datetime.now().isoformat(),
+                        "config": config.copy(),
+                        "waveforms": waveforms,
+                        "trigger_num": trigger_num,
+                    }
+                )
 
         logger.info(f"Batch capture complete: {len(results)} captures")
         return results
 
-    def start_continuous_capture(self, channels: List[int], duration: float, interval: float = 1.0, output_dir: Optional[Union[str, Path]] = None, file_format: str = "npz", progress_callback: Optional[Callable[[int, str], None]] = None) -> List[Dict[str, Any]]:
+    def start_continuous_capture(
+        self,
+        channels: List[int],
+        duration: float,
+        interval: float = 1.0,
+        output_dir: Optional[Union[str, Path]] = None,
+        file_format: str = "npz",
+        progress_callback: Optional[Callable[[int, str], None]] = None,
+    ) -> List[Dict[str, Any]]:
         """Capture waveforms continuously over a time period.
 
         Args:
@@ -244,7 +283,9 @@ class DataCollector:
             ... )
         """
         if not self._connected:
-            raise SiglentError(f"Not connected to oscilloscope at {self.scope.host}:{self.scope.port}")
+            raise SiglentError(
+                f"Not connected to oscilloscope at {self.scope.host}:{self.scope.port}"
+            )
 
         if output_dir:
             output_path = Path(output_dir)
@@ -275,14 +316,21 @@ class DataCollector:
                 capture_count += 1
                 elapsed = time.time() - start_time
 
-                capture_data = {"timestamp": datetime.now().isoformat(), "elapsed_time": elapsed, "capture_num": capture_count, "waveforms": waveforms}
+                capture_data = {
+                    "timestamp": datetime.now().isoformat(),
+                    "elapsed_time": elapsed,
+                    "capture_num": capture_count,
+                    "waveforms": waveforms,
+                }
 
                 # Save to file or memory
                 if output_dir:
                     timestamp_str = datetime.now().strftime("%Y%m%d_%H%M%S_%f")
                     for ch, waveform in waveforms.items():
                         filename = output_path / f"ch{ch}_{timestamp_str}.{file_format}"
-                        self.scope.waveform.save_waveform(waveform, str(filename), format=file_format)
+                        self.scope.waveform.save_waveform(
+                            waveform, str(filename), format=file_format
+                        )
                     logger.debug(f"Saved capture {capture_count}")
                 else:
                     results.append(capture_data)
@@ -307,7 +355,9 @@ class DataCollector:
         logger.info(f"Continuous capture complete: {capture_count} captures over {duration}s")
         return results
 
-    def save_data(self, waveforms: Dict[int, WaveformData], filename: str, format: str = "npz") -> None:
+    def save_data(
+        self, waveforms: Dict[int, WaveformData], filename: str, format: str = "npz"
+    ) -> None:
         """Save captured waveform data to file.
 
         Args:
@@ -325,7 +375,9 @@ class DataCollector:
             self.scope.waveform.save_waveform(waveform, ch_filename, format=format)
             logger.info(f"Saved channel {ch} to {ch_filename}")
 
-    def save_batch(self, batch_results: List[Dict[str, Any]], output_dir: str, format: str = "npz") -> None:
+    def save_batch(
+        self, batch_results: List[Dict[str, Any]], output_dir: str, format: str = "npz"
+    ) -> None:
         """Save batch capture results to directory.
 
         Args:
@@ -341,7 +393,11 @@ class DataCollector:
         output_path.mkdir(parents=True, exist_ok=True)
 
         # Save metadata
-        metadata = {"total_captures": len(batch_results), "timestamp": datetime.now().isoformat(), "configurations": [r["config"] for r in batch_results]}
+        metadata = {
+            "total_captures": len(batch_results),
+            "timestamp": datetime.now().isoformat(),
+            "configurations": [r["config"] for r in batch_results],
+        }
 
         metadata_file = output_path / "metadata.txt"
         with open(metadata_file, "w") as f:
@@ -355,7 +411,9 @@ class DataCollector:
 
         # Save waveforms
         for i, result in enumerate(batch_results):
-            config_str = "_".join([f"{k}={v}" for k, v in result["config"].items()]).replace("/", "-")
+            config_str = "_".join([f"{k}={v}" for k, v in result["config"].items()]).replace(
+                "/", "-"
+            )
             trigger_num = result["trigger_num"]
 
             for ch, waveform in result["waveforms"].items():
@@ -382,7 +440,16 @@ class DataCollector:
         """
         voltage = waveform.voltage
 
-        analysis = {"vpp": np.max(voltage) - np.min(voltage), "amplitude": (np.max(voltage) - np.min(voltage)) / 2, "max": np.max(voltage), "min": np.min(voltage), "mean": np.mean(voltage), "rms": np.sqrt(np.mean(voltage**2)), "std_dev": np.std(voltage), "median": np.median(voltage)}
+        analysis = {
+            "vpp": np.max(voltage) - np.min(voltage),
+            "amplitude": (np.max(voltage) - np.min(voltage)) / 2,
+            "max": np.max(voltage),
+            "min": np.min(voltage),
+            "mean": np.mean(voltage),
+            "rms": np.sqrt(np.mean(voltage**2)),
+            "std_dev": np.std(voltage),
+            "median": np.median(voltage),
+        }
 
         # Try to detect frequency (simple zero-crossing method)
         frequency = 0.0
@@ -422,7 +489,13 @@ class TriggerWaitCollector:
     specific signal conditions.
     """
 
-    def __init__(self, host: str, port: int = 5024, timeout: float = 5.0, connection: Optional[BaseConnection] = None):
+    def __init__(
+        self,
+        host: str,
+        port: int = 5024,
+        timeout: float = 5.0,
+        connection: Optional[BaseConnection] = None,
+    ):
         """Initialize trigger wait collector.
 
         Args:
@@ -443,7 +516,13 @@ class TriggerWaitCollector:
         self.collector.disconnect()
         return False
 
-    def wait_for_trigger(self, channels: List[int], max_wait: float = 60.0, save_on_trigger: bool = True, output_dir: Optional[str] = None) -> Optional[Dict[int, WaveformData]]:
+    def wait_for_trigger(
+        self,
+        channels: List[int],
+        max_wait: float = 60.0,
+        save_on_trigger: bool = True,
+        output_dir: Optional[str] = None,
+    ) -> Optional[Dict[int, WaveformData]]:
         """Wait for a trigger event and capture waveform.
 
         Args:

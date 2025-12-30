@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 """Test script to demonstrate dependency checking in siglent-gui."""
 
-import sys
 import subprocess
+import sys
 
 print("=" * 70)
 print("Testing Dependency Checker")

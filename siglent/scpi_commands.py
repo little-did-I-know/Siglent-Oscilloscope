@@ -4,7 +4,7 @@ This module provides model-specific SCPI command routing to handle variations
 in command syntax across different oscilloscope series.
 """
 
-from typing import Dict, Any
+from typing import Any, Dict
 
 
 class SCPICommandSet:

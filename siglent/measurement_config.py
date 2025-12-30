@@ -29,12 +29,12 @@ Example:
     >>> loaded = MeasurementConfigSet.load_from_file("power_analysis.json")
 """
 
-from dataclasses import dataclass, field, asdict
-from typing import Dict, List, Optional, Any
-from datetime import datetime
 import json
 import logging
+from dataclasses import asdict, dataclass, field
+from datetime import datetime
 from pathlib import Path
+from typing import Any, Dict, List, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -114,7 +114,13 @@ class MeasurementConfigSet:
             Path(filepath).parent.mkdir(parents=True, exist_ok=True)
 
             # Build data dictionary
-            data = {"name": self.name, "version": "1.0", "created_at": self.created_at.isoformat(), "metadata": self.metadata, "markers": [marker.to_dict() for marker in self.markers]}
+            data = {
+                "name": self.name,
+                "version": "1.0",
+                "created_at": self.created_at.isoformat(),
+                "metadata": self.metadata,
+                "markers": [marker.to_dict() for marker in self.markers],
+            }
 
             # Write to file
             with open(filepath, "w") as f:
@@ -153,9 +159,16 @@ class MeasurementConfigSet:
             markers = [MeasurementMarkerConfig.from_dict(m) for m in data.get("markers", [])]
 
             # Create config set
-            config_set = cls(name=data["name"], created_at=datetime.fromisoformat(data["created_at"]), markers=markers, metadata=data.get("metadata", {}))
+            config_set = cls(
+                name=data["name"],
+                created_at=datetime.fromisoformat(data["created_at"]),
+                markers=markers,
+                metadata=data.get("metadata", {}),
+            )
 
-            logger.info(f"Loaded measurement configuration from {filepath} ({len(markers)} markers)")
+            logger.info(
+                f"Loaded measurement configuration from {filepath} ({len(markers)} markers)"
+            )
             return config_set
 
         except FileNotFoundError:
@@ -224,7 +237,9 @@ class MeasurementConfigSet:
         if system == "Windows":
             config_dir = Path.home() / "AppData" / "Local" / "siglent" / "measurement_configs"
         elif system == "Darwin":  # macOS
-            config_dir = Path.home() / "Library" / "Application Support" / "siglent" / "measurement_configs"
+            config_dir = (
+                Path.home() / "Library" / "Application Support" / "siglent" / "measurement_configs"
+            )
         else:  # Linux and others
             config_dir = Path.home() / ".config" / "siglent" / "measurement_configs"
 

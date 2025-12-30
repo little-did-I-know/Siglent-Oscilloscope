@@ -31,13 +31,21 @@ Example:
 """
 
 import logging
-from typing import Optional, Dict, List, Any
+from typing import Any, Dict, List, Optional
 
 import numpy as np
 import pyqtgraph as pg
-from PyQt6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QCheckBox, QLabel, QFileDialog
 from PyQt6.QtCore import Qt, pyqtSignal
 from PyQt6.QtGui import QColor
+from PyQt6.QtWidgets import (
+    QCheckBox,
+    QFileDialog,
+    QHBoxLayout,
+    QLabel,
+    QPushButton,
+    QVBoxLayout,
+    QWidget,
+)
 
 from siglent.waveform import WaveformData
 
@@ -221,7 +229,9 @@ class WaveformDisplayPG(QWidget):
         self.waveforms.clear()
 
         for waveform in waveforms:
-            logger.debug(f"Adding waveform from channel {waveform.channel}, {len(waveform.voltage)} samples")
+            logger.debug(
+                f"Adding waveform from channel {waveform.channel}, {len(waveform.voltage)} samples"
+            )
             self.waveforms[waveform.channel] = waveform
 
         # Store current waveforms for saving
@@ -289,7 +299,9 @@ class WaveformDisplayPG(QWidget):
                 # Create new plot item
                 logger.info(f"    Creating NEW plot item for CH{channel}")
                 pen = pg.mkPen(color=color, width=1.5)
-                plot_item = self.plot_item.plot(waveform.time, waveform.voltage, pen=pen, name=f"CH{channel}")
+                plot_item = self.plot_item.plot(
+                    waveform.time, waveform.voltage, pen=pen, name=f"CH{channel}"
+                )
                 self.plot_items[channel] = plot_item
                 logger.info(f"    Plot item created successfully")
 
@@ -327,7 +339,12 @@ class WaveformDisplayPG(QWidget):
             return
 
         # Get filename from user
-        filename, _ = QFileDialog.getSaveFileName(self, "Export Waveform Image", "waveform.png", "PNG Image (*.png);;PDF Document (*.pdf);;SVG Image (*.svg)")
+        filename, _ = QFileDialog.getSaveFileName(
+            self,
+            "Export Waveform Image",
+            "waveform.png",
+            "PNG Image (*.png);;PDF Document (*.pdf);;SVG Image (*.svg)",
+        )
 
         if filename:
             try:
@@ -447,7 +464,16 @@ class WaveformDisplayPG(QWidget):
         Returns:
             Dictionary mapping marker IDs to results
         """
-        return {marker.marker_id: {"type": marker.measurement_type, "channel": marker.channel, "result": marker.result, "unit": marker.unit, "enabled": marker.enabled} for marker in self.measurement_markers}
+        return {
+            marker.marker_id: {
+                "type": marker.measurement_type,
+                "channel": marker.channel,
+                "result": marker.result,
+                "unit": marker.unit,
+                "enabled": marker.enabled,
+            }
+            for marker in self.measurement_markers
+        }
 
     def update_all_markers(self) -> None:
         """Update all enabled markers with current waveform data."""
@@ -456,7 +482,9 @@ class WaveformDisplayPG(QWidget):
 
         for marker in self.measurement_markers:
             if marker.enabled:
-                waveform = next((w for w in self.current_waveforms if w.channel == marker.channel), None)
+                waveform = next(
+                    (w for w in self.current_waveforms if w.channel == marker.channel), None
+                )
 
                 if waveform:
                     marker.update_measurement(waveform)
@@ -553,14 +581,18 @@ class WaveformDisplayPG(QWidget):
                     self.plot_item.removeItem(self.reference_item)
 
                 pen = pg.mkPen(color=(255, 20, 147), width=1.5, style=Qt.PenStyle.SolidLine)
-                self.reference_item = self.plot_item.plot(first_waveform.time, difference, pen=pen, name="Difference")
+                self.reference_item = self.plot_item.plot(
+                    first_waveform.time, difference, pen=pen, name="Difference"
+                )
             else:
                 # Show reference as overlay
                 if self.reference_item:
                     self.plot_item.removeItem(self.reference_item)
 
                 pen = pg.mkPen(color=(255, 165, 0), width=1.5, style=Qt.PenStyle.DashLine)
-                self.reference_item = self.plot_item.plot(ref_time, ref_voltage, pen=pen, name="Reference")
+                self.reference_item = self.plot_item.plot(
+                    ref_time, ref_voltage, pen=pen, name="Reference"
+                )
 
         except Exception as e:
             logger.error(f"Failed to plot reference overlay: {e}")

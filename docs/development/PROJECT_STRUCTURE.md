@@ -62,10 +62,12 @@ Siglent/
 When users install the package via `pip install Siglent-Oscilloscope`, they get:
 
 **Code:**
+
 - `siglent/` - Complete package with all modules
 - `examples/` - Example scripts to get started
 
 **Documentation:**
+
 - `README.md` - Main documentation
 - `CHANGELOG.md` - Version history
 - `docs/VISUAL_MEASUREMENTS.md` - Visual measurement guide
@@ -73,6 +75,7 @@ When users install the package via `pip install Siglent-Oscilloscope`, they get:
 - `docs/SDS800XHD_Series_ProgrammingGuide_EN11G.pdf` - Scope manual
 
 **Not Installed:**
+
 - `tests/` - Test suite (for development only)
 - `scripts/` - Development utilities
 - `docs/development/` - Build and deployment documentation
@@ -81,9 +84,11 @@ When users install the package via `pip install Siglent-Oscilloscope`, they get:
 ## Directory Purposes
 
 ### siglent/
+
 The main package containing all the production code. This is what gets imported when users run `import siglent`.
 
 **Key modules:**
+
 - `oscilloscope.py` - Main `Oscilloscope` class
 - `channel.py` - Channel configuration
 - `trigger.py` - Trigger settings
@@ -94,9 +99,11 @@ The main package containing all the production code. This is what gets imported 
 - `protocol_decoders/` - I2C, SPI, UART decoders
 
 ### tests/
+
 Automated test suite using pytest. Run with `pytest tests/` from the project root.
 
 **Test categories:**
+
 - Import tests - Verify all modules can be imported
 - GUI initialization tests - Catch AttributeError and widget creation issues
 - Protocol decoder tests - Verify decoder functionality
@@ -106,9 +113,11 @@ Automated test suite using pytest. Run with `pytest tests/` from the project roo
 See `tests/README.md` for testing instructions.
 
 ### scripts/
+
 Development and debugging utilities. Not installed with the package.
 
 **Scripts:**
+
 - `run_debug.py` - Launch GUI with debug logging
 - `run_debug.bat` - Windows convenience launcher
 - `capture_screenshots.py` - Automated screenshot capture for docs
@@ -116,14 +125,17 @@ Development and debugging utilities. Not installed with the package.
 See `scripts/README.md` for details.
 
 ### docs/
+
 Project documentation, split into user-facing and developer-facing content.
 
 **User Documentation (installed):**
+
 - `VISUAL_MEASUREMENTS.md` - How to use visual measurement markers
 - `images/` - GUI screenshots for README
 - `SDS800XHD_Series_ProgrammingGuide_EN11G.pdf` - Oscilloscope reference
 
 **Developer Documentation (not installed):**
+
 - `development/BUILD.md` - How to build and package
 - `development/PYPI_DEPLOYMENT.md` - PyPI deployment guide
 - `development/PROJECT_STRUCTURE.md` - This file
@@ -132,9 +144,11 @@ Project documentation, split into user-facing and developer-facing content.
 - `SCREENSHOT_GUIDE.md` - Screenshot capture guide
 
 ### examples/
+
 Example scripts demonstrating package features. These are installed with the package so users can easily get started.
 
 **Examples:**
+
 - `basic_usage.py` - Connect and capture waveforms
 - `measurements.py` - Automated measurements
 - `live_plot.py` - Real-time waveform display
@@ -144,19 +158,24 @@ Example scripts demonstrating package features. These are installed with the pac
 ## Build Artifacts
 
 ### dist/
+
 Contains built packages created by `python -m build`:
+
 - `.tar.gz` - Source distribution
 - `.whl` - Wheel (binary) distribution
 
 These are uploaded to PyPI for distribution.
 
 ### Siglent_Oscilloscope.egg-info/
+
 Metadata directory created during build. Git ignored.
 
 ## Version Control
 
 ### .gitignore
+
 Excludes:
+
 - Python cache files (`__pycache__`, `*.pyc`)
 - Virtual environments (`.venv/`, `venv/`)
 - Build artifacts (`dist/`, `build/`, `*.egg-info`)
@@ -165,19 +184,24 @@ Excludes:
 - Development data files (`*.log`, `*.dat`, `*.csv`)
 
 ### .git/
+
 Git repository data. The main branch is `main`.
 
 ## Package Configuration
 
 ### pyproject.toml
+
 Modern Python package metadata and build configuration:
+
 - Package name, version, description
 - Dependencies (core and optional `[gui]` extras)
 - Entry points (`siglent-gui` command)
 - Build system (setuptools)
 
 ### MANIFEST.in
+
 Controls what files are included in source distributions:
+
 - **Include:** README, CHANGELOG, LICENSE, docs, examples
 - **Exclude:** tests, scripts, development docs, build artifacts
 
@@ -203,6 +227,7 @@ See `docs/development/BUILD.md` and `docs/development/PYPI_DEPLOYMENT.md` for de
 The project was reorganized in v0.2.0 to follow Python packaging best practices:
 
 **Changes:**
+
 - Created `tests/` directory for all test files
 - Created `scripts/` directory for development utilities
 - Consolidated all docs into `docs/` directory

@@ -1,7 +1,7 @@
 """Measurement and cursor control for Siglent oscilloscopes."""
 
-from typing import TYPE_CHECKING, Optional, Literal, Dict, Any
 import logging
+from typing import TYPE_CHECKING, Any, Dict, Literal, Optional
 
 from siglent import exceptions
 
@@ -60,7 +60,9 @@ class Measurement:
             InvalidParameterError: If parameters are invalid
         """
         if not 1 <= channel <= 4:
-            raise exceptions.InvalidParameterError(f"Invalid channel number: {channel}. Must be 1-4.")
+            raise exceptions.InvalidParameterError(
+                f"Invalid channel number: {channel}. Must be 1-4."
+            )
 
         mtype = mtype.upper()
         ch = f"C{channel}"
@@ -273,7 +275,9 @@ class Measurement:
             stat: Enable statistics for this measurement
         """
         if not 1 <= channel <= 4:
-            raise exceptions.InvalidParameterError(f"Invalid channel number: {channel}. Must be 1-4.")
+            raise exceptions.InvalidParameterError(
+                f"Invalid channel number: {channel}. Must be 1-4."
+            )
 
         ch = f"C{channel}"
         stat_flag = "ON" if stat else "OFF"
@@ -320,7 +324,9 @@ class Measurement:
         valid_types = ["OFF", "HREL", "VREL", "HREF", "VREF"]
 
         if cursor_type not in valid_types:
-            raise exceptions.InvalidParameterError(f"Invalid cursor type: {cursor_type}. Must be one of {valid_types}.")
+            raise exceptions.InvalidParameterError(
+                f"Invalid cursor type: {cursor_type}. Must be one of {valid_types}."
+            )
 
         self._scope.write(f"CRST {cursor_type}")
         logger.info(f"Cursor type set to {cursor_type}")
@@ -338,7 +344,10 @@ class Measurement:
         # Example: "CRVA VREL,1.00V,2.00V,1.00V"
 
         parts = response.split(",")
-        result = {"type": parts[0].replace("CRVA", "").strip() if parts else "UNKNOWN", "values": [p.strip() for p in parts[1:]] if len(parts) > 1 else []}
+        result = {
+            "type": parts[0].replace("CRVA", "").strip() if parts else "UNKNOWN",
+            "values": [p.strip() for p in parts[1:]] if len(parts) > 1 else [],
+        }
 
         return result
 

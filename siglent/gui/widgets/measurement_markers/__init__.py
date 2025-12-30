@@ -26,7 +26,7 @@ All markers inherit from MeasurementMarker base class and implement:
 """
 
 from .frequency_marker import FrequencyMarker
-from .voltage_marker import VoltageMarker
 from .timing_marker import TimingMarker
+from .voltage_marker import VoltageMarker
 
 __all__ = ["FrequencyMarker", "VoltageMarker", "TimingMarker"]

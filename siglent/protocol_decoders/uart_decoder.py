@@ -1,10 +1,11 @@
 """UART (Universal Asynchronous Receiver/Transmitter) protocol decoder."""
 
 import logging
-from typing import List, Dict, Any
+from typing import Any, Dict, List
+
 import numpy as np
 
-from siglent.protocol_decode import ProtocolDecoder, DecodedEvent, EventType
+from siglent.protocol_decode import DecodedEvent, EventType, ProtocolDecoder
 
 logger = logging.getLogger(__name__)
 
@@ -73,12 +74,16 @@ class UARTDecoder(ProtocolDecoder):
 
         try:
             # Decode TX channel
-            tx_events = self._decode_channel(tx_waveform, "TX", baud_rate, data_bits, parity, stop_bits, threshold, idle_high)
+            tx_events = self._decode_channel(
+                tx_waveform, "TX", baud_rate, data_bits, parity, stop_bits, threshold, idle_high
+            )
             self.events.extend(tx_events)
 
             # Decode RX channel if available
             if rx_waveform is not None:
-                rx_events = self._decode_channel(rx_waveform, "RX", baud_rate, data_bits, parity, stop_bits, threshold, idle_high)
+                rx_events = self._decode_channel(
+                    rx_waveform, "RX", baud_rate, data_bits, parity, stop_bits, threshold, idle_high
+                )
                 self.events.extend(rx_events)
 
             # Sort events by timestamp
@@ -88,11 +93,30 @@ class UARTDecoder(ProtocolDecoder):
 
         except Exception as e:
             logger.error(f"UART decode error: {e}")
-            self.events.append(DecodedEvent(timestamp=0.0, event_type=EventType.ERROR, data=None, description=f"Decode error: {str(e)}", channel="UART", valid=False))
+            self.events.append(
+                DecodedEvent(
+                    timestamp=0.0,
+                    event_type=EventType.ERROR,
+                    data=None,
+                    description=f"Decode error: {str(e)}",
+                    channel="UART",
+                    valid=False,
+                )
+            )
 
         return self.events
 
-    def _decode_channel(self, waveform, channel_name: str, baud_rate: int, data_bits: int, parity: str, stop_bits: float, threshold: float, idle_high: bool) -> List[DecodedEvent]:
+    def _decode_channel(
+        self,
+        waveform,
+        channel_name: str,
+        baud_rate: int,
+        data_bits: int,
+        parity: str,
+        stop_bits: float,
+        threshold: float,
+        idle_high: bool,
+    ) -> List[DecodedEvent]:
         """Decode a single UART channel.
 
         Args:
@@ -174,14 +198,34 @@ class UARTDecoder(ProtocolDecoder):
                     data_str = f"0x{data_value:02X}"
 
                 # Add data event
-                events.append(DecodedEvent(timestamp=start_time, event_type=EventType.DATA, data=data_value, description=f"{channel_name}: {data_str}", channel=channel_name, valid=parity_valid))
+                events.append(
+                    DecodedEvent(
+                        timestamp=start_time,
+                        event_type=EventType.DATA,
+                        data=data_value,
+                        description=f"{channel_name}: {data_str}",
+                        channel=channel_name,
+                        valid=parity_valid,
+                    )
+                )
 
                 # Add parity error if invalid
                 if not parity_valid:
-                    events.append(DecodedEvent(timestamp=start_time, event_type=EventType.ERROR, data=None, description=f"{channel_name}: Parity error", channel=channel_name, valid=False))
+                    events.append(
+                        DecodedEvent(
+                            timestamp=start_time,
+                            event_type=EventType.ERROR,
+                            data=None,
+                            description=f"{channel_name}: Parity error",
+                            channel=channel_name,
+                            valid=False,
+                        )
+                    )
 
             except Exception as e:
-                logger.warning(f"UART {channel_name}: Failed to decode byte at {start_time:.6f}s: {e}")
+                logger.warning(
+                    f"UART {channel_name}: Failed to decode byte at {start_time:.6f}s: {e}"
+                )
                 continue
 
         return events

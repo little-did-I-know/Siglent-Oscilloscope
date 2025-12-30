@@ -1,9 +1,9 @@
 """Model capability definitions for different Siglent oscilloscope series."""
 
-from dataclasses import dataclass
-from typing import List, Optional
 import logging
 import re
+from dataclasses import dataclass
+from typing import List, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -36,20 +36,152 @@ class ModelCapability:
 # Model Registry - Add new models here
 MODEL_REGISTRY = {
     # SDS800X HD Series
-    "SDS824X HD": ModelCapability(model_name="SDS824X HD", series="SDS800XHD", num_channels=4, max_sample_rate=1.0, memory_depth=100_000_000, bandwidth_mhz=200, has_math_channels=True, has_fft=True, has_protocol_decode=True, supported_decode_types=["I2C", "SPI", "UART", "CAN", "LIN", "I2S"], scpi_variant="hd_series"),  # 1 GSa/s  # 100 Mpts
-    "SDS804X HD": ModelCapability(model_name="SDS804X HD", series="SDS800XHD", num_channels=4, max_sample_rate=1.0, memory_depth=100_000_000, bandwidth_mhz=70, has_math_channels=True, has_fft=True, has_protocol_decode=True, supported_decode_types=["I2C", "SPI", "UART", "CAN", "LIN", "I2S"], scpi_variant="hd_series"),
+    "SDS824X HD": ModelCapability(
+        model_name="SDS824X HD",
+        series="SDS800XHD",
+        num_channels=4,
+        max_sample_rate=1.0,
+        memory_depth=100_000_000,
+        bandwidth_mhz=200,
+        has_math_channels=True,
+        has_fft=True,
+        has_protocol_decode=True,
+        supported_decode_types=["I2C", "SPI", "UART", "CAN", "LIN", "I2S"],
+        scpi_variant="hd_series",
+    ),  # 1 GSa/s  # 100 Mpts
+    "SDS804X HD": ModelCapability(
+        model_name="SDS804X HD",
+        series="SDS800XHD",
+        num_channels=4,
+        max_sample_rate=1.0,
+        memory_depth=100_000_000,
+        bandwidth_mhz=70,
+        has_math_channels=True,
+        has_fft=True,
+        has_protocol_decode=True,
+        supported_decode_types=["I2C", "SPI", "UART", "CAN", "LIN", "I2S"],
+        scpi_variant="hd_series",
+    ),
     # SDS1000X-E Series
-    "SDS1104X-E": ModelCapability(model_name="SDS1104X-E", series="SDS1000XE", num_channels=4, max_sample_rate=1.0, memory_depth=14_000_000, bandwidth_mhz=100, has_math_channels=True, has_fft=True, has_protocol_decode=True, supported_decode_types=["I2C", "SPI", "UART", "RS232"], scpi_variant="x_series"),  # 14 Mpts
-    "SDS1204X-E": ModelCapability(model_name="SDS1204X-E", series="SDS1000XE", num_channels=4, max_sample_rate=1.0, memory_depth=14_000_000, bandwidth_mhz=200, has_math_channels=True, has_fft=True, has_protocol_decode=True, supported_decode_types=["I2C", "SPI", "UART", "RS232"], scpi_variant="x_series"),
-    "SDS1202X-E": ModelCapability(model_name="SDS1202X-E", series="SDS1000XE", num_channels=2, max_sample_rate=1.0, memory_depth=14_000_000, bandwidth_mhz=200, has_math_channels=True, has_fft=True, has_protocol_decode=True, supported_decode_types=["I2C", "SPI", "UART", "RS232"], scpi_variant="x_series"),
-    "SDS1102X-E": ModelCapability(model_name="SDS1102X-E", series="SDS1000XE", num_channels=2, max_sample_rate=1.0, memory_depth=14_000_000, bandwidth_mhz=100, has_math_channels=True, has_fft=True, has_protocol_decode=True, supported_decode_types=["I2C", "SPI", "UART", "RS232"], scpi_variant="x_series"),
+    "SDS1104X-E": ModelCapability(
+        model_name="SDS1104X-E",
+        series="SDS1000XE",
+        num_channels=4,
+        max_sample_rate=1.0,
+        memory_depth=14_000_000,
+        bandwidth_mhz=100,
+        has_math_channels=True,
+        has_fft=True,
+        has_protocol_decode=True,
+        supported_decode_types=["I2C", "SPI", "UART", "RS232"],
+        scpi_variant="x_series",
+    ),  # 14 Mpts
+    "SDS1204X-E": ModelCapability(
+        model_name="SDS1204X-E",
+        series="SDS1000XE",
+        num_channels=4,
+        max_sample_rate=1.0,
+        memory_depth=14_000_000,
+        bandwidth_mhz=200,
+        has_math_channels=True,
+        has_fft=True,
+        has_protocol_decode=True,
+        supported_decode_types=["I2C", "SPI", "UART", "RS232"],
+        scpi_variant="x_series",
+    ),
+    "SDS1202X-E": ModelCapability(
+        model_name="SDS1202X-E",
+        series="SDS1000XE",
+        num_channels=2,
+        max_sample_rate=1.0,
+        memory_depth=14_000_000,
+        bandwidth_mhz=200,
+        has_math_channels=True,
+        has_fft=True,
+        has_protocol_decode=True,
+        supported_decode_types=["I2C", "SPI", "UART", "RS232"],
+        scpi_variant="x_series",
+    ),
+    "SDS1102X-E": ModelCapability(
+        model_name="SDS1102X-E",
+        series="SDS1000XE",
+        num_channels=2,
+        max_sample_rate=1.0,
+        memory_depth=14_000_000,
+        bandwidth_mhz=100,
+        has_math_channels=True,
+        has_fft=True,
+        has_protocol_decode=True,
+        supported_decode_types=["I2C", "SPI", "UART", "RS232"],
+        scpi_variant="x_series",
+    ),
     # SDS2000X Plus Series
-    "SDS2104X Plus": ModelCapability(model_name="SDS2104X Plus", series="SDS2000XPlus", num_channels=4, max_sample_rate=2.0, memory_depth=100_000_000, bandwidth_mhz=100, has_math_channels=True, has_fft=True, has_protocol_decode=True, supported_decode_types=["I2C", "SPI", "UART", "CAN", "LIN", "FlexRay"], scpi_variant="plus_series"),  # 2 GSa/s
-    "SDS2204X Plus": ModelCapability(model_name="SDS2204X Plus", series="SDS2000XPlus", num_channels=4, max_sample_rate=2.0, memory_depth=100_000_000, bandwidth_mhz=200, has_math_channels=True, has_fft=True, has_protocol_decode=True, supported_decode_types=["I2C", "SPI", "UART", "CAN", "LIN", "FlexRay"], scpi_variant="plus_series"),
-    "SDS2354X Plus": ModelCapability(model_name="SDS2354X Plus", series="SDS2000XPlus", num_channels=4, max_sample_rate=2.0, memory_depth=100_000_000, bandwidth_mhz=350, has_math_channels=True, has_fft=True, has_protocol_decode=True, supported_decode_types=["I2C", "SPI", "UART", "CAN", "LIN", "FlexRay"], scpi_variant="plus_series"),
+    "SDS2104X Plus": ModelCapability(
+        model_name="SDS2104X Plus",
+        series="SDS2000XPlus",
+        num_channels=4,
+        max_sample_rate=2.0,
+        memory_depth=100_000_000,
+        bandwidth_mhz=100,
+        has_math_channels=True,
+        has_fft=True,
+        has_protocol_decode=True,
+        supported_decode_types=["I2C", "SPI", "UART", "CAN", "LIN", "FlexRay"],
+        scpi_variant="plus_series",
+    ),  # 2 GSa/s
+    "SDS2204X Plus": ModelCapability(
+        model_name="SDS2204X Plus",
+        series="SDS2000XPlus",
+        num_channels=4,
+        max_sample_rate=2.0,
+        memory_depth=100_000_000,
+        bandwidth_mhz=200,
+        has_math_channels=True,
+        has_fft=True,
+        has_protocol_decode=True,
+        supported_decode_types=["I2C", "SPI", "UART", "CAN", "LIN", "FlexRay"],
+        scpi_variant="plus_series",
+    ),
+    "SDS2354X Plus": ModelCapability(
+        model_name="SDS2354X Plus",
+        series="SDS2000XPlus",
+        num_channels=4,
+        max_sample_rate=2.0,
+        memory_depth=100_000_000,
+        bandwidth_mhz=350,
+        has_math_channels=True,
+        has_fft=True,
+        has_protocol_decode=True,
+        supported_decode_types=["I2C", "SPI", "UART", "CAN", "LIN", "FlexRay"],
+        scpi_variant="plus_series",
+    ),
     # SDS5000X Series
-    "SDS5104X": ModelCapability(model_name="SDS5104X", series="SDS5000X", num_channels=4, max_sample_rate=5.0, memory_depth=250_000_000, bandwidth_mhz=1000, has_math_channels=True, has_fft=True, has_protocol_decode=True, supported_decode_types=["I2C", "SPI", "UART", "CAN", "LIN", "FlexRay", "ARINC429"], scpi_variant="x_series"),  # 5 GSa/s  # 250 Mpts  # 1 GHz
-    "SDS5054X": ModelCapability(model_name="SDS5054X", series="SDS5000X", num_channels=4, max_sample_rate=5.0, memory_depth=250_000_000, bandwidth_mhz=500, has_math_channels=True, has_fft=True, has_protocol_decode=True, supported_decode_types=["I2C", "SPI", "UART", "CAN", "LIN", "FlexRay", "ARINC429"], scpi_variant="x_series"),
+    "SDS5104X": ModelCapability(
+        model_name="SDS5104X",
+        series="SDS5000X",
+        num_channels=4,
+        max_sample_rate=5.0,
+        memory_depth=250_000_000,
+        bandwidth_mhz=1000,
+        has_math_channels=True,
+        has_fft=True,
+        has_protocol_decode=True,
+        supported_decode_types=["I2C", "SPI", "UART", "CAN", "LIN", "FlexRay", "ARINC429"],
+        scpi_variant="x_series",
+    ),  # 5 GSa/s  # 250 Mpts  # 1 GHz
+    "SDS5054X": ModelCapability(
+        model_name="SDS5054X",
+        series="SDS5000X",
+        num_channels=4,
+        max_sample_rate=5.0,
+        memory_depth=250_000_000,
+        bandwidth_mhz=500,
+        has_math_channels=True,
+        has_fft=True,
+        has_protocol_decode=True,
+        supported_decode_types=["I2C", "SPI", "UART", "CAN", "LIN", "FlexRay", "ARINC429"],
+        scpi_variant="x_series",
+    ),
 }
 
 
@@ -129,7 +261,19 @@ def detect_model_from_idn(idn_string: str) -> ModelCapability:
             num_channels = potential_channels
 
     # Create generic capability
-    generic_capability = ModelCapability(model_name=model_from_idn, series=series, num_channels=num_channels, max_sample_rate=1.0, memory_depth=10_000_000, bandwidth_mhz=100, has_math_channels=True, has_fft=True, has_protocol_decode=False, supported_decode_types=[], scpi_variant=scpi_variant)  # Conservative default  # Conservative default  # Most models support this  # Most models support this  # Conservative - don't assume
+    generic_capability = ModelCapability(
+        model_name=model_from_idn,
+        series=series,
+        num_channels=num_channels,
+        max_sample_rate=1.0,
+        memory_depth=10_000_000,
+        bandwidth_mhz=100,
+        has_math_channels=True,
+        has_fft=True,
+        has_protocol_decode=False,
+        supported_decode_types=[],
+        scpi_variant=scpi_variant,
+    )  # Conservative default  # Conservative default  # Most models support this  # Most models support this  # Conservative - don't assume
 
     logger.info(f"Created generic capability: {generic_capability}")
     return generic_capability

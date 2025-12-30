@@ -3,8 +3,9 @@
 import logging
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from typing import List, Optional, Dict, Any
 from enum import Enum
+from typing import Any, Dict, List, Optional
+
 import numpy as np
 
 logger = logging.getLogger(__name__)
@@ -117,7 +118,16 @@ class ProtocolDecoder(ABC):
             writer.writerow(["Timestamp", "Event Type", "Data", "Description", "Channel", "Valid"])
 
             for event in self.events:
-                writer.writerow([f"{event.timestamp:.9f}", event.event_type.value, str(event.data), event.description, event.channel, "Yes" if event.valid else "No"])
+                writer.writerow(
+                    [
+                        f"{event.timestamp:.9f}",
+                        event.event_type.value,
+                        str(event.data),
+                        event.description,
+                        event.channel,
+                        "Yes" if event.valid else "No",
+                    ]
+                )
 
         logger.info(f"{self.name}: Exported {len(self.events)} events to {filename}")
 
@@ -134,7 +144,9 @@ class ProtocolDecoder(ABC):
 
         return summary
 
-    def _detect_edge(self, signal: np.ndarray, time: np.ndarray, threshold: float, edge_type: str = "rising") -> List[float]:
+    def _detect_edge(
+        self, signal: np.ndarray, time: np.ndarray, threshold: float, edge_type: str = "rising"
+    ) -> List[float]:
         """Detect edges in a digital signal.
 
         Args:
@@ -164,7 +176,9 @@ class ProtocolDecoder(ABC):
 
         return sorted(edge_times)
 
-    def _sample_at_time(self, signal: np.ndarray, time: np.ndarray, sample_time: float, threshold: float) -> bool:
+    def _sample_at_time(
+        self, signal: np.ndarray, time: np.ndarray, sample_time: float, threshold: float
+    ) -> bool:
         """Sample digital signal at a specific time.
 
         Args:
@@ -181,7 +195,9 @@ class ProtocolDecoder(ABC):
 
         return signal[idx] > threshold
 
-    def _get_bit_at_time(self, signal: np.ndarray, time: np.ndarray, sample_time: float, threshold: float) -> int:
+    def _get_bit_at_time(
+        self, signal: np.ndarray, time: np.ndarray, sample_time: float, threshold: float
+    ) -> int:
         """Get bit value at a specific time.
 
         Args:

@@ -39,8 +39,11 @@ env/
 # Testing
 .pytest_cache/
 .coverage
+coverage.xml
 htmlcov/
 *.cover
+.tox/
+.hypothesis/
 
 # MyPy
 .mypy_cache/
@@ -55,6 +58,22 @@ dmypy.json
 *.jpg
 !docs/**/*.png
 !docs/**/*.jpg
+
+# Pre-commit
+.pre-commit-cache/
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# Test outputs (generated during testing)
+waveform_*.csv
+waveform_*.npz
+waveform_*.h5
+waveform_*.npy
+waveform_*.bin
+my_circle_*.csv
+*.waveform
 
 # AI
 .claude

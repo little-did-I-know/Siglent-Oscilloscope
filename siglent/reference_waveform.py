@@ -2,9 +2,10 @@
 
 import logging
 import os
-from pathlib import Path
-from typing import Optional, List, Dict, Any
 from datetime import datetime
+from pathlib import Path
+from typing import Any, Dict, List, Optional
+
 import numpy as np
 
 logger = logging.getLogger(__name__)
@@ -81,11 +82,15 @@ class ReferenceWaveform:
         metadata["mean_voltage"] = float(np.mean(waveform.voltage))
         metadata["std_voltage"] = float(np.std(waveform.voltage))
         metadata["num_samples"] = len(waveform.voltage)
-        metadata["time_span"] = float(waveform.time[-1] - waveform.time[0]) if len(waveform.time) > 1 else 0.0
+        metadata["time_span"] = (
+            float(waveform.time[-1] - waveform.time[0]) if len(waveform.time) > 1 else 0.0
+        )
 
         try:
             # Save as NPZ with compression
-            np.savez_compressed(filepath, time=waveform.time, voltage=waveform.voltage, metadata=metadata)
+            np.savez_compressed(
+                filepath, time=waveform.time, voltage=waveform.voltage, metadata=metadata
+            )
 
             logger.info(f"Reference waveform saved: {filepath}")
             return str(filepath)
@@ -114,7 +119,12 @@ class ReferenceWaveform:
             # Load NPZ file
             data = np.load(filepath, allow_pickle=True)
 
-            result = {"time": data["time"], "voltage": data["voltage"], "metadata": data["metadata"].item() if "metadata" in data else {}, "filepath": str(filepath)}
+            result = {
+                "time": data["time"],
+                "voltage": data["voltage"],
+                "metadata": data["metadata"].item() if "metadata" in data else {},
+                "filepath": str(filepath),
+            }
 
             logger.info(f"Reference waveform loaded: {filepath}")
             return result
@@ -139,7 +149,21 @@ class ReferenceWaveform:
                     data = np.load(filepath, allow_pickle=True)
                     metadata = data["metadata"].item() if "metadata" in data else {}
 
-                    ref_info = {"filename": filepath.name, "filepath": str(filepath), "name": metadata.get("name", filepath.stem), "timestamp": metadata.get("timestamp", ""), "channel": metadata.get("channel", "Unknown"), "num_samples": metadata.get("num_samples", 0), "time_span": metadata.get("time_span", 0.0), "min_voltage": metadata.get("min_voltage", 0.0), "max_voltage": metadata.get("max_voltage", 0.0), "file_size": filepath.stat().st_size, "modified_time": datetime.fromtimestamp(filepath.stat().st_mtime).isoformat()}
+                    ref_info = {
+                        "filename": filepath.name,
+                        "filepath": str(filepath),
+                        "name": metadata.get("name", filepath.stem),
+                        "timestamp": metadata.get("timestamp", ""),
+                        "channel": metadata.get("channel", "Unknown"),
+                        "num_samples": metadata.get("num_samples", 0),
+                        "time_span": metadata.get("time_span", 0.0),
+                        "min_voltage": metadata.get("min_voltage", 0.0),
+                        "max_voltage": metadata.get("max_voltage", 0.0),
+                        "file_size": filepath.stat().st_size,
+                        "modified_time": datetime.fromtimestamp(
+                            filepath.stat().st_mtime
+                        ).isoformat(),
+                    }
 
                     references.append(ref_info)
 
@@ -225,7 +249,9 @@ class ReferenceWaveform:
             logger.error(f"Failed to rename reference: {e}")
             return False
 
-    def calculate_difference(self, waveform, reference_data: Dict[str, Any]) -> Optional[np.ndarray]:
+    def calculate_difference(
+        self, waveform, reference_data: Dict[str, Any]
+    ) -> Optional[np.ndarray]:
         """Calculate difference between a waveform and reference.
 
         Args:
@@ -391,4 +417,6 @@ class ReferenceWaveform:
         """String representation."""
         num_refs = len(self.list_references())
         size_mb = self.get_storage_size() / (1024 * 1024)
-        return f"ReferenceWaveform(storage={self.storage_dir}, refs={num_refs}, size={size_mb:.2f}MB)"
+        return (
+            f"ReferenceWaveform(storage={self.storage_dir}, refs={num_refs}, size={size_mb:.2f}MB)"
+        )

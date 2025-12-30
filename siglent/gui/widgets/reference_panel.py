@@ -1,9 +1,21 @@
 """Reference waveform panel for managing and comparing reference waveforms."""
 
 import logging
-from typing import Optional, Dict, Any
-from PyQt6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QGroupBox, QLabel, QPushButton, QListWidget, QListWidgetItem, QMessageBox, QInputDialog
+from typing import Any, Dict, Optional
+
 from PyQt6.QtCore import Qt, pyqtSignal
+from PyQt6.QtWidgets import (
+    QGroupBox,
+    QHBoxLayout,
+    QInputDialog,
+    QLabel,
+    QListWidget,
+    QListWidgetItem,
+    QMessageBox,
+    QPushButton,
+    QVBoxLayout,
+    QWidget,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -72,7 +84,9 @@ class ReferencePanel(QWidget):
         layout.addWidget(info_label)
 
         save_btn = QPushButton("Save as Reference...")
-        save_btn.setStyleSheet("background-color: #4CAF50; color: white; font-weight: bold; padding: 8px;")
+        save_btn.setStyleSheet(
+            "background-color: #4CAF50; color: white; font-weight: bold; padding: 8px;"
+        )
         save_btn.clicked.connect(self._on_save_reference)
         layout.addWidget(save_btn)
 
@@ -194,7 +208,12 @@ class ReferencePanel(QWidget):
         filepath = item.data(Qt.ItemDataRole.UserRole)
 
         # Confirm deletion
-        reply = QMessageBox.question(self, "Confirm Delete", f"Are you sure you want to delete reference '{name}'?", QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
+        reply = QMessageBox.question(
+            self,
+            "Confirm Delete",
+            f"Are you sure you want to delete reference '{name}'?",
+            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
+        )
 
         if reply == QMessageBox.StandardButton.Yes:
             logger.info(f"Delete reference requested: {filepath}")
@@ -291,7 +310,12 @@ class ReferencePanel(QWidget):
         else:
             time_str = f"{time_span:.2f} s"
 
-        info_text = f"<b>Loaded:</b> {name}<br>" f"<b>Channel:</b> {channel}<br>" f"<b>Samples:</b> {num_samples}<br>" f"<b>Time Span:</b> {time_str}"
+        info_text = (
+            f"<b>Loaded:</b> {name}<br>"
+            f"<b>Channel:</b> {channel}<br>"
+            f"<b>Samples:</b> {num_samples}<br>"
+            f"<b>Time Span:</b> {time_str}"
+        )
 
         self.info_label.setText(info_text)
 
@@ -316,7 +340,9 @@ class ReferencePanel(QWidget):
             else:
                 color = "red"
 
-            self.correlation_label.setText(f"Correlation: <span style='color: {color}; font-weight: bold;'>{correlation:.4f}</span>")
+            self.correlation_label.setText(
+                f"Correlation: <span style='color: {color}; font-weight: bold;'>{correlation:.4f}</span>"
+            )
         else:
             self.correlation_label.setText("Correlation: --")
 

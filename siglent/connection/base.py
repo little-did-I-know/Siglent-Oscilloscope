@@ -1,7 +1,7 @@
 """Abstract base class for oscilloscope connections."""
 
 from abc import ABC, abstractmethod
-from typing import Union, Optional
+from typing import Optional, Union
 
 
 class BaseConnection(ABC):

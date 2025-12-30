@@ -122,6 +122,7 @@ git commit -m "Add feature: brief description"
 ```
 
 Use clear, descriptive commit messages:
+
 - Start with a verb (Add, Fix, Update, Remove, etc.)
 - Keep the first line under 50 characters
 - Add details in the body if needed

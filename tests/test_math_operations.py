@@ -1,8 +1,9 @@
 """Test math channel operations."""
 
-import pytest
 import numpy as np
-from siglent.math_channel import MathOperations, MathChannel
+import pytest
+
+from siglent.math_channel import MathChannel, MathOperations
 from siglent.waveform import WaveformData
 
 
@@ -14,8 +15,26 @@ def sample_waveforms():
     voltage2 = np.cos(2 * np.pi * time)
 
     # Create WaveformData with all required parameters
-    wf1 = WaveformData(time=time, voltage=voltage1, channel=1, sample_rate=100.0, record_length=100, timebase=0.1, voltage_scale=1.0, voltage_offset=0.0)  # 100 samples per second  # 0.1 s/div  # 1 V/div
-    wf2 = WaveformData(time=time, voltage=voltage2, channel=2, sample_rate=100.0, record_length=100, timebase=0.1, voltage_scale=1.0, voltage_offset=0.0)
+    wf1 = WaveformData(
+        time=time,
+        voltage=voltage1,
+        channel=1,
+        sample_rate=100.0,
+        record_length=100,
+        timebase=0.1,
+        voltage_scale=1.0,
+        voltage_offset=0.0,
+    )  # 100 samples per second  # 0.1 s/div  # 1 V/div
+    wf2 = WaveformData(
+        time=time,
+        voltage=voltage2,
+        channel=2,
+        sample_rate=100.0,
+        record_length=100,
+        timebase=0.1,
+        voltage_scale=1.0,
+        voltage_offset=0.0,
+    )
 
     return wf1, wf2
 

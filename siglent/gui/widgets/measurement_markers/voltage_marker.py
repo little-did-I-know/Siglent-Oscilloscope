@@ -23,7 +23,15 @@ class VoltageMarker(MeasurementMarker):
     - Label with voltage value
     """
 
-    def __init__(self, marker_id: str, measurement_type: str, channel: int, ax, canvas, color: Optional[str] = None):
+    def __init__(
+        self,
+        marker_id: str,
+        measurement_type: str,
+        channel: int,
+        ax,
+        canvas,
+        color: Optional[str] = None,
+    ):
         """Initialize voltage marker.
 
         Args:
@@ -66,29 +74,86 @@ class VoltageMarker(MeasurementMarker):
         # Draw vertical gates
         ylim = self.ax.get_ylim()
 
-        line1 = self.ax.axvline(start_x, color=self.color, linestyle=self.DEFAULT_LINE_STYLE, linewidth=self.DEFAULT_LINE_WIDTH, alpha=alpha, picker=5)
+        line1 = self.ax.axvline(
+            start_x,
+            color=self.color,
+            linestyle=self.DEFAULT_LINE_STYLE,
+            linewidth=self.DEFAULT_LINE_WIDTH,
+            alpha=alpha,
+            picker=5,
+        )
         self.artists.append(line1)
 
-        line2 = self.ax.axvline(end_x, color=self.color, linestyle=self.DEFAULT_LINE_STYLE, linewidth=self.DEFAULT_LINE_WIDTH, alpha=alpha, picker=5)
+        line2 = self.ax.axvline(
+            end_x,
+            color=self.color,
+            linestyle=self.DEFAULT_LINE_STYLE,
+            linewidth=self.DEFAULT_LINE_WIDTH,
+            alpha=alpha,
+            picker=5,
+        )
         self.artists.append(line2)
 
         # Draw horizontal lines and brackets based on measurement type
-        if self.measurement_type in ["PKPK", "AMPL"] and self.max_value is not None and self.min_value is not None:
+        if (
+            self.measurement_type in ["PKPK", "AMPL"]
+            and self.max_value is not None
+            and self.min_value is not None
+        ):
             # Draw lines at max and min
-            max_line = self.ax.axhline(self.max_value, xmin=(start_x - self.ax.get_xlim()[0]) / (self.ax.get_xlim()[1] - self.ax.get_xlim()[0]), xmax=(end_x - self.ax.get_xlim()[0]) / (self.ax.get_xlim()[1] - self.ax.get_xlim()[0]), color=self.color, linestyle="-", linewidth=1.5, alpha=alpha)
+            max_line = self.ax.axhline(
+                self.max_value,
+                xmin=(start_x - self.ax.get_xlim()[0])
+                / (self.ax.get_xlim()[1] - self.ax.get_xlim()[0]),
+                xmax=(end_x - self.ax.get_xlim()[0])
+                / (self.ax.get_xlim()[1] - self.ax.get_xlim()[0]),
+                color=self.color,
+                linestyle="-",
+                linewidth=1.5,
+                alpha=alpha,
+            )
             self.artists.append(max_line)
 
-            min_line = self.ax.axhline(self.min_value, xmin=(start_x - self.ax.get_xlim()[0]) / (self.ax.get_xlim()[1] - self.ax.get_xlim()[0]), xmax=(end_x - self.ax.get_xlim()[0]) / (self.ax.get_xlim()[1] - self.ax.get_xlim()[0]), color=self.color, linestyle="-", linewidth=1.5, alpha=alpha)
+            min_line = self.ax.axhline(
+                self.min_value,
+                xmin=(start_x - self.ax.get_xlim()[0])
+                / (self.ax.get_xlim()[1] - self.ax.get_xlim()[0]),
+                xmax=(end_x - self.ax.get_xlim()[0])
+                / (self.ax.get_xlim()[1] - self.ax.get_xlim()[0]),
+                color=self.color,
+                linestyle="-",
+                linewidth=1.5,
+                alpha=alpha,
+            )
             self.artists.append(min_line)
 
             # Draw vertical bracket on left side
             bracket_x = start_x - (end_x - start_x) * 0.05
-            bracket = self.ax.plot([bracket_x, bracket_x], [self.min_value, self.max_value], color=self.color, linestyle="-", linewidth=2, alpha=alpha, marker="|", markersize=8)[0]
+            bracket = self.ax.plot(
+                [bracket_x, bracket_x],
+                [self.min_value, self.max_value],
+                color=self.color,
+                linestyle="-",
+                linewidth=2,
+                alpha=alpha,
+                marker="|",
+                markersize=8,
+            )[0]
             self.artists.append(bracket)
 
         elif self.result is not None:
             # Single horizontal line for other voltage measurements
-            h_line = self.ax.axhline(self.result, xmin=(start_x - self.ax.get_xlim()[0]) / (self.ax.get_xlim()[1] - self.ax.get_xlim()[0]), xmax=(end_x - self.ax.get_xlim()[0]) / (self.ax.get_xlim()[1] - self.ax.get_xlim()[0]), color=self.color, linestyle="-", linewidth=2, alpha=alpha)
+            h_line = self.ax.axhline(
+                self.result,
+                xmin=(start_x - self.ax.get_xlim()[0])
+                / (self.ax.get_xlim()[1] - self.ax.get_xlim()[0]),
+                xmax=(end_x - self.ax.get_xlim()[0])
+                / (self.ax.get_xlim()[1] - self.ax.get_xlim()[0]),
+                color=self.color,
+                linestyle="-",
+                linewidth=2,
+                alpha=alpha,
+            )
             self.artists.append(h_line)
 
         # Draw label

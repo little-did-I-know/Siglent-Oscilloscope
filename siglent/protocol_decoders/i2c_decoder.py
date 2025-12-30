@@ -1,10 +1,11 @@
 """I2C (Inter-Integrated Circuit) protocol decoder."""
 
 import logging
-from typing import List, Dict, Any
+from typing import Any, Dict, List
+
 import numpy as np
 
-from siglent.protocol_decode import ProtocolDecoder, DecodedEvent, EventType
+from siglent.protocol_decode import DecodedEvent, EventType, ProtocolDecoder
 
 logger = logging.getLogger(__name__)
 
@@ -80,7 +81,9 @@ class I2CDecoder(ProtocolDecoder):
             start_times = self._find_start_conditions(sda, scl, time, threshold)
             stop_times = self._find_stop_conditions(sda, scl, time, threshold)
 
-            logger.info(f"I2C: Found {len(start_times)} START and {len(stop_times)} STOP conditions")
+            logger.info(
+                f"I2C: Found {len(start_times)} START and {len(stop_times)} STOP conditions"
+            )
 
             # Decode each transaction
             for start_time in start_times:
@@ -93,27 +96,65 @@ class I2CDecoder(ProtocolDecoder):
 
                 if stop_time is None:
                     # Incomplete transaction
-                    self.events.append(DecodedEvent(timestamp=start_time, event_type=EventType.START, data=None, description="START (incomplete transaction)", channel="SDA/SCL", valid=False))
+                    self.events.append(
+                        DecodedEvent(
+                            timestamp=start_time,
+                            event_type=EventType.START,
+                            data=None,
+                            description="START (incomplete transaction)",
+                            channel="SDA/SCL",
+                            valid=False,
+                        )
+                    )
                     continue
 
                 # Add START event
-                self.events.append(DecodedEvent(timestamp=start_time, event_type=EventType.START, data=None, description="START", channel="SDA/SCL"))
+                self.events.append(
+                    DecodedEvent(
+                        timestamp=start_time,
+                        event_type=EventType.START,
+                        data=None,
+                        description="START",
+                        channel="SDA/SCL",
+                    )
+                )
 
                 # Decode bytes between START and STOP
-                self._decode_transaction(sda, scl, time, threshold, start_time, stop_time, address_bits)
+                self._decode_transaction(
+                    sda, scl, time, threshold, start_time, stop_time, address_bits
+                )
 
                 # Add STOP event
-                self.events.append(DecodedEvent(timestamp=stop_time, event_type=EventType.STOP, data=None, description="STOP", channel="SDA/SCL"))
+                self.events.append(
+                    DecodedEvent(
+                        timestamp=stop_time,
+                        event_type=EventType.STOP,
+                        data=None,
+                        description="STOP",
+                        channel="SDA/SCL",
+                    )
+                )
 
             logger.info(f"I2C: Decoded {len(self.events)} events")
 
         except Exception as e:
             logger.error(f"I2C decode error: {e}")
-            self.events.append(DecodedEvent(timestamp=0.0, event_type=EventType.ERROR, data=None, description=f"Decode error: {str(e)}", channel="SDA/SCL", valid=False))
+            self.events.append(
+                DecodedEvent(
+                    timestamp=0.0,
+                    event_type=EventType.ERROR,
+                    data=None,
+                    description=f"Decode error: {str(e)}",
+                    channel="SDA/SCL",
+                    valid=False,
+                )
+            )
 
         return self.events
 
-    def _find_start_conditions(self, sda: np.ndarray, scl: np.ndarray, time: np.ndarray, threshold: float) -> List[float]:
+    def _find_start_conditions(
+        self, sda: np.ndarray, scl: np.ndarray, time: np.ndarray, threshold: float
+    ) -> List[float]:
         """Find I2C START conditions (SDA falling while SCL high).
 
         Args:
@@ -142,7 +183,9 @@ class I2CDecoder(ProtocolDecoder):
 
         return start_times
 
-    def _find_stop_conditions(self, sda: np.ndarray, scl: np.ndarray, time: np.ndarray, threshold: float) -> List[float]:
+    def _find_stop_conditions(
+        self, sda: np.ndarray, scl: np.ndarray, time: np.ndarray, threshold: float
+    ) -> List[float]:
         """Find I2C STOP conditions (SDA rising while SCL high).
 
         Args:
@@ -171,7 +214,16 @@ class I2CDecoder(ProtocolDecoder):
 
         return stop_times
 
-    def _decode_transaction(self, sda: np.ndarray, scl: np.ndarray, time: np.ndarray, threshold: float, start_time: float, stop_time: float, address_bits: int):
+    def _decode_transaction(
+        self,
+        sda: np.ndarray,
+        scl: np.ndarray,
+        time: np.ndarray,
+        threshold: float,
+        start_time: float,
+        stop_time: float,
+        address_bits: int,
+    ):
         """Decode I2C transaction between START and STOP.
 
         Args:
@@ -216,10 +268,27 @@ class I2CDecoder(ProtocolDecoder):
             ack_event_type = EventType.ACK
 
         # Add address event
-        self.events.append(DecodedEvent(timestamp=clock_edges[0], event_type=EventType.ADDRESS, data={"address": address_byte, "rw": rw_str}, description=f"Addr: 0x{address_byte:02X} {rw_str}", channel="SDA/SCL"))
+        self.events.append(
+            DecodedEvent(
+                timestamp=clock_edges[0],
+                event_type=EventType.ADDRESS,
+                data={"address": address_byte, "rw": rw_str},
+                description=f"Addr: 0x{address_byte:02X} {rw_str}",
+                channel="SDA/SCL",
+            )
+        )
 
         # Add ACK event
-        self.events.append(DecodedEvent(timestamp=clock_edges[8] if len(clock_edges) > 8 else clock_edges[-1], event_type=ack_event_type, data=ack, description=ack, channel="SDA/SCL", valid=(ack == "ACK")))
+        self.events.append(
+            DecodedEvent(
+                timestamp=clock_edges[8] if len(clock_edges) > 8 else clock_edges[-1],
+                event_type=ack_event_type,
+                data=ack,
+                description=ack,
+                channel="SDA/SCL",
+                valid=(ack == "ACK"),
+            )
+        )
 
         # Decode data bytes (9 bits each: 8 data + 1 ACK)
         byte_start = 9
@@ -239,9 +308,26 @@ class I2CDecoder(ProtocolDecoder):
                 data_ack_type = EventType.NACK if ack_bit else EventType.ACK
 
                 # Add data event
-                self.events.append(DecodedEvent(timestamp=clock_edges[byte_start], event_type=EventType.DATA, data=data_byte, description=f"Data: 0x{data_byte:02X} ({chr(data_byte) if 32 <= data_byte < 127 else '?'})", channel="SDA/SCL"))
+                self.events.append(
+                    DecodedEvent(
+                        timestamp=clock_edges[byte_start],
+                        event_type=EventType.DATA,
+                        data=data_byte,
+                        description=f"Data: 0x{data_byte:02X} ({chr(data_byte) if 32 <= data_byte < 127 else '?'})",
+                        channel="SDA/SCL",
+                    )
+                )
 
                 # Add ACK event
-                self.events.append(DecodedEvent(timestamp=clock_edges[ack_idx], event_type=data_ack_type, data=data_ack, description=data_ack, channel="SDA/SCL", valid=(data_ack == "ACK")))
+                self.events.append(
+                    DecodedEvent(
+                        timestamp=clock_edges[ack_idx],
+                        event_type=data_ack_type,
+                        data=data_ack,
+                        description=data_ack,
+                        channel="SDA/SCL",
+                        valid=(data_ack == "ACK"),
+                    )
+                )
 
             byte_start += 9

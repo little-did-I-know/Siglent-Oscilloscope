@@ -1,10 +1,11 @@
 """SPI (Serial Peripheral Interface) protocol decoder."""
 
 import logging
-from typing import List, Dict, Any
+from typing import Any, Dict, List
+
 import numpy as np
 
-from siglent.protocol_decode import ProtocolDecoder, DecodedEvent, EventType
+from siglent.protocol_decode import DecodedEvent, EventType, ProtocolDecoder
 
 logger = logging.getLogger(__name__)
 
@@ -119,7 +120,16 @@ class SPIDecoder(ProtocolDecoder):
 
                 if len(transaction_edges) < bits_per_word:
                     # Not enough clock cycles
-                    self.events.append(DecodedEvent(timestamp=start_time, event_type=EventType.ERROR, data=None, description=f"Incomplete transaction ({len(transaction_edges)} bits)", channel="SPI", valid=False))
+                    self.events.append(
+                        DecodedEvent(
+                            timestamp=start_time,
+                            event_type=EventType.ERROR,
+                            data=None,
+                            description=f"Incomplete transaction ({len(transaction_edges)} bits)",
+                            channel="SPI",
+                            valid=False,
+                        )
+                    )
                     continue
 
                 # Decode words
@@ -130,11 +140,23 @@ class SPIDecoder(ProtocolDecoder):
                     word_end_edge = word_start_edge + bits_per_word
 
                     # Decode MOSI
-                    mosi_word = self._decode_word(mosi, time, transaction_edges[word_start_edge:word_end_edge], threshold, bit_order)
+                    mosi_word = self._decode_word(
+                        mosi,
+                        time,
+                        transaction_edges[word_start_edge:word_end_edge],
+                        threshold,
+                        bit_order,
+                    )
 
                     # Decode MISO (if available)
                     if miso is not None:
-                        miso_word = self._decode_word(miso, time, transaction_edges[word_start_edge:word_end_edge], threshold, bit_order)
+                        miso_word = self._decode_word(
+                            miso,
+                            time,
+                            transaction_edges[word_start_edge:word_end_edge],
+                            threshold,
+                            bit_order,
+                        )
                         data_str = f"MOSI: 0x{mosi_word:02X}, MISO: 0x{miso_word:02X}"
                         data_dict = {"mosi": mosi_word, "miso": miso_word}
                     else:
@@ -142,17 +164,36 @@ class SPIDecoder(ProtocolDecoder):
                         data_dict = {"mosi": mosi_word}
 
                     # Add data event
-                    self.events.append(DecodedEvent(timestamp=transaction_edges[word_start_edge], event_type=EventType.DATA, data=data_dict, description=data_str, channel="SPI"))
+                    self.events.append(
+                        DecodedEvent(
+                            timestamp=transaction_edges[word_start_edge],
+                            event_type=EventType.DATA,
+                            data=data_dict,
+                            description=data_str,
+                            channel="SPI",
+                        )
+                    )
 
             logger.info(f"SPI: Decoded {len(self.events)} events")
 
         except Exception as e:
             logger.error(f"SPI decode error: {e}")
-            self.events.append(DecodedEvent(timestamp=0.0, event_type=EventType.ERROR, data=None, description=f"Decode error: {str(e)}", channel="SPI", valid=False))
+            self.events.append(
+                DecodedEvent(
+                    timestamp=0.0,
+                    event_type=EventType.ERROR,
+                    data=None,
+                    description=f"Decode error: {str(e)}",
+                    channel="SPI",
+                    valid=False,
+                )
+            )
 
         return self.events
 
-    def _find_cs_active_periods(self, cs: np.ndarray, time: np.ndarray, threshold: float, cs_active_low: bool) -> List[tuple]:
+    def _find_cs_active_periods(
+        self, cs: np.ndarray, time: np.ndarray, threshold: float, cs_active_low: bool
+    ) -> List[tuple]:
         """Find CS active periods (transactions).
 
         Args:
@@ -190,7 +231,14 @@ class SPIDecoder(ProtocolDecoder):
 
         return periods
 
-    def _decode_word(self, signal: np.ndarray, time: np.ndarray, clock_edges: List[float], threshold: float, bit_order: str) -> int:
+    def _decode_word(
+        self,
+        signal: np.ndarray,
+        time: np.ndarray,
+        clock_edges: List[float],
+        threshold: float,
+        bit_order: str,
+    ) -> int:
         """Decode a word from signal at clock edges.
 
         Args:

@@ -1,7 +1,8 @@
 """Test GUI initialization and widget creation."""
 
-import pytest
 import sys
+
+import pytest
 
 pytest.importorskip("PyQt6")
 from PyQt6.QtWidgets import QApplication

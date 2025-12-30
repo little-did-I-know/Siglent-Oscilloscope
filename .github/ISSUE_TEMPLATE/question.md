@@ -1,9 +1,9 @@
 ---
 name: Question
 about: Ask a question about usage or functionality
-title: '[QUESTION] '
+title: "[QUESTION] "
 labels: question
-assignees: ''
+assignees: ""
 ---
 
 ## Question

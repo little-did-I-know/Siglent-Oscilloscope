@@ -31,10 +31,18 @@ def main():
         print(f"  Timebase scales: {timebase_scales}")
         print(f"  Voltage scales: {voltage_scales}")
         print(f"  Triggers per config: {triggers_per_config}")
-        print(f"  Total captures: {len(timebase_scales) * len(voltage_scales[1]) * triggers_per_config}\n")
+        print(
+            f"  Total captures: {len(timebase_scales) * len(voltage_scales[1]) * triggers_per_config}\n"
+        )
 
         # Perform batch capture
-        results = collector.batch_capture(channels=[1], timebase_scales=timebase_scales, voltage_scales=voltage_scales, triggers_per_config=triggers_per_config, progress_callback=progress_callback)
+        results = collector.batch_capture(
+            channels=[1],
+            timebase_scales=timebase_scales,
+            voltage_scales=voltage_scales,
+            triggers_per_config=triggers_per_config,
+            progress_callback=progress_callback,
+        )
 
         print(f"\nBatch capture complete! Collected {len(results)} waveforms")
 

@@ -43,7 +43,7 @@ def test_import_analysis():
 
 def test_import_protocol_decode():
     """Test that protocol decode module imports successfully."""
-    from siglent.protocol_decode import ProtocolDecoder, DecodedEvent, EventType
+    from siglent.protocol_decode import DecodedEvent, EventType, ProtocolDecoder
 
     assert ProtocolDecoder is not None
     assert DecodedEvent is not None
@@ -81,13 +81,13 @@ def test_import_gui_widgets():
     """Test that GUI widgets import successfully."""
     pytest.importorskip("PyQt6")
     try:
-        from siglent.gui.widgets.waveform_display import WaveformDisplay
         from siglent.gui.widgets.channel_control import ChannelControl
         from siglent.gui.widgets.cursor_panel import CursorPanel
-        from siglent.gui.widgets.math_panel import MathPanel
         from siglent.gui.widgets.fft_display import FFTDisplay
-        from siglent.gui.widgets.reference_panel import ReferencePanel
+        from siglent.gui.widgets.math_panel import MathPanel
         from siglent.gui.widgets.protocol_decode_panel import ProtocolDecodePanel
+        from siglent.gui.widgets.reference_panel import ReferencePanel
+        from siglent.gui.widgets.waveform_display import WaveformDisplay
     except ImportError as exc:  # noqa: PERF203
         pytest.skip(f"Skipping GUI widget import tests due to missing Qt runtime: {exc}")
 

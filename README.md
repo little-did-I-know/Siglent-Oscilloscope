@@ -16,6 +16,7 @@ A professional Python package for controlling Siglent oscilloscopes via Ethernet
 ## Features
 
 ### Core Features
+
 - **Programmatic API**: Control your oscilloscope from Python scripts
 - **Automation & Data Collection**: High-level API for batch capture, continuous monitoring, and analysis
 - **GUI Application**: Modern PyQt6-based graphical interface
@@ -25,6 +26,7 @@ A professional Python package for controlling Siglent oscilloscopes via Ethernet
 - **Advanced Analysis**: Built-in FFT, SNR, THD, and statistical analysis tools
 
 ### GUI Features (New!)
+
 - **High-Performance Live View**: Real-time waveform display at 1000+ fps using PyQtGraph
 - **Interactive Visual Measurements**: Click-and-drag measurement markers directly on waveforms
   - 15+ measurement types: Frequency, Vpp, Rise Time, Duty Cycle, etc.
@@ -38,7 +40,9 @@ A professional Python package for controlling Siglent oscilloscopes via Ethernet
 - **VNC Display**: Embedded oscilloscope screen viewer
 
 ### Vector Graphics / XY Mode (Fun! 🎨)
+
 Use your oscilloscope as a vector display by generating waveforms for XY mode:
+
 - **Draw Shapes**: Circles, rectangles, stars, polygons, Lissajous figures
 - **Text Rendering**: Display text messages on your oscilloscope screen
 - **Animations**: Create rotating and transforming graphics
@@ -157,6 +161,7 @@ siglent-gui
 ```
 
 Or from Python:
+
 ```python
 from siglent.gui.app import main
 main()
@@ -165,18 +170,22 @@ main()
 ## Requirements
 
 ### Core Library
+
 - Python 3.8+
 - NumPy >= 1.24.0
 - Matplotlib >= 3.7.0
 - SciPy >= 1.10.0
 
 ### GUI Application (optional)
+
 Install with `[gui]` extra to add:
+
 - PyQt6 >= 6.6.0
 - PyQt6-WebEngine >= 6.6.0
 - PyQtGraph >= 0.13.0 (high-performance plotting)
 
 ### Optional Extras
+
 - **HDF5 support**: Install with `[hdf5]` to add h5py >= 3.8.0
 - **Vector Graphics**: Install with `[fun]` to add shapely, Pillow, svgpathtools (XY mode drawing)
 - **All features**: Install with `[all]` for complete functionality
@@ -186,6 +195,7 @@ Install with `[gui]` extra to add:
 The oscilloscope must be connected to your network. The default SCPI port is 5024.
 
 To find your oscilloscope's IP address:
+
 1. Press **Utility** on the oscilloscope
 2. Navigate to **I/O** settings
 3. Check the **LAN** configuration
@@ -201,6 +211,7 @@ The Siglent Oscilloscope Control GUI provides a comprehensive interface for cont
 ![Main Window](docs/images/main_window.png)
 
 The main interface consists of:
+
 - **Waveform Display**: High-performance real-time plotting area (center)
 - **Control Panels**: Tabbed interface with all oscilloscope controls (right)
 - **Menu Bar**: File operations, acquisition controls, and utilities (top)
@@ -219,6 +230,7 @@ To connect to your oscilloscope:
 The oscilloscope must be connected to your network (default SCPI port: 5024).
 
 **Finding your oscilloscope's IP address**:
+
 - Press **Utility** on the oscilloscope
 - Navigate to **I/O** settings
 - Check the **LAN** configuration
@@ -251,12 +263,14 @@ Acquisition → Live View (Ctrl+R)
 ```
 
 **Performance:**
+
 - Real-time updates at 5-20 fps (configurable)
 - 100x faster than traditional matplotlib-based viewers
 - Non-blocking: GUI remains responsive during data acquisition
 - Supports all 4 channels simultaneously
 
 **Controls:**
+
 - Enable channels in the "Channels" tab first
 - Live view automatically acquires from enabled channels
 - Adjust update rate by modifying `update_interval` in `live_view_worker.py`
@@ -268,6 +282,7 @@ Acquisition → Live View (Ctrl+R)
 Interactive measurement markers that you can place and adjust directly on waveforms:
 
 **How to use:**
+
 1. Go to the **"Visual Measure"** tab
 2. Select measurement type (Frequency, Vpp, Rise Time, etc.)
 3. Select channel (CH1-CH4)
@@ -277,17 +292,20 @@ Interactive measurement markers that you can place and adjust directly on wavefo
 7. See real-time measurement updates
 
 **Measurement Types:**
+
 - **Frequency/Period**: Auto-detects signal period
 - **Voltage**: Vpp, Amplitude, Max, Min, RMS, Mean
 - **Timing**: Rise Time, Fall Time, Pulse Width, Duty Cycle
 
 **Features:**
+
 - **Save/Load Configs**: Save measurement setups for reuse
 - **Export Results**: Export to CSV or JSON
 - **Auto-Update**: Optional 1-second auto-refresh
 - **Batch Mode**: Run multiple measurements simultaneously
 
 **Example Workflow:**
+
 ```python
 # In GUI:
 # 1. Capture or enable live view
@@ -342,23 +360,27 @@ Turn your oscilloscope into a vector display by generating waveforms for XY mode
 The **Vector Graphics** tab provides:
 
 **Shape Generator:**
+
 - **Basic Shapes**: Circle, Rectangle, Star, Triangle, Line
 - **Lissajous Figures**: Classic oscilloscope patterns (3:2, 5:4, 7:5, etc.)
 - **Parameter Controls**: Adjust size, points, frequency ratios, phase shifts
 - **Generate Button**: Create vector paths with customizable parameters
 
 **Waveform Export:**
+
 - **Sample Rate Control**: 1-1000 MSa/s for AWG compatibility
 - **Duration**: 1ms to 10s per waveform
 - **Format Options**: CSV (universal), NumPy (.npy), Binary (.bin)
 - **Save for AWG**: Exports separate X and Y waveform files
 
 **XY Mode Control:**
+
 - **Enable/Disable**: Configure oscilloscope for XY display mode
 - **Channel Setup**: Auto-configures CH1 (X-axis) and CH2 (Y-axis)
 - **Status Display**: Connection and configuration feedback
 
 **How to use:**
+
 1. Go to the **"Vector Graphics 🎨"** tab
 2. Select a shape (e.g., "Circle" or "Lissajous")
 3. Adjust parameters (radius, points, frequencies)
@@ -373,6 +395,7 @@ The **Vector Graphics** tab provides:
 **Works without scope connection** - you can generate and export waveforms offline!
 
 **Example Use Cases:**
+
 - Draw circles, stars, and geometric shapes
 - Create classic Lissajous patterns for calibration
 - Generate animations (rotating shapes, morphing patterns)
@@ -384,21 +407,25 @@ See `examples/vector_graphics_xy_mode.py` for programmatic usage and animation e
 ### Other GUI Features
 
 **Reference Waveforms:**
+
 - Save waveforms as references
 - Overlay comparisons
 - Difference mode (live - reference)
 - Calculate correlation
 
 **Math Channels:**
+
 - Custom expressions: `C1 + C2`, `C1 * 2`, etc.
 - Real-time calculation
 
 **FFT Analysis:**
+
 - Frequency domain visualization
 - Window function selection
 - Peak detection
 
 **Protocol Decode:**
+
 - I2C, SPI, UART, CAN, LIN decoding
 - Packet analysis and export
 
@@ -556,6 +583,7 @@ print(f"THD: {analysis['thd_percent']:.2f}%")
 ```
 
 See `examples/` directory for complete automation examples including:
+
 - Simple capture (`simple_capture.py`)
 - Batch processing (`batch_capture.py`)
 - Continuous monitoring (`continuous_capture.py`)
@@ -574,20 +602,63 @@ See the `examples/` directory for complete working examples:
 ## Supported Models
 
 ### Fully Tested
+
 - **SDS800X HD Series**: SDS804X HD, SDS824X HD
 - **SDS1000X-E Series**: SDS1102X-E, SDS1104X-E, SDS1202X-E, SDS1204X-E
 - **SDS2000X Plus Series**: SDS2104X+, SDS2204X+, SDS2354X+
 - **SDS5000X Series**: SDS5034X, SDS5054X, SDS5104X
 
 ### Compatibility
+
 Should work with other Siglent oscilloscopes that support SCPI commands over Ethernet. Model-specific features are auto-detected via the `ModelCapability` registry.
 
 **Note**: Some SCPI commands vary between models. The library includes model-specific command variants for HD, X, and Plus series.
 
 ## Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+Contributions are welcome! Please read our [Contributing Guide](CONTRIBUTING.md) for details on:
+
+- Development setup and workflow
+- Code style and testing requirements
+- Pull request process
+- How to report bugs and request features
+
+### Quick Start for Contributors
+
+```bash
+# Clone and setup
+git clone https://github.com/little-did-I-know/Siglent-Oscilloscope.git
+cd Siglent-Oscilloscope
+
+# Install development environment
+make dev-setup
+
+# Run tests
+make test
+
+# Format code
+make format
+
+# Run all checks
+make check
+```
+
+See our [Code of Conduct](CODE_OF_CONDUCT.md) and [Security Policy](SECURITY.md) for more information.
+
+## Community and Support
+
+- **Issues**: [Report bugs or request features](https://github.com/little-did-I-know/Siglent-Oscilloscope/issues)
+- **Discussions**: [Ask questions and share ideas](https://github.com/little-did-I-know/Siglent-Oscilloscope/discussions)
+- **Security**: See our [Security Policy](SECURITY.md) for reporting vulnerabilities
+
+## Resources
+
+- 📘 **[Interactive Tutorial](examples/interactive_tutorial.ipynb)** - Jupyter notebook with step-by-step examples
+- 📁 **[Examples Directory](examples/)** - Ready-to-run example scripts
+- 📖 **[API Documentation](#api-documentation)** - Complete API reference in this README
+- 🔧 **[Contributing Guide](CONTRIBUTING.md)** - How to contribute to the project
+- 🔒 **[Security Policy](SECURITY.md)** - Security best practices and reporting
 
 ## License
 
-MIT License - see LICENSE file for details
+MIT License - see [LICENSE](LICENSE) file for details

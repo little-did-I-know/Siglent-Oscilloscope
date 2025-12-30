@@ -55,22 +55,26 @@ View coverage report by opening `htmlcov/index.html` in a browser.
 ## Test Organization
 
 ### `test_imports.py`
+
 - Tests that all modules can be imported without errors
 - Catches AttributeError, ImportError, and other initialization issues
 - Fast smoke tests to verify basic package integrity
 
 ### `test_gui_initialization.py`
+
 - Tests GUI widget creation and initialization order
 - Verifies MainWindow initialization doesn't have AttributeErrors
 - Ensures all required widgets are created properly
 - Catches initialization order issues (like waveform_display creation)
 
 ### `test_protocol_decoders.py`
+
 - Tests protocol decoder creation and configuration
 - Verifies required channels and parameters
 - Tests event clearing and basic functionality
 
 ### `test_math_operations.py`
+
 - Tests mathematical operations on waveforms
 - Verifies addition, subtraction, multiplication, division
 - Tests integration, differentiation, scaling, offset
@@ -106,6 +110,7 @@ def test_your_feature():
 ## Continuous Integration
 
 These tests are designed to run in CI/CD pipelines. They require:
+
 - Python 3.8+
 - All dependencies from `pyproject.toml`
 - QApplication instance for GUI tests (provided by pytest fixtures)

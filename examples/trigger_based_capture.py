@@ -5,7 +5,7 @@ and capture waveforms when they occur. This is useful for capturing
 sporadic events or signals that meet specific criteria.
 """
 
-from siglent.automation import TriggerWaitCollector, DataCollector
+from siglent.automation import DataCollector, TriggerWaitCollector
 
 # Replace with your oscilloscope's IP address
 SCOPE_IP = "192.168.1.100"
@@ -27,7 +27,9 @@ def main():
         print("\nWaiting for trigger (max 30 seconds)...")
 
         # Wait for trigger
-        waveforms = tc.wait_for_trigger(channels=[1, 2], max_wait=30.0, save_on_trigger=True, output_dir="trigger_captures")
+        waveforms = tc.wait_for_trigger(
+            channels=[1, 2], max_wait=30.0, save_on_trigger=True, output_dir="trigger_captures"
+        )
 
         if waveforms:
             print("\nTrigger captured successfully!")
@@ -81,7 +83,9 @@ def main():
             # Save all captures
             print("Saving captures to 'multi_trigger_captures/'...")
             for i, waveforms in enumerate(captures):
-                collector.save_data(waveforms, f"multi_trigger_captures/event_{i+1:03d}", format="npz")
+                collector.save_data(
+                    waveforms, f"multi_trigger_captures/event_{i+1:03d}", format="npz"
+                )
 
             print("Done!")
 

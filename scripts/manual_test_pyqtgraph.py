@@ -2,6 +2,7 @@
 """Quick test to verify PyQtGraph is working properly."""
 
 import sys
+
 import numpy as np
 import pyqtgraph as pg
 from PyQt6.QtWidgets import QApplication

@@ -4,10 +4,12 @@ This script demonstrates real-time waveform acquisition and plotting
 using matplotlib animation.
 """
 
-import matplotlib.pyplot as plt
-import matplotlib.animation as animation
-from siglent import Oscilloscope
 import time
+
+import matplotlib.animation as animation
+import matplotlib.pyplot as plt
+
+from siglent import Oscilloscope
 
 # Replace with your oscilloscope's IP address
 SCOPE_IP = "192.168.1.100"
@@ -82,7 +84,9 @@ class LivePlotter:
         Args:
             interval: Update interval in milliseconds (default: 200)
         """
-        anim = animation.FuncAnimation(self.fig, self.update, interval=interval, blit=False, cache_frame_data=False)
+        anim = animation.FuncAnimation(
+            self.fig, self.update, interval=interval, blit=False, cache_frame_data=False
+        )
         plt.show()
 
 
