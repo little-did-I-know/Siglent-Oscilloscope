@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "Siglent-Oscilloscope"
-version = "0.2.3"
+version = "0.2.4"
 description = "Python package for controlling Siglent oscilloscopes (SDS800XHD, SDS1000X, SDS2000X Plus, SDS5000X series) via Ethernet"
 readme = { file = "README.md", content-type = "text/markdown" }
 requires-python = ">=3.8"
@@ -66,11 +66,19 @@ gui = [
     "PyQt6-WebEngine>=6.6.0",
     "pyqtgraph>=0.13.0",
 ]
+fun = [
+    "shapely>=2.0.0",
+    "Pillow>=10.0.0",
+    "svgpathtools>=1.6.0",
+]
 all = [
     "h5py>=3.8.0",
     "PyQt6>=6.6.0",
     "PyQt6-WebEngine>=6.6.0",
     "pyqtgraph>=0.13.0",
+    "shapely>=2.0.0",
+    "Pillow>=10.0.0",
+    "svgpathtools>=1.6.0",
 ]
 
 [project.scripts]

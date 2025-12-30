@@ -202,6 +202,17 @@ class MainWindow(QMainWindow):
         self.protocol_decode_panel = ProtocolDecodePanel()
         self.tabs.addTab(self.protocol_decode_panel, "Protocol")
 
+        # Vector Graphics tab (optional - requires 'fun' extras)
+        try:
+            from siglent.gui.widgets.vector_graphics_panel import VectorGraphicsPanel
+            self.vector_graphics_panel = VectorGraphicsPanel()
+            self.tabs.addTab(self.vector_graphics_panel, "Vector Graphics")
+        except ImportError:
+            # 'fun' extras not installed - tab will show install message
+            from siglent.gui.widgets.vector_graphics_panel import VectorGraphicsPanel
+            self.vector_graphics_panel = VectorGraphicsPanel()
+            self.tabs.addTab(self.vector_graphics_panel, "Vector Graphics 🎨")
+
         # Connect protocol decode panel signals
         self.protocol_decode_panel.decode_requested.connect(self._on_protocol_decode_requested)
         self.protocol_decode_panel.export_requested.connect(self._on_protocol_export_requested)
@@ -517,6 +528,8 @@ class MainWindow(QMainWindow):
             self.measurement_panel.set_scope(self.scope)
             self.timebase_control.set_scope(self.scope)
             self.terminal_widget.set_oscilloscope(self.scope)
+            if hasattr(self, 'vector_graphics_panel'):
+                self.vector_graphics_panel.set_scope(self.scope)
 
             # Update math panel and FFT display with available channels
             if self.scope.model_capability:
@@ -567,6 +580,8 @@ class MainWindow(QMainWindow):
             self.measurement_panel.set_scope(None)
             self.timebase_control.set_scope(None)
             self.terminal_widget.set_oscilloscope(None)
+            if hasattr(self, 'vector_graphics_panel'):
+                self.vector_graphics_panel.set_scope(None)
 
             self.statusBar().showMessage("Disconnected")
             logger.info("Disconnected from oscilloscope")

@@ -5,6 +5,40 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.4] - 2025-12-29
+
+### Added
+- **Vector Graphics / XY Mode Features** (requires `[fun]` extras)
+  - New `vector_graphics.py` module for generating waveforms for XY mode display
+  - `VectorDisplay` class for managing XY mode and waveform generation
+  - `Shape` factory with generators for:
+    - Basic shapes: circle, rectangle, polygon, star, line
+    - Lissajous figures for classic oscilloscope patterns
+    - Text rendering (experimental)
+  - `VectorPath` class with transformation methods (rotate, scale, translate, flip)
+  - Waveform export to CSV, NumPy, and binary formats for AWG upload
+  - **GUI Integration**: New "Vector Graphics 🎨" tab in GUI application
+    - Shape selection with dynamic parameter controls (Circle, Rectangle, Star, Triangle, Lissajous, Line)
+    - XY mode enable/disable directly from GUI
+    - Waveform generation with sample rate and duration controls
+    - Export to CSV, NumPy, or Binary format for AWG upload
+    - Works even without scope connection (offline waveform generation)
+    - Graceful degradation: shows installation instructions if `[fun]` extras not installed
+  - Example script: `examples/vector_graphics_xy_mode.py` with animations
+  - Optional dependency group `[fun]` in pyproject.toml:
+    - shapely>=2.0.0 (geometric operations)
+    - Pillow>=10.0.0 (text rendering)
+    - svgpathtools>=1.6.0 (SVG path support)
+
+### Changed
+- Updated README.md with comprehensive Vector Graphics / XY Mode section
+  - Added GUI tab documentation with step-by-step usage instructions
+  - Added example use cases (calibration, education, pattern testing)
+  - Updated installation instructions to include `[fun]` extras option
+  - Added `[fun]` to Optional Extras requirements section
+- Updated `siglent/gui/main_window.py` to integrate Vector Graphics tab
+- Updated `siglent/gui/widgets/__init__.py` with import note for optional panel
+
 ## [0.2.3] - 2025-12-29
 
 ### Changed

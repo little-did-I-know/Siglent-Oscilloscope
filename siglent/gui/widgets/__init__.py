@@ -9,6 +9,9 @@ from siglent.gui.widgets.timebase_control import TimebaseControl
 # Note: ScopeWebView not imported here to avoid QtWebEngineWidgets initialization issues
 # Import it explicitly when needed: from siglent.gui.widgets.scope_web_view import ScopeWebView
 
+# Note: VectorGraphicsPanel not imported here as it requires optional 'fun' extras
+# Import it explicitly when needed: from siglent.gui.widgets.vector_graphics_panel import VectorGraphicsPanel
+
 __all__ = [
     "WaveformDisplay",
     "ChannelControl",

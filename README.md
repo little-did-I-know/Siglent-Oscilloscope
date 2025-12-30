@@ -31,6 +31,39 @@ A professional Python package for controlling Siglent oscilloscopes via Ethernet
 - **Math Functions**: Custom math expressions on waveforms
 - **VNC Display**: Embedded oscilloscope screen viewer
 
+### Vector Graphics / XY Mode (Fun! 🎨)
+Use your oscilloscope as a vector display by generating waveforms for XY mode:
+- **Draw Shapes**: Circles, rectangles, stars, polygons, Lissajous figures
+- **Text Rendering**: Display text messages on your oscilloscope screen
+- **Animations**: Create rotating and transforming graphics
+- **Composite Paths**: Combine multiple shapes into complex drawings
+
+**Requirements**: External AWG/DAC or scope's built-in AWG to feed generated waveforms into scope channels.
+
+```python
+# Install the fun extras
+# pip install "Siglent-Oscilloscope[fun]"
+
+from siglent import Oscilloscope
+from siglent.vector_graphics import Shape
+
+scope = Oscilloscope('192.168.1.100')
+scope.connect()
+
+# Enable XY mode (CH1=X, CH2=Y)
+scope.vector_display.enable_xy_mode()
+
+# Generate waveforms for a circle
+circle = Shape.circle(radius=0.8, points=1000)
+x_wave, y_wave = scope.vector_display.draw(circle)
+
+# Save for AWG upload
+scope.vector_display.save_waveforms(circle, "my_circle", format='csv')
+# Load my_circle_x.csv and my_circle_y.csv into your AWG!
+```
+
+See `examples/vector_graphics_xy_mode.py` for more demos including animations and text!
+
 ## Installation
 
 ### From PyPI (recommended)
@@ -39,10 +72,17 @@ A professional Python package for controlling Siglent oscilloscopes via Ethernet
 pip install Siglent-Oscilloscope
 ```
 
-To include the optional GUI dependencies, install with the `gui` extra:
+To include optional features, use extras:
 
 ```bash
+# GUI application with PyQt6
 pip install "Siglent-Oscilloscope[gui]"
+
+# Vector graphics and XY mode (draw shapes on scope!)
+pip install "Siglent-Oscilloscope[fun]"
+
+# Everything
+pip install "Siglent-Oscilloscope[all]"
 ```
 
 **Note**: The `siglent-gui` command includes automatic dependency checking. If you try to run the GUI without the required packages, you'll receive a clear error message with installation instructions. Missing optional dependencies (like PyQtGraph for high-performance live view) will trigger warnings but allow the GUI to launch.
@@ -132,6 +172,7 @@ Install with `[gui]` extra to add:
 
 ### Optional Extras
 - **HDF5 support**: Install with `[hdf5]` to add h5py >= 3.8.0
+- **Vector Graphics**: Install with `[fun]` to add shapely, Pillow, svgpathtools (XY mode drawing)
 - **All features**: Install with `[all]` for complete functionality
 
 ## Connection
@@ -285,6 +326,54 @@ Frequency domain analysis:
 - Window function selection (Hanning, Hamming, Blackman)
 - Frequency and amplitude axes
 - Export FFT data
+
+### Vector Graphics 🎨 (XY Mode)
+
+> **Requires**: `pip install "Siglent-Oscilloscope[fun]"`
+
+Turn your oscilloscope into a vector display by generating waveforms for XY mode!
+
+The **Vector Graphics** tab provides:
+
+**Shape Generator:**
+- **Basic Shapes**: Circle, Rectangle, Star, Triangle, Line
+- **Lissajous Figures**: Classic oscilloscope patterns (3:2, 5:4, 7:5, etc.)
+- **Parameter Controls**: Adjust size, points, frequency ratios, phase shifts
+- **Generate Button**: Create vector paths with customizable parameters
+
+**Waveform Export:**
+- **Sample Rate Control**: 1-1000 MSa/s for AWG compatibility
+- **Duration**: 1ms to 10s per waveform
+- **Format Options**: CSV (universal), NumPy (.npy), Binary (.bin)
+- **Save for AWG**: Exports separate X and Y waveform files
+
+**XY Mode Control:**
+- **Enable/Disable**: Configure oscilloscope for XY display mode
+- **Channel Setup**: Auto-configures CH1 (X-axis) and CH2 (Y-axis)
+- **Status Display**: Connection and configuration feedback
+
+**How to use:**
+1. Go to the **"Vector Graphics 🎨"** tab
+2. Select a shape (e.g., "Circle" or "Lissajous")
+3. Adjust parameters (radius, points, frequencies)
+4. Click **"Generate Shape"**
+5. Set sample rate and duration for your AWG
+6. Click **"Save Waveforms..."** to export
+7. Load the X/Y files into your AWG (Channel 1 = X, Channel 2 = Y)
+8. Connect AWG outputs to scope inputs
+9. Click **"Enable XY Mode"** or manually enable on scope
+10. Watch your shape appear on the oscilloscope! ✨
+
+**Works without scope connection** - you can generate and export waveforms offline!
+
+**Example Use Cases:**
+- Draw circles, stars, and geometric shapes
+- Create classic Lissajous patterns for calibration
+- Generate animations (rotating shapes, morphing patterns)
+- Educational demonstrations of XY mode
+- Signal generator pattern testing
+
+See `examples/vector_graphics_xy_mode.py` for programmatic usage and animation examples.
 
 ### Other GUI Features
 

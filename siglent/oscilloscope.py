@@ -97,6 +97,38 @@ class Oscilloscope:
         # Initialize FFT analyzer
         self.fft_analyzer = FFTAnalyzer()
 
+        # Vector display (lazy-loaded, requires 'fun' extras)
+        self._vector_display = None
+
+    @property
+    def vector_display(self):
+        """Access vector graphics display functionality.
+
+        Requires the 'fun' extras to be installed:
+            pip install "Siglent-Oscilloscope[fun]"
+
+        Returns:
+            VectorDisplay instance for XY mode graphics
+
+        Raises:
+            ImportError: If 'fun' extras are not installed
+
+        Example:
+            >>> scope.vector_display.enable_xy_mode()
+            >>> circle = Shape.circle(radius=0.8)
+            >>> scope.vector_display.draw(circle)
+        """
+        if self._vector_display is None:
+            try:
+                from siglent.vector_graphics import VectorDisplay
+                self._vector_display = VectorDisplay(self)
+            except ImportError as e:
+                raise ImportError(
+                    "Vector graphics features require the 'fun' extras.\n"
+                    "Install with: pip install \"Siglent-Oscilloscope[fun]\""
+                ) from e
+        return self._vector_display
+
     def connect(self) -> None:
         """Establish connection to the oscilloscope.
 
