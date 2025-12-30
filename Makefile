@@ -73,6 +73,16 @@ check:  ## Run all checks (lint, test, build)
 	@$(MAKE) build
 	@echo "\n✓ All checks passed!"
 
+pre-pr:  ## Run comprehensive pre-PR validation (recommended before creating PR)
+	@echo "Running pre-PR validation..."
+	python scripts/pre_pr_check.py
+
+pre-pr-fast:  ## Run quick pre-PR validation (skip slow checks)
+	python scripts/pre_pr_check.py --fast
+
+pre-pr-fix:  ## Run pre-PR validation with auto-fix
+	python scripts/pre_pr_check.py --fix
+
 gui:  ## Launch the GUI application
 	siglent-gui
 

@@ -84,7 +84,9 @@ class LivePlotter:
         Args:
             interval: Update interval in milliseconds (default: 200)
         """
-        anim = animation.FuncAnimation(self.fig, self.update, interval=interval, blit=False, cache_frame_data=False)
+        anim = animation.FuncAnimation(
+            self.fig, self.update, interval=interval, blit=False, cache_frame_data=False
+        )
         plt.show()
 
 

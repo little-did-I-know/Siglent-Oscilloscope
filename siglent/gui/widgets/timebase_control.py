@@ -140,7 +140,12 @@ class TimebaseControl(QWidget):
         layout.addWidget(actions_group)
 
         # Info label
-        info_label = QLabel("<b>Timebase Info:</b><br>" "• Time/div controls horizontal zoom<br>" "• Delay shifts the waveform left/right<br>" "• Sample rate depends on time/div setting")
+        info_label = QLabel(
+            "<b>Timebase Info:</b><br>"
+            "• Time/div controls horizontal zoom<br>"
+            "• Delay shifts the waveform left/right<br>"
+            "• Sample rate depends on time/div setting"
+        )
         info_label.setWordWrap(True)
         info_label.setStyleSheet("QLabel { font-size: 9pt; color: #888; }")
         layout.addWidget(info_label)

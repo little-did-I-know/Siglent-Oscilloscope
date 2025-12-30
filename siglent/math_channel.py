@@ -65,7 +65,9 @@ class MathOperations:
         if waveform1 is None or waveform2 is None:
             return None
 
-        return MathOperations._create_result_waveform(waveform1, waveform1.voltage + waveform2.voltage)
+        return MathOperations._create_result_waveform(
+            waveform1, waveform1.voltage + waveform2.voltage
+        )
 
     @staticmethod
     def subtract(waveform1, waveform2):
@@ -81,7 +83,9 @@ class MathOperations:
         if waveform1 is None or waveform2 is None:
             return None
 
-        return MathOperations._create_result_waveform(waveform1, waveform1.voltage - waveform2.voltage)
+        return MathOperations._create_result_waveform(
+            waveform1, waveform1.voltage - waveform2.voltage
+        )
 
     @staticmethod
     def multiply(waveform1, waveform2):
@@ -97,7 +101,9 @@ class MathOperations:
         if waveform1 is None or waveform2 is None:
             return None
 
-        return MathOperations._create_result_waveform(waveform1, waveform1.voltage * waveform2.voltage)
+        return MathOperations._create_result_waveform(
+            waveform1, waveform1.voltage * waveform2.voltage
+        )
 
     @staticmethod
     def divide(waveform1, waveform2, epsilon=1e-12):

@@ -198,7 +198,12 @@ def mock_scope():
 git fetch upstream
 git rebase upstream/main
 
-# Run tests and linting
+# Run the pre-PR validation script (RECOMMENDED)
+make pre-pr              # Full validation
+# Or: python scripts/pre_pr_check.py
+# Or: bash scripts/pre_pr_check.sh
+
+# Alternative: Manual checks
 pytest tests/
 black siglent/ tests/ examples/
 flake8 siglent/
@@ -207,6 +212,31 @@ flake8 siglent/
 git add .
 git commit -m "Brief description of changes"
 ```
+
+**💡 Pro Tip:** Use the pre-PR validation script before committing to catch issues early:
+
+```bash
+# Run full validation (recommended before creating PR)
+make pre-pr
+
+# Quick validation during development
+make pre-pr-fast
+
+# Auto-fix formatting issues
+make pre-pr-fix
+
+# Or run directly with options
+python scripts/pre_pr_check.py --fast --fix
+```
+
+The pre-PR script checks:
+- ✅ Code formatting (Black)
+- ✅ Import sorting (isort)
+- ✅ Linting (flake8)
+- ✅ Security (bandit)
+- ✅ Tests (pytest)
+- ✅ Coverage
+- ✅ Package build validation
 
 ### 2. Commit Message Format
 

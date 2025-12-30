@@ -33,7 +33,9 @@ class Channel:
         self._prefix = f"C{channel_number}"
 
         if not 1 <= channel_number <= 4:
-            raise exceptions.InvalidParameterError(f"Invalid channel number: {channel_number}. Must be 1-4.")
+            raise exceptions.InvalidParameterError(
+                f"Invalid channel number: {channel_number}. Must be 1-4."
+            )
 
     @property
     def enabled(self) -> bool:
@@ -85,7 +87,9 @@ class Channel:
         """
         mode = mode.upper()
         if mode not in ["DC", "AC", "GND"]:
-            raise exceptions.InvalidParameterError(f"Invalid coupling mode: {mode}. Must be DC, AC, or GND.")
+            raise exceptions.InvalidParameterError(
+                f"Invalid coupling mode: {mode}. Must be DC, AC, or GND."
+            )
         self._scope.write(f"{self._prefix}:CPL {mode}")
         logger.info(f"Channel {self._channel} coupling set to {mode}")
 
@@ -119,7 +123,9 @@ class Channel:
                        1.0, 2.0, 5.0, 10.0
         """
         if volts_per_div <= 0:
-            raise exceptions.InvalidParameterError(f"Voltage scale must be positive: {volts_per_div}")
+            raise exceptions.InvalidParameterError(
+                f"Voltage scale must be positive: {volts_per_div}"
+            )
         self._scope.write(f"{self._prefix}:VDIV {volts_per_div}")
         logger.info(f"Channel {self._channel} scale set to {volts_per_div} V/div")
 
@@ -205,7 +211,9 @@ class Channel:
         """
         limit = limit.upper()
         if limit not in ["ON", "OFF", "FULL"]:
-            raise exceptions.InvalidParameterError(f"Invalid bandwidth limit: {limit}. Must be ON, OFF, or FULL.")
+            raise exceptions.InvalidParameterError(
+                f"Invalid bandwidth limit: {limit}. Must be ON, OFF, or FULL."
+            )
         # Convert FULL to OFF for compatibility
         if limit == "FULL":
             limit = "OFF"
@@ -264,6 +272,10 @@ class Channel:
         """String representation."""
         try:
             config = self.get_configuration()
-            return f"Channel{self._channel}(enabled={config['enabled']}, " f"scale={config['voltage_scale']}V/div, " f"coupling={config['coupling']})"
+            return (
+                f"Channel{self._channel}(enabled={config['enabled']}, "
+                f"scale={config['voltage_scale']}V/div, "
+                f"coupling={config['coupling']})"
+            )
         except Exception:
             return f"Channel{self._channel}"

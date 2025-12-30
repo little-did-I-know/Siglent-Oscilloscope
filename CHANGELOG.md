@@ -49,6 +49,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Commands for testing, linting, formatting, building, publishing
   - Quick setup commands: `make dev-setup`, `make check`
   - Shortcuts: `make test-cov`, `make format`, `make gui`
+  - Pre-PR commands: `make pre-pr`, `make pre-pr-fast`, `make pre-pr-fix`
+- **Pre-PR Validation Scripts**
+  - Added `scripts/pre_pr_check.py` - Comprehensive Python validation script
+  - Added `scripts/pre_pr_check.sh` - Bash version for Unix-like systems
+  - Automated checks: formatting, linting, security, tests, coverage, build
+  - Options: `--fast` (skip slow checks), `--fix` (auto-fix issues)
+  - Color-coded output with detailed error reporting
 - **GitHub Issue Templates**
   - Structured bug report template (`.github/ISSUE_TEMPLATE/bug_report.yml`)
   - Feature request template (`.github/ISSUE_TEMPLATE/feature_request.yml`)
