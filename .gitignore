@@ -77,3 +77,6 @@ my_circle_*.csv
 
 # AI
 .claude
+
+# Node modules
+node_modules/
