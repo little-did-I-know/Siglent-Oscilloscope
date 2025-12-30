@@ -1,9 +1,15 @@
 # Siglent Oscilloscope Control
 
+[![CI](https://github.com/little-did-I-know/Siglent-Oscilloscope/actions/workflows/ci.yml/badge.svg)](https://github.com/little-did-I-know/Siglent-Oscilloscope/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/little-did-I-know/Siglent-Oscilloscope/branch/main/graph/badge.svg)](https://codecov.io/gh/little-did-I-know/Siglent-Oscilloscope)
 [![PyPI version](https://img.shields.io/pypi/v/Siglent-Oscilloscope.svg)](https://pypi.org/project/Siglent-Oscilloscope/)
+[![PyPI Downloads](https://img.shields.io/pypi/dm/Siglent-Oscilloscope.svg)](https://pypi.org/project/Siglent-Oscilloscope/)
 [![Python Version](https://img.shields.io/pypi/pyversions/Siglent-Oscilloscope)](https://pypi.org/project/Siglent-Oscilloscope/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![GitHub issues](https://img.shields.io/github/issues/little-did-I-know/Siglent-Oscilloscope)](https://github.com/little-did-I-know/Siglent-Oscilloscope/issues)
+[![GitHub stars](https://img.shields.io/github/stars/little-did-I-know/Siglent-Oscilloscope)](https://github.com/little-did-I-know/Siglent-Oscilloscope/stargazers)
+[![GitHub last commit](https://img.shields.io/github/last-commit/little-did-I-know/Siglent-Oscilloscope)](https://github.com/little-did-I-know/Siglent-Oscilloscope/commits/main)
 
 A professional Python package for controlling Siglent oscilloscopes via Ethernet/LAN. Features both a comprehensive programmatic API and a high-performance PyQt6-based GUI application with real-time visualization.
 

@@ -7,11 +7,32 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.2.5] - 2025-12-30
 
+### Added
+- **Test Coverage and Quality Assurance**
+  - Integrated pytest with coverage reporting in CI workflow
+  - Added Codecov integration for test coverage tracking and visualization
+  - Multi-version testing across Python 3.8-3.12
+  - Coverage badge display on GitHub and PyPI
+- **Professional Project Badges**
+  - CI build status badge (GitHub Actions)
+  - Test coverage badge (Codecov)
+  - PyPI downloads per month badge
+  - GitHub issues tracker badge
+  - GitHub stars badge
+  - Last commit timestamp badge
+- **Codecov Configuration**
+  - Added `codecov.yml` with project-specific settings
+  - Configured coverage thresholds and reporting
+
 ### Changed
 - **SEO and PyPI Metadata Improvements**
   - Enhanced package description with comprehensive feature highlights for better discoverability
   - Expanded keywords from 7 to 20 terms covering automation, data acquisition, GUI, protocol decoding, and visualization
   - Improved search ranking for oscilloscope automation, SCPI control, and lab equipment software
+- **CI/CD Enhancements**
+  - Enhanced CI workflow with dedicated test suite job
+  - Added pytest-cov and pytest-xdist dependencies
+  - Improved test execution with verbose output and coverage reporting
 
 ## [0.2.4] - 2025-12-29
 
