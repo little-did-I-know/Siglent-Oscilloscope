@@ -76,7 +76,9 @@ check:  ## Run all checks (lint, test, build)
 pre-pr:  ## Run comprehensive pre-PR validation (recommended before creating PR)
 	@echo "Running pre-PR validation..."
 	python scripts/pre_pr_check.py
-
+	black --line-length 1000 siglent/ examples/ scripts/ tests/ siglent/
+	@echo "\n✓ Pre-PR validation passed!"
+	
 pre-pr-fast:  ## Run quick pre-PR validation (skip slow checks)
 	python scripts/pre_pr_check.py --fast
 

@@ -10,6 +10,7 @@
 [![GitHub issues](https://img.shields.io/github/issues/little-did-I-know/Siglent-Oscilloscope)](https://github.com/little-did-I-know/Siglent-Oscilloscope/issues)
 [![GitHub stars](https://img.shields.io/github/stars/little-did-I-know/Siglent-Oscilloscope)](https://github.com/little-did-I-know/Siglent-Oscilloscope/stargazers)
 [![GitHub last commit](https://img.shields.io/github/last-commit/little-did-I-know/Siglent-Oscilloscope)](https://github.com/little-did-I-know/Siglent-Oscilloscope/commits/main)
+[![Buy Me A Coffee](https://img.shields.io/badge/Buy%20Me%20A%20Coffee-Support-yellow.svg?style=flat&logo=buy-me-a-coffee)](https://buymeacoffee.com/little.did.i.know)
 
 A professional Python package for controlling Siglent oscilloscopes via Ethernet/LAN. Features both a comprehensive programmatic API and a high-performance PyQt6-based GUI application with real-time visualization.
 

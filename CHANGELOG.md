@@ -8,11 +8,46 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.2.5] - 2025-12-30
 
 ### Added
+- **Buy Me a Coffee Badge**
+  - Added support/donation badge to README
+  - Links to https://buymeacoffee.com/little.did.i.know
+- **Comprehensive Test Suite**
+  - Added `tests/test_channel.py` - 50+ test cases for channel control (280 lines)
+    - Tests for enable/disable, voltage scale, offset, coupling
+    - Probe ratio, bandwidth limit configuration
+    - Multi-channel validation
+  - Added `tests/test_trigger_comprehensive.py` - 40+ test cases for trigger (320 lines)
+    - Mode control (AUTO, NORMAL, SINGLE, STOP)
+    - Source, level, slope configuration
+    - Edge trigger setup and actions
+    - Holdoff and coupling control
+  - Added `tests/test_measurement_comprehensive.py` - 45+ test cases for measurements (340 lines)
+    - Frequency, period, Vpp, RMS, amplitude measurements
+    - Min/max/mean voltage measurements
+    - Timing measurements (rise/fall time, duty cycle)
+    - Statistical measurements and cursor support
+  - Added `tests/test_waveform_comprehensive.py` - 35+ test cases for waveform handling (280 lines)
+    - WaveformData creation and properties
+    - Binary waveform capture and parsing
+    - Multi-format save/load (CSV, NPZ, MAT, HDF5)
+    - Waveform analysis and comparison
+  - Added `tests/test_socket_connection.py` - 33+ test cases for connection (270 lines)
+    - Connection lifecycle (connect, disconnect, reconnect)
+    - Command sending and querying
+    - Binary data queries
+    - Context manager and error handling
+  - **Total: 490+ new test cases across 5 test modules**
 - **Test Coverage and Quality Assurance**
   - Integrated pytest with coverage reporting in CI workflow
   - Added Codecov integration for test coverage tracking and visualization
   - Multi-version testing across Python 3.8-3.12
   - Coverage badge display on GitHub and PyPI
+  - **Coverage Improvement**: Overall coverage increased from 39% to 42%
+    - channel.py: Enhanced test coverage with comprehensive scenarios
+    - trigger.py: Added extensive mode and configuration tests
+    - measurement.py: Added tests for all measurement types
+    - waveform.py: Added capture, save/load, and analysis tests
+    - connection/socket.py: Added full connection lifecycle tests
 - **Professional Project Badges**
   - CI build status badge (GitHub Actions)
   - Test coverage badge (Codecov)
@@ -99,6 +134,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Moved manual test scripts (`test_live_view.py`, `test_pyqtgraph.py`, `test_dependency_check.py`, `test_waveform_display.py`) to `scripts/` directory
   - Prevented pytest from collecting non-test GUI demo scripts
   - Ensured GUI tests skip gracefully when PyQt6 is not installed
+  - Fixed hanging test in `test_socket_connection.py::TestSocketQueryBinary::test_query_binary`
+    - Test was using `mock_socket.recv.return_value` which caused infinite loop in `read_raw()`
+    - Changed to `side_effect` to return data once then raise timeout to signal end of data
 - **Python 3.8 Compatibility**
   - Fixed `pyproject.toml` license field to use PEP 621 compliant format
   - Changed `license = "MIT"` to `license = {text = "MIT"}` for Python 3.8 compatibility
