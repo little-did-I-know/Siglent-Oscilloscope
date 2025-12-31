@@ -65,12 +65,12 @@ class WaveformDisplayPG(QWidget):
     - Export to image
     """
 
-    # Channel colors (matching oscilloscope colors)
+    # Modern vibrant channel colors
     CHANNEL_COLORS = {
-        1: (255, 215, 0),  # Yellow/Gold
-        2: (0, 206, 209),  # Cyan
-        3: (255, 20, 147),  # Deep Pink/Magenta
-        4: (0, 255, 0),  # Green
+        1: (255, 220, 50),  # Bright Yellow (CH1 - most used)
+        2: (64, 224, 208),  # Turquoise/Cyan (CH2)
+        3: (255, 105, 180),  # Hot Pink (CH3)
+        4: (50, 255, 100),  # Bright Green (CH4)
     }
 
     def __init__(self, parent=None):
@@ -116,10 +116,10 @@ class WaveformDisplayPG(QWidget):
         layout = QVBoxLayout(self)
         layout.setContentsMargins(0, 0, 0, 0)
 
-        # Create PyQtGraph plot widget
-        pg.setConfigOptions(antialias=True)  # Enable antialiasing for smoother lines
+        # Create PyQtGraph plot widget with modern styling
+        pg.setConfigOptions(antialias=True, useOpenGL=False, enableExperimental=False)  # Smooth lines  # Disable OpenGL for compatibility
         self.plot_widget = pg.PlotWidget()
-        self.plot_widget.setBackground("#1a1a1a")
+        self.plot_widget.setBackground("#0d1117")  # Modern dark background (GitHub dark theme)
 
         # Get plot item
         self.plot_item = self.plot_widget.getPlotItem()
@@ -139,24 +139,39 @@ class WaveformDisplayPG(QWidget):
         self.plot_widget.scene().sigMouseMoved.connect(self._on_mouse_move)
 
     def _configure_axes(self):
-        """Configure plot axes appearance."""
-        # Set labels
-        self.plot_item.setLabel("bottom", "Time", units="s", color="#cccccc")
-        self.plot_item.setLabel("left", "Voltage", units="V", color="#cccccc")
-        self.plot_item.setTitle("Waveform Display", color="#cccccc")
+        """Configure plot axes with modern styling."""
+        # Set labels with modern styling
+        label_style = {"color": "#e6edf3", "font-size": "11pt", "font-family": "Segoe UI"}
+        self.plot_item.setLabel("bottom", "Time", units="s", **label_style)
+        self.plot_item.setLabel("left", "Voltage", units="V", **label_style)
 
-        # Configure grid
-        self.plot_item.showGrid(x=self.show_grid, y=self.show_grid, alpha=0.3)
+        # Modern title styling
+        title_style = {"color": "#e6edf3", "size": "12pt"}
+        self.plot_item.setTitle("Waveform Display", **title_style)
+
+        # Configure grid with subtle modern styling
+        self.plot_item.showGrid(x=self.show_grid, y=self.show_grid, alpha=0.2)
+
+        # Set grid pen for more subtle lines
+        grid_pen = pg.mkPen(color="#30363d", width=1, style=pg.QtCore.Qt.PenStyle.DotLine)
+        self.plot_item.getAxis("bottom").setGrid(128)  # Grid transparency
+        self.plot_item.getAxis("left").setGrid(128)
 
         # Enable auto-range
         self.plot_item.enableAutoRange()
 
-        # Set axis colors
-        axis_color = (136, 136, 136)  # #888888
-        for axis in ["bottom", "left", "top", "right"]:
-            ax = self.plot_item.getAxis(axis)
-            ax.setPen(pg.mkPen(color=axis_color))
-            ax.setTextPen(pg.mkPen(color=(204, 204, 204)))  # #cccccc
+        # Modern axis styling
+        axis_pen = pg.mkPen(color="#30363d", width=1.5)  # Subtle axis lines
+        text_pen = pg.mkPen(color="#8b949e")  # Muted text color
+
+        for axis_name in ["bottom", "left", "top", "right"]:
+            ax = self.plot_item.getAxis(axis_name)
+            ax.setPen(axis_pen)
+            ax.setTextPen(text_pen)
+            # Increase tick font size for readability
+            font = ax.font()
+            font.setPointSize(9)
+            ax.setStyle(tickFont=font)
 
     def _create_control_panel(self) -> QWidget:
         """Create control panel with buttons.
@@ -289,24 +304,91 @@ class WaveformDisplayPG(QWidget):
             color = self.CHANNEL_COLORS.get(channel, (255, 255, 255))
             logger.info(f"  Updating CH{channel}: {len(waveform.voltage)} points, color={color}")
 
+            # Downsample if necessary for display performance
+            time_data, voltage_data = self._downsample_for_display(waveform.time, waveform.voltage)
+
+            if len(voltage_data) < len(waveform.voltage):
+                logger.info(f"    Downsampled CH{channel} from {len(waveform.voltage)} to {len(voltage_data)} points for display")
+
             if channel in self.plot_items:
                 # Update existing plot item (VERY FAST)
                 logger.debug(f"    Updating existing plot item for CH{channel}")
-                self.plot_items[channel].setData(waveform.time, waveform.voltage)
+                self.plot_items[channel].setData(time_data, voltage_data)
             else:
-                # Create new plot item
+                # Create new plot item with modern styling
                 logger.info(f"    Creating NEW plot item for CH{channel}")
-                pen = pg.mkPen(color=color, width=1.5)
-                plot_item = self.plot_item.plot(waveform.time, waveform.voltage, pen=pen, name=f"CH{channel}")
+                pen = pg.mkPen(color=color, width=2.0, style=pg.QtCore.Qt.PenStyle.SolidLine)  # Thicker lines for better visibility
+                plot_item = self.plot_item.plot(time_data, voltage_data, pen=pen, name=f"CH{channel}", antialias=True, skipFiniteCheck=True)  # Smooth lines  # Performance optimization
                 self.plot_items[channel] = plot_item
                 logger.info(f"    Plot item created successfully")
 
-        # Update info label
+        # Update info label with helpful information
         num_channels = len(self.waveforms)
         total_samples = sum(len(w) for w in self.waveforms.values())
-        self.info_label.setText(f"{num_channels} channel(s) | {total_samples} total samples")
+
+        # Check if any waveform was downsampled
+        downsampled = any(len(w.voltage) > 500000 for w in self.waveforms.values())
+        downsample_note = " (display downsampled)" if downsampled else ""
+
+        # Format sample count with thousands separator
+        samples_str = f"{total_samples:,}"
+        self.info_label.setText(f"{num_channels} channel(s) | {samples_str} samples{downsample_note}")
 
         logger.info(f"PyQtGraph plot update complete - displayed {num_channels} channels")
+
+    def _downsample_for_display(self, time, voltage, max_points=500000):
+        """Downsample waveform data for display performance.
+
+        Uses min-max decimation to preserve peaks and valleys in the signal.
+        This prevents GUI blocking when plotting millions of points.
+
+        Args:
+            time: Time array
+            voltage: Voltage array
+            max_points: Maximum number of points to display (default 500000)
+
+        Returns:
+            Tuple of (downsampled_time, downsampled_voltage)
+        """
+        n_samples = len(voltage)
+
+        # No downsampling needed if already small enough
+        if n_samples <= max_points:
+            return time, voltage
+
+        # Calculate downsampling factor
+        factor = int(np.ceil(n_samples / max_points))
+        logger.debug(f"Downsampling with factor {factor} ({n_samples} -> ~{n_samples // factor} points)")
+
+        # Use min-max decimation: for each block, keep both min and max values
+        # This preserves signal peaks and valleys
+        n_blocks = n_samples // factor
+        downsampled_time = np.zeros(n_blocks * 2)
+        downsampled_voltage = np.zeros(n_blocks * 2)
+
+        for i in range(n_blocks):
+            start_idx = i * factor
+            end_idx = min(start_idx + factor, n_samples)
+            block_voltage = voltage[start_idx:end_idx]
+            block_time = time[start_idx:end_idx]
+
+            # Find min and max in this block
+            min_idx = np.argmin(block_voltage)
+            max_idx = np.argmax(block_voltage)
+
+            # Store min and max (in time order to avoid artifacts)
+            if min_idx < max_idx:
+                downsampled_time[i * 2] = block_time[min_idx]
+                downsampled_voltage[i * 2] = block_voltage[min_idx]
+                downsampled_time[i * 2 + 1] = block_time[max_idx]
+                downsampled_voltage[i * 2 + 1] = block_voltage[max_idx]
+            else:
+                downsampled_time[i * 2] = block_time[max_idx]
+                downsampled_voltage[i * 2] = block_voltage[max_idx]
+                downsampled_time[i * 2 + 1] = block_time[min_idx]
+                downsampled_voltage[i * 2 + 1] = block_voltage[min_idx]
+
+        return downsampled_time, downsampled_voltage
 
     def _on_grid_toggle(self, state):
         """Handle grid toggle.
@@ -315,7 +397,7 @@ class WaveformDisplayPG(QWidget):
             state: Checkbox state
         """
         self.show_grid = bool(state)
-        self.plot_item.showGrid(x=self.show_grid, y=self.show_grid, alpha=0.3)
+        self.plot_item.showGrid(x=self.show_grid, y=self.show_grid, alpha=0.2)  # Subtle modern grid
         logger.debug(f"Grid {'enabled' if self.show_grid else 'disabled'}")
 
     def _on_autoscale(self):

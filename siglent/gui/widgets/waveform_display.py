@@ -258,12 +258,18 @@ class WaveformDisplay(QWidget):
             color = self.CHANNEL_COLORS.get(channel, "#FFFFFF")
             time_data, time_unit = self._convert_time_units(waveform.time)
 
+            # Downsample if necessary for display performance
+            time_data, voltage_data = self._downsample_for_display(time_data, waveform.voltage)
+
+            if len(voltage_data) < len(waveform.voltage):
+                logger.debug(f"Downsampled CH{channel} from {len(waveform.voltage)} to {len(voltage_data)} points for fast display")
+
             # Find existing line for this channel
             line_found = False
             for line in self.ax.get_lines():
                 if line.get_label() == f"CH{channel}":
                     # Update existing line
-                    line.set_data(time_data, waveform.voltage)
+                    line.set_data(time_data, voltage_data)
                     line_found = True
                     break
 
@@ -271,7 +277,7 @@ class WaveformDisplay(QWidget):
                 # Create new line
                 self.ax.plot(
                     time_data,
-                    waveform.voltage,
+                    voltage_data,
                     color=color,
                     linewidth=1.0,
                     label=f"CH{channel}",
@@ -320,10 +326,16 @@ class WaveformDisplay(QWidget):
                 # Convert time to appropriate units
                 time_data, time_unit = self._convert_time_units(waveform.time)
 
-                logger.debug(f"Plotting CH{channel}: {len(time_data)} points, time range: {time_data[0]:.3e} to {time_data[-1]:.3e} {time_unit}, voltage range: {waveform.voltage.min():.3f} to {waveform.voltage.max():.3f} V")
+                # Downsample if necessary for display performance
+                time_data, voltage_data = self._downsample_for_display(time_data, waveform.voltage)
+
+                if len(voltage_data) < len(waveform.voltage):
+                    logger.info(f"Downsampled CH{channel} from {len(waveform.voltage)} to {len(voltage_data)} points for display")
+
+                logger.debug(f"Plotting CH{channel}: {len(time_data)} points, time range: {time_data[0]:.3e} to {time_data[-1]:.3e} {time_unit}, voltage range: {voltage_data.min():.3f} to {voltage_data.max():.3f} V")
 
                 # Plot waveform
-                self.ax.plot(time_data, waveform.voltage, color=color, linewidth=1.0, label=label, alpha=0.9)
+                self.ax.plot(time_data, voltage_data, color=color, linewidth=1.0, label=label, alpha=0.9)
 
             # Update x-axis label with appropriate time unit
             self.ax.set_xlabel(f"Time ({time_unit})", color="#cccccc", fontsize=10)
@@ -349,22 +361,66 @@ class WaveformDisplay(QWidget):
         # Apply grid setting
         self.ax.grid(self.show_grid, alpha=0.3, color="#444444", linestyle="--", linewidth=0.5)
 
-        # Redraw canvas - force immediate update
-        logger.debug("Drawing canvas...")
-        self.canvas.draw()
-        try:
-            self.canvas.flush_events()
-        except AttributeError:
-            # flush_events might not be available in all backends
-            pass
+        # Redraw canvas efficiently - use draw_idle() to defer rendering
+        # This prevents blocking the GUI thread and allows Qt to optimize repaints
+        logger.debug("Scheduling canvas redraw...")
+        self.canvas.draw_idle()
 
-        # Force Qt widget update - multiple methods to ensure repaint
-        self.canvas.update()
-        self.canvas.repaint()
-        self.update()
-        self.repaint()
+        logger.debug("Canvas redraw scheduled")
 
-        logger.debug("Canvas draw complete")
+    def _downsample_for_display(self, time, voltage, max_points=500000):
+        """Downsample waveform data for display performance.
+
+        Uses min-max decimation to preserve peaks and valleys in the signal.
+        This prevents GUI blocking when plotting millions of points.
+
+        Args:
+            time: Time array
+            voltage: Voltage array
+            max_points: Maximum number of points to display (default 500000)
+
+        Returns:
+            Tuple of (downsampled_time, downsampled_voltage)
+        """
+        n_samples = len(voltage)
+
+        # No downsampling needed if already small enough
+        if n_samples <= max_points:
+            return time, voltage
+
+        # Calculate downsampling factor
+        factor = int(np.ceil(n_samples / max_points))
+        logger.debug(f"Downsampling with factor {factor} ({n_samples} -> ~{n_samples // factor} points)")
+
+        # Use min-max decimation: for each block, keep both min and max values
+        # This preserves signal peaks and valleys
+        n_blocks = n_samples // factor
+        downsampled_time = np.zeros(n_blocks * 2)
+        downsampled_voltage = np.zeros(n_blocks * 2)
+
+        for i in range(n_blocks):
+            start_idx = i * factor
+            end_idx = min(start_idx + factor, n_samples)
+            block_voltage = voltage[start_idx:end_idx]
+            block_time = time[start_idx:end_idx]
+
+            # Find min and max in this block
+            min_idx = np.argmin(block_voltage)
+            max_idx = np.argmax(block_voltage)
+
+            # Store min and max (in time order to avoid artifacts)
+            if min_idx < max_idx:
+                downsampled_time[i * 2] = block_time[min_idx]
+                downsampled_voltage[i * 2] = block_voltage[min_idx]
+                downsampled_time[i * 2 + 1] = block_time[max_idx]
+                downsampled_voltage[i * 2 + 1] = block_voltage[max_idx]
+            else:
+                downsampled_time[i * 2] = block_time[max_idx]
+                downsampled_voltage[i * 2] = block_voltage[max_idx]
+                downsampled_time[i * 2 + 1] = block_time[min_idx]
+                downsampled_voltage[i * 2 + 1] = block_voltage[min_idx]
+
+        return downsampled_time, downsampled_voltage
 
     def _convert_time_units(self, time: np.ndarray) -> tuple:
         """Convert time array to appropriate units.
@@ -395,7 +451,7 @@ class WaveformDisplay(QWidget):
         """
         self.show_grid = bool(state)
         self.ax.grid(self.show_grid, alpha=0.3, color="#444444", linestyle="--", linewidth=0.5)
-        self.canvas.draw()
+        self.canvas.draw_idle()
         logger.debug(f"Grid {'enabled' if self.show_grid else 'disabled'}")
 
     def _on_autoscale(self):
@@ -403,7 +459,7 @@ class WaveformDisplay(QWidget):
         self.ax.autoscale(enable=True, axis="both", tight=False)
         self.ax.relim()
         self.ax.autoscale_view()
-        self.canvas.draw()
+        self.canvas.draw_idle()
         logger.debug("Autoscale applied")
 
     def _on_clear(self):
@@ -463,14 +519,14 @@ class WaveformDisplay(QWidget):
         self.ax.set_title("Waveform Display", color=text_color)
         self.ax.grid(self.show_grid, alpha=0.3, color=grid_color)
 
-        self.canvas.draw()
+        self.canvas.draw_idle()
         logger.info(f"Theme set to {'dark' if dark else 'light'}")
 
     def toggle_grid(self):
         """Toggle grid display (callable from external sources like keyboard shortcuts)."""
         self.show_grid = not self.show_grid
         self.ax.grid(self.show_grid, alpha=0.3, color="#444444", linestyle="--", linewidth=0.5)
-        self.canvas.draw()
+        self.canvas.draw_idle()
         logger.info(f"Grid {'enabled' if self.show_grid else 'disabled'}")
 
     def reset_zoom(self):
@@ -478,7 +534,7 @@ class WaveformDisplay(QWidget):
         self.ax.autoscale(enable=True, axis="both", tight=False)
         self.ax.relim()
         self.ax.autoscale_view()
-        self.canvas.draw()
+        self.canvas.draw_idle()
         logger.info("Zoom reset")
 
     def _on_scroll(self, event):
@@ -528,7 +584,7 @@ class WaveformDisplay(QWidget):
             self.ax.set_xlim(new_xlim)
             self.ax.set_ylim(new_ylim)
 
-        self.canvas.draw()
+        self.canvas.draw_idle()
 
     def _zoom_axis(self, limits, center, scale_factor):
         """Calculate new axis limits for zooming.
@@ -578,7 +634,7 @@ class WaveformDisplay(QWidget):
                 self.cursor_lines[key] = None
                 self.cursor_positions[key] = None
 
-        self.canvas.draw()
+        self.canvas.draw_idle()
         logger.debug("All cursors cleared")
 
     def _on_mouse_press(self, event):
@@ -634,7 +690,7 @@ class WaveformDisplay(QWidget):
 
                     marker.set_selected(True)
                     self.selected_marker = marker
-                    self.canvas.draw()
+                    self.canvas.draw_idle()
                     logger.debug(f"Selected marker {marker.marker_id}")
                     return True
 
@@ -726,7 +782,7 @@ class WaveformDisplay(QWidget):
         line = self.ax.axvline(x, color=color, linestyle="--", linewidth=2, alpha=0.8, picker=5)
         self.cursor_lines[cursor_id] = line
         self.cursor_positions[cursor_id] = x
-        self.canvas.draw()
+        self.canvas.draw_idle()
         logger.debug(f"Created vertical cursor {cursor_id} at x={x}")
 
     def _create_horizontal_cursor(self, cursor_id: str, y: float):
@@ -740,7 +796,7 @@ class WaveformDisplay(QWidget):
         line = self.ax.axhline(y, color=color, linestyle="--", linewidth=2, alpha=0.8, picker=5)
         self.cursor_lines[cursor_id] = line
         self.cursor_positions[cursor_id] = y
-        self.canvas.draw()
+        self.canvas.draw_idle()
         logger.debug(f"Created horizontal cursor {cursor_id} at y={y}")
 
     def _move_cursor(self, cursor_id: str, x: float, y: float):
@@ -756,13 +812,13 @@ class WaveformDisplay(QWidget):
             if self.cursor_lines[cursor_id]:
                 self.cursor_lines[cursor_id].set_xdata([x, x])
                 self.cursor_positions[cursor_id] = x
-                self.canvas.draw()
+                self.canvas.draw_idle()
         elif cursor_id in ["h1", "h2"]:
             # Move horizontal cursor
             if self.cursor_lines[cursor_id]:
                 self.cursor_lines[cursor_id].set_ydata([y, y])
                 self.cursor_positions[cursor_id] = y
-                self.canvas.draw()
+                self.canvas.draw_idle()
 
     def _remove_cursor(self, cursor_id: str):
         """Remove a cursor.
@@ -774,7 +830,7 @@ class WaveformDisplay(QWidget):
             self.cursor_lines[cursor_id].remove()
             self.cursor_lines[cursor_id] = None
             self.cursor_positions[cursor_id] = None
-            self.canvas.draw()
+            self.canvas.draw_idle()
             logger.debug(f"Removed cursor {cursor_id}")
 
     def _find_cursor_near_point(self, x: float, y: float, threshold: float = None) -> Optional[str]:
@@ -959,7 +1015,7 @@ class WaveformDisplay(QWidget):
         """
         self.measurement_markers.append(marker)
         marker.render()
-        self.canvas.draw()
+        self.canvas.draw_idle()
         logger.info(f"Added measurement marker {marker.marker_id}")
 
     def remove_measurement_marker(self, marker) -> None:
@@ -975,7 +1031,7 @@ class WaveformDisplay(QWidget):
             if self.selected_marker == marker:
                 self.selected_marker = None
 
-            self.canvas.draw()
+            self.canvas.draw_idle()
             logger.info(f"Removed measurement marker {marker.marker_id}")
 
     def clear_all_markers(self) -> None:
@@ -985,7 +1041,7 @@ class WaveformDisplay(QWidget):
 
         self.measurement_markers.clear()
         self.selected_marker = None
-        self.canvas.draw()
+        self.canvas.draw_idle()
         logger.info("Cleared all measurement markers")
 
     def set_marker_mode(self, mode: str, marker_type: str = None, channel: int = None) -> None:
@@ -1007,7 +1063,7 @@ class WaveformDisplay(QWidget):
             for marker in self.measurement_markers:
                 marker.set_selected(False)
             self.selected_marker = None
-            self.canvas.draw()
+            self.canvas.draw_idle()
 
     def get_marker_measurements(self) -> Dict:
         """Get all measurement results from markers.
@@ -1048,7 +1104,7 @@ class WaveformDisplay(QWidget):
             if marker.visible and marker.is_dirty:
                 marker.render()
 
-        self.canvas.draw()
+        self.canvas.draw_idle()
 
     def _find_marker_at_point(self, x: float, y: float) -> Optional:
         """Find marker near a given point.

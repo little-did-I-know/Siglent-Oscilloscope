@@ -17,6 +17,7 @@ from PyQt6.QtWidgets import (
     QInputDialog,
     QMainWindow,
     QMessageBox,
+    QProgressDialog,
     QPushButton,
     QSplitter,
     QStatusBar,
@@ -43,6 +44,7 @@ except ImportError:
     logger.warning("PyQtGraph not available, using matplotlib (install with: pip install 'Siglent-Oscilloscope[gui]')")
 from siglent.gui.connection_manager import ConnectionManager
 from siglent.gui.live_view_worker import LiveViewWorker
+from siglent.gui.waveform_capture_worker import WaveformCaptureWorker
 from siglent.gui.widgets.channel_control import ChannelControl
 from siglent.gui.widgets.cursor_panel import CursorPanel
 from siglent.gui.widgets.fft_display import FFTDisplay
@@ -70,6 +72,8 @@ class MainWindow(QMainWindow):
         self.scope: Optional[Oscilloscope] = None
         self.is_live_view = False
         self.live_view_worker: Optional[LiveViewWorker] = None
+        self.capture_worker: Optional[WaveformCaptureWorker] = None
+        self.progress_dialog: Optional[QProgressDialog] = None
 
         # Connection manager
         self.connection_manager = ConnectionManager()
@@ -735,9 +739,14 @@ class MainWindow(QMainWindow):
             logger.error(f"Screenshot capture failed: {e}")
 
     def _on_capture_waveform(self):
-        """Handle capture waveform action."""
+        """Handle capture waveform action - uses background worker to prevent GUI freeze."""
         if not self.scope:
             QMessageBox.warning(self, "Not Connected", "No oscilloscope connected")
+            return
+
+        # Don't allow new capture while one is in progress
+        if self.capture_worker and self.capture_worker.isRunning():
+            QMessageBox.warning(self, "Capture in Progress", "Please wait for current capture to complete")
             return
 
         try:
@@ -785,53 +794,81 @@ class MainWindow(QMainWindow):
                     logger.info("User cancelled capture")
                     return
 
+            # Create progress dialog
+            self.progress_dialog = QProgressDialog("Initializing capture...", "Cancel", 0, 100, self)
+            self.progress_dialog.setWindowTitle("Capturing Waveforms")
+            self.progress_dialog.setWindowModality(Qt.WindowModality.WindowModal)
+            self.progress_dialog.setAutoClose(True)
+            self.progress_dialog.setMinimumDuration(0)  # Show immediately
+            self.progress_dialog.canceled.connect(self._on_capture_cancelled)
+
+            # Create and configure worker
+            self.capture_worker = WaveformCaptureWorker(self.scope, enabled_channels, self)
+            self.capture_worker.progress_update.connect(self._on_capture_progress)
+            self.capture_worker.waveforms_ready.connect(self._on_capture_complete)
+            self.capture_worker.capture_complete.connect(self._on_capture_finished)
+            self.capture_worker.error_occurred.connect(self._on_capture_error)
+
+            # Start capture in background thread
+            logger.info(f"Starting background capture for channels: {enabled_channels}")
             self.statusBar().showMessage("Capturing waveforms...")
-            logger.info(f"Capturing from channels: {enabled_channels}")
-
-            # Capture waveforms from enabled channels
-            waveforms = []
-            errors = []
-
-            for ch_num in enabled_channels:
-                try:
-                    logger.info(f"Capturing waveform from channel {ch_num}...")
-                    waveform = self.scope.get_waveform(ch_num)
-                    if waveform:
-                        logger.info(f"  Got waveform: {len(waveform.voltage)} samples, voltage range: {waveform.voltage.min():.3f} to {waveform.voltage.max():.3f} V")
-                        waveforms.append(waveform)
-                    else:
-                        logger.warning(f"  No waveform data returned for channel {ch_num}")
-                        errors.append(f"CH{ch_num}: No data returned")
-                except Exception as e:
-                    errors.append(f"CH{ch_num}: {str(e)}")
-                    logger.error(f"Failed to capture from channel {ch_num}: {e}", exc_info=True)
-
-            logger.info(f"Captured {len(waveforms)} waveform(s)")
-
-            if waveforms:
-                # Display waveforms
-                logger.info(f"Displaying {len(waveforms)} waveform(s)...")
-                self.waveform_display.plot_multiple_waveforms(waveforms)
-
-                # Force GUI update
-                from PyQt6.QtWidgets import QApplication
-
-                QApplication.processEvents()
-
-                self.statusBar().showMessage(f"Captured {len(waveforms)} waveform(s)")
-                logger.info("=== Capture Complete ===")
-            else:
-                self.statusBar().showMessage("Capture failed - no data")
-                error_msg = "Could not capture waveforms."
-                if errors:
-                    error_msg += "\n\nErrors:\n" + "\n".join(errors[:3])  # Show first 3 errors
-                QMessageBox.warning(self, "Capture Failed", error_msg)
-                logger.error(f"Capture failed with errors: {errors}")
+            self.capture_worker.start()
 
         except SiglentError as e:
             self.statusBar().showMessage("Capture failed")
-            QMessageBox.critical(self, "Capture Error", f"Failed to capture waveforms:\n{str(e)}")
+            QMessageBox.critical(self, "Capture Error", f"Failed to start capture:\n{str(e)}")
             logger.error(f"Waveform capture failed: {e}", exc_info=True)
+
+    def _on_capture_progress(self, message: str, percentage: int):
+        """Handle progress updates from capture worker."""
+        if self.progress_dialog:
+            self.progress_dialog.setLabelText(message)
+            self.progress_dialog.setValue(percentage)
+        logger.debug(f"Capture progress: {percentage}% - {message}")
+
+    def _on_capture_complete(self, waveforms):
+        """Handle waveforms ready from capture worker."""
+        # Close progress dialog BEFORE plotting to prevent signal race conditions
+        self._close_progress_dialog()
+
+        logger.info(f"Displaying {len(waveforms)} captured waveform(s)...")
+        self.waveform_display.plot_multiple_waveforms(waveforms)
+        self.statusBar().showMessage(f"Captured {len(waveforms)} waveform(s)")
+
+    def _on_capture_finished(self, waveform_count: int):
+        """Handle capture completion."""
+        self._close_progress_dialog()
+        logger.info(f"=== Capture Complete: {waveform_count} waveform(s) ===")
+
+    def _on_capture_error(self, error_message: str):
+        """Handle capture errors from worker."""
+        self._close_progress_dialog()
+
+        self.statusBar().showMessage("Capture failed")
+        QMessageBox.warning(self, "Capture Failed", error_message)
+        logger.error(f"Capture error: {error_message}")
+
+    def _on_capture_cancelled(self):
+        """Handle user cancelling the capture."""
+        # Only cancel if worker is actually running (not already finished)
+        if self.capture_worker and self.capture_worker.isRunning():
+            logger.info("User cancelled capture")
+            self.capture_worker.cancel()
+            self.statusBar().showMessage("Capture cancelled")
+            self._close_progress_dialog()
+
+    def _close_progress_dialog(self):
+        """Safely close progress dialog and disconnect signals to prevent race conditions."""
+        if self.progress_dialog:
+            # Disconnect canceled signal BEFORE closing to prevent spurious cancel events
+            try:
+                self.progress_dialog.canceled.disconnect(self._on_capture_cancelled)
+            except TypeError:
+                # Signal might not be connected, ignore
+                pass
+
+            self.progress_dialog.close()
+            self.progress_dialog = None
 
     def _on_toggle_live_view(self, checked: bool):
         """Handle live view toggle.

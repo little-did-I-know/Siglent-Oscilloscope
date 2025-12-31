@@ -5,6 +5,93 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.6] - 2025-12-31
+
+### Added
+- **Background Waveform Capture Worker** (`waveform_capture_worker.py`)
+  - Non-blocking waveform acquisition in separate thread
+  - Progress updates during multi-channel capture
+  - Cancellable long-running downloads
+  - Thread-safe signal/slot architecture
+  - Real-time status updates: "Downloading CH1 data from scope..."
+- **Progress Dialog for Capture Operations**
+  - Visual progress indication during waveform downloads
+  - Shows channel-by-channel progress
+  - Cancel button to abort slow captures
+  - Auto-closes on completion
+  - Prevents concurrent capture operations
+- **Intelligent Waveform Downsampling**
+  - Min-max decimation algorithm for large datasets
+  - Preserves signal peaks, valleys, and transients
+  - Configurable threshold (default: 500,000 points)
+  - Downsamples 5M point waveforms to 500K for display
+  - Original data fully preserved for export/analysis
+  - Status indicator shows "(display downsampled)" when active
+- **Modern Graph Visual Styling** (PyQtGraph)
+  - GitHub-inspired dark theme (#0d1117 background)
+  - Thicker, smoother waveform lines (2.0px with antialiasing)
+  - Vibrant channel colors for better visibility:
+    - CH1: Bright Yellow (255, 220, 50)
+    - CH2: Turquoise/Cyan (64, 224, 208)
+    - CH3: Hot Pink (255, 105, 180)
+    - CH4: Bright Green (50, 255, 100)
+  - Subtle dotted grid (20% opacity)
+  - Modern typography (Segoe UI, 11pt labels)
+  - Muted axis colors for professional appearance
+  - Sample count with thousands separators (e.g., "5,000,000 samples")
+
+### Changed
+- **Waveform Capture Architecture Refactored**
+  - Moved from synchronous to asynchronous capture model
+  - Capture operations now run in `WaveformCaptureWorker` thread
+  - Main GUI thread remains responsive during downloads
+  - Enhanced error handling with user-friendly messages
+- **Canvas Rendering Optimization** (Matplotlib)
+  - Replaced all blocking `canvas.draw()` calls with `canvas.draw_idle()`
+  - Removed redundant `canvas.update()`, `canvas.repaint()` calls
+  - Deferred rendering prevents GUI thread blocking
+  - Applied to 17+ instances across waveform_display.py
+- **Downsampling Threshold Increased**
+  - Changed from 100,000 to 500,000 point threshold
+  - Provides 5x more waveform detail on display
+  - Maintains smooth performance even with millions of samples
+- **Progress Dialog Signal Handling Improved**
+  - Disconnects `canceled` signal before closing to prevent race conditions
+  - Only triggers cancellation if worker thread is actually running
+  - Eliminates spurious "User cancelled capture" messages
+
+### Fixed
+- **Critical: GUI Freezing During Waveform Capture**
+  - Fixed multi-second GUI freeze when capturing large waveforms (5M samples)
+  - Root cause: Synchronous SCPI queries blocked main thread for 5-10+ seconds
+  - Solution: Background worker thread handles all network I/O
+  - GUI remains fully responsive during capture operations
+- **Progress Dialog Race Condition**
+  - Fixed spurious cancellation events when dialog auto-closed
+  - Dialog now properly disconnects signals before closing
+  - Prevents "cancelled" state after successful capture
+- **Large Waveform Display Performance**
+  - Fixed severe lag when plotting 5+ million point waveforms
+  - PyQtGraph could still block GUI thread with massive datasets
+  - Min-max downsampling reduces display points by 10x while preserving signal fidelity
+- **Incomplete Waveform Display Issue**
+  - Fixed waveforms not showing full captured data
+  - Increased downsampling threshold from 100K to 500K points
+  - Users now see 5x more detail in displayed waveforms
+
+### Performance
+- **Waveform Capture**: No longer blocks GUI (runs in background thread)
+- **Display Rendering**: 10x faster for large waveforms via intelligent downsampling
+- **Canvas Updates**: Non-blocking deferred rendering throughout
+- **User Responsiveness**: Can interact with GUI during long captures
+
+### Technical Improvements
+- Thread-safe capture worker with Qt signals for status updates
+- Signal/slot disconnect pattern prevents race conditions
+- Min-max decimation preserves signal integrity during downsampling
+- NumPy-optimized downsampling algorithm for performance
+- Clean separation of capture, processing, and display concerns
+
 ## [0.2.5] - 2025-12-30
 
 ### Added
