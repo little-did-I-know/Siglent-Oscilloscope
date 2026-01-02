@@ -80,3 +80,6 @@ my_circle_*.csv
 
 # Node modules
 node_modules/
+
+# Documentation
+site/

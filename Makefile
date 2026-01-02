@@ -1,4 +1,4 @@
-.PHONY: help install install-dev install-all test test-cov lint format clean build publish docs pre-commit
+.PHONY: help install install-dev install-all test test-cov lint format clean build publish docs docs-generate docs-examples docs-api docs-serve docs-deploy pre-commit
 
 help:  ## Show this help message
 	@echo "Available commands:"
@@ -58,9 +58,34 @@ publish:  ## Publish to PyPI (production)
 	@read line
 	twine upload dist/*
 
-docs:  ## Generate documentation (placeholder for future)
-	@echo "Documentation generation not yet implemented"
-	@echo "For now, see README.md and docstrings"
+docs-generate:  ## Generate all documentation from code
+	@echo "Generating documentation from code..."
+	python scripts/docs/generate_examples_docs.py
+	python scripts/docs/generate_api_stubs.py
+	@echo "Documentation generated successfully!"
+
+docs-examples:  ## Generate examples documentation only
+	python scripts/docs/generate_examples_docs.py
+
+docs-api:  ## Generate API reference stubs only
+	python scripts/docs/generate_api_stubs.py
+
+docs:  ## Build documentation with MkDocs (auto-generates from code first)
+	@$(MAKE) docs-generate
+	pip install -e ".[docs]"
+	mkdocs build
+	@echo "Documentation built in site/"
+	@echo "  Open site/index.html in your browser"
+
+docs-serve:  ## Serve documentation locally with live reload
+	@$(MAKE) docs-generate
+	pip install -e ".[docs]"
+	mkdocs serve
+
+docs-deploy:  ## Deploy documentation to GitHub Pages
+	@$(MAKE) docs-generate
+	pip install -e ".[docs]"
+	mkdocs gh-deploy --force
 
 pre-commit-install:  ## Install pre-commit hooks
 	pip install pre-commit

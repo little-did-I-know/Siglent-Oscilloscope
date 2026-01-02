@@ -1,0 +1,145 @@
+# Documentation Generation Configuration
+# This file controls how documentation is automatically generated from code
+
+# Examples documentation configuration
+examples:
+  source_dir: "examples"
+  output_dir: "docs/examples"
+
+  # Categorization of examples by difficulty level
+  categories:
+    beginner:
+      - "simple_capture.py"
+      - "basic_usage.py"
+      - "waveform_capture.py"
+      - "measurements.py"
+
+    intermediate:
+      - "live_plot.py"
+      - "batch_capture.py"
+      - "continuous_capture.py"
+      - "trigger_based_capture.py"
+
+    advanced:
+      - "advanced_analysis.py"
+      - "vector_graphics_xy_mode.py"
+
+  # Files to exclude from documentation
+  exclude_files:
+    - "__init__.py"
+    - "__pycache__"
+    - "*.pyc"
+    - "*.pyo"
+    - ".DS_Store"
+
+# API reference configuration
+api:
+  package_dir: "siglent"
+  output_dir: "docs/api"
+
+  # Modules to document
+  modules:
+    - name: "oscilloscope"
+      title: "Oscilloscope"
+      description: "Main oscilloscope control class for SCPI communication"
+      priority: 1
+
+    - name: "channel"
+      title: "Channel"
+      description: "Channel configuration and control"
+      priority: 2
+
+    - name: "trigger"
+      title: "Trigger"
+      description: "Trigger configuration and modes"
+      priority: 3
+
+    - name: "waveform"
+      title: "Waveform"
+      description: "Waveform acquisition and data handling"
+      priority: 4
+
+    - name: "measurement"
+      title: "Measurement"
+      description: "Automated measurements (frequency, voltage, timing)"
+      priority: 5
+
+    - name: "analysis"
+      title: "Analysis"
+      description: "Signal analysis (FFT, THD, SNR)"
+      priority: 6
+
+    - name: "automation"
+      title: "Automation"
+      description: "High-level automation and data collection"
+      priority: 7
+
+    - name: "connection.socket"
+      title: "Socket Connection"
+      description: "TCP/IP socket communication"
+      priority: 8
+
+    - name: "exceptions"
+      title: "Exceptions"
+      description: "Custom exception classes"
+      priority: 9
+
+    - name: "models"
+      title: "Models"
+      description: "Oscilloscope model capabilities and registry"
+      priority: 10
+
+    - name: "vector_graphics"
+      title: "Vector Graphics"
+      description: "XY mode vector graphics generation"
+      priority: 11
+
+    - name: "screen_capture"
+      title: "Screen Capture"
+      description: "Screenshot capture functionality"
+      priority: 12
+
+    - name: "reference_waveform"
+      title: "Reference Waveform"
+      description: "Reference waveform management"
+      priority: 13
+
+    - name: "math_channel"
+      title: "Math Channel"
+      description: "Math channel operations and expressions"
+      priority: 14
+
+  # Modules/patterns to exclude
+  exclude_modules:
+    - "_*"
+    - "test_*"
+    - "*_test"
+    - "gui.*"  # GUI will have separate documentation
+
+# README synchronization configuration
+readme_sync:
+  source: "README.md"
+  sections_config: "scripts/docs/readme_sections.yaml"
+
+  # Enable/disable sync for specific sections
+  sync_enabled:
+    installation: true
+    quickstart: true
+    features: true
+    api_examples: true
+    gui_overview: true
+
+# Documentation validation configuration
+validation:
+  strict_mode: true
+  check_links: true
+  check_images: true
+  check_mkdocstrings_refs: true
+  fail_on_warning: false  # Set to true in CI
+
+# Output formatting
+formatting:
+  max_line_length: 120
+  code_block_style: "fenced"  # or "indented"
+  include_source_links: true
+  add_edit_links: true
