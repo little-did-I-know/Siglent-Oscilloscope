@@ -48,7 +48,7 @@ jobs:
         shell: bash
         run: |
           cd dist
-          7z a -tzip SiglentGUI-${{ steps.get_version.outputs.version }}-Windows-x64.zip SiglentGUI.exe README.md LICENSE
+          7z a -tzip SiglentGUI-${{ steps.get_version.outputs.version }}-Windows-x64.zip SiglentGUI.exe ../README.md ../LICENSE
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
