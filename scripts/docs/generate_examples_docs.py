@@ -1,0 +1,394 @@
+#!/usr/bin/env python3
+"""Generate example documentation from Python example files.
+
+This script parses all example files in the examples/ directory, extracts their
+docstrings and source code, categorizes them by difficulty level, and generates
+structured markdown documentation for MkDocs.
+
+Usage:
+    python scripts/docs/generate_examples_docs.py
+
+Output:
+    - docs/examples/beginner.md
+    - docs/examples/intermediate.md
+    - docs/examples/advanced.md
+"""
+
+import ast
+import re
+from dataclasses import dataclass
+from pathlib import Path
+from typing import Dict, List, Optional
+
+import yaml
+
+
+@dataclass
+class ExampleMetadata:
+    """Metadata extracted from an example file."""
+
+    filename: str
+    filepath: Path
+    title: str
+    description: str
+    module_docstring: str
+    source_code: str
+    scope_ip: str
+    category: str
+    requirements: List[str]
+
+
+def load_config(config_path: Path = None) -> dict:
+    """Load documentation generation configuration.
+
+    Args:
+        config_path: Path to docs_config.yaml. If None, uses default location.
+
+    Returns:
+        Configuration dictionary.
+    """
+    if config_path is None:
+        config_path = Path(__file__).parent / "docs_config.yaml"
+
+    with open(config_path, "r", encoding="utf-8") as f:
+        return yaml.safe_load(f)
+
+
+def extract_module_docstring(filepath: Path) -> str:
+    """Extract the module-level docstring from a Python file.
+
+    Args:
+        filepath: Path to Python file.
+
+    Returns:
+        Module docstring or empty string if none found.
+    """
+    try:
+        with open(filepath, "r", encoding="utf-8") as f:
+            content = f.read()
+
+        tree = ast.parse(content, filename=str(filepath))
+        return ast.get_docstring(tree) or ""
+    except Exception as e:
+        print(f"Warning: Could not parse {filepath}: {e}")
+        return ""
+
+
+def extract_scope_ip(filepath: Path) -> str:
+    """Extract SCOPE_IP configuration from example file.
+
+    Args:
+        filepath: Path to Python file.
+
+    Returns:
+        SCOPE_IP value or default placeholder.
+    """
+    try:
+        with open(filepath, "r", encoding="utf-8") as f:
+            content = f.read()
+
+        # Match: SCOPE_IP = "..."
+        match = re.search(r'SCOPE_IP\s*=\s*["\']([^"\']+)["\']', content)
+        if match:
+            return match.group(1)
+    except Exception:
+        pass
+
+    return "192.168.1.100"
+
+
+def extract_requirements(filepath: Path, docstring: str) -> List[str]:
+    """Extract requirements from docstring or imports.
+
+    Args:
+        filepath: Path to Python file.
+        docstring: Module docstring.
+
+    Returns:
+        List of requirements.
+    """
+    requirements = []
+
+    # Check for special dependencies in imports
+    try:
+        with open(filepath, "r", encoding="utf-8") as f:
+            content = f.read()
+
+        if "from siglent import VectorDisplay" in content:
+            requirements.append("siglent[fun] - Vector graphics extras")
+        elif "matplotlib" in content:
+            requirements.append("matplotlib - For plotting")
+
+        if "PyQt" in content:
+            requirements.append("PyQt6 - For GUI")
+
+    except Exception:
+        pass
+
+    # Default requirements
+    if not requirements:
+        requirements = ["siglent - Core library"]
+
+    requirements.append("Oscilloscope connected to network")
+
+    return requirements
+
+
+def get_example_title(filename: str, docstring: str) -> str:
+    """Generate a human-readable title from filename or docstring.
+
+    Args:
+        filename: Example filename (e.g., "simple_capture.py").
+        docstring: Module docstring.
+
+    Returns:
+        Human-readable title.
+    """
+    # Try to extract title from docstring first line
+    if docstring:
+        first_line = docstring.split("\n")[0].strip()
+        if first_line and not first_line.startswith("This"):
+            return first_line.rstrip(".")
+
+    # Generate from filename
+    name = filename.replace(".py", "").replace("_", " ").title()
+    return name
+
+
+def categorize_example(filename: str, config: dict) -> str:
+    """Determine the category (beginner/intermediate/advanced) for an example.
+
+    Args:
+        filename: Example filename.
+        config: Configuration dictionary.
+
+    Returns:
+        Category name (beginner, intermediate, or advanced).
+    """
+    categories = config["examples"]["categories"]
+
+    for category, files in categories.items():
+        if filename in files:
+            return category
+
+    return "intermediate"  # Default
+
+
+def parse_example_file(filepath: Path, config: dict) -> ExampleMetadata:
+    """Parse an example file and extract metadata.
+
+    Args:
+        filepath: Path to example file.
+        config: Configuration dictionary.
+
+    Returns:
+        ExampleMetadata object.
+    """
+    filename = filepath.name
+    docstring = extract_module_docstring(filepath)
+    scope_ip = extract_scope_ip(filepath)
+    requirements = extract_requirements(filepath, docstring)
+    category = categorize_example(filename, config)
+    title = get_example_title(filename, docstring)
+
+    # Read full source code
+    with open(filepath, "r", encoding="utf-8") as f:
+        source_code = f.read()
+
+    return ExampleMetadata(
+        filename=filename,
+        filepath=filepath,
+        title=title,
+        description=docstring.split("\n\n")[0] if docstring else "",
+        module_docstring=docstring,
+        source_code=source_code,
+        scope_ip=scope_ip,
+        category=category,
+        requirements=requirements,
+    )
+
+
+def generate_example_section(example: ExampleMetadata) -> str:
+    """Generate markdown section for a single example.
+
+    Args:
+        example: ExampleMetadata object.
+
+    Returns:
+        Markdown formatted string.
+    """
+    lines = []
+
+    # Title
+    lines.append(f"## {example.title}")
+    lines.append("")
+
+    # Description
+    if example.description:
+        lines.append(example.description)
+        lines.append("")
+
+    # Requirements
+    if example.requirements:
+        lines.append("### Requirements")
+        lines.append("")
+        for req in example.requirements:
+            lines.append(f"- {req}")
+        lines.append("")
+
+    # Configuration
+    lines.append("### Configuration")
+    lines.append("")
+    lines.append(f"Update `SCOPE_IP` to match your oscilloscope's IP address (default: `{example.scope_ip}`).")
+    lines.append("")
+
+    # Usage
+    lines.append("### Usage")
+    lines.append("")
+    lines.append("```bash")
+    lines.append(f"python examples/{example.filename}")
+    lines.append("```")
+    lines.append("")
+
+    # Full source code
+    lines.append("### Source Code")
+    lines.append("")
+    lines.append("```python")
+    lines.append(example.source_code.rstrip())
+    lines.append("```")
+    lines.append("")
+
+    # Separator
+    lines.append("---")
+    lines.append("")
+
+    return "\n".join(lines)
+
+
+def generate_category_page(category: str, examples: List[ExampleMetadata], config: dict) -> str:
+    """Generate a complete markdown page for a category of examples.
+
+    Args:
+        category: Category name (beginner, intermediate, advanced).
+        examples: List of ExampleMetadata for this category.
+        config: Configuration dictionary.
+
+    Returns:
+        Complete markdown page content.
+    """
+    lines = []
+
+    # Page header
+    title = category.title()
+    lines.append(f"# {title} Examples")
+    lines.append("")
+
+    # Description based on category
+    descriptions = {
+        "beginner": "Complete examples for getting started with the Siglent Oscilloscope library. These examples demonstrate core functionality and common use cases.",
+        "intermediate": "Intermediate examples showing automation patterns, real-time data capture, and batch operations for more advanced use cases.",
+        "advanced": "Advanced examples demonstrating signal analysis, FFT processing, and specialized features like vector graphics for XY mode display.",
+    }
+
+    lines.append(descriptions.get(category, f"{title} examples for the Siglent Oscilloscope library."))
+    lines.append("")
+
+    # Quick reference table
+    lines.append("## Quick Reference")
+    lines.append("")
+    lines.append("| Example | Description |")
+    lines.append("|---------|-------------|")
+    for example in examples:
+        anchor = example.title.lower().replace(" ", "-")
+        lines.append(f"| [{example.title}](#{anchor}) | {example.description} |")
+    lines.append("")
+
+    lines.append("---")
+    lines.append("")
+
+    # Examples
+    for example in examples:
+        section = generate_example_section(example)
+        lines.append(section)
+
+    # Footer with navigation
+    lines.append("## Next Steps")
+    lines.append("")
+
+    if category == "beginner":
+        lines.append("Ready to learn more? Check out the [Intermediate Examples](intermediate.md) for automation and real-time capture patterns.")
+    elif category == "intermediate":
+        lines.append("Explore [Advanced Examples](advanced.md) for signal analysis and specialized features, or review [Beginner Examples](beginner.md) for fundamentals.")
+    else:  # advanced
+        lines.append("Review the [API Reference](../api/oscilloscope.md) for detailed documentation of all available methods and properties.")
+
+    lines.append("")
+    lines.append("See also:")
+    lines.append("")
+    lines.append("- [User Guide](../user-guide/basic-usage.md) - Conceptual documentation")
+    lines.append("- [API Reference](../api/oscilloscope.md) - Detailed API documentation")
+    lines.append("- [Getting Started](../getting-started/quickstart.md) - Quick start guide")
+    lines.append("")
+
+    return "\n".join(lines)
+
+
+def main():
+    """Generate all example documentation."""
+    print("Generating example documentation...")
+
+    # Load configuration
+    config = load_config()
+    examples_config = config["examples"]
+
+    # Paths
+    root_dir = Path(__file__).parent.parent.parent
+    source_dir = root_dir / examples_config["source_dir"]
+    output_dir = root_dir / examples_config["output_dir"]
+
+    # Ensure output directory exists
+    output_dir.mkdir(parents=True, exist_ok=True)
+
+    # Parse all examples
+    examples_by_category: Dict[str, List[ExampleMetadata]] = {
+        "beginner": [],
+        "intermediate": [],
+        "advanced": [],
+    }
+
+    categories = examples_config["categories"]
+    all_example_files = set()
+    for category_files in categories.values():
+        all_example_files.update(category_files)
+
+    for example_file in sorted(all_example_files):
+        filepath = source_dir / example_file
+
+        if not filepath.exists():
+            print(f"Warning: Example file not found: {filepath}")
+            continue
+
+        print(f"  Parsing {example_file}...")
+        metadata = parse_example_file(filepath, config)
+        examples_by_category[metadata.category].append(metadata)
+
+    # Generate documentation pages
+    for category, examples in examples_by_category.items():
+        if not examples:
+            continue
+
+        print(f"  Generating {category}.md ({len(examples)} examples)...")
+        content = generate_category_page(category, examples, config)
+
+        output_file = output_dir / f"{category}.md"
+        with open(output_file, "w", encoding="utf-8") as f:
+            f.write(content)
+
+        print(f"    Created {output_file}")
+
+    print("Example documentation generated successfully!")
+    print(f"  Output: {output_dir}")
+
+
+if __name__ == "__main__":
+    main()
