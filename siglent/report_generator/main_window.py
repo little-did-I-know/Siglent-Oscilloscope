@@ -406,6 +406,7 @@ class MainWindow(QMainWindow):
                     plot_width=self.current_options.plot_width_inches,
                     plot_height=self.current_options.plot_height_inches,
                     plot_style=plot_style,
+                    report_options=self.current_options,
                 )
 
                 print(f"Calling generator.generate()...")

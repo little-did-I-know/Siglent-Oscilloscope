@@ -32,6 +32,13 @@ class ReportOptions:
     plot_height_inches: float = 3.0
     plot_dpi: int = 150
 
+    # Statistics table options
+    include_statistics_table: bool = True
+    include_frequency_stats: bool = True
+    include_amplitude_stats: bool = True
+    include_timing_stats: bool = True
+    include_quality_stats: bool = True
+
     def to_dict(self) -> Dict[str, Any]:
         """
         Convert to dictionary.

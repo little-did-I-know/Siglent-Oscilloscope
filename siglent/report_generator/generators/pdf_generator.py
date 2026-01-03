@@ -47,6 +47,8 @@ from siglent.report_generator.models.report_data import (
     WaveformData,
 )
 from siglent.report_generator.models.plot_style import PlotStyle
+from siglent.report_generator.models.report_options import ReportOptions
+from siglent.report_generator.utils.waveform_analyzer import WaveformAnalyzer
 
 
 class PDFReportGenerator(BaseReportGenerator):
@@ -59,6 +61,7 @@ class PDFReportGenerator(BaseReportGenerator):
         plot_width: float = 6.5,
         plot_height: float = 3.0,
         plot_style: PlotStyle = None,
+        report_options: ReportOptions = None,
     ):
         """
         Initialize PDF generator.
@@ -69,6 +72,7 @@ class PDFReportGenerator(BaseReportGenerator):
             plot_width: Plot width in inches
             plot_height: Plot height in inches
             plot_style: Plot style configuration for matplotlib plots
+            report_options: Report options for statistics and other settings
         """
         if not REPORTLAB_AVAILABLE:
             raise ImportError(
@@ -85,6 +89,7 @@ class PDFReportGenerator(BaseReportGenerator):
         self.plot_width = plot_width * inch
         self.plot_height = plot_height * inch
         self.plot_style = plot_style or PlotStyle()
+        self.report_options = report_options or ReportOptions()
 
         # Set up styles
         self.styles = getSampleStyleSheet()
@@ -499,9 +504,115 @@ class PDFReportGenerator(BaseReportGenerator):
         ]))
 
         story.append(table)
-        story.append(Spacer(1, 0.15*inch))
+        story.append(Spacer(1, 0.1*inch))
+
+        # Statistics table
+        stats_table = self._generate_statistics_table(waveform)
+        if stats_table:
+            story.append(stats_table)
+            story.append(Spacer(1, 0.15*inch))
 
         return story
+
+    def _generate_statistics_table(self, waveform: WaveformData) -> Optional[Table]:
+        """
+        Generate statistics table for a waveform.
+
+        Args:
+            waveform: Waveform data to analyze
+
+        Returns:
+            Table with calculated statistics, or None if disabled
+        """
+        if not self.report_options.include_statistics_table:
+            return None
+
+        # Calculate all statistics using WaveformAnalyzer
+        stats = WaveformAnalyzer.analyze(waveform)
+
+        # Build table data based on enabled categories
+        data = [['Statistic', 'Value']]  # Header
+
+        # Frequency and Period
+        if self.report_options.include_frequency_stats:
+            if stats.get('frequency') is not None:
+                data.append(['Frequency:', WaveformAnalyzer.format_stat_value('frequency', stats['frequency'])])
+            if stats.get('period') is not None:
+                data.append(['Period:', WaveformAnalyzer.format_stat_value('period', stats['period'])])
+
+        # Amplitude Measurements
+        if self.report_options.include_amplitude_stats:
+            if stats.get('vmax') is not None:
+                data.append(['Vmax:', WaveformAnalyzer.format_stat_value('vmax', stats['vmax'])])
+            if stats.get('vmin') is not None:
+                data.append(['Vmin:', WaveformAnalyzer.format_stat_value('vmin', stats['vmin'])])
+            if stats.get('vpp') is not None:
+                data.append(['Vpp:', WaveformAnalyzer.format_stat_value('vpp', stats['vpp'])])
+            if stats.get('vmean') is not None:
+                data.append(['Vmean:', WaveformAnalyzer.format_stat_value('vmean', stats['vmean'])])
+            if stats.get('vrms') is not None:
+                data.append(['Vrms:', WaveformAnalyzer.format_stat_value('vrms', stats['vrms'])])
+            if stats.get('vamp') is not None:
+                data.append(['Vamp:', WaveformAnalyzer.format_stat_value('vamp', stats['vamp'])])
+            if stats.get('dc_offset') is not None:
+                data.append(['DC Offset:', WaveformAnalyzer.format_stat_value('dc_offset', stats['dc_offset'])])
+
+        # Timing Measurements
+        if self.report_options.include_timing_stats:
+            if stats.get('rise_time') is not None:
+                data.append(['Rise Time:', WaveformAnalyzer.format_stat_value('rise_time', stats['rise_time'])])
+            if stats.get('fall_time') is not None:
+                data.append(['Fall Time:', WaveformAnalyzer.format_stat_value('fall_time', stats['fall_time'])])
+            if stats.get('pulse_width') is not None:
+                data.append(['Pulse Width:', WaveformAnalyzer.format_stat_value('pulse_width', stats['pulse_width'])])
+            if stats.get('duty_cycle') is not None:
+                data.append(['Duty Cycle:', WaveformAnalyzer.format_stat_value('duty_cycle', stats['duty_cycle'])])
+
+        # Signal Quality Metrics
+        if self.report_options.include_quality_stats:
+            if stats.get('noise_level') is not None:
+                data.append(['Noise Level:', WaveformAnalyzer.format_stat_value('noise_level', stats['noise_level'])])
+            if stats.get('snr') is not None:
+                data.append(['SNR:', WaveformAnalyzer.format_stat_value('snr', stats['snr'])])
+            if stats.get('overshoot') is not None:
+                data.append(['Overshoot:', WaveformAnalyzer.format_stat_value('overshoot', stats['overshoot'])])
+            if stats.get('undershoot') is not None:
+                data.append(['Undershoot:', WaveformAnalyzer.format_stat_value('undershoot', stats['undershoot'])])
+            if stats.get('jitter') is not None:
+                data.append(['Jitter:', WaveformAnalyzer.format_stat_value('jitter', stats['jitter'])])
+
+        # If only header row exists, don't create table
+        if len(data) <= 1:
+            return None
+
+        # Create table with styling
+        table = Table(data, colWidths=[2*inch, 2*inch])
+        table.setStyle(TableStyle([
+            # Header styling
+            ('BACKGROUND', (0, 0), (-1, 0), colors.HexColor('#2ca02c')),
+            ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+            ('ALIGN', (0, 0), (-1, 0), 'CENTER'),
+            ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+            ('FONTSIZE', (0, 0), (-1, 0), 10),
+            ('BOTTOMPADDING', (0, 0), (-1, 0), 8),
+            # Data rows styling
+            ('ALIGN', (0, 1), (0, -1), 'LEFT'),
+            ('ALIGN', (1, 1), (1, -1), 'RIGHT'),
+            ('FONTNAME', (0, 1), (0, -1), 'Helvetica-Bold'),
+            ('FONTNAME', (1, 1), (1, -1), 'Helvetica'),
+            ('FONTSIZE', (0, 1), (-1, -1), 9),
+            ('BOTTOMPADDING', (0, 1), (-1, -1), 4),
+            ('TOPPADDING', (0, 1), (-1, -1), 4),
+            ('LEFTPADDING', (0, 1), (-1, -1), 8),
+            ('RIGHTPADDING', (0, 1), (-1, -1), 8),
+            # Borders
+            ('GRID', (0, 0), (-1, -1), 0.5, colors.grey),
+            ('BOX', (0, 0), (-1, -1), 1, colors.black),
+            # Alternating row colors
+            ('ROWBACKGROUNDS', (0, 1), (-1, -1), [colors.white, colors.lightgrey]),
+        ]))
+
+        return table
 
     def _generate_measurements_table(self, measurements: List[MeasurementResult]) -> Table:
         """Generate measurements table."""

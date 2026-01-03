@@ -74,6 +74,10 @@ class ReportOptionsDialog(QDialog):
         plot_style_tab = self._create_plot_style_tab()
         tabs.addTab(plot_style_tab, "Plot Style")
 
+        # Statistics tab
+        statistics_tab = self._create_statistics_tab()
+        tabs.addTab(statistics_tab, "Statistics")
+
         layout.addWidget(tabs)
 
         # Bottom buttons
@@ -274,6 +278,77 @@ class ReportOptionsDialog(QDialog):
         widget.setLayout(layout)
         return widget
 
+    def _create_statistics_tab(self) -> QWidget:
+        """Create statistics options tab."""
+        widget = QWidget()
+        layout = QVBoxLayout()
+
+        # Master statistics enable checkbox
+        self.include_statistics_table_cb = QCheckBox("Include Statistics Table")
+        self.include_statistics_table_cb.setChecked(True)
+        self.include_statistics_table_cb.setToolTip(
+            "Add a table with calculated signal statistics below each waveform plot"
+        )
+        font = self.include_statistics_table_cb.font()
+        font.setBold(True)
+        self.include_statistics_table_cb.setFont(font)
+        layout.addWidget(self.include_statistics_table_cb)
+
+        layout.addSpacing(10)
+
+        # Statistics categories group
+        stats_group = QGroupBox("Statistics Categories")
+        stats_layout = QVBoxLayout()
+
+        # Frequency/Period stats
+        self.include_frequency_stats_cb = QCheckBox("Frequency / Period")
+        self.include_frequency_stats_cb.setChecked(True)
+        self.include_frequency_stats_cb.setToolTip(
+            "Fundamental frequency (Hz) and period (s/ms/µs)"
+        )
+        stats_layout.addWidget(self.include_frequency_stats_cb)
+
+        # Amplitude stats
+        self.include_amplitude_stats_cb = QCheckBox("Amplitude Measurements")
+        self.include_amplitude_stats_cb.setChecked(True)
+        self.include_amplitude_stats_cb.setToolTip(
+            "Vpp, Vmax, Vmin, Vamp, Vrms, Vmean, DC offset"
+        )
+        stats_layout.addWidget(self.include_amplitude_stats_cb)
+
+        # Timing stats
+        self.include_timing_stats_cb = QCheckBox("Timing Measurements")
+        self.include_timing_stats_cb.setChecked(True)
+        self.include_timing_stats_cb.setToolTip(
+            "Rise time, fall time, pulse width, duty cycle"
+        )
+        stats_layout.addWidget(self.include_timing_stats_cb)
+
+        # Quality stats
+        self.include_quality_stats_cb = QCheckBox("Signal Quality Metrics")
+        self.include_quality_stats_cb.setChecked(True)
+        self.include_quality_stats_cb.setToolTip(
+            "SNR, noise level, overshoot, undershoot, jitter"
+        )
+        stats_layout.addWidget(self.include_quality_stats_cb)
+
+        stats_group.setLayout(stats_layout)
+        layout.addWidget(stats_group)
+
+        # Info label
+        info_label = QLabel(
+            "Note: Statistics are automatically calculated from waveform data. "
+            "Complex signals may have inaccurate measurements for timing/quality metrics."
+        )
+        info_label.setWordWrap(True)
+        info_label.setStyleSheet("color: #666; font-style: italic; margin: 10px;")
+        layout.addWidget(info_label)
+
+        layout.addStretch()
+
+        widget.setLayout(layout)
+        return widget
+
     def _pick_color(self, color_type: str):
         """
         Open color picker dialog.
@@ -339,6 +414,13 @@ class ReportOptionsDialog(QDialog):
         self.grid_color_btn.setStyleSheet(f"background-color: {self.plot_style.grid_color}")
         self.background_color_btn.setStyleSheet(f"background-color: {self.plot_style.background_color}")
 
+        # Statistics tab
+        self.include_statistics_table_cb.setChecked(self.options.include_statistics_table)
+        self.include_frequency_stats_cb.setChecked(self.options.include_frequency_stats)
+        self.include_amplitude_stats_cb.setChecked(self.options.include_amplitude_stats)
+        self.include_timing_stats_cb.setChecked(self.options.include_timing_stats)
+        self.include_quality_stats_cb.setChecked(self.options.include_quality_stats)
+
     def get_options(self) -> ReportOptions:
         """
         Get the configured report options.
@@ -359,6 +441,13 @@ class ReportOptionsDialog(QDialog):
         self.options.plot_width_inches = self.plot_width_spin.value()
         self.options.plot_height_inches = self.plot_height_spin.value()
         self.options.plot_dpi = self.plot_dpi_spin.value()
+
+        # Statistics options
+        self.options.include_statistics_table = self.include_statistics_table_cb.isChecked()
+        self.options.include_frequency_stats = self.include_frequency_stats_cb.isChecked()
+        self.options.include_amplitude_stats = self.include_amplitude_stats_cb.isChecked()
+        self.options.include_timing_stats = self.include_timing_stats_cb.isChecked()
+        self.options.include_quality_stats = self.include_quality_stats_cb.isChecked()
 
         return self.options
 
