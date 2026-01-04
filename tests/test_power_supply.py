@@ -115,10 +115,7 @@ class TestPowerSupplyConnection:
     @pytest.fixture
     def mock_psu(self):
         """Create mock PSU connection."""
-        conn = MockConnection(
-            psu_mode=True,
-            psu_idn="Siglent Technologies,SPD3303X,SPD123456,1.0"
-        )
+        conn = MockConnection(psu_mode=True, psu_idn="Siglent Technologies,SPD3303X,SPD123456,1.0")
         psu = PowerSupply("mock", connection=conn)
         psu.connect()
         return psu
@@ -156,10 +153,7 @@ class TestPowerSupplyConnection:
 
     def test_psu_context_manager(self):
         """Test PSU as context manager."""
-        conn = MockConnection(
-            psu_mode=True,
-            psu_idn="Siglent Technologies,SPD3303X,SPD123456,1.0"
-        )
+        conn = MockConnection(psu_mode=True, psu_idn="Siglent Technologies,SPD3303X,SPD123456,1.0")
         with PowerSupply("mock", connection=conn) as psu:
             assert psu.is_connected
             assert psu.model_capability is not None
@@ -174,10 +168,7 @@ class TestPowerSupplyOutput:
     @pytest.fixture
     def mock_psu(self):
         """Create mock PSU connection."""
-        conn = MockConnection(
-            psu_mode=True,
-            psu_idn="Siglent Technologies,SPD3303X,SPD123456,1.0"
-        )
+        conn = MockConnection(psu_mode=True, psu_idn="Siglent Technologies,SPD3303X,SPD123456,1.0")
         psu = PowerSupply("mock", connection=conn)
         psu.connect()
         return psu
@@ -266,10 +257,7 @@ class TestPowerSupplyOperations:
     @pytest.fixture
     def mock_psu(self):
         """Create mock PSU connection."""
-        conn = MockConnection(
-            psu_mode=True,
-            psu_idn="Siglent Technologies,SPD3303X,SPD123456,1.0"
-        )
+        conn = MockConnection(psu_mode=True, psu_idn="Siglent Technologies,SPD3303X,SPD123456,1.0")
         psu = PowerSupply("mock", connection=conn)
         psu.connect()
         return psu
@@ -333,11 +321,7 @@ class TestGenericPSU:
 
     def test_generic_psu_connection(self):
         """Test connection to generic SCPI PSU."""
-        conn = MockConnection(
-            psu_mode=True,
-            psu_idn="RIGOL TECHNOLOGIES,DP832,DP8XXXX,1.0",
-            psu_outputs={1: {"voltage": 0.0, "current": 0.0, "enabled": False}}
-        )
+        conn = MockConnection(psu_mode=True, psu_idn="RIGOL TECHNOLOGIES,DP832,DP8XXXX,1.0", psu_outputs={1: {"voltage": 0.0, "current": 0.0, "enabled": False}})
         psu = PowerSupply("mock", connection=conn)
         psu.connect()
 
@@ -350,10 +334,7 @@ class TestGenericPSU:
 
     def test_generic_psu_basic_control(self):
         """Test basic control of generic PSU."""
-        conn = MockConnection(
-            psu_mode=True,
-            psu_idn="Generic,PSU-3000,SERIAL,1.0"
-        )
+        conn = MockConnection(psu_mode=True, psu_idn="Generic,PSU-3000,SERIAL,1.0")
         psu = PowerSupply("mock", connection=conn)
         psu.connect()
 
@@ -373,10 +354,7 @@ class TestAdvancedFeatures:
     @pytest.fixture
     def siglent_psu(self):
         """Create connected Siglent PSU."""
-        conn = MockConnection(
-            psu_mode=True,
-            psu_idn="Siglent Technologies,SPD3303X,SPD123456,1.0"
-        )
+        conn = MockConnection(psu_mode=True, psu_idn="Siglent Technologies,SPD3303X,SPD123456,1.0")
         psu = PowerSupply("mock", connection=conn)
         psu.connect()
         yield psu
@@ -411,10 +389,7 @@ class TestAdvancedFeatures:
 
     def test_tracking_mode_not_supported(self):
         """Test tracking mode on PSU without support."""
-        conn = MockConnection(
-            psu_mode=True,
-            psu_idn="Generic,PSU-1000,SERIAL,1.0"
-        )
+        conn = MockConnection(psu_mode=True, psu_idn="Generic,PSU-1000,SERIAL,1.0")
         psu = PowerSupply("mock", connection=conn)
         psu.connect()
 
@@ -449,10 +424,7 @@ class TestAdvancedFeatures:
 
     def test_ovp_generic_support(self):
         """Test OVP on generic PSU (SCPI-99 standard supports it)."""
-        conn = MockConnection(
-            psu_mode=True,
-            psu_idn="Generic,PSU-1000,SERIAL,1.0"
-        )
+        conn = MockConnection(psu_mode=True, psu_idn="Generic,PSU-1000,SERIAL,1.0")
         psu = PowerSupply("mock", connection=conn)
         psu.connect()
 
@@ -482,10 +454,7 @@ class TestAdvancedFeatures:
 
     def test_timer_not_supported(self):
         """Test timer on PSU without support."""
-        conn = MockConnection(
-            psu_mode=True,
-            psu_idn="Generic,PSU-1000,SERIAL,1.0"
-        )
+        conn = MockConnection(psu_mode=True, psu_idn="Generic,PSU-1000,SERIAL,1.0")
         psu = PowerSupply("mock", connection=conn)
         psu.connect()
 
@@ -514,10 +483,7 @@ class TestAdvancedFeatures:
 
     def test_waveform_not_supported(self):
         """Test waveform on PSU without support."""
-        conn = MockConnection(
-            psu_mode=True,
-            psu_idn="Siglent Technologies,SPD1305X,SPD123456,1.0"
-        )
+        conn = MockConnection(psu_mode=True, psu_idn="Siglent Technologies,SPD1305X,SPD123456,1.0")
         psu = PowerSupply("mock", connection=conn)
         psu.connect()
 
@@ -537,10 +503,7 @@ class TestDataLogging:
     @pytest.fixture
     def mock_psu(self):
         """Create connected mock PSU."""
-        conn = MockConnection(
-            psu_mode=True,
-            psu_idn="Siglent Technologies,SPD3303X,SPD123456,1.0"
-        )
+        conn = MockConnection(psu_mode=True, psu_idn="Siglent Technologies,SPD3303X,SPD123456,1.0")
         psu = PowerSupply("mock", connection=conn)
         psu.connect()
         psu.output1.voltage = 5.0

@@ -24,29 +24,24 @@ class PSUSCPICommandSet:
         "reset": "*RST",
         "clear_status": "*CLS",
         "get_error": "SYST:ERR?",
-
         # Voltage control (SCPI-99 standard)
         "set_voltage": "SOUR{ch}:VOLT {voltage}",
         "get_voltage": "SOUR{ch}:VOLT?",
         "set_voltage_limit": "SOUR{ch}:VOLT:PROT {limit}",
         "get_voltage_limit": "SOUR{ch}:VOLT:PROT?",
-
         # Current control (SCPI-99 standard)
         "set_current": "SOUR{ch}:CURR {current}",
         "get_current": "SOUR{ch}:CURR?",
         "set_current_limit": "SOUR{ch}:CURR:PROT {limit}",
         "get_current_limit": "SOUR{ch}:CURR:PROT?",
-
         # Output control (SCPI-99 standard)
         "set_output": "OUTP{ch} {state}",
         "get_output": "OUTP{ch}?",
         "set_output_all": "OUTP:ALL {state}",
-
         # Measurements (SCPI-99 standard)
         "measure_voltage": "MEAS{ch}:VOLT?",
         "measure_current": "MEAS{ch}:CURR?",
         "measure_power": "MEAS{ch}:POW?",
-
         # Status
         "get_output_mode": "OUTP{ch}:MODE?",  # CV (const voltage) or CC (const current)
     }
@@ -58,16 +53,13 @@ class PSUSCPICommandSet:
         "get_voltage": "CH{ch}:VOLT?",
         "set_current": "CH{ch}:CURR {current}",
         "get_current": "CH{ch}:CURR?",
-
         # Measurements use MEASure subsystem
         "measure_voltage": "MEASure{ch}:VOLTage?",
         "measure_current": "MEASure{ch}:CURRent?",
         "measure_power": "MEASure{ch}:POWer?",
-
         # Output control uses specific format
         "set_output": "OUTPut CH{ch},{state}",
         "get_output": "OUTPut? CH{ch}",
-
         # Advanced Siglent-specific features
         # Timer functionality
         "set_timer_enable": "TIMEr CH{ch},{state}",
@@ -76,7 +68,6 @@ class PSUSCPICommandSet:
         "get_timer_voltage": "TIMEr:VOLT? CH{ch}",
         "set_timer_current": "TIMEr:CURR CH{ch},{current}",
         "get_timer_current": "TIMEr:CURR? CH{ch}",
-
         # Waveform generation
         "set_wave_enable": "WAVE CH{ch},{state}",
         "get_wave_enable": "WAVE? CH{ch}",
@@ -86,11 +77,9 @@ class PSUSCPICommandSet:
         "get_wave_freq": "WAVE:FREQ? CH{ch}",
         "set_wave_amplitude": "WAVE:AMPL CH{ch},{amplitude}",
         "get_wave_amplitude": "WAVE:AMPL? CH{ch}",
-
         # Tracking modes (series/parallel)
         "set_tracking": "OUTP:TRACK {mode}",  # INDEPENDENT, SERIES, PARALLEL
         "get_tracking": "OUTP:TRACK?",
-
         # Remote sensing
         "set_remote_sense": "SYST:SENS CH{ch},{state}",
         "get_remote_sense": "SYST:SENS? CH{ch}",

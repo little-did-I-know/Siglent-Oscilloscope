@@ -45,7 +45,7 @@ warnings.warn(
     "Docs: docs/development/EXPERIMENTAL_FEATURES.md\n"
     "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n",
     FutureWarning,
-    stacklevel=2
+    stacklevel=2,
 )
 
 from siglent import exceptions
@@ -141,10 +141,7 @@ class PowerSupply:
         try:
             idn_string = self.identify()
             self._device_info = self._parse_idn(idn_string)
-            logger.info(
-                f"Connected to: {self._device_info.get('manufacturer', 'Unknown')} "
-                f"{self._device_info.get('model', 'Unknown')}"
-            )
+            logger.info(f"Connected to: {self._device_info.get('manufacturer', 'Unknown')} " f"{self._device_info.get('model', 'Unknown')}")
 
             # Detect model capability
             self.model_capability = detect_psu_from_idn(idn_string)
@@ -164,9 +161,7 @@ class PowerSupply:
         except Exception as e:
             logger.error(f"Failed to identify device or initialize: {e}")
             self.disconnect()
-            raise exceptions.SiglentConnectionError(
-                f"Connected but failed to identify device: {e}"
-            )
+            raise exceptions.SiglentConnectionError(f"Connected but failed to identify device: {e}")
 
     def disconnect(self) -> None:
         """Close connection to the power supply."""
@@ -285,9 +280,7 @@ class PowerSupply:
             NotImplementedError: If tracking is not supported by this model
         """
         if not self.model_capability.has_tracking:
-            raise NotImplementedError(
-                f"Tracking mode not supported on {self.model_capability.model_name}"
-            )
+            raise NotImplementedError(f"Tracking mode not supported on {self.model_capability.model_name}")
 
         cmd = self._get_command("get_tracking")
         response = self.query(cmd)
@@ -305,9 +298,7 @@ class PowerSupply:
             ValueError: If mode is invalid
         """
         if not self.model_capability.has_tracking:
-            raise NotImplementedError(
-                f"Tracking mode not supported on {self.model_capability.model_name}"
-            )
+            raise NotImplementedError(f"Tracking mode not supported on {self.model_capability.model_name}")
 
         mode = mode.upper()
         valid_modes = ["INDEPENDENT", "SERIES", "PARALLEL"]

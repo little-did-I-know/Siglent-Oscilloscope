@@ -636,9 +636,7 @@ class MainWindow(QMainWindow):
     def _on_psu_connect(self):
         """Handle PSU connect action."""
         # Get IP address from user
-        ip, ok = QInputDialog.getText(
-            self, "Connect to Power Supply", "Enter power supply IP address:", text="192.168.1.200"
-        )
+        ip, ok = QInputDialog.getText(self, "Connect to Power Supply", "Enter power supply IP address:", text="192.168.1.200")
 
         if ok and ip:
             self._connect_to_psu(ip)
@@ -665,11 +663,7 @@ class MainWindow(QMainWindow):
             # Create detailed status message with model capability info
             if self.psu.model_capability:
                 cap = self.psu.model_capability
-                status_msg = (
-                    f"PSU Connected: {model} | "
-                    f"{cap.num_outputs} outputs | "
-                    f"{cap.scpi_variant} | {ip}"
-                )
+                status_msg = f"PSU Connected: {model} | " f"{cap.num_outputs} outputs | " f"{cap.scpi_variant} | {ip}"
                 info_msg = (
                     f"Successfully connected to power supply:\n\n"
                     f"Manufacturer: {manufacturer}\n"

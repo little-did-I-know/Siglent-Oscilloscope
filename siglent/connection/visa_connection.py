@@ -28,6 +28,7 @@ logger = logging.getLogger(__name__)
 # Optional import - only required if user wants USB/VISA support
 try:
     import pyvisa
+
     PYVISA_AVAILABLE = True
 except ImportError:
     PYVISA_AVAILABLE = False
@@ -95,11 +96,7 @@ class VISAConnection(BaseConnection):
             SiglentConnectionError: If backend initialization fails
         """
         if not PYVISA_AVAILABLE:
-            raise ImportError(
-                "PyVISA is required for USB/VISA connections.\n"
-                "Install with: pip install 'Siglent-Oscilloscope[usb]'\n"
-                "For pure Python backend (no NI-VISA): pip install pyvisa-py"
-            )
+            raise ImportError("PyVISA is required for USB/VISA connections.\n" "Install with: pip install 'Siglent-Oscilloscope[usb]'\n" "For pure Python backend (no NI-VISA): pip install pyvisa-py")
 
         self.resource_string = resource_string
         self.timeout = timeout
@@ -199,9 +196,7 @@ class VISAConnection(BaseConnection):
         try:
             command.encode("ascii")
         except UnicodeEncodeError:
-            raise CommandError(
-                f"SCPI command contains non-ASCII characters: {command!r}"
-            )
+            raise CommandError(f"SCPI command contains non-ASCII characters: {command!r}")
 
         try:
             logger.debug(f"VISA Write: {command}")
@@ -238,9 +233,7 @@ class VISAConnection(BaseConnection):
         try:
             command.encode("ascii")
         except UnicodeEncodeError:
-            raise CommandError(
-                f"SCPI command contains non-ASCII characters: {command!r}"
-            )
+            raise CommandError(f"SCPI command contains non-ASCII characters: {command!r}")
 
         try:
             logger.debug(f"VISA Query: {command}")
@@ -312,9 +305,7 @@ class VISAConnection(BaseConnection):
             self._resource.stop_bits = pyvisa.constants.StopBits.one
             self._resource.flow_control = pyvisa.constants.ControlFlow.none
 
-            logger.info(
-                f"Serial port configured: 9600 8N1, resource={self.resource_string}"
-            )
+            logger.info(f"Serial port configured: 9600 8N1, resource={self.resource_string}")
 
         except Exception as e:
             logger.warning(f"Could not configure serial parameters: {e}")
@@ -346,10 +337,7 @@ def list_visa_resources(backend: str = "@py") -> list:
         GPIB0::12::INSTR
     """
     if not PYVISA_AVAILABLE:
-        raise ImportError(
-            "PyVISA is required for VISA resource discovery.\n"
-            "Install with: pip install 'Siglent-Oscilloscope[usb]'"
-        )
+        raise ImportError("PyVISA is required for VISA resource discovery.\n" "Install with: pip install 'Siglent-Oscilloscope[usb]'")
 
     try:
         rm = pyvisa.ResourceManager(backend)
@@ -378,10 +366,7 @@ def find_siglent_devices(backend: str = "@py") -> list:
         USB0::0xF4EC::...: Siglent Technologies,SPD3303X-E,...
     """
     if not PYVISA_AVAILABLE:
-        raise ImportError(
-            "PyVISA is required.\n"
-            "Install with: pip install 'Siglent-Oscilloscope[usb]'"
-        )
+        raise ImportError("PyVISA is required.\n" "Install with: pip install 'Siglent-Oscilloscope[usb]'")
 
     siglent_devices = []
 

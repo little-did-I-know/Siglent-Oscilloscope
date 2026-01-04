@@ -35,9 +35,7 @@ class PowerSupplyOutput:
         self._output_num = spec.output_num
 
         if not 1 <= self._output_num <= 3:
-            raise exceptions.InvalidParameterError(
-                f"Invalid output number: {self._output_num}. Must be 1-3."
-            )
+            raise exceptions.InvalidParameterError(f"Invalid output number: {self._output_num}. Must be 1-3.")
 
     # --- Voltage Control ---
 
@@ -63,10 +61,7 @@ class PowerSupplyOutput:
             InvalidParameterError: If voltage exceeds maximum for this output
         """
         if not 0 <= volts <= self._spec.max_voltage:
-            raise exceptions.InvalidParameterError(
-                f"Voltage {volts}V exceeds maximum {self._spec.max_voltage}V "
-                f"for output {self._output_num}"
-            )
+            raise exceptions.InvalidParameterError(f"Voltage {volts}V exceeds maximum {self._spec.max_voltage}V " f"for output {self._output_num}")
 
         cmd = self._psu._get_command("set_voltage", ch=self._output_num, voltage=volts)
         self._psu.write(cmd)
@@ -104,10 +99,7 @@ class PowerSupplyOutput:
             InvalidParameterError: If current exceeds maximum for this output
         """
         if not 0 <= amps <= self._spec.max_current:
-            raise exceptions.InvalidParameterError(
-                f"Current {amps}A exceeds maximum {self._spec.max_current}A "
-                f"for output {self._output_num}"
-            )
+            raise exceptions.InvalidParameterError(f"Current {amps}A exceeds maximum {self._spec.max_current}A " f"for output {self._output_num}")
 
         cmd = self._psu._get_command("set_current", ch=self._output_num, current=amps)
         self._psu.write(cmd)
@@ -218,9 +210,7 @@ class PowerSupplyOutput:
             NotImplementedError: If OVP is not supported by this model
         """
         if not self._psu.model_capability.has_ovp:
-            raise NotImplementedError(
-                f"Over-voltage protection not supported on {self._psu.model_capability.model_name}"
-            )
+            raise NotImplementedError(f"Over-voltage protection not supported on {self._psu.model_capability.model_name}")
 
         cmd = self._psu._get_command("get_voltage_limit", ch=self._output_num)
         response = self._psu.query(cmd)
@@ -237,9 +227,7 @@ class PowerSupplyOutput:
             NotImplementedError: If OVP is not supported by this model
         """
         if not self._psu.model_capability.has_ovp:
-            raise NotImplementedError(
-                f"Over-voltage protection not supported on {self._psu.model_capability.model_name}"
-            )
+            raise NotImplementedError(f"Over-voltage protection not supported on {self._psu.model_capability.model_name}")
 
         cmd = self._psu._get_command("set_voltage_limit", ch=self._output_num, limit=volts)
         self._psu.write(cmd)
@@ -256,9 +244,7 @@ class PowerSupplyOutput:
             NotImplementedError: If OCP is not supported by this model
         """
         if not self._psu.model_capability.has_ocp:
-            raise NotImplementedError(
-                f"Over-current protection not supported on {self._psu.model_capability.model_name}"
-            )
+            raise NotImplementedError(f"Over-current protection not supported on {self._psu.model_capability.model_name}")
 
         cmd = self._psu._get_command("get_current_limit", ch=self._output_num)
         response = self._psu.query(cmd)
@@ -275,9 +261,7 @@ class PowerSupplyOutput:
             NotImplementedError: If OCP is not supported by this model
         """
         if not self._psu.model_capability.has_ocp:
-            raise NotImplementedError(
-                f"Over-current protection not supported on {self._psu.model_capability.model_name}"
-            )
+            raise NotImplementedError(f"Over-current protection not supported on {self._psu.model_capability.model_name}")
 
         cmd = self._psu._get_command("set_current_limit", ch=self._output_num, limit=amps)
         self._psu.write(cmd)
@@ -296,9 +280,7 @@ class PowerSupplyOutput:
             NotImplementedError: If timer is not supported by this model
         """
         if not self._psu.model_capability.has_timer:
-            raise NotImplementedError(
-                f"Timer not supported on {self._psu.model_capability.model_name}"
-            )
+            raise NotImplementedError(f"Timer not supported on {self._psu.model_capability.model_name}")
 
         cmd = self._psu._get_command("get_timer_enable", ch=self._output_num)
         response = self._psu.query(cmd)
@@ -315,9 +297,7 @@ class PowerSupplyOutput:
             NotImplementedError: If timer is not supported by this model
         """
         if not self._psu.model_capability.has_timer:
-            raise NotImplementedError(
-                f"Timer not supported on {self._psu.model_capability.model_name}"
-            )
+            raise NotImplementedError(f"Timer not supported on {self._psu.model_capability.model_name}")
 
         state_str = "ON" if state else "OFF"
         cmd = self._psu._get_command("set_timer_enable", ch=self._output_num, state=state_str)
@@ -337,9 +317,7 @@ class PowerSupplyOutput:
             NotImplementedError: If waveform generation is not supported
         """
         if not self._psu.model_capability.has_waveform:
-            raise NotImplementedError(
-                f"Waveform generation not supported on {self._psu.model_capability.model_name}"
-            )
+            raise NotImplementedError(f"Waveform generation not supported on {self._psu.model_capability.model_name}")
 
         cmd = self._psu._get_command("get_wave_enable", ch=self._output_num)
         response = self._psu.query(cmd)
@@ -356,9 +334,7 @@ class PowerSupplyOutput:
             NotImplementedError: If waveform generation is not supported
         """
         if not self._psu.model_capability.has_waveform:
-            raise NotImplementedError(
-                f"Waveform generation not supported on {self._psu.model_capability.model_name}"
-            )
+            raise NotImplementedError(f"Waveform generation not supported on {self._psu.model_capability.model_name}")
 
         state_str = "ON" if state else "OFF"
         cmd = self._psu._get_command("set_wave_enable", ch=self._output_num, state=state_str)
@@ -429,11 +405,6 @@ class PowerSupplyOutput:
         """String representation."""
         try:
             config = self.get_configuration()
-            return (
-                f"Output{self._output_num}("
-                f"enabled={config['enabled']}, "
-                f"V={config['voltage_setpoint']}V, "
-                f"I={config['current_limit']}A)"
-            )
+            return f"Output{self._output_num}(" f"enabled={config['enabled']}, " f"V={config['voltage_setpoint']}V, " f"I={config['current_limit']}A)"
         except Exception:
             return f"Output{self._output_num}"

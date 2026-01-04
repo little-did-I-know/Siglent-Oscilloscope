@@ -18,6 +18,7 @@ try:
         list_visa_resources,
         find_siglent_devices,
     )
+
     _VISA_AVAILABLE = True
 except ImportError:
     _VISA_AVAILABLE = False
@@ -34,8 +35,10 @@ __all__ = [
 
 # Add VISA exports if available
 if _VISA_AVAILABLE:
-    __all__.extend([
-        "VISAConnection",
-        "list_visa_resources",
-        "find_siglent_devices",
-    ])
+    __all__.extend(
+        [
+            "VISAConnection",
+            "list_visa_resources",
+            "find_siglent_devices",
+        ]
+    )

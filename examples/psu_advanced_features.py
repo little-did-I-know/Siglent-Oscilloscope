@@ -20,10 +20,7 @@ def demo_data_logging():
     print("=" * 60)
 
     # Create mock PSU
-    mock_conn = MockConnection(
-        psu_mode=True,
-        psu_idn="Siglent Technologies,SPD3303X,SPD123456,V1.01"
-    )
+    mock_conn = MockConnection(psu_mode=True, psu_idn="Siglent Technologies,SPD3303X,SPD123456,V1.01")
     psu = PowerSupply("mock", connection=mock_conn)
     psu.connect()
 
@@ -78,10 +75,7 @@ def demo_tracking_modes():
     print("Tracking Modes Demo")
     print("=" * 60)
 
-    mock_conn = MockConnection(
-        psu_mode=True,
-        psu_idn="Siglent Technologies,SPD3303X,SPD123456,V1.01"
-    )
+    mock_conn = MockConnection(psu_mode=True, psu_idn="Siglent Technologies,SPD3303X,SPD123456,V1.01")
     psu = PowerSupply("mock", connection=mock_conn)
     psu.connect()
 
@@ -135,10 +129,7 @@ def demo_timer_functionality():
     print("Timer Functionality Demo")
     print("=" * 60)
 
-    mock_conn = MockConnection(
-        psu_mode=True,
-        psu_idn="Siglent Technologies,SPD3303X,SPD123456,V1.01"
-    )
+    mock_conn = MockConnection(psu_mode=True, psu_idn="Siglent Technologies,SPD3303X,SPD123456,V1.01")
     psu = PowerSupply("mock", connection=mock_conn)
     psu.connect()
 
@@ -173,10 +164,7 @@ def demo_waveform_generation():
     print("Waveform Generation Demo")
     print("=" * 60)
 
-    mock_conn = MockConnection(
-        psu_mode=True,
-        psu_idn="Siglent Technologies,SPD3303X,SPD123456,V1.01"
-    )
+    mock_conn = MockConnection(psu_mode=True, psu_idn="Siglent Technologies,SPD3303X,SPD123456,V1.01")
     psu = PowerSupply("mock", connection=mock_conn)
     psu.connect()
 
@@ -211,10 +199,7 @@ def demo_ovp_ocp_protection():
     print("OVP/OCP Protection Demo")
     print("=" * 60)
 
-    mock_conn = MockConnection(
-        psu_mode=True,
-        psu_idn="Siglent Technologies,SPD3303X,SPD123456,V1.01"
-    )
+    mock_conn = MockConnection(psu_mode=True, psu_idn="Siglent Technologies,SPD3303X,SPD123456,V1.01")
     psu = PowerSupply("mock", connection=mock_conn)
     psu.connect()
 
@@ -254,10 +239,7 @@ def demo_real_world_scenario():
     print("Real-World Scenario: Automated Device Characterization")
     print("=" * 60)
 
-    mock_conn = MockConnection(
-        psu_mode=True,
-        psu_idn="Siglent Technologies,SPD3303X,SPD123456,V1.01"
-    )
+    mock_conn = MockConnection(psu_mode=True, psu_idn="Siglent Technologies,SPD3303X,SPD123456,V1.01")
     psu = PowerSupply("mock", connection=mock_conn)
     psu.connect()
 
@@ -336,4 +318,5 @@ if __name__ == "__main__":
     except Exception as e:
         print(f"\nError during demo: {e}")
         import traceback
+
         traceback.print_exc()

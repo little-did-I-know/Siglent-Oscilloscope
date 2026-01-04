@@ -252,6 +252,7 @@ if __name__ == "__main__":
     # Check if PyVISA is available
     try:
         from siglent.connection import VISAConnection
+
         main()
     except ImportError:
         print("=" * 60)

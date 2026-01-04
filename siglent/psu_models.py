@@ -49,8 +49,7 @@ class PSUCapability:
 
     def __str__(self) -> str:
         """String representation of PSU capability."""
-        return (f"{self.manufacturer} {self.model_name} "
-                f"({self.num_outputs} outputs, {self.scpi_variant})")
+        return f"{self.manufacturer} {self.model_name} " f"({self.num_outputs} outputs, {self.scpi_variant})"
 
 
 # PSU Model Registry - Add new models here
@@ -73,7 +72,6 @@ PSU_MODEL_REGISTRY = {
         has_remote_sense=True,
         scpi_variant="siglent_spd",
     ),
-
     "SPD3303X-E": PSUCapability(
         model_name="SPD3303X-E",
         manufacturer="Siglent",
@@ -91,7 +89,6 @@ PSU_MODEL_REGISTRY = {
         has_remote_sense=True,
         scpi_variant="siglent_spd",
     ),
-
     # Siglent SPD1305X (single output, 30V/5A)
     "SPD1305X": PSUCapability(
         model_name="SPD1305X",
@@ -108,7 +105,6 @@ PSU_MODEL_REGISTRY = {
         has_remote_sense=True,
         scpi_variant="siglent_spd",
     ),
-
     # Siglent SPD1168X (single output, 16V/8A)
     "SPD1168X": PSUCapability(
         model_name="SPD1168X",
@@ -205,11 +201,9 @@ def create_generic_psu_capability(idn_string: str) -> PSUCapability:
         model_name=model,
         manufacturer=manufacturer,
         num_outputs=1,  # Conservative default
-        output_specs=[
-            OutputSpec(1, 30.0, 3.0, 90.0, 0.001, 0.001)  # Typical lab PSU specs
-        ],
-        has_ovp=True,   # Most PSUs have OVP
-        has_ocp=True,   # Most PSUs have OCP
+        output_specs=[OutputSpec(1, 30.0, 3.0, 90.0, 0.001, 0.001)],  # Typical lab PSU specs
+        has_ovp=True,  # Most PSUs have OVP
+        has_ocp=True,  # Most PSUs have OCP
         has_timer=False,  # Conservative - don't assume
         has_waveform=False,  # Advanced feature - don't assume
         has_tracking=False,  # Advanced feature - don't assume
@@ -239,7 +233,4 @@ def get_models_by_manufacturer(manufacturer: str) -> List[PSUCapability]:
     Returns:
         List of PSUCapability objects for models from that manufacturer
     """
-    return [
-        cap for cap in PSU_MODEL_REGISTRY.values()
-        if cap.manufacturer.lower() == manufacturer.lower()
-    ]
+    return [cap for cap in PSU_MODEL_REGISTRY.values() if cap.manufacturer.lower() == manufacturer.lower()]

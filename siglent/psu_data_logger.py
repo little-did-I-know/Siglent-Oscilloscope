@@ -78,13 +78,15 @@ class PSUDataLogger:
         outputs_to_log = self._get_outputs_to_log()
 
         for output_num in outputs_to_log:
-            header.extend([
-                f"output{output_num}_voltage_V",
-                f"output{output_num}_current_A",
-                f"output{output_num}_power_W",
-                f"output{output_num}_mode",
-                f"output{output_num}_enabled",
-            ])
+            header.extend(
+                [
+                    f"output{output_num}_voltage_V",
+                    f"output{output_num}_current_A",
+                    f"output{output_num}_power_W",
+                    f"output{output_num}_mode",
+                    f"output{output_num}_enabled",
+                ]
+            )
 
         self._writer.writerow(header)
         self._file.flush()
@@ -118,13 +120,15 @@ class PSUDataLogger:
                 mode = output.get_mode()
                 enabled = output.enabled
 
-                row.extend([
-                    f"{voltage:.6f}",
-                    f"{current:.6f}",
-                    f"{power:.6f}",
-                    mode,
-                    str(enabled),
-                ])
+                row.extend(
+                    [
+                        f"{voltage:.6f}",
+                        f"{current:.6f}",
+                        f"{power:.6f}",
+                        mode,
+                        str(enabled),
+                    ]
+                )
 
             except Exception as e:
                 logger.error(f"Failed to measure output {output_num}: {e}")

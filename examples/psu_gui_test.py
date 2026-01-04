@@ -21,10 +21,7 @@ def test_psu_gui_with_mock():
 
     # Create mock PSU connection
     print("Creating mock PSU connection (Siglent SPD3303X)...")
-    mock_conn = MockConnection(
-        psu_mode=True,
-        psu_idn="Siglent Technologies,SPD3303X,SPD123456,V1.01"
-    )
+    mock_conn = MockConnection(psu_mode=True, psu_idn="Siglent Technologies,SPD3303X,SPD123456,V1.01")
 
     # Create PSU instance with mock connection
     psu = PowerSupply("mock", connection=mock_conn)
@@ -73,6 +70,7 @@ def test_psu_gui_with_mock():
     except Exception as e:
         print(f"Error: {e}")
         import traceback
+
         traceback.print_exc()
 
 
@@ -85,10 +83,7 @@ def test_generic_psu():
 
     # Create mock generic PSU connection
     print("Creating mock generic PSU connection...")
-    mock_conn = MockConnection(
-        psu_mode=True,
-        psu_idn="RIGOL TECHNOLOGIES,DP832,DP8XXXX,V1.0"
-    )
+    mock_conn = MockConnection(psu_mode=True, psu_idn="RIGOL TECHNOLOGIES,DP832,DP8XXXX,V1.0")
 
     psu = PowerSupply("mock", connection=mock_conn)
 
@@ -121,6 +116,7 @@ def test_generic_psu():
     except Exception as e:
         print(f"Error: {e}")
         import traceback
+
         traceback.print_exc()
 
 
