@@ -5,22 +5,16 @@ Provides an interactive chat interface where users can ask questions
 about their waveform data and measurements, getting AI-powered answers.
 """
 
-from PyQt6.QtWidgets import (
-    QWidget,
-    QVBoxLayout,
-    QHBoxLayout,
-    QTextEdit,
-    QLineEdit,
-    QPushButton,
-    QLabel,
-    QScrollArea,
-)
-from PyQt6.QtCore import Qt, pyqtSignal, QThread, pyqtSignal as Signal
-from PyQt6.QtGui import QTextCursor
 from typing import Optional
 
-from siglent.report_generator.llm.client import LLMClient
+from PyQt6.QtCore import Qt, QThread
+from PyQt6.QtCore import pyqtSignal
+from PyQt6.QtCore import pyqtSignal as Signal
+from PyQt6.QtGui import QTextCursor
+from PyQt6.QtWidgets import QHBoxLayout, QLabel, QLineEdit, QPushButton, QScrollArea, QTextEdit, QVBoxLayout, QWidget
+
 from siglent.report_generator.llm.analyzer import ReportAnalyzer
+from siglent.report_generator.llm.client import LLMClient
 from siglent.report_generator.models.report_data import TestReport
 
 

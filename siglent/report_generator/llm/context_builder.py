@@ -5,15 +5,11 @@ Prepares measurement data, waveform statistics, and test information
 in a format suitable for LLM consumption.
 """
 
-from typing import List, Dict, Any, Optional
+from typing import Any, Dict, List, Optional
+
 import numpy as np
 
-from siglent.report_generator.models.report_data import (
-    WaveformData,
-    MeasurementResult,
-    TestReport,
-    TestSection,
-)
+from siglent.report_generator.models.report_data import MeasurementResult, TestReport, TestSection, WaveformData
 from siglent.report_generator.models.test_types import get_test_type
 
 

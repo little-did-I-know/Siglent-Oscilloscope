@@ -100,6 +100,7 @@ SectionTemplate(
 ### Common Section Types
 
 **Test Setup:**
+
 ```python
 SectionTemplate(
     title="Test Setup",
@@ -111,6 +112,7 @@ SectionTemplate(
 ```
 
 **Waveform Analysis:**
+
 ```python
 SectionTemplate(
     title="Waveform Captures",
@@ -123,6 +125,7 @@ SectionTemplate(
 ```
 
 **Frequency Analysis:**
+
 ```python
 SectionTemplate(
     title="FFT Analysis",
@@ -134,6 +137,7 @@ SectionTemplate(
 ```
 
 **Results Summary:**
+
 ```python
 SectionTemplate(
     title="Measurement Results",
@@ -581,6 +585,7 @@ template = ReportTemplate.create_default_template()
 ```
 
 This includes standard sections:
+
 - Executive Summary
 - Test Setup
 - Waveform Captures
@@ -626,11 +631,13 @@ This includes standard sections:
 ### Template Won't Load
 
 **Check JSON syntax:**
+
 ```bash
 python -m json.tool templates/my_template.json
 ```
 
 **Verify file path:**
+
 ```python
 from pathlib import Path
 template_path = Path("templates/my_template.json")
@@ -640,6 +647,7 @@ assert template_path.exists(), f"Not found: {template_path}"
 ### Criteria Not Applied
 
 **Check measurement names match exactly:**
+
 ```python
 # Criteria
 measurement_name="Frequency"  # Must match exactly
@@ -649,6 +657,7 @@ name="frequency"  # Won't match (case sensitive)
 ```
 
 **Check channels:**
+
 ```python
 # Channel-specific criteria requires channel match
 criteria.channel = "CH1"
@@ -658,12 +667,14 @@ measurement.channel = "C1"  # Won't match
 ### Branding Not Showing
 
 **Verify logo path exists:**
+
 ```python
 logo_path = Path("logo.png")
 assert logo_path.exists(), "Logo not found"
 ```
 
 **Check logo format:**
+
 - Supported: PNG, JPG, JPEG, BMP
 - Recommended: PNG with transparency
 

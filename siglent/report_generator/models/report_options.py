@@ -5,8 +5,8 @@ Allows users to customize report generation on a per-report basis
 without saving as a template.
 """
 
-from dataclasses import dataclass, asdict
-from typing import Dict, Any
+from dataclasses import asdict, dataclass
+from typing import Any, Dict
 
 
 @dataclass

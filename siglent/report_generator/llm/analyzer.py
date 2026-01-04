@@ -4,11 +4,12 @@ High-level analyzer that uses LLM to generate insights and summaries.
 Provides convenient methods for common analysis tasks.
 """
 
-from typing import Optional, List
+from typing import List, Optional
+
 from siglent.report_generator.llm.client import LLMClient
 from siglent.report_generator.llm.context_builder import ContextBuilder
 from siglent.report_generator.llm.prompts import get_system_prompt
-from siglent.report_generator.models.report_data import TestReport, MeasurementResult
+from siglent.report_generator.models.report_data import MeasurementResult, TestReport
 
 
 class ReportAnalyzer:

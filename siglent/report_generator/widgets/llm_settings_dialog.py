@@ -4,25 +4,11 @@ LLM settings dialog for configuring AI features.
 Allows users to configure Ollama, LM Studio, or OpenAI connections.
 """
 
-from PyQt6.QtWidgets import (
-    QDialog,
-    QVBoxLayout,
-    QHBoxLayout,
-    QFormLayout,
-    QLineEdit,
-    QSpinBox,
-    QDoubleSpinBox,
-    QPushButton,
-    QLabel,
-    QComboBox,
-    QGroupBox,
-    QMessageBox,
-    QTabWidget,
-    QWidget,
-)
-from PyQt6.QtCore import Qt, pyqtSignal
-from pathlib import Path
 import re
+from pathlib import Path
+
+from PyQt6.QtCore import Qt, pyqtSignal
+from PyQt6.QtWidgets import QComboBox, QDialog, QDoubleSpinBox, QFormLayout, QGroupBox, QHBoxLayout, QLabel, QLineEdit, QMessageBox, QPushButton, QSpinBox, QTabWidget, QVBoxLayout, QWidget
 
 from siglent.report_generator.llm.client import LLMClient, LLMConfig
 

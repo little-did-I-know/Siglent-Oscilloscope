@@ -7,17 +7,13 @@ converted to other formats, or committed to documentation repositories.
 
 from pathlib import Path
 from typing import List
+
 import matplotlib.pyplot as plt
 import numpy as np
 
 from siglent.report_generator.generators.base import BaseReportGenerator
-from siglent.report_generator.models.report_data import (
-    TestReport,
-    TestSection,
-    MeasurementResult,
-    WaveformData,
-)
 from siglent.report_generator.models.plot_style import PlotStyle
+from siglent.report_generator.models.report_data import MeasurementResult, TestReport, TestSection, WaveformData
 
 
 class MarkdownReportGenerator(BaseReportGenerator):

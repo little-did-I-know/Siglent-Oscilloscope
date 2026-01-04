@@ -69,6 +69,7 @@ python -m siglent.report_generator.app
 If you have a pre-built executable:
 
 **Windows:**
+
 ```bash
 # Navigate to the executable folder
 cd dist/SiglentReportGenerator
@@ -78,6 +79,7 @@ SiglentReportGenerator.exe
 ```
 
 **Linux:**
+
 ```bash
 # Navigate to the executable folder
 cd dist/SiglentReportGenerator
@@ -127,31 +129,37 @@ The Report Generator window is divided into two main sections:
 ### Left Panel - Data & Configuration
 
 **Data Import Section:**
+
 - Shows list of imported waveforms
 - Buttons to import waveforms and images
 - Clear all data button
 
 **Report Metadata:**
+
 - Scrollable form with all metadata fields
 - Required: Title, Technician, Test Date
 - Optional: Equipment details, environmental conditions, branding
 
 **Generation Buttons:**
+
 - Generate PDF Report
 - Generate Markdown Report
 
 ### Right Panel - AI Assistant
 
 **Status Display:**
+
 - Shows LLM connection status
 - Displays current model
 
 **Chat Interface:**
+
 - Type questions about your data
 - View AI responses
 - Clear chat history
 
 **Quick Actions:**
+
 - Generate Summary - Auto-create executive summary
 - Analyze Waveforms - Get signal quality insights
 - Interpret Measurements - Explain pass/fail results
@@ -174,6 +182,7 @@ Or, if you have existing oscilloscope data, use that!
 ### Step 2: Import Waveforms
 
 1. **Launch the application**
+
    ```bash
    siglent-report-generator
    ```
@@ -194,11 +203,13 @@ Or, if you have existing oscilloscope data, use that!
 Scroll through the metadata form and fill in the fields:
 
 **Required Fields:**
+
 - **Report Title** - e.g., "Power Supply Ripple Test"
 - **Technician** - Your name
 - **Test Date** - Defaults to current date/time
 
 **Optional but Recommended:**
+
 - **Equipment Model** - e.g., "SDS2104X Plus"
 - **Equipment ID** - Serial number
 - **Test Procedure** - Reference number
@@ -207,11 +218,13 @@ Scroll through the metadata form and fill in the fields:
 - **Notes** - Any additional context
 
 **Environmental Conditions:**
+
 - Temperature
 - Humidity
 - Location
 
 **Branding (Optional):**
+
 - Company Name
 - Company Logo (click "Select Logo...")
 - Header/Footer Text
@@ -239,6 +252,7 @@ Scroll through the metadata form and fill in the fields:
 ### Step 5: Review Your Report
 
 **PDF Report Sections:**
+
 1. **Header** - Company logo and name (if configured)
 2. **Title** - Report title centered
 3. **Metadata Table** - All test information
@@ -251,6 +265,7 @@ Scroll through the metadata form and fill in the fields:
 6. **Footer** - Generation date and company name
 
 **Markdown Report:**
+
 - Same content as PDF
 - Markdown-formatted for version control
 - Plots saved in `plots/` subdirectory
@@ -342,21 +357,25 @@ pip install reportlab
 ### "Failed to load waveform" error
 
 **Check file format:**
+
 - Supported: NPZ, CSV, MAT, HDF5
 - Unsupported: Binary scope formats
 
 **Verify file structure:**
+
 - Must contain time and voltage data
 - See [API Reference](api-reference.md) for expected format
 
 ### Application won't start
 
 **Check dependencies:**
+
 ```bash
 pip install -e ".[report-generator]"
 ```
 
 **Check PyQt6 platform plugins:**
+
 ```bash
 # Windows
 set QT_QPA_PLATFORM_PLUGIN_PATH=<python>/Lib/site-packages/PyQt6/Qt6/plugins
@@ -368,11 +387,13 @@ export QT_QPA_PLATFORM_PLUGIN_PATH=<python>/lib/python3.x/site-packages/PyQt6/Qt
 ### Generation is slow
 
 **Normal for:**
+
 - Large waveforms (millions of samples)
 - Many channels
 - Complex plots
 
 **Speed tips:**
+
 - Use Markdown for faster generation
 - Reduce plot resolution
 - Limit waveform length if possible
@@ -380,6 +401,7 @@ export QT_QPA_PLATFORM_PLUGIN_PATH=<python>/lib/python3.x/site-packages/PyQt6/Qt
 ### Out of memory errors
 
 **Reduce memory usage:**
+
 - Process waveforms one at a time
 - Use lower resolution plots
 - Close other applications

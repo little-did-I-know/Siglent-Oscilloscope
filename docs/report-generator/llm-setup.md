@@ -62,11 +62,13 @@ The Report Generator includes powerful AI features powered by Large Language Mod
 ### Step 1: Install Ollama
 
 **Download Ollama:**
+
 - Visit [https://ollama.com](https://ollama.com)
 - Download for your platform (Windows, macOS, Linux)
 - Run the installer
 
 **Verify Installation:**
+
 ```bash
 # Check that Ollama is running
 ollama --version
@@ -88,6 +90,7 @@ ollama list
 ### Step 3: Configure Report Generator
 
 1. **Launch Report Generator**
+
    ```bash
    siglent-report-generator
    ```
@@ -119,6 +122,7 @@ ollama list
 ### Step 1: Install LM Studio
 
 **Download:**
+
 - Visit [https://lmstudio.ai](https://lmstudio.ai)
 - Download for your platform
 - Install and launch
@@ -156,7 +160,7 @@ ollama list
 ## Setup Guide: OpenAI (Cloud)
 
 !!! warning "Privacy Notice"
-    OpenAI API sends your data to OpenAI's servers. Not recommended for sensitive data.
+OpenAI API sends your data to OpenAI's servers. Not recommended for sensitive data.
 
 ### Step 1: Get API Key
 
@@ -183,6 +187,7 @@ ollama list
 **What it does:** Creates a 2-3 paragraph summary of your test results
 
 **How to use:**
+
 1. Import waveforms and measurements
 2. Fill in metadata
 3. Click **"Generate Summary"** in AI Assistant panel
@@ -190,11 +195,13 @@ ollama list
 5. The summary appears in the chat
 
 **Then what:**
+
 - The summary is automatically added to your report
 - You can edit it if needed
 - It appears in the "Executive Summary" section
 
 **Example output:**
+
 > This oscilloscope test evaluated a 5V power supply output under 1A load. The frequency measurement of 1.002 kHz was within acceptable limits (±1%), indicating stable operation. Peak-to-peak voltage of 3.98V also passed criteria. However, the rise time of 125ns exceeded the maximum allowable value of 100ns, resulting in an overall FAIL status. This suggests potential slew rate limitations or capacitive loading affecting edge response.
 
 ### Analyze Waveforms
@@ -202,12 +209,14 @@ ollama list
 **What it does:** Analyzes signal quality, noise, and integrity
 
 **How to use:**
+
 1. Import waveforms
 2. Click **"Analyze Waveforms"**
 3. Wait for analysis
 4. Read the insights
 
 **What it checks:**
+
 - Signal-to-noise ratio
 - Overshoot and ringing
 - DC offset and bias
@@ -215,6 +224,7 @@ ollama list
 - Frequency content
 
 **Example output:**
+
 > The waveform shows good signal integrity overall with minimal noise (SNR ~20dB). However, there is observable overshoot on rising edges reaching approximately 10% of the signal amplitude. This could indicate impedance mismatch or inadequate termination. The DC offset appears centered at 0V as expected. Rise time measurements suggest bandwidth limitations in the signal path.
 
 ### Interpret Measurements
@@ -222,22 +232,27 @@ ollama list
 **What it does:** Explains pass/fail results and suggests fixes
 
 **How to use:**
+
 1. Import waveforms with measurements
 2. Click **"Interpret Measurements"**
 3. Review explanations
 
 **Especially useful for:**
+
 - Understanding why a test failed
 - Getting troubleshooting suggestions
 - Learning what measurements mean
 
 **Example output:**
+
 > **Rise Time (FAILED):** The measured rise time of 125ns exceeds the specification of 100ns. Rise time represents how quickly the signal transitions from low to high state. A slower rise time can be caused by:
+>
 > - Bandwidth limitations in the amplifier or driver circuit
 > - Excessive capacitance on the signal line
 > - Insufficient drive current from the source
 >
 > **Recommended actions:**
+>
 > 1. Check load capacitance and reduce if possible
 > 2. Verify driver IC specifications match requirements
 > 3. Consider using a faster edge-rate driver
@@ -248,12 +263,14 @@ ollama list
 **What it does:** Answers questions about your test data
 
 **How to use:**
+
 1. Type a question in the chat input
 2. Press Enter or click "Send"
 3. Wait for AI response
 4. Continue the conversation!
 
 **Example questions:**
+
 - "What do these measurements tell us about signal quality?"
 - "Why did the frequency measurement fail?"
 - "Is this amount of noise acceptable?"
@@ -262,6 +279,7 @@ ollama list
 - "Compare CH1 and CH2 - which is better?"
 
 **Tips for good questions:**
+
 - Be specific - reference actual measurements
 - Ask one thing at a time
 - Provide context if needed
@@ -271,25 +289,29 @@ ollama list
 
 ### Model Comparison
 
-| Model | Size | Speed | Quality | RAM Needed | Best For |
-|-------|------|-------|---------|------------|----------|
-| llama3.2 (3B) | 2 GB | Fast | Good | 4-8 GB | Most users |
-| mistral (7B) | 4 GB | Medium | Better | 8-16 GB | Better quality |
-| llama3.1 (8B) | 4.5 GB | Medium | Better | 8-16 GB | Technical analysis |
-| llama3.1 (70B) | 40 GB | Slow | Best | 48+ GB | Highest quality |
+| Model          | Size   | Speed  | Quality | RAM Needed | Best For           |
+| -------------- | ------ | ------ | ------- | ---------- | ------------------ |
+| llama3.2 (3B)  | 2 GB   | Fast   | Good    | 4-8 GB     | Most users         |
+| mistral (7B)   | 4 GB   | Medium | Better  | 8-16 GB    | Better quality     |
+| llama3.1 (8B)  | 4.5 GB | Medium | Better  | 8-16 GB    | Technical analysis |
+| llama3.1 (70B) | 40 GB  | Slow   | Best    | 48+ GB     | Highest quality    |
 
 ### Recommendations by Use Case
 
 **Casual Use / Learning:**
+
 - llama3.2 (3B) - Fast, good enough
 
 **Professional Testing:**
+
 - mistral (7B) or llama3.1 (8B) - Better technical accuracy
 
 **Research / Publications:**
+
 - llama3.1 (70B) - Best quality (requires powerful hardware)
 
 **Limited Hardware (< 8GB RAM):**
+
 - llama3.2 (3B) - Only option
 
 ## Advanced Configuration
@@ -331,6 +353,7 @@ How long to wait for AI response:
 ### "Could not connect to LLM"
 
 **Check Ollama is running:**
+
 ```bash
 # Windows/Mac
 ollama list
@@ -340,34 +363,40 @@ systemctl status ollama
 ```
 
 **Check port:**
+
 ```bash
 # Test if port is accessible
 curl http://localhost:11434/api/tags
 ```
 
 **Firewall:**
+
 - Allow Ollama through firewall
 - Check antivirus isn't blocking it
 
 ### "Connection timeout"
 
 **Increase timeout:**
+
 - Settings → LLM Configuration
 - Advanced Settings → Timeout
 - Try 120 seconds
 
 **Check model:**
+
 - Larger models take longer
 - Consider using smaller model
 
 ### Slow Response Times
 
 **Normal times:**
+
 - llama3.2 (3B): 5-15 seconds
 - mistral (7B): 15-30 seconds
 - llama3.1 (70B): 1-3 minutes
 
 **Speed tips:**
+
 - Use smaller model
 - Close other applications
 - Reduce max tokens
@@ -376,6 +405,7 @@ curl http://localhost:11434/api/tags
 ### Poor Quality Responses
 
 **Improve quality:**
+
 - Use larger model (mistral or llama3.1)
 - Lower temperature (try 0.5)
 - Ask more specific questions
@@ -384,6 +414,7 @@ curl http://localhost:11434/api/tags
 ### Out of Memory
 
 **Reduce memory usage:**
+
 - Use smaller model (llama3.2 3B)
 - Close other applications
 - Reduce max tokens to 1000
@@ -413,6 +444,7 @@ When using AI features, the following data is sent:
 - Report title and test information
 
 **Not sent:**
+
 - Raw waveform data (too large)
 - Images
 - Personal information (unless in metadata)

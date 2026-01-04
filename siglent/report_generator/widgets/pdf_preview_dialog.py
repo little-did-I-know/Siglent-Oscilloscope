@@ -5,24 +5,13 @@ Provides image-based PDF viewing with zoom controls, page navigation, and action
 for editing options, saving, printing, or copying the report.
 """
 
-from pathlib import Path
-from typing import Optional, List
 import io
+from pathlib import Path
+from typing import List, Optional
 
-from PyQt6.QtWidgets import (
-    QDialog,
-    QVBoxLayout,
-    QHBoxLayout,
-    QPushButton,
-    QToolBar,
-    QLabel,
-    QFileDialog,
-    QMessageBox,
-    QApplication,
-    QScrollArea,
-)
 from PyQt6.QtCore import Qt, pyqtSignal
-from PyQt6.QtGui import QPixmap, QImage, QAction
+from PyQt6.QtGui import QAction, QImage, QPixmap
+from PyQt6.QtWidgets import QApplication, QDialog, QFileDialog, QHBoxLayout, QLabel, QMessageBox, QPushButton, QScrollArea, QToolBar, QVBoxLayout
 
 try:
     import fitz  # PyMuPDF
@@ -327,8 +316,8 @@ class PDFPreviewDialog(QDialog):
 
         try:
             # Use system print dialog with file path
-            import subprocess
             import platform
+            import subprocess
 
             if platform.system() == "Windows":
                 subprocess.run(["start", "", str(self.pdf_path)], shell=True)

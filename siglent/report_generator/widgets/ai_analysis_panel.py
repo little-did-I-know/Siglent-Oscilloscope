@@ -5,28 +5,16 @@ Provides a streamlined interface for enabling AI features and generating
 analysis before creating the final report.
 """
 
-from PyQt6.QtWidgets import (
-    QWidget,
-    QVBoxLayout,
-    QHBoxLayout,
-    QGroupBox,
-    QCheckBox,
-    QPushButton,
-    QTextEdit,
-    QTextBrowser,
-    QLabel,
-    QProgressBar,
-    QTabWidget,
-    QFrame,
-)
-from PyQt6.QtCore import Qt, pyqtSignal, QThread, QTimer
-from PyQt6.QtGui import QFont, QCursor
-from typing import Optional, Dict
-import markdown
+from typing import Dict, Optional
 
-from siglent.report_generator.models.report_data import TestReport
-from siglent.report_generator.llm.client import LLMClient, LLMConfig
+import markdown
+from PyQt6.QtCore import Qt, QThread, QTimer, pyqtSignal
+from PyQt6.QtGui import QCursor, QFont
+from PyQt6.QtWidgets import QCheckBox, QFrame, QGroupBox, QHBoxLayout, QLabel, QProgressBar, QPushButton, QTabWidget, QTextBrowser, QTextEdit, QVBoxLayout, QWidget
+
 from siglent.report_generator.llm.analyzer import ReportAnalyzer
+from siglent.report_generator.llm.client import LLMClient, LLMConfig
+from siglent.report_generator.models.report_data import TestReport
 
 # System monitoring
 try:

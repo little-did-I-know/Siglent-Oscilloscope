@@ -6,8 +6,8 @@ validating measurement results against those criteria.
 """
 
 from dataclasses import dataclass, field
-from typing import Optional, List, Dict, Any
 from enum import Enum
+from typing import Any, Dict, List, Optional
 
 
 class ComparisonType(Enum):

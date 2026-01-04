@@ -5,8 +5,8 @@ Allows customization of waveform plot appearance including colors,
 line styles, fonts, and grid settings.
 """
 
-from dataclasses import dataclass, asdict
-from typing import Dict, Any
+from dataclasses import asdict, dataclass
+from typing import Any, Dict
 
 
 @dataclass

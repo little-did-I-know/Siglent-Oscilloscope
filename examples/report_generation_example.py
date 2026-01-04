@@ -12,23 +12,14 @@ Features demonstrated:
 - Generating PDF and Markdown reports
 """
 
-from pathlib import Path
 from datetime import datetime
+from pathlib import Path
+
 import numpy as np
 
-from siglent.report_generator.models.report_data import (
-    TestReport,
-    TestSection,
-    WaveformData,
-    MeasurementResult,
-    ReportMetadata,
-)
-from siglent.report_generator.models.criteria import (
-    MeasurementCriteria,
-    ComparisonType,
-    CriteriaSet,
-)
 from siglent.report_generator.generators.markdown_generator import MarkdownReportGenerator
+from siglent.report_generator.models.criteria import ComparisonType, CriteriaSet, MeasurementCriteria
+from siglent.report_generator.models.report_data import MeasurementResult, ReportMetadata, TestReport, TestSection, WaveformData
 
 # Import PDF generator if available
 try:
@@ -39,9 +30,10 @@ except ImportError:
     print("Warning: reportlab not installed - PDF generation will be skipped")
     PDF_AVAILABLE = False
 
+from siglent.report_generator.llm.analyzer import ReportAnalyzer
+
 # Import LLM components if you want AI features
 from siglent.report_generator.llm.client import LLMClient, LLMConfig
-from siglent.report_generator.llm.analyzer import ReportAnalyzer
 
 
 def create_sample_waveform() -> WaveformData:

@@ -3,27 +3,28 @@ Quick test script to diagnose PDF generation issue.
 Run this to see detailed output without the GUI.
 """
 
-from pathlib import Path
+import sys
 import tempfile
 from datetime import datetime
-import sys
+from pathlib import Path
 
 # Set UTF-8 output for Windows console
-if sys.platform == 'win32':
-    sys.stdout.reconfigure(encoding='utf-8')
+if sys.platform == "win32":
+    sys.stdout.reconfigure(encoding="utf-8")
 
 # Test if ReportLab works
 try:
     from reportlab.lib.pagesizes import letter
-    from reportlab.platypus import SimpleDocTemplate, Paragraph
     from reportlab.lib.styles import getSampleStyleSheet
+    from reportlab.platypus import Paragraph, SimpleDocTemplate
+
     print("[OK] ReportLab imported successfully")
 
     # Try to generate a simple PDF
     temp_pdf = Path(tempfile.gettempdir()) / "test_reportlab.pdf"
     doc = SimpleDocTemplate(str(temp_pdf), pagesize=letter)
     styles = getSampleStyleSheet()
-    story = [Paragraph("Test PDF Generation", styles['Title'])]
+    story = [Paragraph("Test PDF Generation", styles["Title"])]
 
     print(f"Generating test PDF to: {temp_pdf}")
     doc.build(story)
@@ -33,14 +34,14 @@ try:
         print(f"[OK] Test PDF created: {size} bytes")
 
         # Check header
-        with open(temp_pdf, 'rb') as f:
+        with open(temp_pdf, "rb") as f:
             header = f.read(10)
             print(f"[OK] PDF header: {header}")
 
         # Try to load with QPdfDocument
         try:
-            from PyQt6.QtPdf import QPdfDocument
             from PyQt6.QtCore import QUrl
+            from PyQt6.QtPdf import QPdfDocument
 
             pdf_doc = QPdfDocument(None)
             status = pdf_doc.load(str(temp_pdf))
@@ -67,6 +68,7 @@ except ImportError as e:
 except Exception as e:
     print(f"[FAIL] Error during test: {e}")
     import traceback
+
     traceback.print_exc()
 
 print("\n=== Summary ===")

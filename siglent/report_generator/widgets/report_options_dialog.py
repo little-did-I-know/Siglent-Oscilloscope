@@ -5,29 +5,29 @@ Provides interactive UI for selecting report sections, AI generation options,
 output formats, and plot styles before generating a report.
 """
 
-from PyQt6.QtWidgets import (
-    QDialog,
-    QVBoxLayout,
-    QHBoxLayout,
-    QFormLayout,
-    QGroupBox,
-    QCheckBox,
-    QComboBox,
-    QSpinBox,
-    QDoubleSpinBox,
-    QPushButton,
-    QTabWidget,
-    QWidget,
-    QColorDialog,
-    QLabel,
-    QMessageBox,
-    QInputDialog,
-)
 from PyQt6.QtCore import Qt, pyqtSignal
 from PyQt6.QtGui import QColor
+from PyQt6.QtWidgets import (
+    QCheckBox,
+    QColorDialog,
+    QComboBox,
+    QDialog,
+    QDoubleSpinBox,
+    QFormLayout,
+    QGroupBox,
+    QHBoxLayout,
+    QInputDialog,
+    QLabel,
+    QMessageBox,
+    QPushButton,
+    QSpinBox,
+    QTabWidget,
+    QVBoxLayout,
+    QWidget,
+)
 
-from siglent.report_generator.models.report_options import ReportOptions
 from siglent.report_generator.models.plot_style import PlotStyle
+from siglent.report_generator.models.report_options import ReportOptions
 from siglent.report_generator.models.template import ReportTemplate
 
 

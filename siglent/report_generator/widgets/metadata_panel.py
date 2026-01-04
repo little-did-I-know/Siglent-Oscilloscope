@@ -5,21 +5,11 @@ Allows users to enter report metadata like technician name, test date,
 equipment details, and other custom fields.
 """
 
-from PyQt6.QtWidgets import (
-    QWidget,
-    QVBoxLayout,
-    QFormLayout,
-    QLineEdit,
-    QTextEdit,
-    QDateTimeEdit,
-    QPushButton,
-    QGroupBox,
-    QFileDialog,
-    QComboBox,
-)
-from PyQt6.QtCore import Qt, QDateTime, pyqtSignal
 from datetime import datetime
 from pathlib import Path
+
+from PyQt6.QtCore import QDateTime, Qt, pyqtSignal
+from PyQt6.QtWidgets import QComboBox, QDateTimeEdit, QFileDialog, QFormLayout, QGroupBox, QLineEdit, QPushButton, QTextEdit, QVBoxLayout, QWidget
 
 from siglent.report_generator.models.report_data import ReportMetadata
 from siglent.report_generator.models.test_types import get_test_type_names

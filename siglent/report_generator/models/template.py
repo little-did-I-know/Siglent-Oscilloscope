@@ -5,13 +5,13 @@ Templates allow users to save report settings, criteria, and formatting
 preferences for reuse across multiple test sessions.
 """
 
-from dataclasses import dataclass, field
-from pathlib import Path
-from typing import Optional, List, Dict, Any
 import json
-from datetime import datetime
-import platform
 import os
+import platform
+from dataclasses import dataclass, field
+from datetime import datetime
+from pathlib import Path
+from typing import Any, Dict, List, Optional
 
 from siglent.report_generator.models.criteria import CriteriaSet
 from siglent.report_generator.models.plot_style import PlotStyle

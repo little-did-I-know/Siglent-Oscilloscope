@@ -5,22 +5,10 @@ Allows users to load, delete, import, and export report templates from
 their template library.
 """
 
-from PyQt6.QtWidgets import (
-    QDialog,
-    QVBoxLayout,
-    QHBoxLayout,
-    QListWidget,
-    QListWidgetItem,
-    QPushButton,
-    QLabel,
-    QGroupBox,
-    QTextEdit,
-    QMessageBox,
-    QFileDialog,
-    QInputDialog,
-)
-from PyQt6.QtCore import Qt, pyqtSignal
 from pathlib import Path
+
+from PyQt6.QtCore import Qt, pyqtSignal
+from PyQt6.QtWidgets import QDialog, QFileDialog, QGroupBox, QHBoxLayout, QInputDialog, QLabel, QListWidget, QListWidgetItem, QMessageBox, QPushButton, QTextEdit, QVBoxLayout
 
 from siglent.report_generator.models.template import ReportTemplate
 

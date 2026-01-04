@@ -5,11 +5,12 @@ Supports OpenAI-compatible APIs including Ollama, LM Studio, and OpenAI.
 Uses the official Ollama Python client for Ollama connections.
 """
 
-from dataclasses import dataclass
-from typing import Optional, List, Dict, Any
 import json
-import requests
+from dataclasses import dataclass
 from pathlib import Path
+from typing import Any, Dict, List, Optional
+
+import requests
 
 # Try to import ollama Python client
 try:

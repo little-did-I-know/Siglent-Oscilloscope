@@ -5,45 +5,42 @@ Provides the main user interface for importing data, configuring reports,
 and generating PDF/Markdown output.
 """
 
-from PyQt6.QtWidgets import (
-    QMainWindow,
-    QWidget,
-    QVBoxLayout,
-    QHBoxLayout,
-    QSplitter,
-    QPushButton,
-    QLabel,
-    QListWidget,
-    QGroupBox,
-    QFileDialog,
-    QMessageBox,
-    QMenuBar,
-    QScrollArea,
-    QProgressDialog,
-    QApplication,
-    QTabWidget,
-)
-from PyQt6.QtCore import Qt, QTimer
-from PyQt6.QtGui import QAction
+import platform
+import shutil
+import tempfile
+import time
+from datetime import datetime
 from pathlib import Path
 from typing import List, Optional
-from datetime import datetime
-import tempfile
-import shutil
-import time
-import platform
 
-from siglent.report_generator.models.report_data import (
-    TestReport,
-    TestSection,
-    WaveformData,
+from PyQt6.QtCore import Qt, QTimer
+from PyQt6.QtGui import QAction
+from PyQt6.QtWidgets import (
+    QApplication,
+    QFileDialog,
+    QGroupBox,
+    QHBoxLayout,
+    QLabel,
+    QListWidget,
+    QMainWindow,
+    QMenuBar,
+    QMessageBox,
+    QProgressDialog,
+    QPushButton,
+    QScrollArea,
+    QSplitter,
+    QTabWidget,
+    QVBoxLayout,
+    QWidget,
 )
-from siglent.report_generator.models.template import ReportTemplate
-from siglent.report_generator.models.report_options import ReportOptions
-from siglent.report_generator.models.plot_style import PlotStyle
-from siglent.report_generator.models.app_settings import AppSettings
-from siglent.report_generator.utils.waveform_loader import WaveformLoader
+
 from siglent.report_generator.generators.markdown_generator import MarkdownReportGenerator
+from siglent.report_generator.models.app_settings import AppSettings
+from siglent.report_generator.models.plot_style import PlotStyle
+from siglent.report_generator.models.report_data import TestReport, TestSection, WaveformData
+from siglent.report_generator.models.report_options import ReportOptions
+from siglent.report_generator.models.template import ReportTemplate
+from siglent.report_generator.utils.waveform_loader import WaveformLoader
 
 try:
     from siglent.report_generator.generators.pdf_generator import PDFReportGenerator
@@ -53,13 +50,13 @@ except ImportError:
     PDF_AVAILABLE = False
 
 from siglent.report_generator.llm.client import LLMClient, LLMConfig
-from siglent.report_generator.widgets.metadata_panel import MetadataPanel
-from siglent.report_generator.widgets.llm_settings_dialog import LLMSettingsDialog
-from siglent.report_generator.widgets.chat_sidebar import ChatSidebar
 from siglent.report_generator.widgets.ai_analysis_panel import AIAnalysisPanel
+from siglent.report_generator.widgets.chat_sidebar import ChatSidebar
+from siglent.report_generator.widgets.llm_settings_dialog import LLMSettingsDialog
+from siglent.report_generator.widgets.metadata_panel import MetadataPanel
+from siglent.report_generator.widgets.pdf_preview_dialog import PDFPreviewDialog
 from siglent.report_generator.widgets.report_options_dialog import ReportOptionsDialog
 from siglent.report_generator.widgets.template_manager_dialog import TemplateManagerDialog
-from siglent.report_generator.widgets.pdf_preview_dialog import PDFPreviewDialog
 
 
 class MainWindow(QMainWindow):
@@ -384,7 +381,7 @@ class MainWindow(QMainWindow):
                     report.recommendations = []
 
                 # Generate PDF to temp location
-                from reportlab.lib.pagesizes import letter, A4
+                from reportlab.lib.pagesizes import A4, letter
 
                 page_size = A4 if self.current_options.page_size == "a4" else letter
 

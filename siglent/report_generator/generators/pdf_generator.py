@@ -7,48 +7,35 @@ company branding, and AI-generated insights.
 
 from __future__ import annotations
 
-from pathlib import Path
-from typing import List, Optional, Tuple, Callable
-from datetime import datetime
 import io
 import re
+from datetime import datetime
+from pathlib import Path
+from typing import Callable, List, Optional, Tuple
 
 try:
     from reportlab.lib import colors
-    from reportlab.lib.pagesizes import letter, A4
-    from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+    from reportlab.lib.enums import TA_CENTER, TA_LEFT, TA_RIGHT
+    from reportlab.lib.pagesizes import A4, letter
+    from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
     from reportlab.lib.units import inch
-    from reportlab.platypus import (
-        SimpleDocTemplate,
-        Paragraph,
-        Spacer,
-        Table,
-        TableStyle,
-        PageBreak,
-        Image as RLImage,
-        KeepTogether,
-    )
-    from reportlab.lib.enums import TA_LEFT, TA_CENTER, TA_RIGHT
+    from reportlab.platypus import Image as RLImage
+    from reportlab.platypus import KeepTogether, PageBreak, Paragraph, SimpleDocTemplate, Spacer, Table, TableStyle
 
     REPORTLAB_AVAILABLE = True
 except ImportError:
     REPORTLAB_AVAILABLE = False
 
-import matplotlib.pyplot as plt
 import matplotlib
+import matplotlib.pyplot as plt
 
 matplotlib.use("Agg")  # Use non-interactive backend
 import numpy as np
 from PIL import Image
 
 from siglent.report_generator.generators.base import BaseReportGenerator
-from siglent.report_generator.models.report_data import (
-    TestReport,
-    TestSection,
-    MeasurementResult,
-    WaveformData,
-)
 from siglent.report_generator.models.plot_style import PlotStyle
+from siglent.report_generator.models.report_data import MeasurementResult, TestReport, TestSection, WaveformData
 from siglent.report_generator.models.report_options import ReportOptions
 from siglent.report_generator.utils.waveform_analyzer import WaveformAnalyzer
 
@@ -734,6 +721,7 @@ class PDFReportGenerator(BaseReportGenerator):
             List of flowable elements for this region
         """
         from reportlab.lib import colors
+
         from siglent.report_generator.models.report_data import WaveformRegion
 
         story = []
@@ -889,8 +877,9 @@ class PDFReportGenerator(BaseReportGenerator):
             ReportLab Image object, or None if generation fails
         """
         try:
-            import matplotlib.pyplot as plt
             from io import BytesIO
+
+            import matplotlib.pyplot as plt
 
             # Extract region data
             t, v = waveform.get_region_data(region)

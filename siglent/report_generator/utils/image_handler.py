@@ -5,10 +5,11 @@ Handles importing, resizing, and managing images (screenshots, setup photos, etc
 for inclusion in reports.
 """
 
+import io
 from pathlib import Path
 from typing import Optional, Tuple
+
 from PIL import Image
-import io
 
 
 class ImageHandler:

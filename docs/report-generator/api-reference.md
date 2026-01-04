@@ -64,6 +64,7 @@ ReportMetadata(
 ```
 
 **Methods:**
+
 - `to_dict()` - Convert to dictionary
 - `from_dict(data)` - Create from dictionary
 
@@ -87,6 +88,7 @@ WaveformData(
 ```
 
 **Methods:**
+
 - `to_dict()` - Convert to dictionary (excludes arrays)
 
 #### `MeasurementResult`
@@ -105,6 +107,7 @@ MeasurementResult(
 ```
 
 **Methods:**
+
 - `format_value()` - Returns formatted string "value unit"
 - `get_status_symbol()` - Returns "✓", "✗", or "—"
 - `to_dict()` / `from_dict()` - Serialization
@@ -128,6 +131,7 @@ TestSection(
 ```
 
 **Methods:**
+
 - `to_dict()` - Convert to dictionary
 
 #### `TestReport`
@@ -145,6 +149,7 @@ TestReport(
 ```
 
 **Methods:**
+
 - `add_section(section)` - Add and sort section
 - `get_all_measurements()` - Get measurements from all sections
 - `get_all_waveforms()` - Get waveforms from all sections
@@ -169,6 +174,7 @@ all_waveforms = WaveformLoader.load_multiple(filepaths)
 ```
 
 **Supported formats:**
+
 - `.npz` - NumPy archive
 - `.csv` - Comma-separated values
 - `.mat` - MATLAB file
@@ -234,6 +240,7 @@ print(result.message)  # "Value 1005 is within range [990, 1010]"
 ```
 
 **Comparison types:**
+
 - `ComparisonType.RANGE` - Min and max
 - `ComparisonType.MIN_ONLY` - Minimum only
 - `ComparisonType.MAX_ONLY` - Maximum only

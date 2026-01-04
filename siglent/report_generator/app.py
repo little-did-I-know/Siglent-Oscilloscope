@@ -9,9 +9,10 @@ Or after installation:
 """
 
 import sys
-from PyQt6.QtWidgets import QApplication
-from PyQt6.QtCore import Qt, QCoreApplication
+
+from PyQt6.QtCore import QCoreApplication, Qt
 from PyQt6.QtGui import QIcon
+from PyQt6.QtWidgets import QApplication
 
 from siglent.report_generator.main_window import MainWindow
 

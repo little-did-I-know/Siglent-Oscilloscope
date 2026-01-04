@@ -9,6 +9,7 @@ This guide explains how to build standalone executables for the Siglent Report G
 1. **Install Python 3.8+** with pip
 
 2. **Install the package with all dependencies:**
+
    ```bash
    pip install -e ".[report-generator,build-exe]"
    ```
@@ -26,6 +27,7 @@ This guide explains how to build standalone executables for the Siglent Report G
 ### Linux-Specific
 
 - Install system dependencies for PyQt6:
+
   ```bash
   sudo apt-get install libxcb-xinerama0 libxcb-cursor0 libxkbcommon-x11-0
   ```
@@ -80,6 +82,7 @@ cd dist/SiglentReportGenerator
 ### Creating an installer (Optional)
 
 Use tools like:
+
 - **Inno Setup** (free): https://jrsoftware.org/isinfo.php
 - **NSIS** (free): https://nsis.sourceforge.io/
 - **WiX Toolset** (free, creates .msi): https://wixtoolset.org/
@@ -103,11 +106,13 @@ pyinstaller report-generator-linux.spec
 AppImage is a portable format that works on most Linux distributions.
 
 1. **Build the application:**
+
    ```bash
    pyinstaller report-generator-linux.spec
    ```
 
 2. **Create AppDir structure:**
+
    ```bash
    # Create directory structure
    mkdir -p SiglentReportGenerator.AppDir/usr/bin
@@ -119,26 +124,26 @@ AppImage is a portable format that works on most Linux distributions.
 
    # Create desktop entry
    cat > SiglentReportGenerator.AppDir/siglent-report-generator.desktop << 'EOF'
-[Desktop Entry]
-Type=Application
-Name=Siglent Report Generator
-Comment=Generate professional oscilloscope test reports
-Exec=SiglentReportGenerator
-Icon=siglent-report-generator
-Categories=Development;Science;Engineering;
-Terminal=false
-EOF
+   [Desktop Entry]
+   Type=Application
+   Name=Siglent Report Generator
+   Comment=Generate professional oscilloscope test reports
+   Exec=SiglentReportGenerator
+   Icon=siglent-report-generator
+   Categories=Development;Science;Engineering;
+   Terminal=false
+   EOF
 
    # Create AppRun script
    cat > SiglentReportGenerator.AppDir/AppRun << 'EOF'
-#!/bin/bash
-SELF=$(readlink -f "$0")
-HERE=${SELF%/*}
-export PATH="${HERE}/usr/bin/:${PATH}"
-export LD_LIBRARY_PATH="${HERE}/usr/lib/:${LD_LIBRARY_PATH}"
-cd "${HERE}/usr/bin"
-exec "./SiglentReportGenerator" "$@"
-EOF
+   #!/bin/bash
+   SELF=$(readlink -f "$0")
+   HERE=${SELF%/*}
+   export PATH="${HERE}/usr/bin/:${PATH}"
+   export LD_LIBRARY_PATH="${HERE}/usr/lib/:${LD_LIBRARY_PATH}"
+   cd "${HERE}/usr/bin"
+   exec "./SiglentReportGenerator" "$@"
+   EOF
 
    chmod +x SiglentReportGenerator.AppDir/AppRun
 
@@ -148,6 +153,7 @@ EOF
    ```
 
 3. **Build AppImage:**
+
    ```bash
    # Using appimagetool
    ./appimagetool-x86_64.AppImage SiglentReportGenerator.AppDir SiglentReportGenerator-x86_64.AppImage
@@ -175,9 +181,11 @@ cd dist/SiglentReportGenerator
 If the executable fails with missing library errors:
 
 **Windows:**
+
 - Install Visual C++ Redistributable: https://aka.ms/vs/17/release/vc_redist.x64.exe
 
 **Linux:**
+
 ```bash
 sudo apt-get install libxcb-xinerama0 libxcb-cursor0 libxkbcommon-x11-0
 ```
@@ -194,12 +202,14 @@ This usually means a hidden import is missing. To debug:
 ### Large executable size
 
 The executable includes Python, PyQt6, matplotlib, and all dependencies. Typical sizes:
+
 - **Windows directory build:** ~200-300 MB
 - **Windows single-file:** ~250-350 MB
 - **Linux directory build:** ~180-250 MB
 - **Linux AppImage:** ~200-280 MB
 
 To reduce size:
+
 - Use UPX compression (already enabled)
 - Remove unused dependencies from the spec file
 - Consider using `--exclude-module` for large unused packages
@@ -209,12 +219,14 @@ To reduce size:
 If you see "Could not find the Qt platform plugin":
 
 **Windows:**
+
 ```bash
 # Usually fixed by the spec file, but if needed:
 set QT_QPA_PLATFORM_PLUGIN_PATH=<path-to-exe>/PyQt6/Qt6/plugins/platforms
 ```
 
 **Linux:**
+
 ```bash
 export QT_QPA_PLATFORM_PLUGIN_PATH=<path-to-exe>/PyQt6/Qt6/plugins/platforms
 ```
@@ -236,6 +248,7 @@ After building, test all features:
 ### Windows
 
 Distribute either:
+
 - The entire `dist/SiglentReportGenerator/` folder (users run the .exe inside)
 - A single .exe file (if using one-file mode)
 - An installer created with Inno Setup/NSIS
@@ -243,6 +256,7 @@ Distribute either:
 ### Linux
 
 Distribute either:
+
 - The entire `dist/SiglentReportGenerator/` folder
 - An AppImage file (recommended - works on most distros)
 - A .deb or .rpm package (requires additional packaging)

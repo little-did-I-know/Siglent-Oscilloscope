@@ -5,10 +5,11 @@ Supports loading waveform data from NPZ, CSV, MAT, and HDF5 files
 created by the Siglent oscilloscope library.
 """
 
-from pathlib import Path
-from typing import List, Optional, Dict, Any
-import numpy as np
 from datetime import datetime
+from pathlib import Path
+from typing import Any, Dict, List, Optional
+
+import numpy as np
 
 from siglent.report_generator.models.report_data import WaveformData
 

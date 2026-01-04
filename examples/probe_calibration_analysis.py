@@ -19,13 +19,14 @@ probe compensation output with different probe compensation settings:
 - Overcompensated (falling plateaus)
 """
 
-import numpy as np
-from pathlib import Path
 from datetime import datetime
+from pathlib import Path
 
-from siglent.report_generator.models.report_data import TestReport, ReportMetadata, TestSection, WaveformData
-from siglent.report_generator.generators.pdf_generator import PDFReportGenerator
+import numpy as np
+
 from siglent.report_generator.generators.markdown_generator import MarkdownReportGenerator
+from siglent.report_generator.generators.pdf_generator import PDFReportGenerator
+from siglent.report_generator.models.report_data import ReportMetadata, TestReport, TestSection, WaveformData
 from siglent.report_generator.utils.waveform_analyzer import WaveformAnalyzer
 
 

@@ -6,7 +6,7 @@ characteristics to provide context for AI analysis.
 """
 
 from dataclasses import dataclass
-from typing import Optional, Dict, List
+from typing import Dict, List, Optional
 
 
 @dataclass

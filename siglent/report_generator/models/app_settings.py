@@ -5,12 +5,12 @@ Stores user preferences across sessions including last used template,
 LLM provider, and report options.
 """
 
+import json
+import os
+import platform
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Optional
-import json
-import platform
-import os
 
 from siglent.report_generator.models.report_options import ReportOptions
 

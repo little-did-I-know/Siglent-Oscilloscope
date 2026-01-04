@@ -7,6 +7,7 @@ The **Siglent Report Generator** is a powerful standalone application for creati
 ## ✨ Key Features
 
 ### 🔬 Data Import & Analysis
+
 - **Multiple file formats:** NPZ, CSV, MATLAB (.mat), HDF5
 - **Batch import:** Load multiple waveform files at once
 - **Image import:** Add screenshots, setup photos, diagrams
@@ -16,6 +17,7 @@ The **Siglent Report Generator** is a powerful standalone application for creati
 - **Plateau stability:** Measures noise on flat signal regions for power supply and logic level testing
 
 ### 📝 Professional Reports
+
 - **PDF Reports:** Publication-ready PDFs with company branding
 - **Markdown Reports:** Documentation-friendly format for version control
 - **Customizable branding:** Company logo, header/footer, custom colors
@@ -23,12 +25,14 @@ The **Siglent Report Generator** is a powerful standalone application for creati
 - **Real-time progress:** Visual progress bar with granular updates during PDF generation
 
 ### ✅ Pass/Fail Testing
+
 - **Measurement criteria:** Define acceptable ranges for measurements
 - **Multiple comparison types:** Range, min/max only, equals, not-equals
 - **Template system:** Save and reuse test procedures
 - **Visual indicators:** Color-coded pass/fail status in reports
 
 ### 🤖 AI-Powered Analysis (Optional)
+
 - **Executive summaries:** Auto-generate report summaries
 - **Waveform insights:** AI analyzes signal quality and integrity
 - **Pass/fail interpretation:** Explains why measurements failed and suggests fixes
@@ -36,6 +40,7 @@ The **Siglent Report Generator** is a powerful standalone application for creati
 - **100% Private:** Uses local LLM - no cloud, no data sharing
 
 ### 💾 Template System
+
 - **Save configurations:** Reuse report settings across tests
 - **Criteria sets:** Store pass/fail criteria for standard tests
 - **Branding presets:** Maintain consistent company branding
@@ -118,6 +123,7 @@ python report_generation_example.py
 ```
 
 This creates a complete sample report with:
+
 - Synthetic waveform data
 - Pass/fail measurements
 - Optional AI analysis
@@ -160,6 +166,7 @@ See `BUILD_EXECUTABLE.md` for detailed AppImage creation instructions.
 
 1. **Download Ollama:** https://ollama.com
 2. **Install and run:**
+
    ```bash
    # Download a model
    ollama pull llama3.2
@@ -167,6 +174,7 @@ See `BUILD_EXECUTABLE.md` for detailed AppImage creation instructions.
    # Verify it's running
    ollama list
    ```
+
 3. **In Report Generator:**
    - Go to Settings → LLM Configuration
    - Select "Ollama" tab
@@ -230,21 +238,25 @@ siglent/report_generator/
 ## 🎯 Use Cases
 
 ### Quality Assurance
+
 - **Automated test documentation** for production testing
 - **Pass/fail criteria enforcement** with audit trails
 - **Batch testing** with consistent report formatting
 
 ### Research & Development
+
 - **Signal analysis** with AI insights
 - **Reproducible results** with saved templates
 - **Publication-ready** figures and reports
 
 ### Education
+
 - **Lab reports** for oscilloscope experiments
 - **Learning tool** - AI explains measurements
 - **Professional formatting** for student submissions
 
 ### Field Service
+
 - **On-site testing** with portable executable
 - **Quick report generation** for customers
 - **No internet required** - fully offline capable
@@ -287,17 +299,20 @@ Each classification includes a confidence score (0-100%) displayed in the report
 Every waveform is analyzed with 25+ measurements:
 
 **Amplitude Measurements:**
+
 - Vmax, Vmin, Vpp (peak-to-peak)
 - VRMS (root mean square)
 - Vmean (average voltage)
 - DC offset
 
 **Frequency & Timing:**
+
 - Frequency and period
 - Rise time and fall time
 - Pulse width and duty cycle
 
 **Quality Metrics:**
+
 - SNR (Signal-to-Noise Ratio)
 - THD (Total Harmonic Distortion)
 - Noise level
@@ -311,16 +326,19 @@ All statistics are automatically formatted with appropriate SI prefixes (mV, µs
 For periodic signals (square waves, pulses, PWM, etc.), you can enable **Plateau Stability Analysis** to measure noise on flat signal regions:
 
 **How it works:**
+
 1. Identifies high and low plateau regions using run-length encoding
 2. Analyzes the middle 60% of each plateau (excludes edge transitions)
 3. Calculates standard deviation as a measure of noise
 
 **Reported metrics:**
+
 - **Plateau High Noise:** Noise on high-level plateaus
 - **Plateau Low Noise:** Noise on low-level plateaus
 - **Plateau Stability:** Average noise across all plateaus
 
 **Use cases:**
+
 - Power supply ripple testing
 - Logic level stability verification
 - Signal integrity assessment
@@ -333,6 +351,7 @@ For periodic signals (square waves, pulses, PWM, etc.), you can enable **Plateau
 ### Report Templates
 
 Templates are saved as JSON files and include:
+
 - Section configuration
 - Pass/fail criteria
 - Branding settings
@@ -343,6 +362,7 @@ Create a template in the GUI, then save it for reuse.
 ### LLM Configuration
 
 LLM settings are stored in:
+
 - Endpoint URL (e.g., http://localhost:11434/v1)
 - Model name
 - API key (if required)
@@ -351,38 +371,45 @@ LLM settings are stored in:
 ### System Requirements
 
 **Minimum:**
+
 - Python 3.8+
 - 4 GB RAM
 - 500 MB disk space
 
 **Recommended:**
+
 - Python 3.10+
 - 8 GB RAM (16 GB for AI features)
 - 2 GB disk space
 
 **For AI features:**
+
 - 8 GB RAM minimum (16 GB recommended)
 - Multi-core CPU (GPU optional but helpful)
 
 ## 🐛 Troubleshooting
 
 ### "reportlab not installed" error
+
 ```bash
 pip install reportlab
 ```
 
 ### LLM connection fails
+
 - Verify Ollama/LM Studio is running
 - Check firewall settings
 - Confirm port number is correct
 - Test with: `curl http://localhost:11434/api/tags`
 
 ### Waveform loading errors
+
 - Verify file format is supported (NPZ, CSV, MAT, HDF5)
 - Check file is not corrupted
 - Ensure file contains time and voltage data
 
 ### PDF generation slow
+
 - Normal for large reports with many plots
 - Consider reducing plot resolution
 - Use Markdown for faster generation
@@ -394,6 +421,7 @@ MIT License - see main project LICENSE file
 ## 🤝 Contributing
 
 Contributions welcome! Areas for improvement:
+
 - Additional report formats (HTML, Word)
 - More AI analysis features
 - Advanced measurement calculations
@@ -403,6 +431,7 @@ Contributions welcome! Areas for improvement:
 ## 📧 Support
 
 For issues and questions:
+
 - GitHub Issues: https://github.com/little-did-I-know/Siglent-Oscilloscope/issues
 - Documentation: See docs/report-generator/ (coming soon)
 

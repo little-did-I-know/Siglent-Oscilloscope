@@ -8,7 +8,8 @@ including waveform data, measurements, metadata, and report sections.
 from dataclasses import dataclass, field
 from datetime import datetime
 from pathlib import Path
-from typing import Optional, List, Dict, Any, Tuple
+from typing import Any, Dict, List, Optional, Tuple
+
 import numpy as np
 
 

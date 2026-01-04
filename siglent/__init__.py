@@ -14,12 +14,7 @@ For power supply control (EXPERIMENTAL - v0.4.0-beta.1):
 
 __version__ = "0.4.0-beta.1"
 
-from siglent.exceptions import (
-    CommandError,
-    SiglentConnectionError,
-    SiglentError,
-    SiglentTimeoutError,
-)
+from siglent.exceptions import CommandError, SiglentConnectionError, SiglentError, SiglentTimeoutError
 from siglent.oscilloscope import Oscilloscope
 
 # Experimental features (v0.4.0-beta.1)

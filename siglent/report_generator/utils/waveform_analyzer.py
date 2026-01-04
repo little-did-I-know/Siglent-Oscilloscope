@@ -5,8 +5,9 @@ Automatically computes frequency, amplitude, timing, and quality metrics
 from oscilloscope waveform data.
 """
 
-import numpy as np
 from typing import Dict, Optional, Tuple
+
+import numpy as np
 from scipy import signal as scipy_signal
 from scipy.fft import fft, fftfreq
 
