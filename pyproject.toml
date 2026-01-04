@@ -75,6 +75,12 @@ fun = [
 # Power supply control - no additional dependencies required
 # Included for explicit feature installation and documentation
 power-supply-beta = []
+# USB/VISA support for instruments (power supplies, oscilloscopes)
+# Enables USB, GPIB, and Serial connections via PyVISA
+usb = [
+    "pyvisa>=1.14.0",
+    "pyvisa-py>=0.7.0",  # Pure Python backend, no NI-VISA required
+]
 experimental = [
     # Future experimental features will be added here
 ]

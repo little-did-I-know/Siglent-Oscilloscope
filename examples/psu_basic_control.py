@@ -2,6 +2,13 @@
 
 This example demonstrates how to control a SCPI power supply using the Siglent package.
 Works with both Siglent SPD series and generic SCPI-99 compliant power supplies.
+
+Connection Methods:
+    - Ethernet/LAN (this example): PowerSupply('192.168.1.200')
+    - USB: See psu_usb_connection.py
+
+For USB support:
+    pip install "Siglent-Oscilloscope[usb]"
 """
 
 from siglent import PowerSupply

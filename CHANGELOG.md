@@ -17,7 +17,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 **Core Power Supply Features**:
 - **Main PowerSupply Class** (`siglent.power_supply.PowerSupply`)
-  - SCPI-based communication over Ethernet (port 5024)
+  - SCPI-based communication over Ethernet (port 5024) or USB
+  - **Multiple connection types supported**:
+    - **Ethernet/LAN** via `SocketConnection` (default)
+    - **USB** via `VISAConnection` (new - requires `[usb]` extras)
+    - **GPIB** via `VISAConnection` (IEEE-488)
+    - **Serial** via `VISAConnection` (RS-232)
   - Automatic model detection from `*IDN?` response
   - Capability-based feature availability
   - Context manager support for automatic connection management
@@ -71,15 +76,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Voltage, current, and power logging for all outputs
   - Timestamp-based data organization
 
+- **Connection Layer** (`siglent.connection`)
+  - **VISAConnection** class for USB/GPIB/Serial support (new)
+    - PyVISA-based connection supporting multiple transport protocols
+    - USB-TMC protocol for USB connections
+    - GPIB (IEEE-488) support
+    - Serial (RS-232) support
+    - Optional dependency: install with `[usb]` extras
+    - Pure Python backend (pyvisa-py) requires no proprietary drivers
+  - **Resource discovery utilities**:
+    - `list_visa_resources()` - List all VISA devices
+    - `find_siglent_devices()` - Automatically find Siglent instruments
+  - Graceful fallback when PyVISA not installed
+
 - **Examples**:
-  - `examples/psu_basic_control.py` - Basic voltage/current control, measurements
+  - `examples/psu_basic_control.py` - Basic voltage/current control, measurements (Ethernet)
+  - `examples/psu_usb_connection.py` - USB/GPIB/Serial connection examples (new)
   - `examples/psu_advanced_features.py` - Tracking modes, data logging, timer, waveform generation
   - `examples/psu_gui_test.py` - GUI integration test (experimental)
 
 - **Testing**:
   - `tests/test_power_supply.py` - Unit tests with mock connection
+  - `tests/test_visa_connection.py` - Tests for USB/VISA connections (new)
   - Hardware tests marked with `@pytest.mark.hardware`
-  - Coverage for core functionality, model detection, SCPI commands
+  - Coverage for core functionality, model detection, SCPI commands, VISA connections
 
 **Documentation**:
 - Added `docs/development/EXPERIMENTAL_FEATURES.md` - Comprehensive guide for experimental features
@@ -112,15 +132,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 **Experimental Feature Implementation**:
 - Module-level `FutureWarning` on import with clear experimental notice
-- Optional dependency group `[power-supply-beta]` in pyproject.toml
-- No additional dependencies required (uses core SCPI connection)
+- Optional dependency groups in pyproject.toml:
+  - `[power-supply-beta]` - Power supply features (no extra dependencies)
+  - `[usb]` - USB/GPIB/Serial support via PyVISA (optional)
 - `[experimental]` group added for future experimental features
+- Graceful degradation when optional dependencies not installed
 
 **Architecture Highlights**:
-- Reuses existing `SocketConnection` from oscilloscope module
+- **Connection abstraction layer** (`BaseConnection`)
+  - `SocketConnection` for TCP/IP Ethernet (default)
+  - `VISAConnection` for USB/GPIB/Serial (optional via PyVISA)
+  - Consistent SCPI interface across all connection types
 - Shares exception hierarchy (`SiglentConnectionError`, `SiglentTimeoutError`, `CommandError`)
 - Capability-based design allows easy addition of new models
-- SCPI command abstraction supports multiple manufacturers
+- SCPI command abstraction supports multiple manufacturers and SCPI dialects
+- Pluggable transport layer - easy to add new connection types
 
 **Known Limitations** (Beta Status):
 - Limited hardware testing (primarily SPD3303X-E)
@@ -144,8 +170,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 **For Power Supply Users** (New Feature):
 ```bash
-# Install with power supply support
+# Install with power supply support (Ethernet/LAN only)
 pip install "Siglent-Oscilloscope[power-supply-beta]==0.4.0-beta.1"
+
+# Install with USB support (includes PyVISA for USB/GPIB/Serial)
+pip install "Siglent-Oscilloscope[usb]==0.4.0-beta.1"
+
+# Install both
+pip install "Siglent-Oscilloscope[power-supply-beta,usb]==0.4.0-beta.1"
 ```
 
 **For Developers**:
