@@ -26,12 +26,14 @@ from PyQt6.QtGui import QPixmap, QImage, QAction
 
 try:
     import fitz  # PyMuPDF
+
     PYMUPDF_AVAILABLE = True
 except ImportError:
     PYMUPDF_AVAILABLE = False
 
 try:
     from PyQt6.QtPrintSupport import QPrintDialog, QPrinter
+
     PRINT_SUPPORT_AVAILABLE = True
 except ImportError:
     PRINT_SUPPORT_AVAILABLE = False
@@ -56,13 +58,7 @@ class PDFPreviewDialog(QDialog):
         super().__init__(parent)
 
         if not PYMUPDF_AVAILABLE:
-            QMessageBox.critical(
-                parent,
-                "Missing Dependency",
-                "PDF preview requires PyMuPDF (fitz).\n\n"
-                "Install with: pip install PyMuPDF\n\n"
-                "The preview dialog will now close."
-            )
+            QMessageBox.critical(parent, "Missing Dependency", "PDF preview requires PyMuPDF (fitz).\n\n" "Install with: pip install PyMuPDF\n\n" "The preview dialog will now close.")
             raise ImportError("PyMuPDF is required for PDF preview")
 
         self.pdf_path = pdf_path
@@ -224,13 +220,7 @@ class PDFPreviewDialog(QDialog):
 
             # Convert to QImage
             img_data = pix.samples
-            qimage = QImage(
-                img_data,
-                pix.width,
-                pix.height,
-                pix.stride,
-                QImage.Format.Format_RGB888
-            )
+            qimage = QImage(img_data, pix.width, pix.height, pix.stride, QImage.Format.Format_RGB888)
 
             # Convert to QPixmap and display
             pixmap = QPixmap.fromImage(qimage)
@@ -241,11 +231,7 @@ class PDFPreviewDialog(QDialog):
             self._update_controls()
 
         except Exception as e:
-            QMessageBox.critical(
-                self,
-                "Render Error",
-                f"Failed to render page {self.current_page + 1}:\n{str(e)}"
-            )
+            QMessageBox.critical(self, "Render Error", f"Failed to render page {self.current_page + 1}:\n{str(e)}")
 
     def _update_controls(self):
         """Update toolbar controls based on current state."""
@@ -315,12 +301,7 @@ class PDFPreviewDialog(QDialog):
 
     def _save_pdf(self):
         """Save the PDF to a user-selected location."""
-        file_path, _ = QFileDialog.getSaveFileName(
-            self,
-            "Save PDF Report",
-            "test_report.pdf",
-            "PDF Files (*.pdf);;All Files (*)"
-        )
+        file_path, _ = QFileDialog.getSaveFileName(self, "Save PDF Report", "test_report.pdf", "PDF Files (*.pdf);;All Files (*)")
 
         if not file_path:
             return
@@ -330,12 +311,7 @@ class PDFPreviewDialog(QDialog):
 
     def _save_markdown(self):
         """Request markdown version of the report."""
-        file_path, _ = QFileDialog.getSaveFileName(
-            self,
-            "Save Markdown Report",
-            "test_report.md",
-            "Markdown Files (*.md);;All Files (*)"
-        )
+        file_path, _ = QFileDialog.getSaveFileName(self, "Save Markdown Report", "test_report.md", "Markdown Files (*.md);;All Files (*)")
 
         if not file_path:
             return
@@ -346,11 +322,7 @@ class PDFPreviewDialog(QDialog):
     def _print_pdf(self):
         """Print the PDF document."""
         if not PRINT_SUPPORT_AVAILABLE:
-            QMessageBox.information(
-                self,
-                "Print Unavailable",
-                "Print functionality requires PyQt6.QtPrintSupport"
-            )
+            QMessageBox.information(self, "Print Unavailable", "Print functionality requires PyQt6.QtPrintSupport")
             return
 
         try:
@@ -365,28 +337,16 @@ class PDFPreviewDialog(QDialog):
             else:  # Linux
                 subprocess.run(["xdg-open", str(self.pdf_path)])
 
-            QMessageBox.information(
-                self,
-                "Print Initiated",
-                "Opening PDF in system default viewer for printing."
-            )
+            QMessageBox.information(self, "Print Initiated", "Opening PDF in system default viewer for printing.")
 
         except Exception as e:
-            QMessageBox.critical(
-                self,
-                "Print Error",
-                f"Failed to initiate printing:\n{str(e)}"
-            )
+            QMessageBox.critical(self, "Print Error", f"Failed to initiate printing:\n{str(e)}")
 
     def _copy_to_clipboard(self):
         """Copy PDF file path to clipboard."""
         QApplication.clipboard().setText(str(self.pdf_path.absolute()))
 
-        QMessageBox.information(
-            self,
-            "Copied",
-            "PDF file path copied to clipboard!"
-        )
+        QMessageBox.information(self, "Copied", "PDF file path copied to clipboard!")
 
     def closeEvent(self, event):
         """Clean up when dialog closes."""

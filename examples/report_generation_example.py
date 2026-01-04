@@ -33,6 +33,7 @@ from siglent.report_generator.generators.markdown_generator import MarkdownRepor
 # Import PDF generator if available
 try:
     from siglent.report_generator.generators.pdf_generator import PDFReportGenerator
+
     PDF_AVAILABLE = True
 except ImportError:
     print("Warning: reportlab not installed - PDF generation will be skipped")
@@ -122,36 +123,42 @@ def create_criteria_set() -> CriteriaSet:
     )
 
     # Frequency must be within ±1%
-    criteria_set.add_criteria(MeasurementCriteria(
-        measurement_name="Frequency",
-        comparison_type=ComparisonType.RANGE,
-        min_value=990,
-        max_value=1010,
-        channel="CH1",
-        description="Output frequency within ±1%",
-        severity="critical",
-    ))
+    criteria_set.add_criteria(
+        MeasurementCriteria(
+            measurement_name="Frequency",
+            comparison_type=ComparisonType.RANGE,
+            min_value=990,
+            max_value=1010,
+            channel="CH1",
+            description="Output frequency within ±1%",
+            severity="critical",
+        )
+    )
 
     # Vpp must be 4V ± 0.2V
-    criteria_set.add_criteria(MeasurementCriteria(
-        measurement_name="Peak-to-Peak",
-        comparison_type=ComparisonType.RANGE,
-        min_value=3.8,
-        max_value=4.2,
-        channel="CH1",
-        description="Peak-to-peak voltage within spec",
-        severity="critical",
-    ))
+    criteria_set.add_criteria(
+        MeasurementCriteria(
+            measurement_name="Peak-to-Peak",
+            comparison_type=ComparisonType.RANGE,
+            min_value=3.8,
+            max_value=4.2,
+            channel="CH1",
+            description="Peak-to-peak voltage within spec",
+            severity="critical",
+        )
+    )
 
     # Rise time must be < 100ns
-    criteria_set.add_criteria(MeasurementCriteria(
-        measurement_name="Rise Time",
-        comparison_type=ComparisonType.MAX_ONLY,
-        max_value=100e-9,
-        channel="CH1",
-        description="Rise time must be fast",
-        severity="warning",
-    ))
+    criteria_set.add_criteria(
+        MeasurementCriteria(
+            measurement_name="Rise Time",
+            comparison_type=ComparisonType.MAX_ONLY,
+            max_value=100e-9,
+            channel="CH1",
+            description="Rise time must be fast",
+            severity="warning",
+        )
+    )
 
     return criteria_set
 
@@ -187,10 +194,7 @@ def create_report_with_ai(report: TestReport) -> TestReport:
         suggestions = analyzer.suggest_next_steps(report)
         if suggestions:
             # Parse suggestions into list
-            report.recommendations = [
-                line.strip() for line in suggestions.split('\n')
-                if line.strip() and (line.strip()[0].isdigit() or line.strip().startswith('-'))
-            ]
+            report.recommendations = [line.strip() for line in suggestions.split("\n") if line.strip() and (line.strip()[0].isdigit() or line.strip().startswith("-"))]
 
         # Add AI insights to sections
         for section in report.sections:
@@ -284,10 +288,11 @@ def main():
     enable_ai = False
     try:
         import sys
+
         # Try to get input with a timeout by checking stdin
-        if sys.stdin.isatty() and hasattr(sys.stdin, 'read'):
+        if sys.stdin.isatty() and hasattr(sys.stdin, "read"):
             user_input = input("Enable AI features? (y/n): ").strip().lower()
-            enable_ai = user_input == 'y'
+            enable_ai = user_input == "y"
     except (EOFError, OSError):
         # Not interactive or stdin not available
         print("Running in non-interactive mode - skipping AI features.")

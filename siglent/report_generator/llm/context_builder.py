@@ -252,11 +252,11 @@ class ContextBuilder:
         prompt += context
 
         # Debug: Print full prompt
-        print("\n" + "="*80)
+        print("\n" + "=" * 80)
         print("FULL PROMPT BEING SENT TO LLM:")
-        print("="*80)
+        print("=" * 80)
         print(prompt[:1000] + "..." if len(prompt) > 1000 else prompt)
-        print("="*80 + "\n")
+        print("=" * 80 + "\n")
 
         return prompt
 

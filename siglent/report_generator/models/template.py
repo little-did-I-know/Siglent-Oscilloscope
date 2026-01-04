@@ -267,9 +267,7 @@ class ReportTemplate:
         data = data.copy()
 
         # Parse sections
-        data["sections"] = [
-            SectionTemplate.from_dict(s) for s in data.get("sections", [])
-        ]
+        data["sections"] = [SectionTemplate.from_dict(s) for s in data.get("sections", [])]
 
         # Parse branding
         data["branding"] = BrandingTemplate.from_dict(data.get("branding", {}))
@@ -293,18 +291,42 @@ class ReportTemplate:
         # Remove any keys that aren't in the dataclass fields (for forward compatibility)
         # This allows newer versions to add fields without breaking older templates
         valid_fields = {
-            "name", "description", "sections", "criteria_set", "branding",
-            "include_executive_summary", "include_key_findings", "include_recommendations",
-            "include_waveform_plots", "include_fft_analysis",
-            "llm_provider", "llm_endpoint", "llm_model",
-            "auto_generate_summary", "auto_generate_findings", "auto_generate_recommendations",
-            "page_size", "plot_width_inches", "plot_height_inches", "plot_dpi",
+            "name",
+            "description",
+            "sections",
+            "criteria_set",
+            "branding",
+            "include_executive_summary",
+            "include_key_findings",
+            "include_recommendations",
+            "include_waveform_plots",
+            "include_fft_analysis",
+            "llm_provider",
+            "llm_endpoint",
+            "llm_model",
+            "auto_generate_summary",
+            "auto_generate_findings",
+            "auto_generate_recommendations",
+            "page_size",
+            "plot_width_inches",
+            "plot_height_inches",
+            "plot_dpi",
             "plot_style",
-            "default_equipment_model", "default_test_procedure", "default_test_type",
-            "default_company_name", "default_technician", "default_temperature",
-            "default_humidity", "default_location",
-            "enable_ai_summary", "enable_ai_insights", "enable_ai_interpretation",
-            "created_date", "modified_date", "author", "version"
+            "default_equipment_model",
+            "default_test_procedure",
+            "default_test_type",
+            "default_company_name",
+            "default_technician",
+            "default_temperature",
+            "default_humidity",
+            "default_location",
+            "enable_ai_summary",
+            "enable_ai_insights",
+            "enable_ai_interpretation",
+            "created_date",
+            "modified_date",
+            "author",
+            "version",
         }
         data = {k: v for k, v in data.items() if k in valid_fields}
 
@@ -398,11 +420,11 @@ class ReportTemplate:
             Path to templates directory
         """
         if platform.system() == "Windows":
-            base = Path(os.environ.get('APPDATA', Path.home()))
+            base = Path(os.environ.get("APPDATA", Path.home()))
         elif platform.system() == "Darwin":  # macOS
             base = Path.home() / "Library" / "Application Support"
         else:  # Linux and others
-            base = Path(os.environ.get('XDG_CONFIG_HOME', Path.home() / '.config'))
+            base = Path(os.environ.get("XDG_CONFIG_HOME", Path.home() / ".config"))
 
         templates_dir = base / "SiglentReportGenerator" / "templates"
         templates_dir.mkdir(parents=True, exist_ok=True)
@@ -412,7 +434,7 @@ class ReportTemplate:
         """Save template to user's template library."""
         templates_dir = self.get_templates_directory()
         # Sanitize filename - replace spaces and special chars
-        safe_name = self.name.replace(' ', '_').replace('/', '_').replace('\\', '_')
+        safe_name = self.name.replace(" ", "_").replace("/", "_").replace("\\", "_")
         filename = f"{safe_name}.json"
         self.save(templates_dir / filename)
 
@@ -429,8 +451,8 @@ class ReportTemplate:
         """
         templates_dir = cls.get_templates_directory()
         # Handle both "Template Name" and "Template_Name.json"
-        safe_name = name.replace(' ', '_').replace('/', '_').replace('\\', '_')
-        if not safe_name.endswith('.json'):
+        safe_name = name.replace(" ", "_").replace("/", "_").replace("\\", "_")
+        if not safe_name.endswith(".json"):
             safe_name = f"{safe_name}.json"
         return cls.load(templates_dir / safe_name)
 
@@ -446,7 +468,7 @@ class ReportTemplate:
         if not templates_dir.exists():
             return []
         # Return names with underscores replaced by spaces
-        return [f.stem.replace('_', ' ') for f in templates_dir.glob("*.json")]
+        return [f.stem.replace("_", " ") for f in templates_dir.glob("*.json")]
 
     @classmethod
     def delete_from_library(cls, name: str) -> bool:
@@ -460,8 +482,8 @@ class ReportTemplate:
             True if deleted, False if not found
         """
         templates_dir = cls.get_templates_directory()
-        safe_name = name.replace(' ', '_').replace('/', '_').replace('\\', '_')
-        if not safe_name.endswith('.json'):
+        safe_name = name.replace(" ", "_").replace("/", "_").replace("\\", "_")
+        if not safe_name.endswith(".json"):
             safe_name = f"{safe_name}.json"
 
         filepath = templates_dir / safe_name

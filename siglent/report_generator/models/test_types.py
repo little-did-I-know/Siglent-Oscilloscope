@@ -78,7 +78,6 @@ TEST_TYPES = {
             "Distortion or ringing",
         ],
     ),
-
     "probe_calibration": TestTypeDefinition(
         id="probe_calibration",
         name="Probe Compensation/Calibration",
@@ -102,7 +101,6 @@ TEST_TYPES = {
             "Ringing indicates improper probe adjustment",
         ],
     ),
-
     "signal_integrity": TestTypeDefinition(
         id="signal_integrity",
         name="Signal Integrity Test",
@@ -128,7 +126,6 @@ TEST_TYPES = {
             "Ringing from insufficient damping",
         ],
     ),
-
     "power_supply_ripple": TestTypeDefinition(
         id="power_supply_ripple",
         name="Power Supply Ripple/Noise",
@@ -152,7 +149,6 @@ TEST_TYPES = {
             "Low-frequency ripple from insufficient bulk capacitance",
         ],
     ),
-
     "clock_verification": TestTypeDefinition(
         id="clock_verification",
         name="Clock Signal Verification",
@@ -179,7 +175,6 @@ TEST_TYPES = {
             "Slow edges from excessive loading",
         ],
     ),
-
     "pulse_measurement": TestTypeDefinition(
         id="pulse_measurement",
         name="Pulse Width/Timing Measurement",
@@ -203,7 +198,6 @@ TEST_TYPES = {
             "Baseline shift from DC coupling issues",
         ],
     ),
-
     "rise_fall_time": TestTypeDefinition(
         id="rise_fall_time",
         name="Rise/Fall Time Analysis",
@@ -229,7 +223,6 @@ TEST_TYPES = {
             "Asymmetric rise/fall from driver circuit characteristics",
         ],
     ),
-
     "communication_bus": TestTypeDefinition(
         id="communication_bus",
         name="Communication Bus Analysis (I2C/SPI/UART)",

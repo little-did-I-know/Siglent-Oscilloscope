@@ -225,11 +225,9 @@ class ReportAnalyzer:
                 continue
 
             # Remove list numbering (e.g., "1.", "1)", "- ", etc.)
-            for prefix in ["1.", "2.", "3.", "4.", "5.", "6.", "7.", "8.", "9.",
-                          "1)", "2)", "3)", "4)", "5)", "6)", "7)", "8)", "9)",
-                          "- ", "* ", "• "]:
+            for prefix in ["1.", "2.", "3.", "4.", "5.", "6.", "7.", "8.", "9.", "1)", "2)", "3)", "4)", "5)", "6)", "7)", "8)", "9)", "- ", "* ", "• "]:
                 if line.startswith(prefix):
-                    line = line[len(prefix):].strip()
+                    line = line[len(prefix) :].strip()
                     break
 
             if line:
@@ -277,11 +275,9 @@ class ReportAnalyzer:
                 continue
 
             # Remove list numbering (e.g., "1.", "1)", "- ", etc.)
-            for prefix in ["1.", "2.", "3.", "4.", "5.", "6.", "7.", "8.", "9.",
-                          "1)", "2)", "3)", "4)", "5)", "6)", "7)", "8)", "9)",
-                          "- ", "* ", "• "]:
+            for prefix in ["1.", "2.", "3.", "4.", "5.", "6.", "7.", "8.", "9.", "1)", "2)", "3)", "4)", "5)", "6)", "7)", "8)", "9)", "- ", "* ", "• "]:
                 if line.startswith(prefix):
-                    line = line[len(prefix):].strip()
+                    line = line[len(prefix) :].strip()
                     break
 
             if line:

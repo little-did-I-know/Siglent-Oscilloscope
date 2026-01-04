@@ -92,10 +92,7 @@ class MetadataPanel(QWidget):
 
         # Test type selector
         self.test_type_combo = QComboBox()
-        self.test_type_combo.setToolTip(
-            "Select the type of test being performed.\n"
-            "This helps the AI understand the expected signal characteristics."
-        )
+        self.test_type_combo.setToolTip("Select the type of test being performed.\n" "This helps the AI understand the expected signal characteristics.")
         # Populate with test types
         for test_id, test_name in get_test_type_names():
             self.test_type_combo.addItem(test_name, test_id)

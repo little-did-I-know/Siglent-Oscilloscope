@@ -37,11 +37,11 @@ class AppSettings:
             Path to settings file
         """
         if platform.system() == "Windows":
-            base = Path(os.environ.get('APPDATA', Path.home()))
+            base = Path(os.environ.get("APPDATA", Path.home()))
         elif platform.system() == "Darwin":  # macOS
             base = Path.home() / "Library" / "Application Support"
         else:  # Linux and others
-            base = Path(os.environ.get('XDG_CONFIG_HOME', Path.home() / '.config'))
+            base = Path(os.environ.get("XDG_CONFIG_HOME", Path.home() / ".config"))
 
         settings_dir = base / "SiglentReportGenerator"
         settings_dir.mkdir(parents=True, exist_ok=True)
@@ -56,7 +56,7 @@ class AppSettings:
         }
 
         settings_file = self.get_settings_file()
-        with open(settings_file, 'w', encoding='utf-8') as f:
+        with open(settings_file, "w", encoding="utf-8") as f:
             json.dump(data, f, indent=2)
 
     @classmethod
@@ -72,7 +72,7 @@ class AppSettings:
             return cls()
 
         try:
-            with open(settings_file, 'r', encoding='utf-8') as f:
+            with open(settings_file, "r", encoding="utf-8") as f:
                 data = json.load(f)
 
             return cls(

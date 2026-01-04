@@ -134,10 +134,7 @@ class ReportOptionsDialog(QDialog):
         layout.addWidget(sections_group)
 
         # Note about AI features
-        ai_note = QLabel(
-            "Note: AI features (Executive Summary, Key Findings, Recommendations) "
-            "can be generated in the AI Analysis panel before creating the report."
-        )
+        ai_note = QLabel("Note: AI features (Executive Summary, Key Findings, Recommendations) " "can be generated in the AI Analysis panel before creating the report.")
         ai_note.setWordWrap(True)
         ai_note.setStyleSheet("color: #666; font-style: italic; margin: 10px;")
         layout.addWidget(ai_note)
@@ -195,14 +192,7 @@ class ReportOptionsDialog(QDialog):
         # Matplotlib style preset
         preset_layout = QFormLayout()
         self.matplotlib_style_combo = QComboBox()
-        self.matplotlib_style_combo.addItems([
-            "default",
-            "seaborn-v0_8",
-            "ggplot",
-            "bmh",
-            "fivethirtyeight",
-            "grayscale"
-        ])
+        self.matplotlib_style_combo.addItems(["default", "seaborn-v0_8", "ggplot", "bmh", "fivethirtyeight", "grayscale"])
         preset_layout.addRow("Style Preset:", self.matplotlib_style_combo)
         layout.addLayout(preset_layout)
 
@@ -286,9 +276,7 @@ class ReportOptionsDialog(QDialog):
         # Master statistics enable checkbox
         self.include_statistics_table_cb = QCheckBox("Include Statistics Table")
         self.include_statistics_table_cb.setChecked(True)
-        self.include_statistics_table_cb.setToolTip(
-            "Add a table with calculated signal statistics below each waveform plot"
-        )
+        self.include_statistics_table_cb.setToolTip("Add a table with calculated signal statistics below each waveform plot")
         font = self.include_statistics_table_cb.font()
         font.setBold(True)
         self.include_statistics_table_cb.setFont(font)
@@ -303,52 +291,38 @@ class ReportOptionsDialog(QDialog):
         # Frequency/Period stats
         self.include_frequency_stats_cb = QCheckBox("Frequency / Period")
         self.include_frequency_stats_cb.setChecked(True)
-        self.include_frequency_stats_cb.setToolTip(
-            "Fundamental frequency (Hz) and period (s/ms/µs)"
-        )
+        self.include_frequency_stats_cb.setToolTip("Fundamental frequency (Hz) and period (s/ms/µs)")
         stats_layout.addWidget(self.include_frequency_stats_cb)
 
         # Amplitude stats
         self.include_amplitude_stats_cb = QCheckBox("Amplitude Measurements")
         self.include_amplitude_stats_cb.setChecked(True)
-        self.include_amplitude_stats_cb.setToolTip(
-            "Vpp, Vmax, Vmin, Vamp, Vrms, Vmean, DC offset"
-        )
+        self.include_amplitude_stats_cb.setToolTip("Vpp, Vmax, Vmin, Vamp, Vrms, Vmean, DC offset")
         stats_layout.addWidget(self.include_amplitude_stats_cb)
 
         # Timing stats
         self.include_timing_stats_cb = QCheckBox("Timing Measurements")
         self.include_timing_stats_cb.setChecked(True)
-        self.include_timing_stats_cb.setToolTip(
-            "Rise time, fall time, pulse width, duty cycle"
-        )
+        self.include_timing_stats_cb.setToolTip("Rise time, fall time, pulse width, duty cycle")
         stats_layout.addWidget(self.include_timing_stats_cb)
 
         # Quality stats
         self.include_quality_stats_cb = QCheckBox("Signal Quality Metrics")
         self.include_quality_stats_cb.setChecked(True)
-        self.include_quality_stats_cb.setToolTip(
-            "SNR, noise level, overshoot, undershoot, jitter"
-        )
+        self.include_quality_stats_cb.setToolTip("SNR, noise level, overshoot, undershoot, jitter")
         stats_layout.addWidget(self.include_quality_stats_cb)
 
         # Plateau stability
         self.include_plateau_stability_cb = QCheckBox("Plateau Stability Analysis (Advanced)")
         self.include_plateau_stability_cb.setChecked(False)
-        self.include_plateau_stability_cb.setToolTip(
-            "Measures noise on high and low plateaus for square waves, pulses, and periodic signals. "
-            "Shows how stable/clean the plateau levels are."
-        )
+        self.include_plateau_stability_cb.setToolTip("Measures noise on high and low plateaus for square waves, pulses, and periodic signals. " "Shows how stable/clean the plateau levels are.")
         stats_layout.addWidget(self.include_plateau_stability_cb)
 
         stats_group.setLayout(stats_layout)
         layout.addWidget(stats_group)
 
         # Info label
-        info_label = QLabel(
-            "Note: Statistics are automatically calculated from waveform data. "
-            "Complex signals may have inaccurate measurements for timing/quality metrics."
-        )
+        info_label = QLabel("Note: Statistics are automatically calculated from waveform data. " "Complex signals may have inaccurate measurements for timing/quality metrics.")
         info_label.setWordWrap(True)
         info_label.setStyleSheet("color: #666; font-style: italic; margin: 10px;")
         layout.addWidget(info_label)

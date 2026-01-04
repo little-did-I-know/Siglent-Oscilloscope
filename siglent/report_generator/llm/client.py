@@ -14,6 +14,7 @@ from pathlib import Path
 # Try to import ollama Python client
 try:
     import ollama
+
     OLLAMA_CLIENT_AVAILABLE = True
 except ImportError:
     OLLAMA_CLIENT_AVAILABLE = False
@@ -122,7 +123,7 @@ class LLMClient:
         if self._is_ollama_native and OLLAMA_CLIENT_AVAILABLE:
             try:
                 # Extract host from endpoint (e.g., "http://192.168.1.4:11434/api" -> "http://192.168.1.4:11434")
-                host = config.endpoint.rsplit('/api', 1)[0] if '/api' in config.endpoint else config.endpoint
+                host = config.endpoint.rsplit("/api", 1)[0] if "/api" in config.endpoint else config.endpoint
                 self._ollama_client = ollama.Client(host=host)
                 print(f"Using Ollama Python SDK (host: {host})")
 
@@ -268,15 +269,15 @@ class LLMClient:
             )
 
             # Extract content from response
-            return response['message']['content']
+            return response["message"]["content"]
 
         except ollama.ResponseError as e:
             print(f"Ollama API error: {e}")
             print(f"Model: {self.config.model}")
             if "do load request" in str(e):
-                print("\n" + "="*60)
+                print("\n" + "=" * 60)
                 print("ERROR: Ollama server cannot load the model")
-                print("="*60)
+                print("=" * 60)
                 print("This is an Ollama server issue, not the application.")
                 print("\nPossible causes:")
                 print("  1. Not enough VRAM/RAM for the model")
@@ -284,7 +285,7 @@ class LLMClient:
                 print("  3. Model files are corrupted")
                 print("\nTry on your Ollama server:")
                 print(f"  ollama run {self.config.model} 'test'")
-                print("="*60 + "\n")
+                print("=" * 60 + "\n")
             return None
         except Exception as e:
             print(f"Unexpected error with Ollama client: {type(e).__name__}: {e}")
@@ -305,7 +306,7 @@ class LLMClient:
             "stream": False,
             "options": {
                 "temperature": temperature if temperature is not None else self.config.temperature,
-            }
+            },
         }
 
         # Ollama native API doesn't use max_tokens in the same way

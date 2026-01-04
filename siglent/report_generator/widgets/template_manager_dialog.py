@@ -196,7 +196,7 @@ class TemplateManagerDialog(QDialog):
             details.append(f"")
             details.append(f"<b>Format:</b>")
             details.append(f"  • Page Size: {template.page_size.upper()}")
-            details.append(f"  • Plot Size: {template.plot_width_inches}\" × {template.plot_height_inches}\"")
+            details.append(f'  • Plot Size: {template.plot_width_inches}" × {template.plot_height_inches}"')
             details.append(f"  • DPI: {template.plot_dpi}")
 
             if template.llm_provider:
@@ -240,12 +240,7 @@ class TemplateManagerDialog(QDialog):
             return
 
         # Get new name
-        new_name, ok = QInputDialog.getText(
-            self,
-            "Duplicate Template",
-            "Enter name for duplicated template:",
-            text=f"{self.selected_template.name} (Copy)"
-        )
+        new_name, ok = QInputDialog.getText(self, "Duplicate Template", "Enter name for duplicated template:", text=f"{self.selected_template.name} (Copy)")
 
         if not ok or not new_name.strip():
             return
@@ -309,10 +304,9 @@ class TemplateManagerDialog(QDialog):
         reply = QMessageBox.question(
             self,
             "Confirm Deletion",
-            f"Are you sure you want to delete template '{self.selected_template.name}'?\n"
-            "This action cannot be undone.",
+            f"Are you sure you want to delete template '{self.selected_template.name}'?\n" "This action cannot be undone.",
             QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
-            QMessageBox.StandardButton.No
+            QMessageBox.StandardButton.No,
         )
 
         if reply != QMessageBox.StandardButton.Yes:
@@ -345,12 +339,7 @@ class TemplateManagerDialog(QDialog):
 
     def _import_template(self):
         """Import template from file."""
-        file_path, _ = QFileDialog.getOpenFileName(
-            self,
-            "Import Template",
-            "",
-            "JSON Files (*.json);;All Files (*)"
-        )
+        file_path, _ = QFileDialog.getOpenFileName(self, "Import Template", "", "JSON Files (*.json);;All Files (*)")
 
         if not file_path:
             return
@@ -382,12 +371,7 @@ class TemplateManagerDialog(QDialog):
         if not self.selected_template:
             return
 
-        file_path, _ = QFileDialog.getSaveFileName(
-            self,
-            "Export Template",
-            f"{self.selected_template.name}.json",
-            "JSON Files (*.json);;All Files (*)"
-        )
+        file_path, _ = QFileDialog.getSaveFileName(self, "Export Template", f"{self.selected_template.name}.json", "JSON Files (*.json);;All Files (*)")
 
         if not file_path:
             return

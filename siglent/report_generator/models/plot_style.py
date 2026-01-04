@@ -49,11 +49,11 @@ class PlotStyle:
         ax.set_facecolor(self.background_color)
 
         # Apply font sizes
-        if hasattr(ax, 'title'):
+        if hasattr(ax, "title"):
             ax.title.set_fontsize(self.title_fontsize)
-        if hasattr(ax, 'xaxis'):
+        if hasattr(ax, "xaxis"):
             ax.xaxis.label.set_fontsize(self.label_fontsize)
-        if hasattr(ax, 'yaxis'):
+        if hasattr(ax, "yaxis"):
             ax.yaxis.label.set_fontsize(self.label_fontsize)
 
         # Apply tick font size

@@ -303,7 +303,7 @@ class ChatSidebar(QWidget):
     def _add_ai_message(self, message: str):
         """Add AI message to chat."""
         # Replace newlines with <br> for proper HTML display
-        formatted_message = message.replace('\n', '<br>')
+        formatted_message = message.replace("\n", "<br>")
         self.chat_display.append(f'<p style="color: #2ca02c;"><b>AI:</b> {formatted_message}</p>')
         self._scroll_to_bottom()
 

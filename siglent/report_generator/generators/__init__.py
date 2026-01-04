@@ -6,6 +6,7 @@ from siglent.report_generator.generators.markdown_generator import MarkdownRepor
 # PDF generator imported conditionally since reportlab might not be installed
 try:
     from siglent.report_generator.generators.pdf_generator import PDFReportGenerator
+
     __all__ = ["BaseReportGenerator", "MarkdownReportGenerator", "PDFReportGenerator"]
 except ImportError:
     __all__ = ["BaseReportGenerator", "MarkdownReportGenerator"]

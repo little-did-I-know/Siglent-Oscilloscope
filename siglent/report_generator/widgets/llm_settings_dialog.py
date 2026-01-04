@@ -126,10 +126,7 @@ class LLMSettingsDialog(QDialog):
         widget = QWidget()
         layout = QVBoxLayout()
 
-        info_label = QLabel(
-            "Ollama runs locally on your machine providing privacy and no API costs.\n"
-            "Download from: https://ollama.com"
-        )
+        info_label = QLabel("Ollama runs locally on your machine providing privacy and no API costs.\n" "Download from: https://ollama.com")
         info_label.setWordWrap(True)
         layout.addWidget(info_label)
 
@@ -175,10 +172,7 @@ class LLMSettingsDialog(QDialog):
         widget = QWidget()
         layout = QVBoxLayout()
 
-        info_label = QLabel(
-            "LM Studio provides a local LLM server with a user-friendly interface.\n"
-            "Download from: https://lmstudio.ai"
-        )
+        info_label = QLabel("LM Studio provides a local LLM server with a user-friendly interface.\n" "Download from: https://lmstudio.ai")
         info_label.setWordWrap(True)
         layout.addWidget(info_label)
 
@@ -224,10 +218,7 @@ class LLMSettingsDialog(QDialog):
         widget = QWidget()
         layout = QVBoxLayout()
 
-        info_label = QLabel(
-            "OpenAI provides cloud-based GPT models (requires API key and internet).\n"
-            "Get API key from: https://platform.openai.com/api-keys"
-        )
+        info_label = QLabel("OpenAI provides cloud-based GPT models (requires API key and internet).\n" "Get API key from: https://platform.openai.com/api-keys")
         info_label.setWordWrap(True)
         layout.addWidget(info_label)
 
@@ -258,9 +249,7 @@ class LLMSettingsDialog(QDialog):
         widget = QWidget()
         layout = QVBoxLayout()
 
-        info_label = QLabel(
-            "Configure a custom OpenAI-compatible endpoint."
-        )
+        info_label = QLabel("Configure a custom OpenAI-compatible endpoint.")
         info_label.setWordWrap(True)
         layout.addWidget(info_label)
 
@@ -309,10 +298,10 @@ class LLMSettingsDialog(QDialog):
             return True, ""
 
         # Validate IP address
-        ip_pattern = r'^(\d{1,3}\.){3}\d{1,3}$'
+        ip_pattern = r"^(\d{1,3}\.){3}\d{1,3}$"
         if re.match(ip_pattern, hostname):
             # Check range
-            parts = hostname.split('.')
+            parts = hostname.split(".")
             try:
                 if all(0 <= int(p) <= 255 for p in parts):
                     return True, ""
@@ -322,7 +311,7 @@ class LLMSettingsDialog(QDialog):
                 return False, "Invalid IP address format"
 
         # Accept valid hostnames (letters, numbers, dots, hyphens)
-        hostname_pattern = r'^[a-zA-Z0-9][a-zA-Z0-9.-]*[a-zA-Z0-9]$|^[a-zA-Z0-9]$'
+        hostname_pattern = r"^[a-zA-Z0-9][a-zA-Z0-9.-]*[a-zA-Z0-9]$|^[a-zA-Z0-9]$"
         if re.match(hostname_pattern, hostname):
             return True, ""
 
@@ -441,12 +430,7 @@ class LLMSettingsDialog(QDialog):
 
         try:
             # Create a temporary config for Ollama
-            temp_config = LLMConfig.create_ollama_config(
-                model="dummy",  # Doesn't matter for listing
-                hostname=hostname,
-                port=port,
-                use_native_api=True
-            )
+            temp_config = LLMConfig.create_ollama_config(model="dummy", hostname=hostname, port=port, use_native_api=True)  # Doesn't matter for listing
 
             # Create client
             client = LLMClient(temp_config)
@@ -481,17 +465,14 @@ class LLMSettingsDialog(QDialog):
             QMessageBox.information(
                 self,
                 "Models Detected",
-                f"Found {len(models)} model(s) on Ollama server:\n\n" +
-                "\n".join(f"  - {model}" for model in models[:10]) +
-                (f"\n  ... and {len(models) - 10} more" if len(models) > 10 else ""),
+                f"Found {len(models)} model(s) on Ollama server:\n\n" + "\n".join(f"  - {model}" for model in models[:10]) + (f"\n  ... and {len(models) - 10} more" if len(models) > 10 else ""),
             )
 
         except Exception as e:
             QMessageBox.critical(
                 self,
                 "Detection Failed",
-                f"Failed to detect models from Ollama server:\n{str(e)}\n\n"
-                "Make sure Ollama is running and accessible.",
+                f"Failed to detect models from Ollama server:\n{str(e)}\n\n" "Make sure Ollama is running and accessible.",
             )
 
     def _detect_lm_studio_models(self):
@@ -511,11 +492,7 @@ class LLMSettingsDialog(QDialog):
 
         try:
             # Create a temporary config for LM Studio
-            temp_config = LLMConfig.create_lm_studio_config(
-                model="dummy",  # Doesn't matter for listing
-                hostname=hostname,
-                port=port
-            )
+            temp_config = LLMConfig.create_lm_studio_config(model="dummy", hostname=hostname, port=port)  # Doesn't matter for listing
 
             # Create client
             client = LLMClient(temp_config)
@@ -551,17 +528,14 @@ class LLMSettingsDialog(QDialog):
             QMessageBox.information(
                 self,
                 "Models Detected",
-                f"Found {len(models)} model(s) on LM Studio server:\n\n" +
-                "\n".join(f"  - {model}" for model in models[:10]) +
-                (f"\n  ... and {len(models) - 10} more" if len(models) > 10 else ""),
+                f"Found {len(models)} model(s) on LM Studio server:\n\n" + "\n".join(f"  - {model}" for model in models[:10]) + (f"\n  ... and {len(models) - 10} more" if len(models) > 10 else ""),
             )
 
         except Exception as e:
             QMessageBox.critical(
                 self,
                 "Detection Failed",
-                f"Failed to detect models from LM Studio server:\n{str(e)}\n\n"
-                "Make sure LM Studio is running with the local server started.",
+                f"Failed to detect models from LM Studio server:\n{str(e)}\n\n" "Make sure LM Studio is running with the local server started.",
             )
 
     def _test_connection(self):
@@ -598,8 +572,7 @@ class LLMSettingsDialog(QDialog):
                 QMessageBox.warning(
                     self,
                     "Connection Failed",
-                    "Failed to connect to LLM service.\n"
-                    "Please check your settings and ensure the service is running.",
+                    "Failed to connect to LLM service.\n" "Please check your settings and ensure the service is running.",
                 )
 
         except Exception as e:

@@ -50,10 +50,7 @@ class WaveformLoader:
         elif suffix in [".h5", ".hdf5"]:
             return WaveformLoader._load_hdf5(filepath)
         else:
-            raise ValueError(
-                f"Unsupported file format: {suffix}. "
-                "Supported formats: .npz, .csv, .mat, .h5, .hdf5"
-            )
+            raise ValueError(f"Unsupported file format: {suffix}. " "Supported formats: .npz, .csv, .mat, .h5, .hdf5")
 
     @staticmethod
     def _load_npz(filepath: Path) -> List[WaveformData]:
@@ -179,10 +176,7 @@ class WaveformLoader:
         try:
             from scipy.io import loadmat
         except ImportError:
-            raise ImportError(
-                "scipy is required to load MAT files. "
-                "Install with: pip install scipy"
-            )
+            raise ImportError("scipy is required to load MAT files. " "Install with: pip install scipy")
 
         data = loadmat(filepath)
         waveforms = []
@@ -206,10 +200,7 @@ class WaveformLoader:
 
         if not voltage_keys:
             # Use all non-time, non-metadata keys as voltage
-            voltage_keys = [
-                k for k in data.keys()
-                if not k.startswith("__") and k != time_key
-            ]
+            voltage_keys = [k for k in data.keys() if not k.startswith("__") and k != time_key]
 
         if time_key is None or not voltage_keys:
             raise ValueError("Could not identify time and voltage data in MAT file")
@@ -244,10 +235,7 @@ class WaveformLoader:
         try:
             import h5py
         except ImportError:
-            raise ImportError(
-                "h5py is required to load HDF5 files. "
-                "Install with: pip install h5py"
-            )
+            raise ImportError("h5py is required to load HDF5 files. " "Install with: pip install h5py")
 
         waveforms = []
 

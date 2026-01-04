@@ -47,6 +47,7 @@ from siglent.report_generator.generators.markdown_generator import MarkdownRepor
 
 try:
     from siglent.report_generator.generators.pdf_generator import PDFReportGenerator
+
     PDF_AVAILABLE = True
 except ImportError:
     PDF_AVAILABLE = False
@@ -82,9 +83,7 @@ class MainWindow(QMainWindow):
             self.current_options = self.app_settings.last_options
         if self.app_settings.last_used_template:
             try:
-                self.current_template = ReportTemplate.load_from_library(
-                    self.app_settings.last_used_template
-                )
+                self.current_template = ReportTemplate.load_from_library(self.app_settings.last_used_template)
             except Exception:
                 # Template may have been deleted, ignore
                 pass
@@ -294,9 +293,7 @@ class MainWindow(QMainWindow):
 
                 # Add to list
                 for waveform in waveforms:
-                    self.waveform_list.addItem(
-                        f"{waveform.label} - {Path(file_path).name}"
-                    )
+                    self.waveform_list.addItem(f"{waveform.label} - {Path(file_path).name}")
 
             self.statusBar().showMessage(f"Imported {len(file_paths)} waveform file(s)")
 
@@ -368,8 +365,9 @@ class MainWindow(QMainWindow):
             plot_style = dialog.get_plot_style()
 
             # Generate PDF to temporary location
-            temp_pdf_fd, temp_pdf_path = tempfile.mkstemp(suffix='.pdf')
+            temp_pdf_fd, temp_pdf_path = tempfile.mkstemp(suffix=".pdf")
             import os
+
             os.close(temp_pdf_fd)  # Close the file descriptor
             temp_pdf_path = Path(temp_pdf_path)
 
@@ -387,6 +385,7 @@ class MainWindow(QMainWindow):
 
                 # Generate PDF to temp location
                 from reportlab.lib.pagesizes import letter, A4
+
                 page_size = A4 if self.current_options.page_size == "a4" else letter
 
                 print(f"\n=== PDF Generation Debug ===")
@@ -438,11 +437,7 @@ class MainWindow(QMainWindow):
                 # Verify PDF was actually created and has content
                 if not temp_pdf_path.exists():
                     print(f"ERROR: PDF file does not exist after generation!")
-                    QMessageBox.critical(
-                        self,
-                        "Generation Failed",
-                        f"PDF file was not created.\n\nExpected location: {temp_pdf_path}"
-                    )
+                    QMessageBox.critical(self, "Generation Failed", f"PDF file was not created.\n\nExpected location: {temp_pdf_path}")
                     self._safe_delete_temp_file(temp_pdf_path)
                     return
 
@@ -450,17 +445,13 @@ class MainWindow(QMainWindow):
                 print(f"PDF file size: {file_size} bytes")
 
                 if file_size == 0:
-                    QMessageBox.critical(
-                        self,
-                        "Generation Failed",
-                        f"PDF file is empty (0 bytes).\n\nCheck that waveforms are loaded and report data is valid."
-                    )
+                    QMessageBox.critical(self, "Generation Failed", f"PDF file is empty (0 bytes).\n\nCheck that waveforms are loaded and report data is valid.")
                     self._safe_delete_temp_file(temp_pdf_path)
                     return
 
                 # Check PDF header
                 try:
-                    with open(temp_pdf_path, 'rb') as f:
+                    with open(temp_pdf_path, "rb") as f:
                         header = f.read(10)
                         print(f"PDF header: {header}")
                 except Exception as e:
@@ -472,12 +463,8 @@ class MainWindow(QMainWindow):
                 preview_dialog = PDFPreviewDialog(temp_pdf_path, self)
 
                 # Connect signals
-                preview_dialog.save_pdf_requested.connect(
-                    lambda path: self._save_final_pdf(temp_pdf_path, path)
-                )
-                preview_dialog.save_markdown_requested.connect(
-                    lambda path: self._save_as_markdown(report, path, plot_style)
-                )
+                preview_dialog.save_pdf_requested.connect(lambda path: self._save_final_pdf(temp_pdf_path, path))
+                preview_dialog.save_markdown_requested.connect(lambda path: self._save_as_markdown(report, path, plot_style))
 
                 result = preview_dialog.exec()
 
@@ -496,6 +483,7 @@ class MainWindow(QMainWindow):
             except Exception as e:
                 self._safe_delete_temp_file(temp_pdf_path)
                 import traceback
+
                 error_details = traceback.format_exc()
                 print(f"PDF Generation Error:\n{error_details}")
                 QMessageBox.critical(
@@ -552,11 +540,7 @@ class MainWindow(QMainWindow):
                 )
                 self.statusBar().showMessage(f"Markdown report saved: {target_path}")
             else:
-                QMessageBox.warning(
-                    self,
-                    "Generation Failed",
-                    "Failed to generate Markdown report."
-                )
+                QMessageBox.warning(self, "Generation Failed", "Failed to generate Markdown report.")
 
         except Exception as e:
             QMessageBox.critical(
@@ -629,12 +613,7 @@ class MainWindow(QMainWindow):
             QTimer.singleShot(100, self.ai_analysis_panel._continue_generation)
 
         except Exception as e:
-            QMessageBox.warning(
-                self,
-                "Cannot Build Report",
-                f"Failed to build report from current data:\n{str(e)}\n\n"
-                "Please ensure you have imported waveforms and filled in metadata."
-            )
+            QMessageBox.warning(self, "Cannot Build Report", f"Failed to build report from current data:\n{str(e)}\n\n" "Please ensure you have imported waveforms and filled in metadata.")
 
     def _build_report(self) -> TestReport:
         """Build a test report from current data."""

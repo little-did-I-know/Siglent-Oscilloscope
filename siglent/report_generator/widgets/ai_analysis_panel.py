@@ -31,15 +31,18 @@ from siglent.report_generator.llm.analyzer import ReportAnalyzer
 # System monitoring
 try:
     import psutil
+
     PSUTIL_AVAILABLE = True
 except ImportError:
     PSUTIL_AVAILABLE = False
 
 try:
     import warnings
+
     # Suppress pynvml deprecation warning (nvidia-ml-py is installed)
-    warnings.filterwarnings('ignore', category=FutureWarning, module='pynvml')
+    warnings.filterwarnings("ignore", category=FutureWarning, module="pynvml")
     import pynvml
+
     pynvml.nvmlInit()
     GPU_AVAILABLE = True
 except Exception:
@@ -114,11 +117,13 @@ class AIAnalysisWorker(QThread):
         except Exception as e:
             self.error.emit(f"AI analysis error: {str(e)}")
             # Still emit finished with empty results to restore UI
-            self.finished.emit({
-                "executive_summary": None,
-                "key_findings": [],
-                "recommendations": [],
-            })
+            self.finished.emit(
+                {
+                    "executive_summary": None,
+                    "key_findings": [],
+                    "recommendations": [],
+                }
+            )
 
 
 class AIAnalysisPanel(QWidget):
@@ -253,25 +258,19 @@ class AIAnalysisPanel(QWidget):
         # Executive Summary tab (with markdown rendering)
         self.summary_preview = QTextBrowser()
         self.summary_preview.setOpenExternalLinks(False)
-        self.summary_preview.setPlaceholderText(
-            "Executive summary will appear here after generation..."
-        )
+        self.summary_preview.setPlaceholderText("Executive summary will appear here after generation...")
         self.preview_tabs.addTab(self.summary_preview, "Summary")
 
         # Key Findings tab (with markdown rendering)
         self.findings_preview = QTextBrowser()
         self.findings_preview.setOpenExternalLinks(False)
-        self.findings_preview.setPlaceholderText(
-            "Key findings will appear here after generation..."
-        )
+        self.findings_preview.setPlaceholderText("Key findings will appear here after generation...")
         self.preview_tabs.addTab(self.findings_preview, "Findings")
 
         # Recommendations tab (with markdown rendering)
         self.recommendations_preview = QTextBrowser()
         self.recommendations_preview.setOpenExternalLinks(False)
-        self.recommendations_preview.setPlaceholderText(
-            "Recommendations will appear here after generation..."
-        )
+        self.recommendations_preview.setPlaceholderText("Recommendations will appear here after generation...")
         self.preview_tabs.addTab(self.recommendations_preview, "Recommendations")
 
         preview_layout.addWidget(self.preview_tabs)
@@ -294,10 +293,7 @@ class AIAnalysisPanel(QWidget):
             return ""
 
         # Convert markdown to HTML
-        html = markdown.markdown(
-            text,
-            extensions=['nl2br', 'tables', 'fenced_code']
-        )
+        html = markdown.markdown(text, extensions=["nl2br", "tables", "fenced_code"])
 
         # Wrap in styled div
         styled_html = f"""
@@ -372,10 +368,7 @@ class AIAnalysisPanel(QWidget):
         """Update generate button enabled state."""
         # Only require AI enabled and LLM configured
         # Report will be built automatically if needed
-        can_generate = (
-            self.enable_ai_checkbox.isChecked()
-            and self.llm_config is not None
-        )
+        can_generate = self.enable_ai_checkbox.isChecked() and self.llm_config is not None
         self.generate_button.setEnabled(can_generate)
 
     def set_report(self, report: TestReport):
@@ -416,10 +409,7 @@ class AIAnalysisPanel(QWidget):
                 # Remove http:// or https://
                 endpoint_display = endpoint_display.split("://", 1)[1]
 
-            status_html = (
-                f'<span style="color: {color}; font-size: 16px;">●</span> '
-                f'<b>{status_text}</b> - {self.llm_config.model} @ {endpoint_display}'
-            )
+            status_html = f'<span style="color: {color}; font-size: 16px;">●</span> ' f"<b>{status_text}</b> - {self.llm_config.model} @ {endpoint_display}"
             self.status_label.setText(status_html)
             self.status_label.setToolTip("Click to change LLM Settings")
 
@@ -461,11 +451,13 @@ class AIAnalysisPanel(QWidget):
     def _continue_generation(self):
         """Continue analysis generation after report is ready."""
         # Check if at least one option is selected
-        if not any([
-            self.summary_checkbox.isChecked(),
-            self.findings_checkbox.isChecked(),
-            self.recommendations_checkbox.isChecked(),
-        ]):
+        if not any(
+            [
+                self.summary_checkbox.isChecked(),
+                self.findings_checkbox.isChecked(),
+                self.recommendations_checkbox.isChecked(),
+            ]
+        ):
             self.status_label.setText("Please select at least one AI feature to generate")
             return
 
@@ -584,8 +576,4 @@ class AIAnalysisPanel(QWidget):
 
     def has_generated_content(self) -> bool:
         """Check if AI content has been generated."""
-        return (
-            self.generated_content.get("executive_summary") is not None
-            or len(self.generated_content.get("key_findings", [])) > 0
-            or len(self.generated_content.get("recommendations", [])) > 0
-        )
+        return self.generated_content.get("executive_summary") is not None or len(self.generated_content.get("key_findings", [])) > 0 or len(self.generated_content.get("recommendations", [])) > 0

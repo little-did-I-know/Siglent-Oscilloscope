@@ -205,12 +205,7 @@ class MarkdownReportGenerator(BaseReportGenerator):
             lines.append("### FFT Analysis")
             lines.append("")
             if self.include_plots:
-                fft_plot_path = self._generate_fft_plot(
-                    section.fft_frequency,
-                    section.fft_magnitude,
-                    base_path,
-                    f"{section.title}_fft"
-                )
+                fft_plot_path = self._generate_fft_plot(section.fft_frequency, section.fft_magnitude, base_path, f"{section.title}_fft")
                 lines.append(f"![FFT Analysis]({fft_plot_path})")
             lines.append("")
 
@@ -264,31 +259,31 @@ class MarkdownReportGenerator(BaseReportGenerator):
             lines.append("|-------------|-------|")
 
             # Amplitude measurements
-            for stat in ['vmax', 'vmin', 'vpp', 'vrms', 'vmean', 'dc_offset']:
+            for stat in ["vmax", "vmin", "vpp", "vrms", "vmean", "dc_offset"]:
                 if stat in waveform.statistics and waveform.statistics[stat] is not None:
                     formatted = waveform.format_statistic(stat)
-                    stat_label = stat.upper() if len(stat) <= 4 else stat.replace('_', ' ').title()
+                    stat_label = stat.upper() if len(stat) <= 4 else stat.replace("_", " ").title()
                     lines.append(f"| {stat_label} | {formatted} |")
 
             # Frequency and timing
-            for stat in ['frequency', 'period', 'rise_time', 'fall_time', 'pulse_width', 'duty_cycle']:
+            for stat in ["frequency", "period", "rise_time", "fall_time", "pulse_width", "duty_cycle"]:
                 if stat in waveform.statistics and waveform.statistics[stat] is not None:
                     formatted = waveform.format_statistic(stat)
-                    stat_label = stat.replace('_', ' ').title()
+                    stat_label = stat.replace("_", " ").title()
                     lines.append(f"| {stat_label} | {formatted} |")
 
             # Quality metrics
-            for stat in ['snr', 'thd', 'noise_level', 'overshoot', 'undershoot', 'jitter']:
+            for stat in ["snr", "thd", "noise_level", "overshoot", "undershoot", "jitter"]:
                 if stat in waveform.statistics and waveform.statistics[stat] is not None:
                     formatted = waveform.format_statistic(stat)
-                    stat_label = stat.upper() if stat in ['snr', 'thd'] else stat.replace('_', ' ').title()
+                    stat_label = stat.upper() if stat in ["snr", "thd"] else stat.replace("_", " ").title()
                     lines.append(f"| {stat_label} | {formatted} |")
 
             # Plateau stability metrics (if calculated)
-            for stat in ['plateau_stability', 'plateau_high_noise', 'plateau_low_noise']:
+            for stat in ["plateau_stability", "plateau_high_noise", "plateau_low_noise"]:
                 if stat in waveform.statistics and waveform.statistics[stat] is not None:
                     formatted = waveform.format_statistic(stat)
-                    stat_label = stat.replace('_', ' ').title()
+                    stat_label = stat.replace("_", " ").title()
                     lines.append(f"| {stat_label} | {formatted} |")
 
         else:
@@ -300,7 +295,164 @@ class MarkdownReportGenerator(BaseReportGenerator):
             lines.append(f"| Min | {v_min:.4f} V |")
             lines.append(f"| Max | {v_max:.4f} V |")
 
+        # Generate region subsections if present
+        if waveform.regions:
+            lines.append("")
+            lines.append("#### Detailed Region Analysis")
+            lines.append("")
+            for i, region in enumerate(waveform.regions, 1):
+                region_lines = self._generate_region_info(waveform, region, base_path, f"{name}_region_{i}", i)
+                lines.append(region_lines)
+                lines.append("")
+
         return "\n".join(lines)
+
+    def _generate_region_info(self, waveform: WaveformData, region, base_path: Path, name: str, index: int) -> str:
+        """
+        Generate Markdown for a single region.
+
+        Args:
+            waveform: Parent waveform
+            region: WaveformRegion to generate
+            base_path: Base path for saving plots
+            name: Unique name for this region's plot file
+            index: Region index number
+
+        Returns:
+            Markdown string for this region
+        """
+        lines = []
+
+        # Region title
+        auto_indicator = " *(Auto-detected)*" if region.auto_detected else ""
+        lines.append(f"##### Region {index}: {region.label}{auto_indicator}")
+        lines.append("")
+
+        if region.description:
+            lines.append(region.description)
+            lines.append("")
+
+        # Generate zoomed plot if requested
+        if self.include_plots:
+            plot_path = self._generate_region_plot(waveform, region, base_path, name)
+            if plot_path:
+                lines.append(f"![{region.label} - Zoomed View]({plot_path})")
+                lines.append("")
+
+        # Region analysis table
+        lines.append("| Analysis | Value |")
+        lines.append("|----------|-------|")
+
+        # Time range
+        duration_ms = (region.end_time - region.start_time) * 1e3
+        lines.append(f"| **Time Range** | {region.start_time*1e3:.3f}ms to {region.end_time*1e3:.3f}ms ({duration_ms:.3f}ms) |")
+
+        # Region type
+        if region.region_type:
+            type_label = region.region_type.replace("_", " ").title()
+            lines.append(f"| **Region Type** | {type_label} |")
+
+        # Analysis metrics
+        if region.slope is not None:
+            lines.append(f"| Slope | {region.slope:.0f} V/s |")
+
+        if region.flatness is not None:
+            lines.append(f"| Flatness (σ) | {region.flatness*1e3:.2f} mV |")
+
+        if region.noise_level is not None:
+            lines.append(f"| Noise Level | {region.noise_level*1e3:.2f} mV RMS |")
+
+        if region.drift is not None:
+            lines.append(f"| Total Drift | {region.drift*1e3:.2f} mV |")
+
+        if region.ideal_value is not None:
+            lines.append(f"| Ideal Value | {region.ideal_value:.4f} V |")
+            if region.deviation_from_ideal is not None:
+                lines.append(f"| Deviation | {region.deviation_from_ideal*1e3:.2f} mV |")
+
+        if region.passes_spec is not None:
+            status = "✅ PASS" if region.passes_spec else "❌ FAIL"
+            lines.append(f"| **Spec Check** | **{status}** |")
+
+        lines.append("")
+
+        # Calibration recommendation
+        if region.calibration_recommendation:
+            lines.append("**Calibration Guidance:**")
+            lines.append("")
+            lines.append(f"> {region.calibration_recommendation}")
+            lines.append("")
+
+        # AI insights
+        if region.ai_insights:
+            lines.append("**AI Analysis:**")
+            lines.append("")
+            lines.append(region.ai_insights)
+            lines.append("")
+
+        return "\n".join(lines)
+
+    def _generate_region_plot(self, waveform: WaveformData, region, base_path: Path, name: str) -> Optional[str]:
+        """
+        Generate and save a zoomed plot for a region.
+
+        Args:
+            waveform: Parent waveform
+            region: WaveformRegion to plot
+            base_path: Base path for saving plots
+            name: Unique filename for this plot
+
+        Returns:
+            Relative path to the plot image, or None if generation fails
+        """
+        try:
+            import matplotlib.pyplot as plt
+
+            plots_path = base_path / self.plots_dir
+            plots_path.mkdir(parents=True, exist_ok=True)
+
+            filename = f"{name.replace(' ', '_')}.png"
+            filepath = plots_path / filename
+
+            # Extract region data
+            t, v = waveform.get_region_data(region)
+
+            if len(t) == 0:
+                return None
+
+            # Apply matplotlib style preset
+            if self.plot_style.matplotlib_style != "default":
+                plt.style.use(self.plot_style.matplotlib_style)
+
+            fig, ax = plt.subplots(figsize=(10, 4))
+
+            # Plot the region
+            ax.plot(t * 1e3, v, color=region.highlight_color or self.plot_style.waveform_color, linewidth=self.plot_style.waveform_linewidth)
+
+            # Add reference line for ideal value
+            if region.ideal_value is not None:
+                ax.axhline(y=region.ideal_value, color="red", linestyle="--", linewidth=1, label=f"Ideal: {region.ideal_value:.4f}V", alpha=0.6)
+                ax.legend()
+
+            # Apply style to axes
+            self.plot_style.apply_to_axes(ax)
+
+            # Set labels with custom font sizes
+            ax.set_xlabel("Time (ms)", fontsize=self.plot_style.label_fontsize)
+            ax.set_ylabel("Voltage (V)", fontsize=self.plot_style.label_fontsize)
+            ax.set_title(f"{region.label} - Zoomed View", fontsize=self.plot_style.title_fontsize)
+
+            ax.grid(True, alpha=0.3)
+
+            plt.tight_layout()
+            plt.savefig(filepath, dpi=150, bbox_inches="tight")
+            plt.close(fig)
+
+            return f"{self.plots_dir}/{filename}"
+
+        except Exception as e:
+            print(f"Error generating region plot: {e}")
+            return None
 
     def _generate_measurements_table(self, measurements: List[MeasurementResult]) -> str:
         """Generate measurements table."""
@@ -350,9 +502,7 @@ class MarkdownReportGenerator(BaseReportGenerator):
         fig, ax = plt.subplots(figsize=(10, 4))
 
         # Use plot style colors and settings
-        ax.plot(waveform.time_data * 1e6, waveform.voltage_data,
-               color=waveform.color or self.plot_style.waveform_color,
-               linewidth=self.plot_style.waveform_linewidth)
+        ax.plot(waveform.time_data * 1e6, waveform.voltage_data, color=waveform.color or self.plot_style.waveform_color, linewidth=self.plot_style.waveform_linewidth)
 
         # Apply style to axes
         self.plot_style.apply_to_axes(ax)
@@ -383,9 +533,7 @@ class MarkdownReportGenerator(BaseReportGenerator):
         fig, ax = plt.subplots(figsize=(10, 4))
 
         # Use plot style colors and settings
-        ax.plot(frequency / 1e6, magnitude,
-               color=self.plot_style.fft_color,
-               linewidth=self.plot_style.waveform_linewidth)
+        ax.plot(frequency / 1e6, magnitude, color=self.plot_style.fft_color, linewidth=self.plot_style.waveform_linewidth)
 
         # Apply style to axes
         self.plot_style.apply_to_axes(ax)

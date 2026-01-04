@@ -50,10 +50,7 @@ class ImageHandler:
             raise FileNotFoundError(f"Image file not found: {filepath}")
 
         if not ImageHandler.is_supported(filepath):
-            raise ValueError(
-                f"Unsupported image format: {filepath.suffix}. "
-                f"Supported formats: {', '.join(ImageHandler.SUPPORTED_FORMATS)}"
-            )
+            raise ValueError(f"Unsupported image format: {filepath.suffix}. " f"Supported formats: {', '.join(ImageHandler.SUPPORTED_FORMATS)}")
 
         return Image.open(filepath)
 
@@ -103,9 +100,7 @@ class ImageHandler:
         return image.resize((new_width, new_height), Image.Resampling.LANCZOS)
 
     @staticmethod
-    def convert_to_format(
-        image: Image.Image, format: str = "PNG"
-    ) -> bytes:
+    def convert_to_format(image: Image.Image, format: str = "PNG") -> bytes:
         """
         Convert image to specified format and return as bytes.
 
@@ -193,8 +188,6 @@ class ImageHandler:
 
         # Resize if too large
         if image.size[0] > max_width or image.size[1] > max_height:
-            image = ImageHandler.resize_image(
-                image, max_width=max_width, max_height=max_height
-            )
+            image = ImageHandler.resize_image(image, max_width=max_width, max_height=max_height)
 
         return image
