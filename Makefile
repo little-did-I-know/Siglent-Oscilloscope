@@ -1,4 +1,4 @@
-.PHONY: help install install-dev install-all test test-cov lint format clean build publish build-exe build-exe-clean build-exe-test install-pyinstaller test-build-system docs docs-generate docs-examples docs-api docs-serve docs-deploy pre-commit
+.PHONY: help install install-dev install-all test test-cov test-fast test-exceptions codecov-install codecov-upload codecov-report lint format clean build publish build-exe build-exe-clean build-exe-test install-pyinstaller test-build-system docs docs-generate docs-examples docs-api docs-serve docs-deploy pre-commit pre-commit-branch pre-pr pre-pr-fast pre-pr-fix
 
 help:  ## Show this help message
 	@echo "Available commands:"
@@ -17,8 +17,9 @@ test:  ## Run tests
 	pytest tests/ -v
 
 test-cov:  ## Run tests with coverage report
-	pytest tests/ --cov=siglent --cov-report=html --cov-report=term-missing -v
+	pytest tests/ --cov=siglent --cov-report=html --cov-report=term-missing --cov-report=xml -v
 	@echo "Coverage report generated in htmlcov/index.html"
+	@echo "Coverage XML generated in coverage.xml"
 
 test-fast:  ## Run tests in parallel (faster)
 	pytest tests/ -n auto -v
@@ -28,6 +29,28 @@ test-exceptions:  ## Test exception handling and imports
 	@python -c "from siglent.exceptions import SiglentConnectionError, SiglentTimeoutError, CommandError, SiglentError; from siglent.exceptions import ConnectionError, TimeoutError; assert ConnectionError is SiglentConnectionError; assert TimeoutError is SiglentTimeoutError; print('✓ New exception names: OK'); print('✓ Backward compatibility aliases: OK'); print('✓ All exception imports: PASSED')"
 	@echo "\nRunning exception-related tests..."
 	@pytest tests/ -k "exception or error or connection or timeout" -v --tb=short || echo "Note: Some tests may not exist yet"
+
+codecov-install:  ## Install codecov CLI
+	@echo "Installing codecov..."
+	pip install codecov pytest-cov
+	@echo "✓ Codecov installed"
+
+codecov-upload:  ## Upload coverage to Codecov (requires coverage.xml)
+	@if [ -f "coverage.xml" ]; then \
+		echo "Uploading coverage to Codecov..."; \
+		codecov -f coverage.xml; \
+		echo "✓ Coverage uploaded to Codecov"; \
+	else \
+		echo "Error: coverage.xml not found. Run 'make test-cov' first."; \
+		exit 1; \
+	fi
+
+codecov-report:  ## Generate coverage report and upload to Codecov
+	@echo "Generating coverage report..."
+	@$(MAKE) test-cov
+	@echo "\nUploading to Codecov..."
+	@$(MAKE) codecov-upload
+	@echo "\n✓ Coverage report generated and uploaded"
 
 lint:  ## Run all linting checks
 	black --check --line-length 200 siglent/ tests/ examples/
@@ -146,12 +169,22 @@ check:  ## Run all checks (lint, test, build)
 	@$(MAKE) build
 	@echo "\n✓ All checks passed!"
 
-pre-pr:  ## Run comprehensive pre-PR validation (recommended before creating PR)
-	@echo "Running pre-PR validation..."
+pre-commit-branch:  ## Run lightweight pre-commit checks for branch commits
+	@echo "Running pre-commit branch validation..."
+	@echo "\n1. Code Formatting Check"
+	@$(MAKE) lint || (echo "\nFormatting issues found. Run 'make format' to fix." && exit 1)
+	@echo "\n2. Quick Tests"
+	@$(MAKE) test-fast || (echo "\nTests failed. Fix failing tests before committing." && exit 1)
+	@echo "\n✓ Pre-commit checks passed! Safe to commit."
+
+pre-pr:  ## Run comprehensive pre-PR validation with codecov (recommended before creating PR)
+	@echo "Running pre-PR validation with coverage..."
 	python scripts/pre_pr_check.py
+	@echo "\nGenerating and uploading coverage report..."
+	@$(MAKE) codecov-report
 	@echo "\n✓ Pre-PR validation passed!"
-	
-pre-pr-fast:  ## Run quick pre-PR validation (skip slow checks)
+
+pre-pr-fast:  ## Run quick pre-PR validation (skip slow checks and codecov)
 	python scripts/pre_pr_check.py --fast
 
 pre-pr-fix:  ## Run pre-PR validation with auto-fix
