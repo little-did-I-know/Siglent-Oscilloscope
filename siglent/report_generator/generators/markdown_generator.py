@@ -6,7 +6,7 @@ converted to other formats, or committed to documentation repositories.
 """
 
 from pathlib import Path
-from typing import List
+from typing import List, Optional
 
 import matplotlib.pyplot as plt
 import numpy as np

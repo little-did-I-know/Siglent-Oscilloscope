@@ -35,7 +35,7 @@ from PIL import Image
 
 from siglent.report_generator.generators.base import BaseReportGenerator
 from siglent.report_generator.models.plot_style import PlotStyle
-from siglent.report_generator.models.report_data import MeasurementResult, TestReport, TestSection, WaveformData
+from siglent.report_generator.models.report_data import MeasurementResult, TestReport, TestSection, WaveformData, WaveformRegion
 from siglent.report_generator.models.report_options import ReportOptions
 from siglent.report_generator.utils.waveform_analyzer import WaveformAnalyzer
 
@@ -721,8 +721,6 @@ class PDFReportGenerator(BaseReportGenerator):
             List of flowable elements for this region
         """
         from reportlab.lib import colors
-
-        from siglent.report_generator.models.report_data import WaveformRegion
 
         story = []
 

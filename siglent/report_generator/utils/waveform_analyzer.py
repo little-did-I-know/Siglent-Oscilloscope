@@ -11,7 +11,7 @@ import numpy as np
 from scipy import signal as scipy_signal
 from scipy.fft import fft, fftfreq
 
-from siglent.report_generator.models.report_data import WaveformData
+from siglent.report_generator.models.report_data import WaveformData, WaveformRegion
 
 
 class SignalType:
