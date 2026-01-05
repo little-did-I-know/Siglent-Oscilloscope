@@ -1,0 +1,4262 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Python library for controlling Siglent oscilloscopes via SCPI over Ethernet">
+      
+      
+        <meta name="author" content="Robin Mumm">
+      
+      
+        <link rel="canonical" href="https://siglent-oscilloscope.readthedocs.io/gui/interface/">
+      
+      
+        <link rel="prev" href="../overview/">
+      
+      
+        <link rel="next" href="../live-view/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>Interface Guide - Siglent Oscilloscope Control</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#interface-guide" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Siglent Oscilloscope Control" class="md-header__button md-logo" aria-label="Siglent Oscilloscope Control" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Siglent Oscilloscope Control
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Interface Guide
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/little-did-I-know/Siglent-Oscilloscope" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    little-did-I-know/Siglent-Oscilloscope
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../getting-started/installation/" class="md-tabs__link">
+          
+  
+  
+  Getting Started
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../user-guide/basic-usage/" class="md-tabs__link">
+          
+  
+  
+  User Guide
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../overview/" class="md-tabs__link">
+          
+  
+  
+  GUI Application
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../report-generator/" class="md-tabs__link">
+          
+  
+  
+  Report Generator
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../api/oscilloscope/" class="md-tabs__link">
+          
+  
+  
+  API Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../examples/beginner/" class="md-tabs__link">
+          
+  
+  
+  Examples
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../development/contributing/" class="md-tabs__link">
+          
+  
+  
+  Development
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../about/changelog/" class="md-tabs__link">
+          
+  
+  
+  About
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Siglent Oscilloscope Control" class="md-nav__button md-logo" aria-label="Siglent Oscilloscope Control" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Siglent Oscilloscope Control
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/little-did-I-know/Siglent-Oscilloscope" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    little-did-I-know/Siglent-Oscilloscope
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Getting Started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/quickstart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quick Start
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/connection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Connection Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User Guide
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    User Guide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user-guide/basic-usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Basic Usage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user-guide/waveform-capture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Waveform Capture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user-guide/measurements/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Measurements
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user-guide/trigger-control/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trigger Control
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user-guide/advanced-features/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Advanced Features
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GUI Application
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    GUI Application
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Interface Guide
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Interface Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#main-window-components" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Main Window Components
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#menu-bar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Menu Bar
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Menu Bar">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#file-menu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        File Menu
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#view-menu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        View Menu
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tools-menu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tools Menu
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#help-menu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Help Menu
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#toolbar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Toolbar
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#control-panel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Control Panel
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Control Panel">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#channels-tab" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Channels Tab
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#trigger-tab" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Trigger Tab
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#measurements-tab" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Measurements Tab
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#timebase-tab" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Timebase Tab
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#math-tab" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Math Tab
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fft-tab" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FFT Tab
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reference-tab" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reference Tab
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#protocol-decode-tab" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Protocol Decode Tab
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#visual-measurements-tab" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Visual Measurements Tab
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cursor-tab" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cursor Tab
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#terminal-tab" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Terminal Tab
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#waveform-display-area" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Waveform Display Area
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Waveform Display Area">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#display-elements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Display Elements
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mouse-interactions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mouse Interactions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#toolbar-display-specific" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Toolbar (Display Specific)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#display-modes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Display Modes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#status-bar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Status Bar
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dialogs-and-popups" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dialogs and Popups
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Dialogs and Popups">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#connection-dialog" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Connection Dialog
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#batch-capture-dialog" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Batch Capture Dialog
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#export-dialog" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Export Dialog
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#error-dialog" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Error Dialog
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#keyboard-shortcuts-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Keyboard Shortcuts Reference
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Keyboard Shortcuts Reference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#global-shortcuts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Global Shortcuts
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#display-shortcuts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Display Shortcuts
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#navigation-shortcuts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Navigation Shortcuts
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tips-for-efficient-use" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tips for Efficient Use
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next Steps
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../live-view/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Live View
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../visual-measurements/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Visual Measurements
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fft-analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FFT Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../protocol-decoding/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Protocol Decoding
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../vector-graphics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Vector Graphics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Report Generator
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Report Generator
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../report-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../report-generator/getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../report-generator/llm-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    LLM Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../report-generator/templates/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Templates & Criteria
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../report-generator/api-reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/oscilloscope/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Oscilloscope
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/channel/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Channel
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/trigger/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trigger
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/waveform/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Waveform
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/measurement/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Measurement
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/automation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Automation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/connection_socket/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Socket Connection
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/exceptions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Exceptions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/models/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Models
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/vector_graphics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Vector Graphics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/screen_capture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Screen Capture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/reference_waveform/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference Waveform
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/math_channel/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Math Channel
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/gui/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GUI Components
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Examples
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Examples
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../examples/beginner/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Beginner Examples
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../examples/intermediate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Intermediate Examples
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../examples/advanced/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Advanced Examples
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Development
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Development
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../development/contributing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../development/building/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Building
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../development/structure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Project Structure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../development/testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    About
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/changelog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Changelog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/license/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    License
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/security/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#main-window-components" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Main Window Components
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#menu-bar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Menu Bar
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Menu Bar">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#file-menu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        File Menu
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#view-menu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        View Menu
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tools-menu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tools Menu
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#help-menu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Help Menu
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#toolbar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Toolbar
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#control-panel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Control Panel
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Control Panel">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#channels-tab" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Channels Tab
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#trigger-tab" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Trigger Tab
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#measurements-tab" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Measurements Tab
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#timebase-tab" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Timebase Tab
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#math-tab" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Math Tab
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fft-tab" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        FFT Tab
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reference-tab" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reference Tab
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#protocol-decode-tab" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Protocol Decode Tab
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#visual-measurements-tab" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Visual Measurements Tab
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cursor-tab" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cursor Tab
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#terminal-tab" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Terminal Tab
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#waveform-display-area" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Waveform Display Area
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Waveform Display Area">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#display-elements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Display Elements
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mouse-interactions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mouse Interactions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#toolbar-display-specific" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Toolbar (Display Specific)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#display-modes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Display Modes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#status-bar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Status Bar
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dialogs-and-popups" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dialogs and Popups
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Dialogs and Popups">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#connection-dialog" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Connection Dialog
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#batch-capture-dialog" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Batch Capture Dialog
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#export-dialog" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Export Dialog
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#error-dialog" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Error Dialog
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#keyboard-shortcuts-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Keyboard Shortcuts Reference
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Keyboard Shortcuts Reference">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#global-shortcuts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Global Shortcuts
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#display-shortcuts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Display Shortcuts
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#navigation-shortcuts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Navigation Shortcuts
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tips-for-efficient-use" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tips for Efficient Use
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next Steps
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="interface-guide">Interface Guide<a class="headerlink" href="#interface-guide" title="Permanent link">&para;</a></h1>
+<p>This guide provides a detailed tour of the GUI interface, explaining every component, control, and feature.</p>
+<h2 id="main-window-components">Main Window Components<a class="headerlink" href="#main-window-components" title="Permanent link">&para;</a></h2>
+<p>The GUI is organized into five main areas:</p>
+<ol>
+<li><strong>Menu Bar</strong> - Top menu with File, View, Tools, Help</li>
+<li><strong>Toolbar</strong> - Quick access buttons for common actions</li>
+<li><strong>Control Panel</strong> - Left sidebar with tabbed controls</li>
+<li><strong>Display Area</strong> - Main waveform display (right side)</li>
+<li><strong>Status Bar</strong> - Bottom status information</li>
+</ol>
+<h2 id="menu-bar">Menu Bar<a class="headerlink" href="#menu-bar" title="Permanent link">&para;</a></h2>
+<h3 id="file-menu">File Menu<a class="headerlink" href="#file-menu" title="Permanent link">&para;</a></h3>
+<p><strong>Connect</strong> (<code>Ctrl+O</code>)</p>
+<ul>
+<li>Opens connection dialog</li>
+<li>Enter oscilloscope IP address and settings</li>
+<li>Save multiple connection profiles</li>
+</ul>
+<p><strong>Disconnect</strong></p>
+<ul>
+<li>Closes current oscilloscope connection</li>
+<li>Stops live view if active</li>
+<li>Clears current waveforms</li>
+</ul>
+<p><strong>Save Waveform</strong> (<code>Ctrl+S</code>)</p>
+<ul>
+<li>Save current waveform data</li>
+<li>Formats: CSV, NPZ, MAT, HDF5</li>
+<li>Includes metadata (sample rate, timebase, etc.)</li>
+</ul>
+<p><strong>Export Image</strong> (<code>Ctrl+E</code>)</p>
+<ul>
+<li>Export current display as image</li>
+<li>Formats: PNG, PDF, SVG</li>
+<li>High-resolution export options</li>
+</ul>
+<p><strong>Recent Connections</strong></p>
+<ul>
+<li>Quick access to recently used oscilloscopes</li>
+<li>Automatically remembers last 10 connections</li>
+<li>Click to connect instantly</li>
+</ul>
+<p><strong>Preferences</strong></p>
+<ul>
+<li>Application settings</li>
+<li>Display options</li>
+<li>Performance tuning</li>
+<li>Default values</li>
+</ul>
+<p><strong>Exit</strong> (<code>Ctrl+Q</code>)</p>
+<ul>
+<li>Close application</li>
+<li>Prompts to save unsaved data</li>
+<li>Disconnects from oscilloscope</li>
+</ul>
+<h3 id="view-menu">View Menu<a class="headerlink" href="#view-menu" title="Permanent link">&para;</a></h3>
+<p><strong>Live View</strong> (<code>Ctrl+L</code>)</p>
+<ul>
+<li>Toggle real-time display</li>
+<li>Starts/stops continuous waveform updates</li>
+<li>Checkbox shows current state</li>
+</ul>
+<p><strong>Fullscreen</strong> (<code>F11</code>)</p>
+<ul>
+<li>Toggle fullscreen mode</li>
+<li>Press <code>Esc</code> or <code>F11</code> to exit</li>
+<li>Maximizes display area</li>
+</ul>
+<p><strong>Zoom In</strong> (<code>Ctrl++</code>)</p>
+<ul>
+<li>Zoom into waveform display</li>
+<li>Multiple zoom levels available</li>
+<li>Zooms around cursor position</li>
+</ul>
+<p><strong>Zoom Out</strong> (<code>Ctrl+-</code>)</p>
+<ul>
+<li>Zoom out of waveform display</li>
+<li>Reset with <code>Ctrl+0</code></li>
+</ul>
+<p><strong>Reset View</strong> (<code>Ctrl+0</code>)</p>
+<ul>
+<li>Reset zoom and pan</li>
+<li>Center waveform</li>
+<li>Auto-scale axes</li>
+</ul>
+<p><strong>Show Grid</strong></p>
+<ul>
+<li>Toggle display grid</li>
+<li>Checkbox shows current state</li>
+<li>Helps with visual measurements</li>
+</ul>
+<p><strong>Show Cursors</strong></p>
+<ul>
+<li>Toggle measurement cursors</li>
+<li>Vertical and horizontal lines</li>
+<li>Displays cursor values</li>
+</ul>
+<p><strong>Control Panel</strong></p>
+<ul>
+<li>Show/hide left control panel</li>
+<li>Gives more space for waveform display</li>
+<li>Automatically hidden in fullscreen</li>
+</ul>
+<p><strong>Status Bar</strong></p>
+<ul>
+<li>Show/hide bottom status bar</li>
+<li>Displays connection info and stats</li>
+</ul>
+<h3 id="tools-menu">Tools Menu<a class="headerlink" href="#tools-menu" title="Permanent link">&para;</a></h3>
+<p><strong>Terminal</strong> (<code>Ctrl+T</code>)</p>
+<ul>
+<li>Open SCPI terminal window</li>
+<li>Send raw commands</li>
+<li>View responses</li>
+<li>Command history</li>
+</ul>
+<p><strong>VNC Viewer</strong> (<code>Ctrl+V</code>)</p>
+<ul>
+<li>Open VNC window</li>
+<li>View oscilloscope screen remotely</li>
+<li>Interact with on-screen controls</li>
+<li>Requires PyQt6-WebEngine</li>
+</ul>
+<p><strong>Capture Single</strong></p>
+<ul>
+<li>Capture one waveform</li>
+<li>Freezes display</li>
+<li>Save or analyze</li>
+</ul>
+<p><strong>Capture Batch</strong></p>
+<ul>
+<li>Opens batch capture dialog</li>
+<li>Capture multiple waveforms</li>
+<li>Specify count and interval</li>
+<li>Auto-save options</li>
+</ul>
+<p><strong>Screen Capture</strong></p>
+<ul>
+<li>Capture oscilloscope screen</li>
+<li>Save as image file</li>
+<li>Useful for documentation</li>
+</ul>
+<p><strong>Auto Scale</strong></p>
+<ul>
+<li>Automatically adjust voltage scales</li>
+<li>Optimizes display for current signal</li>
+<li>Adjusts all enabled channels</li>
+</ul>
+<p><strong>Clear All Measurements</strong></p>
+<ul>
+<li>Remove all measurements</li>
+<li>Clears measurement table</li>
+<li>Resets visual markers</li>
+</ul>
+<h3 id="help-menu">Help Menu<a class="headerlink" href="#help-menu" title="Permanent link">&para;</a></h3>
+<p><strong>Documentation</strong></p>
+<ul>
+<li>Open online documentation</li>
+<li>User guide and API reference</li>
+<li>Opens in web browser</li>
+</ul>
+<p><strong>About</strong></p>
+<ul>
+<li>Application version information</li>
+<li>Library version</li>
+<li>Dependencies installed</li>
+<li>License information</li>
+</ul>
+<p><strong>Check for Updates</strong></p>
+<ul>
+<li>Check for new versions</li>
+<li>Links to releases page</li>
+</ul>
+<p><strong>Report Issue</strong></p>
+<ul>
+<li>Opens GitHub issues page</li>
+<li>Report bugs or request features</li>
+</ul>
+<h2 id="toolbar">Toolbar<a class="headerlink" href="#toolbar" title="Permanent link">&para;</a></h2>
+<p>The toolbar provides quick access to common actions:</p>
+<table>
+<thead>
+<tr>
+<th>Button</th>
+<th>Action</th>
+<th>Shortcut</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Connect</strong></td>
+<td>Open connection dialog</td>
+<td><code>Ctrl+O</code></td>
+</tr>
+<tr>
+<td><strong>Disconnect</strong></td>
+<td>Close connection</td>
+<td>-</td>
+</tr>
+<tr>
+<td><strong>Live View</strong></td>
+<td>Start/stop live view</td>
+<td><code>Ctrl+L</code></td>
+</tr>
+<tr>
+<td><strong>Capture</strong></td>
+<td>Capture single waveform</td>
+<td><code>Ctrl+C</code></td>
+</tr>
+<tr>
+<td><strong>Save</strong></td>
+<td>Save waveform data</td>
+<td><code>Ctrl+S</code></td>
+</tr>
+<tr>
+<td><strong>Auto Scale</strong></td>
+<td>Auto-adjust scales</td>
+<td>-</td>
+</tr>
+<tr>
+<td><strong>Terminal</strong></td>
+<td>Open SCPI terminal</td>
+<td><code>Ctrl+T</code></td>
+</tr>
+<tr>
+<td><strong>VNC</strong></td>
+<td>Open VNC viewer</td>
+<td><code>Ctrl+V</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Connection Indicator:</strong></p>
+<ul>
+<li>🟢 <strong>Green</strong>: Connected and ready</li>
+<li>🟡 <strong>Yellow</strong>: Connecting...</li>
+<li>🔴 <strong>Red</strong>: Disconnected</li>
+<li>🟠 <strong>Orange</strong>: Error</li>
+</ul>
+<h2 id="control-panel">Control Panel<a class="headerlink" href="#control-panel" title="Permanent link">&para;</a></h2>
+<p>The left panel contains tabbed controls for all oscilloscope functions.</p>
+<h3 id="channels-tab">Channels Tab<a class="headerlink" href="#channels-tab" title="Permanent link">&para;</a></h3>
+<p>Controls for each channel (C1, C2, C3, C4):</p>
+<p><strong>Enable Checkbox</strong></p>
+<ul>
+<li>Turn channel on/off</li>
+<li>Disabled channels not captured</li>
+<li>Color-coded for each channel</li>
+</ul>
+<p><strong>Voltage Scale</strong></p>
+<ul>
+<li>Dropdown or slider control</li>
+<li>Common values: 10mV to 10V per division</li>
+<li>Custom value input available</li>
+</ul>
+<p><strong>Voltage Offset</strong></p>
+<ul>
+<li>Slider or numeric input</li>
+<li>Shifts waveform vertically</li>
+<li>Range: ±5 divisions</li>
+</ul>
+<p><strong>Coupling</strong></p>
+<ul>
+<li>Radio buttons: DC, AC, GND</li>
+<li><strong>DC</strong>: Pass all frequencies</li>
+<li><strong>AC</strong>: Block DC component</li>
+<li><strong>GND</strong>: Ground (for calibration)</li>
+</ul>
+<p><strong>Probe Ratio</strong></p>
+<ul>
+<li>Dropdown: 1X, 10X, 100X, 1000X</li>
+<li>Must match physical probe</li>
+<li>Affects voltage readings</li>
+</ul>
+<p><strong>Bandwidth Limit</strong></p>
+<ul>
+<li>Checkbox: On/Off</li>
+<li>Enables 20 MHz low-pass filter</li>
+<li>Reduces high-frequency noise</li>
+</ul>
+<p><strong>Color Picker</strong></p>
+<ul>
+<li>Choose display color for channel</li>
+<li>Click to open color dialog</li>
+<li>Defaults: C1=Yellow, C2=Cyan, C3=Magenta, C4=Green</li>
+</ul>
+<p><strong>Channel Info Display</strong></p>
+<ul>
+<li>Shows current configuration</li>
+<li>Impedance: 1MΩ typical</li>
+<li>Attenuation calculated from probe ratio</li>
+</ul>
+<h3 id="trigger-tab">Trigger Tab<a class="headerlink" href="#trigger-tab" title="Permanent link">&para;</a></h3>
+<p>Trigger configuration controls:</p>
+<p><strong>Trigger Mode</strong></p>
+<ul>
+<li>Radio buttons or dropdown</li>
+<li><strong>AUTO</strong>: Automatic triggering</li>
+<li><strong>NORMAL</strong>: Wait for trigger</li>
+<li><strong>SINGLE</strong>: One-shot capture</li>
+<li><strong>STOP</strong>: Stopped</li>
+</ul>
+<p><strong>Trigger Source</strong></p>
+<ul>
+<li>Dropdown menu</li>
+<li>Channels: C1, C2, C3, C4</li>
+<li>External: EXT, EX5</li>
+<li>LINE: AC line trigger</li>
+</ul>
+<p><strong>Trigger Level</strong></p>
+<ul>
+<li>Slider with numeric display</li>
+<li>Range: Based on voltage scale</li>
+<li>Visual indicator on waveform display</li>
+</ul>
+<p><strong>Trigger Slope</strong></p>
+<ul>
+<li>Radio buttons</li>
+<li><strong>Rising</strong> (POS): Low-to-high transition</li>
+<li><strong>Falling</strong> (NEG): High-to-low transition</li>
+<li><strong>Either</strong>: Both edges</li>
+</ul>
+<p><strong>Trigger Type</strong></p>
+<ul>
+<li>Advanced trigger modes</li>
+<li>Edge (default)</li>
+<li>Slew rate</li>
+<li>Glitch</li>
+<li>Pulse width</li>
+<li>Runt</li>
+<li>Pattern</li>
+</ul>
+<p><strong>Force Trigger Button</strong></p>
+<ul>
+<li>Manually trigger immediately</li>
+<li>Ignores trigger conditions</li>
+<li>Useful for testing</li>
+</ul>
+<p><strong>Trigger Status Indicator</strong></p>
+<ul>
+<li>🟢 Triggered</li>
+<li>🟡 Armed (waiting)</li>
+<li>🔴 Stopped</li>
+<li>Updates in real-time</li>
+</ul>
+<h3 id="measurements-tab">Measurements Tab<a class="headerlink" href="#measurements-tab" title="Permanent link">&para;</a></h3>
+<p>Automated measurement panel:</p>
+<p><strong>Quick Measurements</strong></p>
+<ul>
+<li>Buttons for common measurements</li>
+<li><strong>Frequency</strong>: Signal frequency</li>
+<li><strong>Period</strong>: Signal period</li>
+<li><strong>Vpp</strong>: Peak-to-peak voltage</li>
+<li><strong>Vrms</strong>: RMS voltage</li>
+<li><strong>Rise Time</strong>: 10%-90% rise</li>
+<li><strong>Fall Time</strong>: 90%-10% fall</li>
+<li><strong>Duty Cycle</strong>: Positive pulse width percentage</li>
+</ul>
+<p><strong>Measurement Table</strong></p>
+<ul>
+<li>Displays active measurements</li>
+<li>Columns: Parameter, Value, Unit, Channel</li>
+<li>Real-time updates</li>
+<li>Click to remove measurement</li>
+</ul>
+<p><strong>Add Measurement</strong></p>
+<ul>
+<li>Dropdown to select measurement type</li>
+<li>Choose channel</li>
+<li>Add to table</li>
+<li>Up to 8 simultaneous measurements</li>
+</ul>
+<p><strong>Statistics</strong></p>
+<ul>
+<li>Enable checkbox</li>
+<li>Shows: Current, Min, Max, Mean, Std Dev</li>
+<li>Accumulates over time</li>
+<li>Reset button clears statistics</li>
+</ul>
+<p><strong>Export Measurements</strong></p>
+<ul>
+<li>Save measurement data to CSV</li>
+<li>Includes timestamps</li>
+<li>Statistics if enabled</li>
+</ul>
+<h3 id="timebase-tab">Timebase Tab<a class="headerlink" href="#timebase-tab" title="Permanent link">&para;</a></h3>
+<p>Time scale and position control:</p>
+<p><strong>Timebase (Time/Div)</strong></p>
+<ul>
+<li>Dropdown or slider</li>
+<li>Range: 1ns to 1000s per division</li>
+<li>14 horizontal divisions total</li>
+</ul>
+<p><strong>Horizontal Position</strong></p>
+<ul>
+<li>Slider control</li>
+<li>Adjusts trigger position</li>
+<li>Range: ±7 divisions from center</li>
+</ul>
+<p><strong>Delay</strong></p>
+<ul>
+<li>Numeric input for precise positioning</li>
+<li>Useful for zooming into specific events</li>
+</ul>
+<p><strong>Sample Rate Display</strong></p>
+<ul>
+<li>Shows current sample rate</li>
+<li>Automatically calculated</li>
+<li>Updates based on timebase</li>
+</ul>
+<p><strong>Memory Depth Display</strong></p>
+<ul>
+<li>Shows current record length</li>
+<li>Number of samples captured</li>
+</ul>
+<h3 id="math-tab">Math Tab<a class="headerlink" href="#math-tab" title="Permanent link">&para;</a></h3>
+<p>Math channel operations:</p>
+<p><strong>Math Channel Selection</strong></p>
+<ul>
+<li>Math1 or Math2</li>
+<li>Enable checkbox</li>
+</ul>
+<p><strong>Operation Type</strong></p>
+<ul>
+<li>Dropdown menu:</li>
+<li><strong>Add</strong>: C1 + C2</li>
+<li><strong>Subtract</strong>: C1 - C2</li>
+<li><strong>Multiply</strong>: C1 × C2</li>
+<li><strong>Divide</strong>: C1 ÷ C2</li>
+<li><strong>FFT</strong>: Frequency transform</li>
+<li><strong>Integrate</strong>: Integral</li>
+<li><strong>Differentiate</strong>: Derivative</li>
+</ul>
+<p><strong>Source Channels</strong></p>
+<ul>
+<li>Select input channels</li>
+<li>For binary operations, choose two channels</li>
+<li>For unary, choose one</li>
+</ul>
+<p><strong>Scale and Offset</strong></p>
+<ul>
+<li>Adjust math result display</li>
+<li>Vertical scale</li>
+<li>Vertical offset</li>
+</ul>
+<p><strong>Color</strong></p>
+<ul>
+<li>Display color for math channel</li>
+<li>Default: White</li>
+</ul>
+<h3 id="fft-tab">FFT Tab<a class="headerlink" href="#fft-tab" title="Permanent link">&para;</a></h3>
+<p>See <a href="../fft-analysis/">FFT Analysis</a> for detailed documentation.</p>
+<p><strong>Source Channel</strong></p>
+<ul>
+<li>Select channel for FFT</li>
+<li>C1, C2, C3, C4, or Math</li>
+</ul>
+<p><strong>Window Function</strong></p>
+<ul>
+<li>Dropdown: Hanning, Hamming, Blackman, etc.</li>
+<li>Affects spectral leakage</li>
+</ul>
+<p><strong>Display Options</strong></p>
+<ul>
+<li>Linear or Log scale</li>
+<li>Magnitude in dB or linear</li>
+<li>Phase display toggle</li>
+</ul>
+<p><strong>Peak Finding</strong></p>
+<ul>
+<li>Automatic peak detection</li>
+<li>Displays top 5 peaks</li>
+<li>Frequency and magnitude</li>
+</ul>
+<p><strong>Export FFT</strong></p>
+<ul>
+<li>Save frequency domain data</li>
+<li>CSV or NPZ format</li>
+</ul>
+<h3 id="reference-tab">Reference Tab<a class="headerlink" href="#reference-tab" title="Permanent link">&para;</a></h3>
+<p>Reference waveform management:</p>
+<p><strong>Save Reference</strong></p>
+<ul>
+<li>Button to save current waveform</li>
+<li>Choose reference slot (RefA-RefD)</li>
+<li>Stores in oscilloscope memory</li>
+</ul>
+<p><strong>Load Reference</strong></p>
+<ul>
+<li>Select reference to display</li>
+<li>Overlays on current waveform</li>
+<li>Multiple references supported</li>
+</ul>
+<p><strong>Reference List</strong></p>
+<ul>
+<li>Shows saved references</li>
+<li>Name, channel, timestamp</li>
+<li>Delete button for each</li>
+</ul>
+<p><strong>Comparison Mode</strong></p>
+<ul>
+<li>Overlay: Show reference over current</li>
+<li>Subtract: Show difference</li>
+<li>Split view: Side-by-side</li>
+</ul>
+<p><strong>Reference Display Settings</strong></p>
+<ul>
+<li>Color picker</li>
+<li>Line style (solid, dashed, dotted)</li>
+<li>Opacity/transparency</li>
+</ul>
+<h3 id="protocol-decode-tab">Protocol Decode Tab<a class="headerlink" href="#protocol-decode-tab" title="Permanent link">&para;</a></h3>
+<p>See <a href="../protocol-decoding/">Protocol Decoding</a> for detailed documentation.</p>
+<p><strong>Protocol Selection</strong></p>
+<ul>
+<li>Radio buttons: I2C, SPI, UART</li>
+<li>Each has specific settings</li>
+</ul>
+<p><strong>Channel Assignment</strong></p>
+<ul>
+<li>I2C: SDA, SCL channels</li>
+<li>SPI: MOSI, MISO, CLK, CS channels</li>
+<li>UART: TX, RX channels</li>
+</ul>
+<p><strong>Decode Settings</strong></p>
+<ul>
+<li>Baud rate (UART)</li>
+<li>Clock polarity (SPI)</li>
+<li>Address width (I2C)</li>
+</ul>
+<p><strong>Decode Results</strong></p>
+<ul>
+<li>Table showing decoded data</li>
+<li>Timestamp, Type, Data, Error</li>
+<li>Export to CSV</li>
+</ul>
+<h3 id="visual-measurements-tab">Visual Measurements Tab<a class="headerlink" href="#visual-measurements-tab" title="Permanent link">&para;</a></h3>
+<p>See <a href="../visual-measurements/">Visual Measurements</a> for detailed documentation.</p>
+<p><strong>Add Marker</strong></p>
+<ul>
+<li>Buttons for marker types:</li>
+<li>Voltage marker (horizontal)</li>
+<li>Time marker (vertical)</li>
+<li>Frequency marker (period)</li>
+</ul>
+<p><strong>Marker List</strong></p>
+<ul>
+<li>Shows active markers</li>
+<li>Drag to reposition</li>
+<li>Delete button</li>
+<li>Show/hide toggle</li>
+</ul>
+<p><strong>Marker Settings</strong></p>
+<ul>
+<li>Label text</li>
+<li>Color</li>
+<li>Line style</li>
+<li>Snap to waveform</li>
+</ul>
+<p><strong>Delta Calculations</strong></p>
+<ul>
+<li>Automatic ΔV between voltage markers</li>
+<li>Automatic Δt between time markers</li>
+<li>Frequency from period markers</li>
+</ul>
+<h3 id="cursor-tab">Cursor Tab<a class="headerlink" href="#cursor-tab" title="Permanent link">&para;</a></h3>
+<p>Manual cursor control (alternative to visual markers):</p>
+<p><strong>Cursor Mode</strong></p>
+<ul>
+<li>Off</li>
+<li>Horizontal (voltage)</li>
+<li>Vertical (time)</li>
+<li>Both (X-Y)</li>
+</ul>
+<p><strong>Cursor 1 Position</strong></p>
+<ul>
+<li>Slider or numeric input</li>
+<li>Displays value (voltage or time)</li>
+</ul>
+<p><strong>Cursor 2 Position</strong></p>
+<ul>
+<li>Second cursor for delta measurements</li>
+<li>Independent control</li>
+</ul>
+<p><strong>Delta Display</strong></p>
+<ul>
+<li>Shows difference between cursors</li>
+<li>ΔV, Δt, or both</li>
+<li>Automatic frequency calculation</li>
+</ul>
+<p><strong>Snap to Waveform</strong></p>
+<ul>
+<li>Checkbox</li>
+<li>Cursor follows waveform data points</li>
+<li>Makes precise measurements easier</li>
+</ul>
+<h3 id="terminal-tab">Terminal Tab<a class="headerlink" href="#terminal-tab" title="Permanent link">&para;</a></h3>
+<p>SCPI command terminal (can also be separate window):</p>
+<p><strong>Command Input</strong></p>
+<ul>
+<li>Text box for SCPI commands</li>
+<li>Auto-complete suggestions</li>
+<li>Syntax highlighting</li>
+</ul>
+<p><strong>Send Button</strong></p>
+<ul>
+<li>Execute command</li>
+<li>Or press Enter</li>
+</ul>
+<p><strong>Response Display</strong></p>
+<ul>
+<li>Shows oscilloscope responses</li>
+<li>Scrollable history</li>
+<li>Copy/paste support</li>
+</ul>
+<p><strong>Command History</strong></p>
+<ul>
+<li>Up/Down arrows to recall</li>
+<li>Saved between sessions</li>
+<li>Clear history button</li>
+</ul>
+<p><strong>Common Commands</strong></p>
+<ul>
+<li>Quick buttons for frequent commands</li>
+<li>*IDN?, *RST, etc.</li>
+<li>Customizable</li>
+</ul>
+<h2 id="waveform-display-area">Waveform Display Area<a class="headerlink" href="#waveform-display-area" title="Permanent link">&para;</a></h2>
+<p>The main display shows captured waveforms with several features:</p>
+<h3 id="display-elements">Display Elements<a class="headerlink" href="#display-elements" title="Permanent link">&para;</a></h3>
+<p><strong>Grid</strong></p>
+<ul>
+<li>14 horizontal × 10 vertical divisions</li>
+<li>Matches oscilloscope screen</li>
+<li>Toggle on/off in View menu</li>
+</ul>
+<p><strong>Waveforms</strong></p>
+<ul>
+<li>Color-coded by channel</li>
+<li>Anti-aliased for smooth display</li>
+<li>Adjustable line width</li>
+</ul>
+<p><strong>Trigger Indicator</strong></p>
+<ul>
+<li>Shows trigger point</li>
+<li>Arrow or vertical line</li>
+<li>Color matches trigger source</li>
+</ul>
+<p><strong>Measurement Markers</strong></p>
+<ul>
+<li>Visual markers on waveform</li>
+<li>Draggable for interactive measurement</li>
+<li>Labels show values</li>
+</ul>
+<p><strong>Cursor Lines</strong></p>
+<ul>
+<li>Dashed lines for cursors</li>
+<li>Crosshair at intersection</li>
+<li>Value labels</li>
+</ul>
+<p><strong>Legend</strong></p>
+<ul>
+<li>Shows enabled channels</li>
+<li>Color and name</li>
+<li>Click to toggle visibility</li>
+<li>Shows voltage scale (V/div)</li>
+</ul>
+<h3 id="mouse-interactions">Mouse Interactions<a class="headerlink" href="#mouse-interactions" title="Permanent link">&para;</a></h3>
+<p><strong>Left Click + Drag</strong></p>
+<ul>
+<li>Pan waveform view</li>
+<li>Move display area</li>
+<li>Doesn't change oscilloscope settings</li>
+</ul>
+<p><strong>Right Click</strong></p>
+<ul>
+<li>Context menu</li>
+<li>Quick actions:</li>
+<li>Add marker at click position</li>
+<li>Measure at point</li>
+<li>Copy coordinates</li>
+<li>Export image</li>
+</ul>
+<p><strong>Mouse Wheel</strong></p>
+<ul>
+<li>Zoom in/out</li>
+<li>Zooms around mouse position</li>
+<li>Hold Ctrl for horizontal zoom only</li>
+<li>Hold Shift for vertical zoom only</li>
+</ul>
+<p><strong>Double Click</strong></p>
+<ul>
+<li>Auto-scale view</li>
+<li>Centers waveform</li>
+<li>Optimal zoom level</li>
+</ul>
+<h3 id="toolbar-display-specific">Toolbar (Display Specific)<a class="headerlink" href="#toolbar-display-specific" title="Permanent link">&para;</a></h3>
+<p>Located above waveform display:</p>
+<p><strong>Grid Toggle</strong> - Show/hide grid
+<strong>Cursors Toggle</strong> - Show/hide cursors
+<strong>Legend Toggle</strong> - Show/hide legend
+<strong>Auto Scale</strong> - Fit waveform to display
+<strong>Reset Zoom</strong> - Return to default view</p>
+<h3 id="display-modes">Display Modes<a class="headerlink" href="#display-modes" title="Permanent link">&para;</a></h3>
+<p><strong>Normal Mode</strong></p>
+<ul>
+<li>Shows all enabled channels</li>
+<li>Stacked vertically</li>
+<li>Shared time axis</li>
+</ul>
+<p><strong>Overlay Mode</strong></p>
+<ul>
+<li>All channels overlaid</li>
+<li>Shared axes</li>
+<li>Useful for comparison</li>
+</ul>
+<p><strong>Split View Mode</strong></p>
+<ul>
+<li>Separate subplot for each channel</li>
+<li>Independent vertical scales</li>
+<li>Aligned time axes</li>
+</ul>
+<h2 id="status-bar">Status Bar<a class="headerlink" href="#status-bar" title="Permanent link">&para;</a></h2>
+<p>Bottom of window shows real-time information:</p>
+<p><strong>Connection Status</strong></p>
+<ul>
+<li>"Connected to: [Model] | IP: [Address]"</li>
+<li>Updates when connection changes</li>
+<li>Shows "Disconnected" when not connected</li>
+</ul>
+<p><strong>Oscilloscope Info</strong></p>
+<ul>
+<li>Model name</li>
+<li>Serial number (if available)</li>
+<li>Firmware version</li>
+</ul>
+<p><strong>Performance Stats</strong></p>
+<ul>
+<li><strong>FPS</strong>: Frames per second (live view)</li>
+<li><strong>Latency</strong>: Network latency (ms)</li>
+<li><strong>Samples</strong>: Number of samples in current waveform</li>
+</ul>
+<p><strong>Trigger Status</strong></p>
+<ul>
+<li>Current trigger mode</li>
+<li>Trigger state (Armed, Triggered, Stopped)</li>
+</ul>
+<p><strong>Memory Usage</strong></p>
+<ul>
+<li>Shows application memory usage</li>
+<li>Warning if memory gets high</li>
+</ul>
+<p><strong>Progress Indicator</strong></p>
+<ul>
+<li>Progress bar for long operations</li>
+<li>Batch capture progress</li>
+<li>File save/load progress</li>
+</ul>
+<h2 id="dialogs-and-popups">Dialogs and Popups<a class="headerlink" href="#dialogs-and-popups" title="Permanent link">&para;</a></h2>
+<h3 id="connection-dialog">Connection Dialog<a class="headerlink" href="#connection-dialog" title="Permanent link">&para;</a></h3>
+<p><strong>Fields:</strong></p>
+<ul>
+<li>IP Address (required)</li>
+<li>Port (default: 5024)</li>
+<li>Timeout (default: 5.0s)</li>
+<li>Name (optional, for saving)</li>
+</ul>
+<p><strong>Buttons:</strong></p>
+<ul>
+<li>Connect - Attempt connection</li>
+<li>Cancel - Close dialog</li>
+<li>Test - Test connection without connecting</li>
+<li>Save - Save connection profile</li>
+<li>Delete - Remove saved connection</li>
+</ul>
+<p><strong>Recent Connections List</strong></p>
+<ul>
+<li>Quick select from saved connections</li>
+<li>Double-click to connect</li>
+</ul>
+<h3 id="batch-capture-dialog">Batch Capture Dialog<a class="headerlink" href="#batch-capture-dialog" title="Permanent link">&para;</a></h3>
+<p><strong>Settings:</strong></p>
+<ul>
+<li>Number of captures (1-1000)</li>
+<li>Interval between captures (ms)</li>
+<li>Channels to capture</li>
+<li>Auto-save path</li>
+<li>File format</li>
+</ul>
+<p><strong>Progress:</strong></p>
+<ul>
+<li>Shows current capture number</li>
+<li>Estimated time remaining</li>
+<li>Cancel button</li>
+</ul>
+<p><strong>Results:</strong></p>
+<ul>
+<li>Summary of captures</li>
+<li>Failed captures (if any)</li>
+<li>Open folder button</li>
+</ul>
+<h3 id="export-dialog">Export Dialog<a class="headerlink" href="#export-dialog" title="Permanent link">&para;</a></h3>
+<p><strong>Waveform Export:</strong></p>
+<ul>
+<li>Format selection (CSV, NPZ, MAT, HDF5)</li>
+<li>File path</li>
+<li>Include metadata checkbox</li>
+<li>Compression options (for NPZ, HDF5)</li>
+</ul>
+<p><strong>Image Export:</strong></p>
+<ul>
+<li>Format (PNG, PDF, SVG)</li>
+<li>Resolution/DPI</li>
+<li>Transparent background checkbox</li>
+<li>Include legend checkbox</li>
+</ul>
+<h3 id="error-dialog">Error Dialog<a class="headerlink" href="#error-dialog" title="Permanent link">&para;</a></h3>
+<p><strong>Detailed Error Information:</strong></p>
+<ul>
+<li>Error message</li>
+<li>Error type</li>
+<li>Timestamp</li>
+<li>Stack trace (expandable)</li>
+</ul>
+<p><strong>Actions:</strong></p>
+<ul>
+<li>Copy error details</li>
+<li>Report issue (opens GitHub)</li>
+<li>View log file</li>
+<li>Dismiss</li>
+</ul>
+<p><strong>Common Errors:</strong></p>
+<ul>
+<li>Connection timeout</li>
+<li>Invalid parameter</li>
+<li>Command failed</li>
+<li>File I/O error</li>
+</ul>
+<h2 id="keyboard-shortcuts-reference">Keyboard Shortcuts Reference<a class="headerlink" href="#keyboard-shortcuts-reference" title="Permanent link">&para;</a></h2>
+<h3 id="global-shortcuts">Global Shortcuts<a class="headerlink" href="#global-shortcuts" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Shortcut</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Ctrl+O</code></td>
+<td>Connect</td>
+</tr>
+<tr>
+<td><code>Ctrl+Q</code></td>
+<td>Quit</td>
+</tr>
+<tr>
+<td><code>Ctrl+S</code></td>
+<td>Save waveform</td>
+</tr>
+<tr>
+<td><code>Ctrl+E</code></td>
+<td>Export image</td>
+</tr>
+<tr>
+<td><code>Ctrl+L</code></td>
+<td>Toggle live view</td>
+</tr>
+<tr>
+<td><code>Ctrl+C</code></td>
+<td>Capture waveform</td>
+</tr>
+<tr>
+<td><code>Ctrl+T</code></td>
+<td>Open terminal</td>
+</tr>
+<tr>
+<td><code>Ctrl+V</code></td>
+<td>Open VNC</td>
+</tr>
+<tr>
+<td><code>F5</code></td>
+<td>Refresh display</td>
+</tr>
+<tr>
+<td><code>F11</code></td>
+<td>Fullscreen</td>
+</tr>
+<tr>
+<td><code>Esc</code></td>
+<td>Exit fullscreen / Stop live view</td>
+</tr>
+</tbody>
+</table>
+<h3 id="display-shortcuts">Display Shortcuts<a class="headerlink" href="#display-shortcuts" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Shortcut</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Ctrl++</code></td>
+<td>Zoom in</td>
+</tr>
+<tr>
+<td><code>Ctrl+-</code></td>
+<td>Zoom out</td>
+</tr>
+<tr>
+<td><code>Ctrl+0</code></td>
+<td>Reset zoom</td>
+</tr>
+<tr>
+<td><code>Ctrl+G</code></td>
+<td>Toggle grid</td>
+</tr>
+<tr>
+<td><code>Ctrl+R</code></td>
+<td>Toggle cursors</td>
+</tr>
+<tr>
+<td><code>Ctrl+M</code></td>
+<td>Add marker</td>
+</tr>
+<tr>
+<td><code>Delete</code></td>
+<td>Remove selected marker</td>
+</tr>
+</tbody>
+</table>
+<h3 id="navigation-shortcuts">Navigation Shortcuts<a class="headerlink" href="#navigation-shortcuts" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Shortcut</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Tab</code></td>
+<td>Next control panel tab</td>
+</tr>
+<tr>
+<td><code>Shift+Tab</code></td>
+<td>Previous control panel tab</td>
+</tr>
+<tr>
+<td><code>Ctrl+1-4</code></td>
+<td>Jump to channel 1-4 tab</td>
+</tr>
+<tr>
+<td><code>Ctrl+5</code></td>
+<td>Jump to trigger tab</td>
+</tr>
+<tr>
+<td><code>Ctrl+6</code></td>
+<td>Jump to measurements tab</td>
+</tr>
+</tbody>
+</table>
+<h2 id="tips-for-efficient-use">Tips for Efficient Use<a class="headerlink" href="#tips-for-efficient-use" title="Permanent link">&para;</a></h2>
+<div class="admonition tip">
+<p class="admonition-title">Quick Channel Setup</p>
+</div>
+<p>Use number keys 1-4 to quickly enable/disable channels without clicking.</p>
+<div class="admonition tip">
+<p class="admonition-title">Fast Measurements</p>
+</div>
+<p>Right-click on waveform to add measurement marker at that exact point.</p>
+<div class="admonition tip">
+<p class="admonition-title">Keyboard Navigation</p>
+</div>
+<p>Use Tab and arrow keys to navigate controls without mouse.</p>
+<div class="admonition tip">
+<p class="admonition-title">Custom Layouts</p>
+</div>
+<p>Resize the splitter and panels to your preference - settings are saved.</p>
+<div class="admonition tip">
+<p class="admonition-title">Batch Operations</p>
+</div>
+<p>Hold Shift while clicking multiple measurements to enable them all at once.</p>
+<h2 id="next-steps">Next Steps<a class="headerlink" href="#next-steps" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="../live-view/">Live View Guide</a> - Learn about real-time display features</li>
+<li><a href="../visual-measurements/">Visual Measurements</a> - Use interactive markers effectively</li>
+<li><a href="../fft-analysis/">FFT Analysis</a> - Analyze signals in frequency domain</li>
+<li><a href="../protocol-decoding/">Protocol Decoding</a> - Decode digital protocols</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/little-did-I-know/Siglent-Oscilloscope" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://pypi.org/project/Siglent-Oscilloscope/" target="_blank" rel="noopener" title="pypi.org" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.8 200.5c-7.7-30.9-22.3-54.2-53.4-54.2h-40.1v47.4c0 36.8-31.2 67.8-66.8 67.8H172.7c-29.2 0-53.4 25-53.4 54.3v101.8c0 29 25.2 46 53.4 54.3 33.8 9.9 66.3 11.7 106.8 0 26.9-7.8 53.4-23.5 53.4-54.3v-40.7H226.2v-13.6h160.2c31.1 0 42.6-21.7 53.4-54.2 11.2-33.5 10.7-65.7 0-108.6M286.2 444.7a20.4 20.4 0 1 1 0-40.7 20.4 20.4 0 1 1 0 40.7M167.8 248.1h106.8c29.7 0 53.4-24.5 53.4-54.3V91.9c0-29-24.4-50.7-53.4-55.6-35.8-5.9-74.7-5.6-106.8.1-45.2 8-53.4 24.7-53.4 55.6v40.7h106.9v13.6h-147c-31.1 0-58.3 18.7-66.8 54.2-9.8 40.7-10.2 66.1 0 108.6 7.6 31.6 25.7 54.2 56.8 54.2H101v-48.8c0-35.3 30.5-66.4 66.8-66.4m-6.6-183.4a20.4 20.4 0 1 1 0 40.8 20.4 20.4 0 1 1 0-40.8"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.annotate", "content.code.copy", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

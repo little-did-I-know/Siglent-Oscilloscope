@@ -1,0 +1,5278 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Python library for controlling Siglent oscilloscopes via SCPI over Ethernet">
+      
+      
+        <meta name="author" content="Robin Mumm">
+      
+      
+        <link rel="canonical" href="https://siglent-oscilloscope.readthedocs.io/gui/vector-graphics/">
+      
+      
+        <link rel="prev" href="../protocol-decoding/">
+      
+      
+        <link rel="next" href="../../report-generator/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>Vector Graphics - Siglent Oscilloscope Control</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#vector-graphics" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Siglent Oscilloscope Control" class="md-header__button md-logo" aria-label="Siglent Oscilloscope Control" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Siglent Oscilloscope Control
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Vector Graphics
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/little-did-I-know/Siglent-Oscilloscope" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    little-did-I-know/Siglent-Oscilloscope
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../getting-started/installation/" class="md-tabs__link">
+          
+  
+  
+  Getting Started
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../user-guide/basic-usage/" class="md-tabs__link">
+          
+  
+  
+  User Guide
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../overview/" class="md-tabs__link">
+          
+  
+  
+  GUI Application
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../report-generator/" class="md-tabs__link">
+          
+  
+  
+  Report Generator
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../api/oscilloscope/" class="md-tabs__link">
+          
+  
+  
+  API Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../examples/beginner/" class="md-tabs__link">
+          
+  
+  
+  Examples
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../development/contributing/" class="md-tabs__link">
+          
+  
+  
+  Development
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../about/changelog/" class="md-tabs__link">
+          
+  
+  
+  About
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Siglent Oscilloscope Control" class="md-nav__button md-logo" aria-label="Siglent Oscilloscope Control" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Siglent Oscilloscope Control
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/little-did-I-know/Siglent-Oscilloscope" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    little-did-I-know/Siglent-Oscilloscope
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Getting Started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/quickstart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quick Start
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/connection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Connection Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User Guide
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    User Guide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user-guide/basic-usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Basic Usage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user-guide/waveform-capture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Waveform Capture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user-guide/measurements/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Measurements
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user-guide/trigger-control/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trigger Control
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user-guide/advanced-features/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Advanced Features
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GUI Application
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    GUI Application
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../interface/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Interface Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../live-view/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Live View
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../visual-measurements/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Visual Measurements
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fft-analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FFT Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../protocol-decoding/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Protocol Decoding
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Vector Graphics
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Vector Graphics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Overview">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#key-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Features
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Installation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#accessing-vector-graphics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Accessing Vector Graphics
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Accessing Vector Graphics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#using-menu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using Menu
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-toolbar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using Toolbar
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docking-panel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Docking Panel
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#xy-mode-basics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        XY Mode Basics
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="XY Mode Basics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-is-xy-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is XY Mode?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enabling-xy-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Enabling XY Mode
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#xy-mode-applications" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        XY Mode Applications
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#shape-library" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Shape Library
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Shape Library">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pre-defined-shapes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pre-Defined Shapes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#creating-shape-from-library" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Creating Shape from Library
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#shape-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Shape Parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#custom-path-drawing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Custom Path Drawing
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Custom Path Drawing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#freehand-drawing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Freehand Drawing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#parametric-equations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parametric Equations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#supported-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Supported Functions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#path-editor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Path Editor
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#waveform-generation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Waveform Generation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Waveform Generation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#converting-shape-to-waveform" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Converting Shape to Waveform
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#waveform-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Waveform Parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#waveform-preview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Waveform Preview
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#animation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Animation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Animation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#animated-shapes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Animated Shapes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#animation-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Animation Parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#animation-timeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Animation Timeline
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#outputting-to-awg" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Outputting to AWG
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Outputting to AWG">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#internal-awg-if-available" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Internal AWG (if available)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#external-awgdac" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        External AWG/DAC
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#synchronization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Synchronization
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#display-settings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Display Settings
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Display Settings">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#xy-mode-display" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        XY Mode Display
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#color-and-brightness" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Color and Brightness
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#practical-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Practical Examples
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Practical Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-1-display-a-circle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 1: Display a Circle
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-2-lissajous-figure-32" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 2: Lissajous Figure (3:2)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-3-rotating-square" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 3: Rotating Square
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-4-heart-shape" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 4: Heart Shape
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-5-spiral-animation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 5: Spiral Animation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#advanced-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Advanced Features
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Advanced Features">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#multi-path-compositions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Multi-Path Compositions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3d-projections" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3D Projections
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bitmap-to-vector" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bitmap to Vector
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#text-rendering" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Text Rendering
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#shape-not-displaying" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Shape Not Displaying
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#distorted-shape" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Distorted Shape
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#flickering-display" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Flickering Display
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#incomplete-shape" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Incomplete Shape
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#animation-jerky" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Animation Jerky
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tips-and-best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tips and Best Practices
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tips and Best Practices">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#shape-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Shape Design
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#frequency-selection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Frequency Selection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#amplitude-range" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Amplitude Range
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#performance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Performance
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#synchronization_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Synchronization
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#keyboard-shortcuts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Keyboard Shortcuts
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-workflows" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example Workflows
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Example Workflows">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#workflow-1-quick-circle-test" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Workflow 1: Quick Circle Test
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#workflow-2-custom-logo-display" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Workflow 2: Custom Logo Display
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#workflow-3-animated-presentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Workflow 3: Animated Presentation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#integration-with-other-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Integration with Other Features
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Integration with Other Features">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#with-live-view" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        With Live View
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#with-fft-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        With FFT Analysis
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#with-measurements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        With Measurements
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#with-reference-waveforms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        With Reference Waveforms
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mathematical-background" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mathematical Background
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Mathematical Background">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#parametric-equations_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parametric Equations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rotation-matrix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rotation Matrix
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scaling-transform" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scaling Transform
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#safety-and-limitations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Safety and Limitations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Safety and Limitations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#awg-limitations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AWG Limitations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#oscilloscope-input" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Oscilloscope Input
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#frequency-limits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Frequency Limits
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next Steps
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Report Generator
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Report Generator
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../report-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../report-generator/getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../report-generator/llm-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    LLM Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../report-generator/templates/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Templates & Criteria
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../report-generator/api-reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/oscilloscope/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Oscilloscope
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/channel/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Channel
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/trigger/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trigger
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/waveform/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Waveform
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/measurement/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Measurement
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/automation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Automation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/connection_socket/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Socket Connection
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/exceptions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Exceptions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/models/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Models
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/vector_graphics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Vector Graphics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/screen_capture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Screen Capture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/reference_waveform/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference Waveform
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/math_channel/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Math Channel
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/gui/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GUI Components
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Examples
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Examples
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../examples/beginner/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Beginner Examples
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../examples/intermediate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Intermediate Examples
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../examples/advanced/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Advanced Examples
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Development
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Development
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../development/contributing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../development/building/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Building
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../development/structure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Project Structure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../development/testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    About
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/changelog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Changelog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/license/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    License
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/security/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Overview">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#key-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Features
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Installation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#accessing-vector-graphics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Accessing Vector Graphics
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Accessing Vector Graphics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#using-menu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using Menu
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-toolbar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using Toolbar
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#docking-panel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Docking Panel
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#xy-mode-basics" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        XY Mode Basics
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="XY Mode Basics">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-is-xy-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What is XY Mode?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enabling-xy-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Enabling XY Mode
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#xy-mode-applications" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        XY Mode Applications
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#shape-library" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Shape Library
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Shape Library">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pre-defined-shapes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pre-Defined Shapes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#creating-shape-from-library" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Creating Shape from Library
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#shape-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Shape Parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#custom-path-drawing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Custom Path Drawing
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Custom Path Drawing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#freehand-drawing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Freehand Drawing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#parametric-equations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parametric Equations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#supported-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Supported Functions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#path-editor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Path Editor
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#waveform-generation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Waveform Generation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Waveform Generation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#converting-shape-to-waveform" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Converting Shape to Waveform
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#waveform-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Waveform Parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#waveform-preview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Waveform Preview
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#animation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Animation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Animation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#animated-shapes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Animated Shapes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#animation-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Animation Parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#animation-timeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Animation Timeline
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#outputting-to-awg" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Outputting to AWG
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Outputting to AWG">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#internal-awg-if-available" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Internal AWG (if available)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#external-awgdac" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        External AWG/DAC
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#synchronization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Synchronization
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#display-settings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Display Settings
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Display Settings">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#xy-mode-display" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        XY Mode Display
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#color-and-brightness" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Color and Brightness
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#practical-examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Practical Examples
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Practical Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-1-display-a-circle" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 1: Display a Circle
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-2-lissajous-figure-32" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 2: Lissajous Figure (3:2)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-3-rotating-square" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 3: Rotating Square
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-4-heart-shape" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 4: Heart Shape
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example-5-spiral-animation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example 5: Spiral Animation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#advanced-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Advanced Features
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Advanced Features">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#multi-path-compositions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Multi-Path Compositions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3d-projections" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3D Projections
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bitmap-to-vector" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bitmap to Vector
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#text-rendering" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Text Rendering
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#shape-not-displaying" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Shape Not Displaying
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#distorted-shape" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Distorted Shape
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#flickering-display" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Flickering Display
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#incomplete-shape" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Incomplete Shape
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#animation-jerky" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Animation Jerky
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tips-and-best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tips and Best Practices
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Tips and Best Practices">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#shape-design" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Shape Design
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#frequency-selection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Frequency Selection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#amplitude-range" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Amplitude Range
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#performance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Performance
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#synchronization_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Synchronization
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#keyboard-shortcuts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Keyboard Shortcuts
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-workflows" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example Workflows
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Example Workflows">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#workflow-1-quick-circle-test" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Workflow 1: Quick Circle Test
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#workflow-2-custom-logo-display" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Workflow 2: Custom Logo Display
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#workflow-3-animated-presentation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Workflow 3: Animated Presentation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#integration-with-other-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Integration with Other Features
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Integration with Other Features">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#with-live-view" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        With Live View
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#with-fft-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        With FFT Analysis
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#with-measurements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        With Measurements
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#with-reference-waveforms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        With Reference Waveforms
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mathematical-background" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mathematical Background
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Mathematical Background">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#parametric-equations_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parametric Equations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rotation-matrix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rotation Matrix
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scaling-transform" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scaling Transform
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#safety-and-limitations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Safety and Limitations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Safety and Limitations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#awg-limitations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AWG Limitations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#oscilloscope-input" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Oscilloscope Input
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#frequency-limits" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Frequency Limits
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next Steps
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="vector-graphics">Vector Graphics<a class="headerlink" href="#vector-graphics" title="Permanent link">&para;</a></h1>
+<p>The Vector Graphics feature allows you to create and display custom shapes and patterns using XY mode, generate waveforms for animation, and export to arbitrary waveform generators (AWG). This guide covers creating vector graphics in the GUI.</p>
+<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
+<p>Vector graphics mode uses the oscilloscope's XY display mode to draw shapes, patterns, and animations by controlling two channels as X and Y coordinates. The GUI provides tools to:</p>
+<ul>
+<li>Create basic shapes (circles, squares, triangles, etc.)</li>
+<li>Draw custom paths and Lissajous figures</li>
+<li>Generate waveform data for AWG output</li>
+<li>Animate shapes and patterns</li>
+<li>Export to external AWG/DAC devices</li>
+<li>Visualize parametric equations</li>
+</ul>
+<h3 id="key-features">Key Features<a class="headerlink" href="#key-features" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Shape Library</strong>: Pre-defined shapes and patterns</li>
+<li><strong>Custom Path Drawing</strong>: Draw freehand or define parametric equations</li>
+<li><strong>Waveform Generation</strong>: Convert shapes to voltage waveforms</li>
+<li><strong>Animation</strong>: Time-varying patterns and rotations</li>
+<li><strong>AWG Export</strong>: Send to oscilloscope AWG or external generator</li>
+<li><strong>Preview Mode</strong>: Real-time preview before output</li>
+</ul>
+<h2 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">&para;</a></h2>
+<p>Vector graphics features require the 'fun' extras package:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>pip<span class="w"> </span>install<span class="w"> </span><span class="s2">&quot;Siglent-Oscilloscope[fun]&quot;</span>
+</span></code></pre></div>
+<p><strong>Dependencies:</strong></p>
+<ul>
+<li>NumPy (for waveform calculations)</li>
+<li>SciPy (for signal processing)</li>
+<li>PyQt6 (for GUI)</li>
+</ul>
+<p><strong>Optional:</strong></p>
+<ul>
+<li>PyQtGraph (for high-performance preview)</li>
+</ul>
+<h2 id="accessing-vector-graphics">Accessing Vector Graphics<a class="headerlink" href="#accessing-vector-graphics" title="Permanent link">&para;</a></h2>
+<h3 id="using-menu">Using Menu<a class="headerlink" href="#using-menu" title="Permanent link">&para;</a></h3>
+<p><strong>Tools → Vector Graphics</strong> or <code>Ctrl+X</code></p>
+<p>Opens the Vector Graphics panel</p>
+<h3 id="using-toolbar">Using Toolbar<a class="headerlink" href="#using-toolbar" title="Permanent link">&para;</a></h3>
+<p>Click the <strong>Vector Graphics</strong> button (📐 icon)</p>
+<h3 id="docking-panel">Docking Panel<a class="headerlink" href="#docking-panel" title="Permanent link">&para;</a></h3>
+<p>Vector Graphics can be:</p>
+<ul>
+<li>Docked to main window</li>
+<li>Floating window</li>
+<li>Tabbed with other panels</li>
+</ul>
+<h2 id="xy-mode-basics">XY Mode Basics<a class="headerlink" href="#xy-mode-basics" title="Permanent link">&para;</a></h2>
+<h3 id="what-is-xy-mode">What is XY Mode?<a class="headerlink" href="#what-is-xy-mode" title="Permanent link">&para;</a></h3>
+<p>XY mode displays one channel on the X-axis and another on the Y-axis, creating 2D plots instead of time-domain waveforms.</p>
+<p><strong>Normal Time Mode:</strong></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Y-axis: Voltage
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>X-axis: Time
+</span></code></pre></div>
+<p><strong>XY Mode:</strong></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>Y-axis: Channel 2 Voltage
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>X-axis: Channel 1 Voltage
+</span></code></pre></div>
+<h3 id="enabling-xy-mode">Enabling XY Mode<a class="headerlink" href="#enabling-xy-mode" title="Permanent link">&para;</a></h3>
+<p><strong>In GUI:</strong></p>
+<ol>
+<li>Vector Graphics panel</li>
+<li>Click "Enable XY Mode"</li>
+<li>Select channels for X and Y</li>
+</ol>
+<p><strong>Channel Assignment:</strong></p>
+<ul>
+<li>X-axis: Usually Channel 1</li>
+<li>Y-axis: Usually Channel 2</li>
+<li>Adjustable in settings</li>
+</ul>
+<h3 id="xy-mode-applications">XY Mode Applications<a class="headerlink" href="#xy-mode-applications" title="Permanent link">&para;</a></h3>
+<p><strong>Lissajous Figures:</strong></p>
+<ul>
+<li>Compare two sine waves</li>
+<li>Measure phase relationships</li>
+<li>Frequency ratio visualization</li>
+</ul>
+<p><strong>Example:</strong></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>C1: sin(ωt) → X-axis
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>C2: sin(2ωt) → Y-axis
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>Result: Lissajous figure (2:1 ratio)
+</span></code></pre></div>
+<p><strong>Shape Display:</strong></p>
+<ul>
+<li>Circles, ellipses</li>
+<li>Custom closed paths</li>
+<li>Vector drawings</li>
+</ul>
+<p><strong>Parametric Equations:</strong></p>
+<ul>
+<li>Rose curves</li>
+<li>Spirals</li>
+<li>Mathematical patterns</li>
+</ul>
+<h2 id="shape-library">Shape Library<a class="headerlink" href="#shape-library" title="Permanent link">&para;</a></h2>
+<h3 id="pre-defined-shapes">Pre-Defined Shapes<a class="headerlink" href="#pre-defined-shapes" title="Permanent link">&para;</a></h3>
+<p>The GUI includes a library of common shapes:</p>
+<p><strong>Basic Shapes:</strong></p>
+<ul>
+<li>Circle</li>
+<li>Square</li>
+<li>Triangle</li>
+<li>Pentagon</li>
+<li>Hexagon</li>
+<li>Star</li>
+</ul>
+<p><strong>Advanced Shapes:</strong></p>
+<ul>
+<li>Heart</li>
+<li>Infinity symbol</li>
+<li>Trefoil</li>
+<li>Lemniscate</li>
+<li>Spiral</li>
+</ul>
+<p><strong>Lissajous Patterns:</strong></p>
+<ul>
+<li>1:1, 1:2, 2:3 ratios</li>
+<li>Various phase offsets</li>
+<li>Amplitude variations</li>
+</ul>
+<h3 id="creating-shape-from-library">Creating Shape from Library<a class="headerlink" href="#creating-shape-from-library" title="Permanent link">&para;</a></h3>
+<p><strong>Steps:</strong></p>
+<ol>
+<li>Open Vector Graphics panel</li>
+<li>Click "Shape Library"</li>
+<li>Select shape from list</li>
+<li>Adjust parameters:</li>
+<li>Size</li>
+<li>Position</li>
+<li>Rotation</li>
+<li>Line width</li>
+<li>Click "Generate"</li>
+</ol>
+<p><strong>Example: Circle</strong></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>Shape: Circle
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>Radius: 1.0 V
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>Center X: 0.0 V
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>Center Y: 0.0 V
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>Points: 1000
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>Frequency: 1 kHz
+</span></code></pre></div>
+<h3 id="shape-parameters">Shape Parameters<a class="headerlink" href="#shape-parameters" title="Permanent link">&para;</a></h3>
+<p><strong>Size:</strong></p>
+<ul>
+<li>Radius for circles</li>
+<li>Width/Height for rectangles</li>
+<li>Scale factor for custom shapes</li>
+</ul>
+<p><strong>Position:</strong></p>
+<ul>
+<li>X offset</li>
+<li>Y offset</li>
+<li>Centers the shape</li>
+</ul>
+<p><strong>Rotation:</strong></p>
+<ul>
+<li>Angle in degrees</li>
+<li>0° to 360°</li>
+<li>Rotates around center</li>
+</ul>
+<p><strong>Resolution:</strong></p>
+<ul>
+<li>Number of points</li>
+<li>Higher = smoother curves</li>
+<li>Typical: 500-2000 points</li>
+</ul>
+<p><strong>Frequency:</strong></p>
+<ul>
+<li>Waveform frequency</li>
+<li>Affects display speed</li>
+<li>Typical: 100 Hz - 10 kHz</li>
+</ul>
+<h2 id="custom-path-drawing">Custom Path Drawing<a class="headerlink" href="#custom-path-drawing" title="Permanent link">&para;</a></h2>
+<h3 id="freehand-drawing">Freehand Drawing<a class="headerlink" href="#freehand-drawing" title="Permanent link">&para;</a></h3>
+<p><strong>Interactive Drawing:</strong></p>
+<ol>
+<li>Click "Draw Custom Path"</li>
+<li>Use mouse to draw on canvas</li>
+<li>Path automatically smoothed</li>
+<li>Click "Finish" when done</li>
+</ol>
+<p><strong>Features:</strong></p>
+<ul>
+<li>Automatic path smoothing</li>
+<li>Point reduction for efficiency</li>
+<li>Closed path option</li>
+<li>Undo/redo support</li>
+</ul>
+<h3 id="parametric-equations">Parametric Equations<a class="headerlink" href="#parametric-equations" title="Permanent link">&para;</a></h3>
+<p><strong>Define Custom Shapes:</strong></p>
+<p>Enter X and Y as functions of parameter t:</p>
+<p><strong>Example: Rose Curve</strong></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>X(t) = cos(3t) * cos(t)
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>Y(t) = cos(3t) * sin(t)
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>t: 0 to 2π
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>Points: 1000
+</span></code></pre></div>
+<p><strong>Example: Spiral</strong></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>X(t) = t * cos(10t)
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>Y(t) = t * sin(10t)
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>t: 0 to 2π
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>Points: 2000
+</span></code></pre></div>
+<p><strong>Example: Lissajous (3:2 ratio)</strong></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>X(t) = sin(3*ω*t)
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>Y(t) = sin(2*ω*t + π/2)
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>ω = 2π * frequency
+</span></code></pre></div>
+<h3 id="supported-functions">Supported Functions<a class="headerlink" href="#supported-functions" title="Permanent link">&para;</a></h3>
+<p><strong>Mathematical:</strong></p>
+<ul>
+<li>sin(x), cos(x), tan(x)</li>
+<li>sqrt(x), exp(x), log(x)</li>
+<li>abs(x), sign(x)</li>
+</ul>
+<p><strong>Constants:</strong></p>
+<ul>
+<li>pi (π)</li>
+<li>e (Euler's number)</li>
+<li>Custom constants</li>
+</ul>
+<p><strong>Operations:</strong></p>
+<ul>
+<li>+, -, *, /</li>
+<li>** (power)</li>
+<li>Parentheses</li>
+</ul>
+<h3 id="path-editor">Path Editor<a class="headerlink" href="#path-editor" title="Permanent link">&para;</a></h3>
+<p><strong>Edit Points:</strong></p>
+<ul>
+<li>Add/remove points</li>
+<li>Drag points to adjust</li>
+<li>Bezier curve handles</li>
+<li>Snap to grid</li>
+</ul>
+<p><strong>Path Operations:</strong></p>
+<ul>
+<li>Scale</li>
+<li>Rotate</li>
+<li>Mirror (horizontal/vertical)</li>
+<li>Reverse direction</li>
+</ul>
+<p><strong>Path Properties:</strong></p>
+<ul>
+<li>Total length</li>
+<li>Number of points</li>
+<li>Bounding box</li>
+<li>Closed/open path</li>
+</ul>
+<h2 id="waveform-generation">Waveform Generation<a class="headerlink" href="#waveform-generation" title="Permanent link">&para;</a></h2>
+<h3 id="converting-shape-to-waveform">Converting Shape to Waveform<a class="headerlink" href="#converting-shape-to-waveform" title="Permanent link">&para;</a></h3>
+<p>The shape is converted to two waveforms (X and Y):</p>
+<p><strong>Process:</strong></p>
+<ol>
+<li>Shape path defined (library or custom)</li>
+<li>Path sampled at N points</li>
+<li>X coordinates → Channel 1 waveform</li>
+<li>Y coordinates → Channel 2 waveform</li>
+<li>Both waveforms synchronized</li>
+</ol>
+<p><strong>Example:</strong></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>Circle at origin, radius 1V, 1000 points:
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>X[n] = cos(2π * n/1000)
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>Y[n] = sin(2π * n/1000)
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>n = 0 to 999
+</span></code></pre></div>
+<h3 id="waveform-parameters">Waveform Parameters<a class="headerlink" href="#waveform-parameters" title="Permanent link">&para;</a></h3>
+<p><strong>Sample Rate:</strong></p>
+<ul>
+<li>Determines time resolution</li>
+<li>Higher rate = smoother display</li>
+<li>Typical: 1 kSa/s to 1 MSa/s</li>
+</ul>
+<p><strong>Frequency:</strong></p>
+<ul>
+<li>How fast shape is drawn</li>
+<li>Lower frequency = slower, smoother</li>
+<li>Higher frequency = faster, may flicker</li>
+<li>Typical: 100 Hz - 5 kHz</li>
+</ul>
+<p><strong>Amplitude:</strong></p>
+<ul>
+<li>Voltage range</li>
+<li>X and Y independent</li>
+<li>Must fit within oscilloscope range</li>
+<li>Typical: ±1V to ±5V</li>
+</ul>
+<p><strong>DC Offset:</strong></p>
+<ul>
+<li>Center position</li>
+<li>X and Y independent</li>
+<li>Shifts shape on screen</li>
+<li>Typical: 0V (centered)</li>
+</ul>
+<h3 id="waveform-preview">Waveform Preview<a class="headerlink" href="#waveform-preview" title="Permanent link">&para;</a></h3>
+<p><strong>Real-Time Preview:</strong></p>
+<ul>
+<li>Shows generated waveforms</li>
+<li>Time domain view (both channels)</li>
+<li>XY mode preview</li>
+<li>FFT spectrum view</li>
+</ul>
+<p><strong>Preview Controls:</strong></p>
+<ul>
+<li>Zoom in/out</li>
+<li>Pan</li>
+<li>Measure points</li>
+<li>Cursors</li>
+</ul>
+<p><strong>Updates:</strong></p>
+<ul>
+<li>Automatic when parameters change</li>
+<li>Adjustable update rate</li>
+<li>Pause preview for performance</li>
+</ul>
+<h2 id="animation">Animation<a class="headerlink" href="#animation" title="Permanent link">&para;</a></h2>
+<h3 id="animated-shapes">Animated Shapes<a class="headerlink" href="#animated-shapes" title="Permanent link">&para;</a></h3>
+<p><strong>Types of Animation:</strong></p>
+<p><strong>Rotation:</strong></p>
+<ul>
+<li>Rotate shape over time</li>
+<li>Speed adjustable</li>
+<li>Clockwise/counter-clockwise</li>
+</ul>
+<p><strong>Scaling:</strong></p>
+<ul>
+<li>Grow/shrink</li>
+<li>Pulsing effect</li>
+<li>Sine wave modulation</li>
+</ul>
+<p><strong>Translation:</strong></p>
+<ul>
+<li>Move shape</li>
+<li>Circular orbit</li>
+<li>Linear path</li>
+</ul>
+<p><strong>Morphing:</strong></p>
+<ul>
+<li>Transition between shapes</li>
+<li>Smooth interpolation</li>
+</ul>
+<h3 id="animation-parameters">Animation Parameters<a class="headerlink" href="#animation-parameters" title="Permanent link">&para;</a></h3>
+<p><strong>Rotation Animation:</strong></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>Rotation Speed: 30°/s
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>Direction: Clockwise
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>Loop: Continuous
+</span></code></pre></div>
+<p>Implemented as:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="n">angle</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="o">=</span> <span class="n">angle_start</span> <span class="o">+</span> <span class="n">rotation_speed</span> <span class="o">*</span> <span class="n">t</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="n">X_rotated</span> <span class="o">=</span> <span class="n">X</span> <span class="o">*</span> <span class="n">cos</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span> <span class="o">-</span> <span class="n">Y</span> <span class="o">*</span> <span class="n">sin</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="n">Y_rotated</span> <span class="o">=</span> <span class="n">X</span> <span class="o">*</span> <span class="n">sin</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span> <span class="o">+</span> <span class="n">Y</span> <span class="o">*</span> <span class="n">cos</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span>
+</span></code></pre></div>
+<p><strong>Pulsing Animation:</strong></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>Pulse Frequency: 2 Hz
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>Min Scale: 0.5
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>Max Scale: 1.5
+</span></code></pre></div>
+<p>Implemented as:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="n">scale</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="o">+</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="n">sin</span><span class="p">(</span><span class="mi">2</span><span class="n">π</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">t</span><span class="p">)</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="n">X_scaled</span> <span class="o">=</span> <span class="n">X</span> <span class="o">*</span> <span class="n">scale</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="n">Y_scaled</span> <span class="o">=</span> <span class="n">Y</span> <span class="o">*</span> <span class="n">scale</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+</span></code></pre></div>
+<h3 id="animation-timeline">Animation Timeline<a class="headerlink" href="#animation-timeline" title="Permanent link">&para;</a></h3>
+<p><strong>Timeline Editor:</strong></p>
+<ul>
+<li>Keyframe-based animation</li>
+<li>Drag keyframes on timeline</li>
+<li>Interpolation between keyframes</li>
+<li>Loop/ping-pong modes</li>
+</ul>
+<p><strong>Keyframes:</strong></p>
+<ul>
+<li>Position</li>
+<li>Scale</li>
+<li>Rotation</li>
+<li>Opacity (via amplitude)</li>
+</ul>
+<p><strong>Playback Controls:</strong></p>
+<ul>
+<li>Play/pause</li>
+<li>Speed control</li>
+<li>Frame-by-frame stepping</li>
+<li>Export as image sequence</li>
+</ul>
+<h2 id="outputting-to-awg">Outputting to AWG<a class="headerlink" href="#outputting-to-awg" title="Permanent link">&para;</a></h2>
+<h3 id="internal-awg-if-available">Internal AWG (if available)<a class="headerlink" href="#internal-awg-if-available" title="Permanent link">&para;</a></h3>
+<p>Some Siglent oscilloscopes have built-in AWG:</p>
+<p><strong>Output to AWG:</strong></p>
+<ol>
+<li>Generate waveform</li>
+<li>Click "Send to AWG"</li>
+<li>Select AWG channels</li>
+<li>Configure output settings</li>
+<li>Enable AWG output</li>
+</ol>
+<p><strong>AWG Settings:</strong></p>
+<ul>
+<li>Frequency</li>
+<li>Amplitude</li>
+<li>Offset</li>
+<li>Output impedance (50Ω / High-Z)</li>
+</ul>
+<p><strong>Example:</strong></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>AWG Ch1 (X): Circle X-component
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>  Frequency: 1 kHz
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>  Amplitude: 1 Vpp
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>  Offset: 0 V
+</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>
+</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>AWG Ch2 (Y): Circle Y-component
+</span><span id="__span-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a>  Frequency: 1 kHz
+</span><span id="__span-13-8"><a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>  Amplitude: 1 Vpp
+</span><span id="__span-13-9"><a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a>  Offset: 0 V
+</span></code></pre></div>
+<h3 id="external-awgdac">External AWG/DAC<a class="headerlink" href="#external-awgdac" title="Permanent link">&para;</a></h3>
+<p><strong>Export Waveform Data:</strong></p>
+<p><strong>Formats:</strong></p>
+<ul>
+<li>CSV (time, voltage)</li>
+<li>WAV (audio format, for some AWGs)</li>
+<li>Binary (raw samples)</li>
+<li>Arbitrary waveform format (manufacturer-specific)</li>
+</ul>
+<p><strong>Export Steps:</strong></p>
+<ol>
+<li>Generate waveform</li>
+<li>File → Export Waveform</li>
+<li>Choose format</li>
+<li>Save files (X and Y separate or combined)</li>
+<li>Load into external AWG</li>
+</ol>
+<p><strong>CSV Format Example:</strong></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>Time (s), X Voltage (V), Y Voltage (V)
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>0.000000, 1.000000, 0.000000
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>0.000001, 0.999500, 0.031411
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>0.000002, 0.998001, 0.062791
+</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>...
+</span></code></pre></div>
+<h3 id="synchronization">Synchronization<a class="headerlink" href="#synchronization" title="Permanent link">&para;</a></h3>
+<p><strong>Critical for XY Display:</strong></p>
+<ul>
+<li>Both channels must be synchronized</li>
+<li>Same sample rate</li>
+<li>Same start time</li>
+<li>Same number of points</li>
+</ul>
+<p><strong>Synchronization Tips:</strong></p>
+<ul>
+<li>Use same AWG for both outputs</li>
+<li>If using two AWGs, use external sync</li>
+<li>Check relative phase</li>
+<li>Verify with oscilloscope XY mode</li>
+</ul>
+<h2 id="display-settings">Display Settings<a class="headerlink" href="#display-settings" title="Permanent link">&para;</a></h2>
+<h3 id="xy-mode-display">XY Mode Display<a class="headerlink" href="#xy-mode-display" title="Permanent link">&para;</a></h3>
+<p><strong>Aspect Ratio:</strong></p>
+<ul>
+<li>1:1 (square) - Default</li>
+<li>4:3 (standard)</li>
+<li>16:9 (widescreen)</li>
+<li>Custom</li>
+</ul>
+<p><strong>Persistence:</strong></p>
+<ul>
+<li>Infinite persistence shows complete path</li>
+<li>Short persistence for animated shapes</li>
+<li>Adjustable decay time</li>
+</ul>
+<p><strong>Line Style:</strong></p>
+<ul>
+<li>Solid line</li>
+<li>Dotted/dashed (shows direction)</li>
+<li>Color gradient (shows time progression)</li>
+<li>Brightness modulation</li>
+</ul>
+<p><strong>Grid:</strong></p>
+<ul>
+<li>Show/hide grid</li>
+<li>Grid spacing</li>
+<li>Polar grid option (for circular shapes)</li>
+</ul>
+<h3 id="color-and-brightness">Color and Brightness<a class="headerlink" href="#color-and-brightness" title="Permanent link">&para;</a></h3>
+<p><strong>Color Modes:</strong></p>
+<ul>
+<li>Single color</li>
+<li>Gradient (start to end)</li>
+<li>Rainbow (full spectrum)</li>
+<li>Custom palette</li>
+</ul>
+<p><strong>Brightness:</strong></p>
+<ul>
+<li>Constant</li>
+<li>Modulated (shows speed)</li>
+<li>Fades at endpoints</li>
+</ul>
+<h2 id="practical-examples">Practical Examples<a class="headerlink" href="#practical-examples" title="Permanent link">&para;</a></h2>
+<h3 id="example-1-display-a-circle">Example 1: Display a Circle<a class="headerlink" href="#example-1-display-a-circle" title="Permanent link">&para;</a></h3>
+<p><strong>Objective:</strong> Display a perfect circle in XY mode</p>
+<p><strong>Steps:</strong></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>1. Open Vector Graphics panel
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>2. Shape Library → Circle
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>3. Parameters:
+</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>   Radius: 2.0 V
+</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>   Center: (0, 0)
+</span><span id="__span-15-6"><a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>   Points: 1000
+</span><span id="__span-15-7"><a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a>   Frequency: 1 kHz
+</span><span id="__span-15-8"><a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a>4. Click &quot;Generate&quot;
+</span><span id="__span-15-9"><a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a>5. Enable XY Mode
+</span><span id="__span-15-10"><a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a>6. Adjust oscilloscope:
+</span><span id="__span-15-11"><a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a>   C1: 1 V/div, 0 V offset
+</span><span id="__span-15-12"><a id="__codelineno-15-12" name="__codelineno-15-12" href="#__codelineno-15-12"></a>   C2: 1 V/div, 0 V offset
+</span><span id="__span-15-13"><a id="__codelineno-15-13" name="__codelineno-15-13" href="#__codelineno-15-13"></a>7. View circle on screen
+</span></code></pre></div>
+<p><strong>Result:</strong> Perfect circle displayed on oscilloscope</p>
+<h3 id="example-2-lissajous-figure-32">Example 2: Lissajous Figure (3:2)<a class="headerlink" href="#example-2-lissajous-figure-32" title="Permanent link">&para;</a></h3>
+<p><strong>Objective:</strong> Create a 3:2 Lissajous pattern</p>
+<p><strong>Custom Equation:</strong></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>X(t) = sin(3 * 2π * f * t)
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>Y(t) = sin(2 * 2π * f * t)
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>f = 100 Hz
+</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>t: 0 to 1 s
+</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>Sample rate: 10 kSa/s
+</span></code></pre></div>
+<p><strong>Settings:</strong></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>Amplitude X: 2 V
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>Amplitude Y: 2 V
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>Offset: 0 V
+</span></code></pre></div>
+<p><strong>Result:</strong> Three-lobed Lissajous figure</p>
+<h3 id="example-3-rotating-square">Example 3: Rotating Square<a class="headerlink" href="#example-3-rotating-square" title="Permanent link">&para;</a></h3>
+<p><strong>Objective:</strong> Animate a rotating square</p>
+<p><strong>Steps:</strong></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>1. Shape Library → Square
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>2. Size: 2V × 2V
+</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>3. Animation:
+</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>   Type: Rotation
+</span><span id="__span-18-5"><a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>   Speed: 45°/s
+</span><span id="__span-18-6"><a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a>   Loop: Continuous
+</span><span id="__span-18-7"><a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a>4. Generate and preview
+</span><span id="__span-18-8"><a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a>5. Send to AWG (if available)
+</span><span id="__span-18-9"><a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a>   Or preview in real-time
+</span></code></pre></div>
+<p><strong>Result:</strong> Square rotates continuously</p>
+<h3 id="example-4-heart-shape">Example 4: Heart Shape<a class="headerlink" href="#example-4-heart-shape" title="Permanent link">&para;</a></h3>
+<p><strong>Objective:</strong> Display a heart using parametric equations</p>
+<p><strong>Parametric Equations:</strong></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>X(t) = 16 * sin³(t)
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>Y(t) = 13*cos(t) - 5*cos(2t) - 2*cos(3t) - cos(4t)
+</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>t: 0 to 2π
+</span><span id="__span-19-4"><a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>Scale: 0.1 (to fit ±5V range)
+</span></code></pre></div>
+<p><strong>Steps:</strong></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>1. Custom Path → Parametric
+</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>2. Enter equations above
+</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>3. Set t range and points
+</span><span id="__span-20-4"><a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a>4. Generate and preview
+</span><span id="__span-20-5"><a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a>5. Adjust scale to fit display
+</span></code></pre></div>
+<p><strong>Result:</strong> Heart shape displayed</p>
+<h3 id="example-5-spiral-animation">Example 5: Spiral Animation<a class="headerlink" href="#example-5-spiral-animation" title="Permanent link">&para;</a></h3>
+<p><strong>Objective:</strong> Expanding/contracting spiral</p>
+<p><strong>Parametric with Animation:</strong></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>X(t, anim) = anim * t * cos(10t)
+</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>Y(t, anim) = anim * t * sin(10t)
+</span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>t: 0 to 2π
+</span><span id="__span-21-4"><a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a>anim: 0.5 to 1.5 (sine wave modulation)
+</span></code></pre></div>
+<p><strong>Animation:</strong></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>anim(time) = 1.0 + 0.5 * sin(2π * 1 Hz * time)
+</span></code></pre></div>
+<p><strong>Result:</strong> Spiral that grows and shrinks</p>
+<h2 id="advanced-features">Advanced Features<a class="headerlink" href="#advanced-features" title="Permanent link">&para;</a></h2>
+<h3 id="multi-path-compositions">Multi-Path Compositions<a class="headerlink" href="#multi-path-compositions" title="Permanent link">&para;</a></h3>
+<p><strong>Combine Multiple Shapes:</strong></p>
+<ul>
+<li>Draw several shapes sequentially</li>
+<li>Rapid switching between paths</li>
+<li>Creates composite images</li>
+</ul>
+<p><strong>Implementation:</strong></p>
+<ul>
+<li>Switch between waveforms rapidly</li>
+<li>Use blanking signal to control visibility</li>
+<li>Requires fast AWG or pattern generator</li>
+</ul>
+<h3 id="3d-projections">3D Projections<a class="headerlink" href="#3d-projections" title="Permanent link">&para;</a></h3>
+<p><strong>Project 3D shapes to 2D:</strong></p>
+<ul>
+<li>Define shape in 3D (X, Y, Z)</li>
+<li>Apply rotation matrix</li>
+<li>Project to XY plane</li>
+<li>Animate rotation for 3D effect</li>
+</ul>
+<p><strong>Example: Rotating Cube</strong></p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="c1"># Define cube vertices in 3D</span>
+</span><span id="__span-23-2"><a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a><span class="c1"># Apply rotation matrix</span>
+</span><span id="__span-23-3"><a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a><span class="c1"># Project to 2D (X, Y)</span>
+</span><span id="__span-23-4"><a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a><span class="c1"># Connect vertices with lines</span>
+</span><span id="__span-23-5"><a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a><span class="c1"># Animate rotation angles</span>
+</span></code></pre></div>
+<h3 id="bitmap-to-vector">Bitmap to Vector<a class="headerlink" href="#bitmap-to-vector" title="Permanent link">&para;</a></h3>
+<p><strong>Convert Images to Vector Paths:</strong></p>
+<ol>
+<li>Import bitmap image</li>
+<li>Edge detection</li>
+<li>Trace edges to paths</li>
+<li>Simplify path (reduce points)</li>
+<li>Export as waveform</li>
+</ol>
+<p><strong>Use Cases:</strong></p>
+<ul>
+<li>Display logos</li>
+<li>Custom artwork</li>
+<li>Text rendering</li>
+</ul>
+<h3 id="text-rendering">Text Rendering<a class="headerlink" href="#text-rendering" title="Permanent link">&para;</a></h3>
+<p><strong>Display Text:</strong></p>
+<ul>
+<li>Use vector font</li>
+<li>Convert characters to paths</li>
+<li>Generate waveform</li>
+<li>Display in XY mode</li>
+</ul>
+<p><strong>Font Options:</strong></p>
+<ul>
+<li>Hershey vector fonts</li>
+<li>Single-stroke fonts</li>
+<li>Custom fonts</li>
+</ul>
+<h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
+<h3 id="shape-not-displaying">Shape Not Displaying<a class="headerlink" href="#shape-not-displaying" title="Permanent link">&para;</a></h3>
+<p><strong>Problem:</strong> XY mode enabled but no shape visible</p>
+<p><strong>Solutions:</strong></p>
+<ol>
+<li><strong>Check Channels Enabled</strong></li>
+<li>Both X and Y channels must be on</li>
+<li>
+<p>Verify in Channels tab</p>
+</li>
+<li>
+<p><strong>Verify Voltage Scales</strong></p>
+</li>
+<li>Shape may be off-screen</li>
+<li>Adjust V/div to see full shape</li>
+<li>
+<p>Use Auto Scale</p>
+</li>
+<li>
+<p><strong>Check Waveform Generated</strong></p>
+</li>
+<li>Preview shows waveforms</li>
+<li>Non-zero amplitude</li>
+<li>
+<p>Correct frequency</p>
+</li>
+<li>
+<p><strong>Verify AWG Output</strong></p>
+</li>
+<li>AWG enabled and running</li>
+<li>Cables connected correctly</li>
+<li>Output impedance correct</li>
+</ol>
+<h3 id="distorted-shape">Distorted Shape<a class="headerlink" href="#distorted-shape" title="Permanent link">&para;</a></h3>
+<p><strong>Problem:</strong> Shape is stretched or squashed</p>
+<p><strong>Solutions:</strong></p>
+<ol>
+<li><strong>Match Voltage Scales</strong></li>
+<li>Set C1 and C2 to same V/div</li>
+<li>
+<p>Equal scales for equal aspect ratio</p>
+</li>
+<li>
+<p><strong>Check Probe Ratios</strong></p>
+</li>
+<li>Both channels same probe ratio</li>
+<li>
+<p>Usually 1X for AWG output</p>
+</li>
+<li>
+<p><strong>Verify Calibration</strong></p>
+</li>
+<li>Oscilloscope calibrated</li>
+<li>AWG calibrated</li>
+<li>Check with known signal (circle)</li>
+</ol>
+<h3 id="flickering-display">Flickering Display<a class="headerlink" href="#flickering-display" title="Permanent link">&para;</a></h3>
+<p><strong>Problem:</strong> Shape flickers or is unstable</p>
+<p><strong>Solutions:</strong></p>
+<ol>
+<li><strong>Adjust Frequency</strong></li>
+<li>Too high: Flickers</li>
+<li>Too low: Draws slowly</li>
+<li>
+<p>Sweet spot: 500 Hz - 2 kHz</p>
+</li>
+<li>
+<p><strong>Check Synchronization</strong></p>
+</li>
+<li>X and Y must be synchronized</li>
+<li>Same start time</li>
+<li>
+<p>Use same AWG for both</p>
+</li>
+<li>
+<p><strong>Persistence Settings</strong></p>
+</li>
+<li>Enable infinite persistence</li>
+<li>Or increase persistence time</li>
+<li>Helps with slower shapes</li>
+</ol>
+<h3 id="incomplete-shape">Incomplete Shape<a class="headerlink" href="#incomplete-shape" title="Permanent link">&para;</a></h3>
+<p><strong>Problem:</strong> Shape not closed or has gaps</p>
+<p><strong>Solutions:</strong></p>
+<ol>
+<li><strong>Increase Points</strong></li>
+<li>More points = smoother curve</li>
+<li>
+<p>Try 1000-2000 points</p>
+</li>
+<li>
+<p><strong>Check Path Closure</strong></p>
+</li>
+<li>For closed shapes, first point = last point</li>
+<li>
+<p>Enable "Close Path" option</p>
+</li>
+<li>
+<p><strong>Adjust Sample Rate</strong></p>
+</li>
+<li>Higher sample rate</li>
+<li>More samples per cycle</li>
+</ol>
+<h3 id="animation-jerky">Animation Jerky<a class="headerlink" href="#animation-jerky" title="Permanent link">&para;</a></h3>
+<p><strong>Problem:</strong> Animation not smooth</p>
+<p><strong>Solutions:</strong></p>
+<ol>
+<li><strong>Increase Frame Rate</strong></li>
+<li>Higher update rate</li>
+<li>
+<p>May impact performance</p>
+</li>
+<li>
+<p><strong>Reduce Animation Speed</strong></p>
+</li>
+<li>Slower animations appear smoother</li>
+<li>
+<p>Adjust speed parameter</p>
+</li>
+<li>
+<p><strong>Check CPU Load</strong></p>
+</li>
+<li>Close unnecessary apps</li>
+<li>Reduce preview resolution</li>
+<li>Use PyQtGraph if available</li>
+</ol>
+<h2 id="tips-and-best-practices">Tips and Best Practices<a class="headerlink" href="#tips-and-best-practices" title="Permanent link">&para;</a></h2>
+<h3 id="shape-design">Shape Design<a class="headerlink" href="#shape-design" title="Permanent link">&para;</a></h3>
+<p>!!! tip "Good Shapes for XY Display" - <strong>Closed paths</strong> work best (circle, square) - <strong>Smooth curves</strong> display better than sharp angles - <strong>Equal aspect ratio</strong> requires matching X and Y scales - <strong>1000-2000 points</strong> is optimal resolution</p>
+<h3 id="frequency-selection">Frequency Selection<a class="headerlink" href="#frequency-selection" title="Permanent link">&para;</a></h3>
+<p>!!! tip "Choosing Frequency" - <strong>100-500 Hz</strong>: Best for complex shapes - <strong>500-2000 Hz</strong>: Good balance for most shapes - <strong>2-5 kHz</strong>: Simple shapes, faster animation - <strong>&gt;5 kHz</strong>: May flicker, test on scope</p>
+<h3 id="amplitude-range">Amplitude Range<a class="headerlink" href="#amplitude-range" title="Permanent link">&para;</a></h3>
+<p>!!! tip "Voltage Levels" - Stay within ±5V for most scopes - Use full range for best resolution - Match AWG output to scope input range - Account for probe attenuation</p>
+<h3 id="performance">Performance<a class="headerlink" href="#performance" title="Permanent link">&para;</a></h3>
+<p>!!! tip "Optimizing Performance" - Use PyQtGraph for preview (10x faster) - Reduce points for faster generation - Disable preview during parameter adjustment - Export to AWG for best display quality</p>
+<h3 id="synchronization_1">Synchronization<a class="headerlink" href="#synchronization_1" title="Permanent link">&para;</a></h3>
+<p>!!! tip "Keeping X and Y in Sync" - Use same AWG for both channels - If separate AWGs, use external clock sync - Check phase alignment with simple shapes - Test with circle before complex shapes</p>
+<h2 id="keyboard-shortcuts">Keyboard Shortcuts<a class="headerlink" href="#keyboard-shortcuts" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Shortcut</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Ctrl+X</code></td>
+<td>Open Vector Graphics panel</td>
+</tr>
+<tr>
+<td><code>Ctrl+N</code></td>
+<td>New shape</td>
+</tr>
+<tr>
+<td><code>Ctrl+G</code></td>
+<td>Generate waveform</td>
+</tr>
+<tr>
+<td><code>Ctrl+P</code></td>
+<td>Preview</td>
+</tr>
+<tr>
+<td><code>Ctrl+E</code></td>
+<td>Export to AWG</td>
+</tr>
+<tr>
+<td><code>Space</code></td>
+<td>Play/pause animation</td>
+</tr>
+<tr>
+<td><code>Arrow keys</code></td>
+<td>Fine-tune position</td>
+</tr>
+<tr>
+<td><code>Ctrl+Arrow</code></td>
+<td>Large position steps</td>
+</tr>
+<tr>
+<td><code>+/-</code></td>
+<td>Increase/decrease size</td>
+</tr>
+<tr>
+<td><code>R</code></td>
+<td>Rotate 90°</td>
+</tr>
+</tbody>
+</table>
+<h2 id="example-workflows">Example Workflows<a class="headerlink" href="#example-workflows" title="Permanent link">&para;</a></h2>
+<h3 id="workflow-1-quick-circle-test">Workflow 1: Quick Circle Test<a class="headerlink" href="#workflow-1-quick-circle-test" title="Permanent link">&para;</a></h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>Purpose: Verify XY mode is working
+</span><span id="__span-24-2"><a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a>
+</span><span id="__span-24-3"><a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a>1. Vector Graphics → Shape Library
+</span><span id="__span-24-4"><a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a>2. Select &quot;Circle&quot;
+</span><span id="__span-24-5"><a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a>3. Keep defaults (radius=1V, 1kHz)
+</span><span id="__span-24-6"><a id="__codelineno-24-6" name="__codelineno-24-6" href="#__codelineno-24-6"></a>4. Click &quot;Generate&quot;
+</span><span id="__span-24-7"><a id="__codelineno-24-7" name="__codelineno-24-7" href="#__codelineno-24-7"></a>5. Enable XY Mode
+</span><span id="__span-24-8"><a id="__codelineno-24-8" name="__codelineno-24-8" href="#__codelineno-24-8"></a>6. Adjust scope: C1 and C2 to 500mV/div
+</span><span id="__span-24-9"><a id="__codelineno-24-9" name="__codelineno-24-9" href="#__codelineno-24-9"></a>7. Should see perfect circle
+</span><span id="__span-24-10"><a id="__codelineno-24-10" name="__codelineno-24-10" href="#__codelineno-24-10"></a>
+</span><span id="__span-24-11"><a id="__codelineno-24-11" name="__codelineno-24-11" href="#__codelineno-24-11"></a>Time: 30 seconds
+</span></code></pre></div>
+<h3 id="workflow-2-custom-logo-display">Workflow 2: Custom Logo Display<a class="headerlink" href="#workflow-2-custom-logo-display" title="Permanent link">&para;</a></h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>Purpose: Display company logo on oscilloscope
+</span><span id="__span-25-2"><a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>
+</span><span id="__span-25-3"><a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a>1. Import logo image (bitmap)
+</span><span id="__span-25-4"><a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a>2. Vector Graphics → Bitmap to Vector
+</span><span id="__span-25-5"><a id="__codelineno-25-5" name="__codelineno-25-5" href="#__codelineno-25-5"></a>3. Adjust edge detection threshold
+</span><span id="__span-25-6"><a id="__codelineno-25-6" name="__codelineno-25-6" href="#__codelineno-25-6"></a>4. Simplify path (reduce points to &lt;2000)
+</span><span id="__span-25-7"><a id="__codelineno-25-7" name="__codelineno-25-7" href="#__codelineno-25-7"></a>5. Scale to fit ±5V range
+</span><span id="__span-25-8"><a id="__codelineno-25-8" name="__codelineno-25-8" href="#__codelineno-25-8"></a>6. Generate waveform
+</span><span id="__span-25-9"><a id="__codelineno-25-9" name="__codelineno-25-9" href="#__codelineno-25-9"></a>7. Export to AWG
+</span><span id="__span-25-10"><a id="__codelineno-25-10" name="__codelineno-25-10" href="#__codelineno-25-10"></a>8. Display on oscilloscope
+</span><span id="__span-25-11"><a id="__codelineno-25-11" name="__codelineno-25-11" href="#__codelineno-25-11"></a>
+</span><span id="__span-25-12"><a id="__codelineno-25-12" name="__codelineno-25-12" href="#__codelineno-25-12"></a>Time: 5-10 minutes
+</span></code></pre></div>
+<h3 id="workflow-3-animated-presentation">Workflow 3: Animated Presentation<a class="headerlink" href="#workflow-3-animated-presentation" title="Permanent link">&para;</a></h3>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>Purpose: Create animated shape for demo
+</span><span id="__span-26-2"><a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a>
+</span><span id="__span-26-3"><a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a>1. Design shape (heart, star, etc.)
+</span><span id="__span-26-4"><a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a>2. Add rotation animation (30°/s)
+</span><span id="__span-26-5"><a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a>3. Add pulsing (2 Hz sine)
+</span><span id="__span-26-6"><a id="__codelineno-26-6" name="__codelineno-26-6" href="#__codelineno-26-6"></a>4. Preview animation
+</span><span id="__span-26-7"><a id="__codelineno-26-7" name="__codelineno-26-7" href="#__codelineno-26-7"></a>5. Adjust timing and speeds
+</span><span id="__span-26-8"><a id="__codelineno-26-8" name="__codelineno-26-8" href="#__codelineno-26-8"></a>6. Export animation keyframes
+</span><span id="__span-26-9"><a id="__codelineno-26-9" name="__codelineno-26-9" href="#__codelineno-26-9"></a>7. Send to AWG with automation
+</span><span id="__span-26-10"><a id="__codelineno-26-10" name="__codelineno-26-10" href="#__codelineno-26-10"></a>
+</span><span id="__span-26-11"><a id="__codelineno-26-11" name="__codelineno-26-11" href="#__codelineno-26-11"></a>Time: 10-15 minutes
+</span></code></pre></div>
+<h2 id="integration-with-other-features">Integration with Other Features<a class="headerlink" href="#integration-with-other-features" title="Permanent link">&para;</a></h2>
+<h3 id="with-live-view">With Live View<a class="headerlink" href="#with-live-view" title="Permanent link">&para;</a></h3>
+<p><strong>Real-Time XY Display:</strong></p>
+<ul>
+<li>Enable Live View</li>
+<li>Switch to XY mode</li>
+<li>See shape update in real-time</li>
+<li>Adjust parameters dynamically</li>
+</ul>
+<h3 id="with-fft-analysis">With FFT Analysis<a class="headerlink" href="#with-fft-analysis" title="Permanent link">&para;</a></h3>
+<p><strong>Analyze Waveform Components:</strong></p>
+<ul>
+<li>Generate shape waveform</li>
+<li>Run FFT on X and Y channels</li>
+<li>See frequency components</li>
+<li>Verify harmonic content</li>
+</ul>
+<h3 id="with-measurements">With Measurements<a class="headerlink" href="#with-measurements" title="Permanent link">&para;</a></h3>
+<p><strong>Measure Shape Properties:</strong></p>
+<ul>
+<li>Vpp (size of shape)</li>
+<li>Frequency (drawing speed)</li>
+<li>Phase (X vs Y offset)</li>
+<li>Duty cycle (for non-symmetric shapes)</li>
+</ul>
+<h3 id="with-reference-waveforms">With Reference Waveforms<a class="headerlink" href="#with-reference-waveforms" title="Permanent link">&para;</a></h3>
+<p><strong>Compare Shapes:</strong></p>
+<ul>
+<li>Save current shape as reference</li>
+<li>Generate new shape</li>
+<li>Overlay in XY mode</li>
+<li>See differences</li>
+</ul>
+<h2 id="mathematical-background">Mathematical Background<a class="headerlink" href="#mathematical-background" title="Permanent link">&para;</a></h2>
+<h3 id="parametric-equations_1">Parametric Equations<a class="headerlink" href="#parametric-equations_1" title="Permanent link">&para;</a></h3>
+<p><strong>General Form:</strong></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>X = f(t)
+</span><span id="__span-27-2"><a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a>Y = g(t)
+</span><span id="__span-27-3"><a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a>t ∈ [t_start, t_end]
+</span></code></pre></div>
+<p><strong>Common Parametric Shapes:</strong></p>
+<p><strong>Circle:</strong></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>X(t) = R * cos(t)
+</span><span id="__span-28-2"><a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>Y(t) = R * sin(t)
+</span><span id="__span-28-3"><a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a>t: 0 to 2π
+</span></code></pre></div>
+<p><strong>Ellipse:</strong></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-29-1"><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>X(t) = a * cos(t)
+</span><span id="__span-29-2"><a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a>Y(t) = b * sin(t)
+</span><span id="__span-29-3"><a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a>t: 0 to 2π
+</span></code></pre></div>
+<p><strong>Lissajous (m:n ratio):</strong></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-30-1"><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>X(t) = A * sin(m*ω*t + φ)
+</span><span id="__span-30-2"><a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a>Y(t) = B * sin(n*ω*t)
+</span></code></pre></div>
+<p><strong>Rose Curve (k petals):</strong></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-31-1"><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a>X(t) = cos(k*t) * cos(t)
+</span><span id="__span-31-2"><a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a>Y(t) = cos(k*t) * sin(t)
+</span></code></pre></div>
+<h3 id="rotation-matrix">Rotation Matrix<a class="headerlink" href="#rotation-matrix" title="Permanent link">&para;</a></h3>
+<p><strong>Rotate point (x, y) by angle θ:</strong></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-32-1"><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a>X&#39; = x*cos(θ) - y*sin(θ)
+</span><span id="__span-32-2"><a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a>Y&#39; = x*sin(θ) + y*cos(θ)
+</span></code></pre></div>
+<p><strong>For animation:</strong></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-33-1"><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a>θ(t) = ω * t
+</span><span id="__span-33-2"><a id="__codelineno-33-2" name="__codelineno-33-2" href="#__codelineno-33-2"></a>ω = rotation speed (rad/s)
+</span></code></pre></div>
+<h3 id="scaling-transform">Scaling Transform<a class="headerlink" href="#scaling-transform" title="Permanent link">&para;</a></h3>
+<p><strong>Scale by factor s:</strong></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-34-1"><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a>X&#39; = s * X
+</span><span id="__span-34-2"><a id="__codelineno-34-2" name="__codelineno-34-2" href="#__codelineno-34-2"></a>Y&#39; = s * Y
+</span></code></pre></div>
+<p><strong>Anisotropic scaling:</strong></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-35-1"><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a>X&#39; = sx * X
+</span><span id="__span-35-2"><a id="__codelineno-35-2" name="__codelineno-35-2" href="#__codelineno-35-2"></a>Y&#39; = sy * Y
+</span></code></pre></div>
+<h2 id="safety-and-limitations">Safety and Limitations<a class="headerlink" href="#safety-and-limitations" title="Permanent link">&para;</a></h2>
+<h3 id="awg-limitations">AWG Limitations<a class="headerlink" href="#awg-limitations" title="Permanent link">&para;</a></h3>
+<p>!!! warning "AWG Output Limits" - Check maximum voltage rating - Don't exceed current limits - Verify load impedance - Use appropriate cables</p>
+<h3 id="oscilloscope-input">Oscilloscope Input<a class="headerlink" href="#oscilloscope-input" title="Permanent link">&para;</a></h3>
+<p>!!! warning "Protect Oscilloscope Inputs" - Stay within ±400V (typical max input) - Check probe rating - Don't connect AWG directly to HV circuits - Use proper grounding</p>
+<h3 id="frequency-limits">Frequency Limits<a class="headerlink" href="#frequency-limits" title="Permanent link">&para;</a></h3>
+<p><strong>Sample Rate Nyquist:</strong></p>
+<ul>
+<li>AWG sample rate ≥ 2 × max frequency component</li>
+<li>Higher sample rate for smoother curves</li>
+<li>Check AWG specifications</li>
+</ul>
+<p><strong>Display Refresh:</strong></p>
+<ul>
+<li>Some shapes require higher persistence</li>
+<li>Flickering possible at high frequencies</li>
+<li>Adjust based on oscilloscope capabilities</li>
+</ul>
+<h2 id="next-steps">Next Steps<a class="headerlink" href="#next-steps" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="../interface/">Interface Guide</a> - Learn all GUI controls</li>
+<li><a href="../live-view/">Live View</a> - Use XY mode in real-time display</li>
+<li><a href="../fft-analysis/">FFT Analysis</a> - Analyze waveform harmonics</li>
+<li><a href="../../user-guide/advanced-features/">User Guide: Advanced Features</a> - Programmatic waveform generation</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/little-did-I-know/Siglent-Oscilloscope" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://pypi.org/project/Siglent-Oscilloscope/" target="_blank" rel="noopener" title="pypi.org" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.8 200.5c-7.7-30.9-22.3-54.2-53.4-54.2h-40.1v47.4c0 36.8-31.2 67.8-66.8 67.8H172.7c-29.2 0-53.4 25-53.4 54.3v101.8c0 29 25.2 46 53.4 54.3 33.8 9.9 66.3 11.7 106.8 0 26.9-7.8 53.4-23.5 53.4-54.3v-40.7H226.2v-13.6h160.2c31.1 0 42.6-21.7 53.4-54.2 11.2-33.5 10.7-65.7 0-108.6M286.2 444.7a20.4 20.4 0 1 1 0-40.7 20.4 20.4 0 1 1 0 40.7M167.8 248.1h106.8c29.7 0 53.4-24.5 53.4-54.3V91.9c0-29-24.4-50.7-53.4-55.6-35.8-5.9-74.7-5.6-106.8.1-45.2 8-53.4 24.7-53.4 55.6v40.7h106.9v13.6h-147c-31.1 0-58.3 18.7-66.8 54.2-9.8 40.7-10.2 66.1 0 108.6 7.6 31.6 25.7 54.2 56.8 54.2H101v-48.8c0-35.3 30.5-66.4 66.8-66.4m-6.6-183.4a20.4 20.4 0 1 1 0 40.8 20.4 20.4 0 1 1 0-40.8"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.annotate", "content.code.copy", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

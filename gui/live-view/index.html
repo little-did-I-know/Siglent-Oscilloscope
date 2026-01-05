@@ -1,0 +1,4250 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Python library for controlling Siglent oscilloscopes via SCPI over Ethernet">
+      
+      
+        <meta name="author" content="Robin Mumm">
+      
+      
+        <link rel="canonical" href="https://siglent-oscilloscope.readthedocs.io/gui/live-view/">
+      
+      
+        <link rel="prev" href="../interface/">
+      
+      
+        <link rel="next" href="../visual-measurements/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
+    
+    
+      
+        <title>Live View - Siglent Oscilloscope Control</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#live-view" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Siglent Oscilloscope Control" class="md-header__button md-logo" aria-label="Siglent Oscilloscope Control" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Siglent Oscilloscope Control
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Live View
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/little-did-I-know/Siglent-Oscilloscope" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    little-did-I-know/Siglent-Oscilloscope
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../getting-started/installation/" class="md-tabs__link">
+          
+  
+  
+  Getting Started
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../user-guide/basic-usage/" class="md-tabs__link">
+          
+  
+  
+  User Guide
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../overview/" class="md-tabs__link">
+          
+  
+  
+  GUI Application
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../report-generator/" class="md-tabs__link">
+          
+  
+  
+  Report Generator
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../api/oscilloscope/" class="md-tabs__link">
+          
+  
+  
+  API Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../examples/beginner/" class="md-tabs__link">
+          
+  
+  
+  Examples
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../development/contributing/" class="md-tabs__link">
+          
+  
+  
+  Development
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../about/changelog/" class="md-tabs__link">
+          
+  
+  
+  About
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Siglent Oscilloscope Control" class="md-nav__button md-logo" aria-label="Siglent Oscilloscope Control" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Siglent Oscilloscope Control
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/little-did-I-know/Siglent-Oscilloscope" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    little-did-I-know/Siglent-Oscilloscope
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Getting Started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/quickstart/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quick Start
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/connection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Connection Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User Guide
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    User Guide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user-guide/basic-usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Basic Usage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user-guide/waveform-capture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Waveform Capture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user-guide/measurements/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Measurements
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user-guide/trigger-control/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trigger Control
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user-guide/advanced-features/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Advanced Features
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GUI Application
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    GUI Application
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../interface/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Interface Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Live View
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Live View
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Overview">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#key-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Features
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#starting-live-view" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Starting Live View
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Starting Live View">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#using-the-toolbar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using the Toolbar
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-keyboard-shortcut" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using Keyboard Shortcut
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-menu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using Menu
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#live-view-interface" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Live View Interface
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Live View Interface">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#live-view-indicator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Live View Indicator
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#display-updates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Display Updates
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#performance-optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Performance Optimization
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Performance Optimization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#high-performance-mode-pyqtgraph" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        High-Performance Mode (PyQtGraph)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#standard-mode-matplotlib" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Standard Mode (Matplotlib)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#optimizing-performance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Optimizing Performance
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#live-view-controls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Live View Controls
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Live View Controls">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#startstop" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Start/Stop
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#auto-scaling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Auto-Scaling
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#frame-rate-display" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Frame Rate Display
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#latency-display" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Latency Display
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#display-modes-in-live-view" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Display Modes in Live View
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Display Modes in Live View">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#normal-mode-default" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Normal Mode (Default)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#overlay-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overlay Mode
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#split-view-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Split View Mode
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#live-view-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Live View Features
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Live View Features">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#real-time-measurements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Real-Time Measurements
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#visual-markers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Visual Markers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#trigger-status" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Trigger Status
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#grid-and-cursors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Grid and Cursors
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#capturing-from-live-view" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Capturing from Live View
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Capturing from Live View">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#quick-capture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quick Capture
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#continuous-capture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Continuous Capture
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#low-frame-rate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Low Frame Rate
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#display-freezing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Display Freezing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#high-cpu-usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        High CPU Usage
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#choppy-display" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Choppy Display
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Best Practices
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Best Practices">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#for-monitoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        For Monitoring
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#for-debugging" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        For Debugging
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#for-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        For Testing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#for-recording" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        For Recording
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#keyboard-shortcuts-for-live-view" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Keyboard Shortcuts for Live View
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#advanced-live-view" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Advanced Live View
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Advanced Live View">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#with-fft-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        With FFT Analysis
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#with-protocol-decoding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        With Protocol Decoding
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#with-reference-waveforms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        With Reference Waveforms
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#performance-comparison" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Performance Comparison
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Performance Comparison">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pyqtgraph-vs-matplotlib" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PyQtGraph vs Matplotlib
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#network-impact" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Network Impact
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next Steps
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../visual-measurements/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Visual Measurements
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../fft-analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FFT Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../protocol-decoding/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Protocol Decoding
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../vector-graphics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Vector Graphics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Report Generator
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Report Generator
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../report-generator/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../report-generator/getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../report-generator/llm-setup/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    LLM Setup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../report-generator/templates/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Templates & Criteria
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../report-generator/api-reference/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/oscilloscope/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Oscilloscope
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/channel/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Channel
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/trigger/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trigger
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/waveform/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Waveform
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/measurement/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Measurement
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Analysis
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/automation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Automation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/connection_socket/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Socket Connection
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/exceptions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Exceptions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/models/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Models
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/vector_graphics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Vector Graphics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/screen_capture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Screen Capture
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/reference_waveform/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reference Waveform
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/math_channel/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Math Channel
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/gui/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GUI Components
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Examples
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Examples
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../examples/beginner/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Beginner Examples
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../examples/intermediate/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Intermediate Examples
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../examples/advanced/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Advanced Examples
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Development
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Development
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../development/contributing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../development/building/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Building
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../development/structure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Project Structure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../development/testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    About
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/changelog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Changelog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/license/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    License
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/security/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Security
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Overview">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#key-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Key Features
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#starting-live-view" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Starting Live View
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Starting Live View">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#using-the-toolbar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using the Toolbar
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-keyboard-shortcut" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using Keyboard Shortcut
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-menu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using Menu
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#live-view-interface" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Live View Interface
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Live View Interface">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#live-view-indicator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Live View Indicator
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#display-updates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Display Updates
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#performance-optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Performance Optimization
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Performance Optimization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#high-performance-mode-pyqtgraph" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        High-Performance Mode (PyQtGraph)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#standard-mode-matplotlib" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Standard Mode (Matplotlib)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#optimizing-performance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Optimizing Performance
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#live-view-controls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Live View Controls
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Live View Controls">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#startstop" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Start/Stop
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#auto-scaling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Auto-Scaling
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#frame-rate-display" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Frame Rate Display
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#latency-display" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Latency Display
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#display-modes-in-live-view" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Display Modes in Live View
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Display Modes in Live View">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#normal-mode-default" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Normal Mode (Default)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#overlay-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overlay Mode
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#split-view-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Split View Mode
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#live-view-features" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Live View Features
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Live View Features">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#real-time-measurements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Real-Time Measurements
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#visual-markers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Visual Markers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#trigger-status" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Trigger Status
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#grid-and-cursors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Grid and Cursors
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#capturing-from-live-view" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Capturing from Live View
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Capturing from Live View">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#quick-capture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quick Capture
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#continuous-capture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Continuous Capture
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Troubleshooting">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#low-frame-rate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Low Frame Rate
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#display-freezing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Display Freezing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#high-cpu-usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        High CPU Usage
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#choppy-display" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Choppy Display
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#best-practices" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Best Practices
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Best Practices">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#for-monitoring" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        For Monitoring
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#for-debugging" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        For Debugging
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#for-testing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        For Testing
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#for-recording" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        For Recording
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#keyboard-shortcuts-for-live-view" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Keyboard Shortcuts for Live View
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#advanced-live-view" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Advanced Live View
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Advanced Live View">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#with-fft-analysis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        With FFT Analysis
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#with-protocol-decoding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        With Protocol Decoding
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#with-reference-waveforms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        With Reference Waveforms
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#performance-comparison" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Performance Comparison
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Performance Comparison">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pyqtgraph-vs-matplotlib" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PyQtGraph vs Matplotlib
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#network-impact" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Network Impact
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next Steps
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="live-view">Live View<a class="headerlink" href="#live-view" title="Permanent link">&para;</a></h1>
+<p>The Live View feature provides continuous real-time waveform display, allowing you to monitor signals as they change. This guide covers how to use Live View effectively.</p>
+<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
+<p>Live View continuously captures and displays waveforms from your oscilloscope, creating a real-time visualization similar to the oscilloscope's own screen but with additional features and customization options.</p>
+<h3 id="key-features">Key Features<a class="headerlink" href="#key-features" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>High Frame Rate</strong>: Up to 1000+ fps with PyQtGraph</li>
+<li><strong>Low Latency</strong>: Minimal delay between capture and display</li>
+<li><strong>Multi-Channel</strong>: Display up to 4 channels simultaneously</li>
+<li><strong>Auto-Scaling</strong>: Automatic signal amplitude adjustment</li>
+<li><strong>Continuous Update</strong>: Non-stop waveform updates</li>
+<li><strong>Zero Configuration</strong>: Works out of the box</li>
+</ul>
+<h2 id="starting-live-view">Starting Live View<a class="headerlink" href="#starting-live-view" title="Permanent link">&para;</a></h2>
+<h3 id="using-the-toolbar">Using the Toolbar<a class="headerlink" href="#using-the-toolbar" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Click the <strong>Live View</strong> button (▶️ icon)</li>
+<li>Waveforms begin updating automatically</li>
+<li>Click again (or press <code>Esc</code>) to stop</li>
+</ol>
+<h3 id="using-keyboard-shortcut">Using Keyboard Shortcut<a class="headerlink" href="#using-keyboard-shortcut" title="Permanent link">&para;</a></h3>
+<p>Press <code>Ctrl+L</code> to toggle Live View on/off</p>
+<h3 id="using-menu">Using Menu<a class="headerlink" href="#using-menu" title="Permanent link">&para;</a></h3>
+<p><strong>View → Live View</strong> or check the menu item</p>
+<h2 id="live-view-interface">Live View Interface<a class="headerlink" href="#live-view-interface" title="Permanent link">&para;</a></h2>
+<h3 id="live-view-indicator">Live View Indicator<a class="headerlink" href="#live-view-indicator" title="Permanent link">&para;</a></h3>
+<p>When Live View is active:</p>
+<ul>
+<li><strong>Toolbar Button</strong>: Changes to "Stop" (⏸️ icon)</li>
+<li><strong>Status Bar</strong>: Shows "LIVE" indicator</li>
+<li><strong>FPS Counter</strong>: Displays current frame rate</li>
+<li><strong>Trigger Status</strong>: Updates in real-time</li>
+</ul>
+<h3 id="display-updates">Display Updates<a class="headerlink" href="#display-updates" title="Permanent link">&para;</a></h3>
+<p><strong>Update Cycle:</strong></p>
+<ol>
+<li>Oscilloscope captures waveform</li>
+<li>Data transferred over network</li>
+<li>GUI processes and displays data</li>
+<li>Repeat continuously</li>
+</ol>
+<p><strong>Frame Rate:</strong></p>
+<ul>
+<li><strong>With PyQtGraph</strong>: 100-1000+ fps typical</li>
+<li><strong>With Matplotlib</strong>: 10-30 fps typical</li>
+<li>Depends on: Network speed, timebase, enabled channels</li>
+</ul>
+<h2 id="performance-optimization">Performance Optimization<a class="headerlink" href="#performance-optimization" title="Permanent link">&para;</a></h2>
+<h3 id="high-performance-mode-pyqtgraph">High-Performance Mode (PyQtGraph)<a class="headerlink" href="#high-performance-mode-pyqtgraph" title="Permanent link">&para;</a></h3>
+<p>When PyQtGraph is installed, the GUI automatically uses it for optimal performance:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Install for high-performance Live View</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>pip<span class="w"> </span>install<span class="w"> </span><span class="s2">&quot;Siglent-Oscilloscope[gui]&quot;</span>
+</span></code></pre></div>
+<p><strong>Benefits:</strong></p>
+<ul>
+<li>10-100x faster rendering</li>
+<li>Smooth, fluid updates</li>
+<li>GPU acceleration (when available)</li>
+<li>Lower CPU usage</li>
+<li>Support for higher frame rates</li>
+</ul>
+<p><strong>Verification:</strong></p>
+<ul>
+<li>Check console on startup</li>
+<li>Should see: "Using PyQtGraph for waveform display (high performance mode)"</li>
+<li>Status bar shows higher FPS values</li>
+</ul>
+<h3 id="standard-mode-matplotlib">Standard Mode (Matplotlib)<a class="headerlink" href="#standard-mode-matplotlib" title="Permanent link">&para;</a></h3>
+<p>If PyQtGraph is not available, the GUI falls back to matplotlib:</p>
+<p><strong>Characteristics:</strong></p>
+<ul>
+<li>Lower frame rates (10-30 fps)</li>
+<li>Higher CPU usage</li>
+<li>Still fully functional</li>
+<li>All features available</li>
+</ul>
+<p><strong>When to Use:</strong></p>
+<ul>
+<li>PyQtGraph incompatible with system</li>
+<li>Troubleshooting display issues</li>
+<li>Preference for matplotlib rendering</li>
+</ul>
+<h3 id="optimizing-performance">Optimizing Performance<a class="headerlink" href="#optimizing-performance" title="Permanent link">&para;</a></h3>
+<p><strong>1. Reduce Number of Channels</strong></p>
+<p>Only enable channels you need:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Fewer channels = Higher frame rate
+</span></code></pre></div>
+<ul>
+<li>1 channel: Fastest</li>
+<li>2 channels: Still fast</li>
+<li>4 channels: Slower but usable</li>
+</ul>
+<p><strong>2. Adjust Timebase</strong></p>
+<p>Shorter timebase = less data = faster transfer:</p>
+<ul>
+<li><strong>Fast</strong>: 1µs/div - 10µs/div</li>
+<li><strong>Medium</strong>: 100µs/div - 1ms/div</li>
+<li><strong>Slower</strong>: 10ms/div - 1s/div</li>
+</ul>
+<p><strong>3. Network Connection</strong></p>
+<ul>
+<li>Use Gigabit Ethernet for best performance</li>
+<li>Minimize network hops</li>
+<li>Direct connection preferred</li>
+<li>Reduce network traffic</li>
+</ul>
+<p><strong>4. Close Unnecessary Panels</strong></p>
+<p>Hide panels you're not using:</p>
+<ul>
+<li>Terminal window</li>
+<li>VNC viewer</li>
+<li>Measurement panels (if not needed)</li>
+</ul>
+<p><strong>5. Reduce Display Complexity</strong></p>
+<ul>
+<li>Disable grid if not needed</li>
+<li>Hide legend</li>
+<li>Minimize markers</li>
+<li>Simple display = faster rendering</li>
+</ul>
+<h2 id="live-view-controls">Live View Controls<a class="headerlink" href="#live-view-controls" title="Permanent link">&para;</a></h2>
+<h3 id="startstop">Start/Stop<a class="headerlink" href="#startstop" title="Permanent link">&para;</a></h3>
+<p><strong>Start Live View:</strong></p>
+<ul>
+<li>Click "Live View" button</li>
+<li>Press <code>Ctrl+L</code></li>
+<li>View menu → Live View</li>
+</ul>
+<p><strong>Stop Live View:</strong></p>
+<ul>
+<li>Click "Stop" button</li>
+<li>Press <code>Ctrl+L</code> again</li>
+<li>Press <code>Esc</code></li>
+</ul>
+<h3 id="auto-scaling">Auto-Scaling<a class="headerlink" href="#auto-scaling" title="Permanent link">&para;</a></h3>
+<p><strong>Enable Auto-Scale:</strong></p>
+<ul>
+<li>Tools → Auto Scale</li>
+<li>Right-click display → Auto Scale</li>
+<li>Automatically adjusts voltage scales to fit signal</li>
+</ul>
+<p><strong>Behavior:</strong></p>
+<ul>
+<li>Monitors signal amplitude</li>
+<li>Adjusts voltage scale when needed</li>
+<li>Maintains optimal display</li>
+<li>Updates automatically during Live View</li>
+</ul>
+<h3 id="frame-rate-display">Frame Rate Display<a class="headerlink" href="#frame-rate-display" title="Permanent link">&para;</a></h3>
+<p>Located in status bar:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>FPS: 45
+</span></code></pre></div>
+<p><strong>Interpretation:</strong></p>
+<ul>
+<li><strong>100+</strong>: Excellent performance</li>
+<li><strong>30-100</strong>: Good performance</li>
+<li><strong>10-30</strong>: Adequate performance</li>
+<li><strong>&lt;10</strong>: Consider optimization</li>
+</ul>
+<h3 id="latency-display">Latency Display<a class="headerlink" href="#latency-display" title="Permanent link">&para;</a></h3>
+<p>Shows network delay:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>Latency: 25 ms
+</span></code></pre></div>
+<p><strong>Typical Values:</strong></p>
+<ul>
+<li><strong>&lt;50ms</strong>: Excellent</li>
+<li><strong>50-100ms</strong>: Good</li>
+<li><strong>100-200ms</strong>: Acceptable</li>
+<li><strong>&gt;200ms</strong>: Check network</li>
+</ul>
+<h2 id="display-modes-in-live-view">Display Modes in Live View<a class="headerlink" href="#display-modes-in-live-view" title="Permanent link">&para;</a></h2>
+<h3 id="normal-mode-default">Normal Mode (Default)<a class="headerlink" href="#normal-mode-default" title="Permanent link">&para;</a></h3>
+<p>All enabled channels displayed:</p>
+<ul>
+<li>Automatic vertical stacking</li>
+<li>Shared time axis</li>
+<li>Independent voltage scales</li>
+<li>Color-coded channels</li>
+</ul>
+<h3 id="overlay-mode">Overlay Mode<a class="headerlink" href="#overlay-mode" title="Permanent link">&para;</a></h3>
+<p>All channels overlaid on same axes:</p>
+<ul>
+<li>Easier comparison</li>
+<li>Shared voltage and time axes</li>
+<li>Good for phase relationships</li>
+<li>May be cluttered with many channels</li>
+</ul>
+<p><strong>To Enable:</strong></p>
+<ul>
+<li>Right-click display → Overlay Mode</li>
+<li>Or View menu → Display Mode → Overlay</li>
+</ul>
+<h3 id="split-view-mode">Split View Mode<a class="headerlink" href="#split-view-mode" title="Permanent link">&para;</a></h3>
+<p>Separate subplot for each channel:</p>
+<ul>
+<li>Independent voltage and time axes</li>
+<li>More screen real estate per channel</li>
+<li>Easier to see individual details</li>
+<li>Good for unrelated signals</li>
+</ul>
+<p><strong>To Enable:</strong></p>
+<ul>
+<li>Right-click display → Split View</li>
+<li>Or View menu → Display Mode → Split View</li>
+</ul>
+<h2 id="live-view-features">Live View Features<a class="headerlink" href="#live-view-features" title="Permanent link">&para;</a></h2>
+<h3 id="real-time-measurements">Real-Time Measurements<a class="headerlink" href="#real-time-measurements" title="Permanent link">&para;</a></h3>
+<p>Measurements update continuously in Live View:</p>
+<p><strong>To Use:</strong></p>
+<ol>
+<li>Add measurements in Measurements tab</li>
+<li>Enable statistics for tracking</li>
+<li>Values update with each frame</li>
+<li>Statistics accumulate over time</li>
+</ol>
+<p><strong>Example:</strong></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>Frequency: 1.023 kHz → 1.025 kHz → 1.021 kHz
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>Vpp: 3.14 V → 3.15 V → 3.13 V
+</span></code></pre></div>
+<h3 id="visual-markers">Visual Markers<a class="headerlink" href="#visual-markers" title="Permanent link">&para;</a></h3>
+<p>Add markers that track the live waveform:</p>
+<p><strong>Voltage Markers:</strong></p>
+<ul>
+<li>Horizontal lines</li>
+<li>Show voltage value</li>
+<li>Follow waveform if snapped</li>
+</ul>
+<p><strong>Time Markers:</strong></p>
+<ul>
+<li>Vertical lines</li>
+<li>Show time value</li>
+<li>Fixed to time axis</li>
+</ul>
+<p><strong>To Add:</strong></p>
+<ul>
+<li>Click "Add Marker" button</li>
+<li>Or right-click display → Add Marker</li>
+<li>Drag to position</li>
+</ul>
+<h3 id="trigger-status">Trigger Status<a class="headerlink" href="#trigger-status" title="Permanent link">&para;</a></h3>
+<p>Trigger status updates in real-time:</p>
+<ul>
+<li>🟢 <strong>Triggered</strong>: Signal triggered successfully</li>
+<li>🟡 <strong>Armed</strong>: Waiting for trigger</li>
+<li>🔴 <strong>Stopped</strong>: Trigger stopped</li>
+</ul>
+<p><strong>Useful For:</strong></p>
+<ul>
+<li>Verifying trigger is working</li>
+<li>Adjusting trigger level</li>
+<li>Ensuring stable display</li>
+</ul>
+<h3 id="grid-and-cursors">Grid and Cursors<a class="headerlink" href="#grid-and-cursors" title="Permanent link">&para;</a></h3>
+<p><strong>Grid:</strong></p>
+<ul>
+<li>Toggle with <code>Ctrl+G</code></li>
+<li>Matches oscilloscope divisions</li>
+<li>14 horizontal × 10 vertical</li>
+</ul>
+<p><strong>Cursors:</strong></p>
+<ul>
+<li>Toggle with <code>Ctrl+R</code></li>
+<li>Measure specific points</li>
+<li>Delta calculations</li>
+</ul>
+<h2 id="capturing-from-live-view">Capturing from Live View<a class="headerlink" href="#capturing-from-live-view" title="Permanent link">&para;</a></h2>
+<h3 id="quick-capture">Quick Capture<a class="headerlink" href="#quick-capture" title="Permanent link">&para;</a></h3>
+<p>While in Live View, press <code>Ctrl+C</code> to:</p>
+<ol>
+<li>Freeze current waveform</li>
+<li>Stop Live View</li>
+<li>Allow analysis of captured data</li>
+<li>Save if desired</li>
+</ol>
+<h3 id="continuous-capture">Continuous Capture<a class="headerlink" href="#continuous-capture" title="Permanent link">&para;</a></h3>
+<p>Keep Live View running while capturing to file:</p>
+<p><strong>Using Batch Capture:</strong></p>
+<ol>
+<li>Tools → Capture Batch</li>
+<li>Set number of captures</li>
+<li>Set interval</li>
+<li>Specify save location</li>
+<li>Live View continues during capture</li>
+</ol>
+<p><strong>Example:</strong></p>
+<ul>
+<li>Capture 100 waveforms</li>
+<li>1 second interval</li>
+<li>Auto-save as NPZ files</li>
+<li>Monitor Live View throughout</li>
+</ul>
+<h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
+<h3 id="low-frame-rate">Low Frame Rate<a class="headerlink" href="#low-frame-rate" title="Permanent link">&para;</a></h3>
+<p><strong>Symptoms:</strong></p>
+<ul>
+<li>FPS &lt;10</li>
+<li>Jerky updates</li>
+<li>Slow response</li>
+</ul>
+<p><strong>Solutions:</strong></p>
+<ol>
+<li><strong>Install PyQtGraph</strong></li>
+</ol>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>pip<span class="w"> </span>install<span class="w"> </span>pyqtgraph
+</span></code></pre></div>
+<ol>
+<li><strong>Reduce Channels</strong></li>
+<li>Disable unused channels</li>
+<li>
+<p>Fewer channels = faster updates</p>
+</li>
+<li>
+<p><strong>Reduce Timebase</strong></p>
+</li>
+<li>Use shorter time scale</li>
+<li>
+<p>Less data to transfer</p>
+</li>
+<li>
+<p><strong>Check Network</strong></p>
+</li>
+<li>Use Gigabit Ethernet</li>
+<li>Minimize network distance</li>
+<li>
+<p>Reduce other network traffic</p>
+</li>
+<li>
+<p><strong>Close Other Apps</strong></p>
+</li>
+<li>Free up CPU/GPU resources</li>
+<li>Close unnecessary GUI panels</li>
+</ol>
+<h3 id="display-freezing">Display Freezing<a class="headerlink" href="#display-freezing" title="Permanent link">&para;</a></h3>
+<p><strong>Symptoms:</strong></p>
+<ul>
+<li>Display stops updating</li>
+<li>FPS drops to 0</li>
+<li>GUI becomes unresponsive</li>
+</ul>
+<p><strong>Solutions:</strong></p>
+<ol>
+<li><strong>Stop and Restart Live View</strong></li>
+<li>Press <code>Esc</code> to stop</li>
+<li>Wait 2 seconds</li>
+<li>
+<p>Press <code>Ctrl+L</code> to restart</p>
+</li>
+<li>
+<p><strong>Check Connection</strong></p>
+</li>
+<li>Verify oscilloscope still connected</li>
+<li>Check network cable</li>
+<li>
+<p>Try disconnect/reconnect</p>
+</li>
+<li>
+<p><strong>Restart Application</strong></p>
+</li>
+<li>Close GUI</li>
+<li>Relaunch</li>
+<li>Reconnect to oscilloscope</li>
+</ol>
+<h3 id="high-cpu-usage">High CPU Usage<a class="headerlink" href="#high-cpu-usage" title="Permanent link">&para;</a></h3>
+<p><strong>Symptoms:</strong></p>
+<ul>
+<li>CPU at 80-100%</li>
+<li>Fan noise</li>
+<li>System slowdown</li>
+</ul>
+<p><strong>Solutions:</strong></p>
+<ol>
+<li><strong>Verify PyQtGraph Installed</strong></li>
+<li>Check console message on startup</li>
+<li>
+<p>Install if missing</p>
+</li>
+<li>
+<p><strong>Reduce Frame Rate</strong></p>
+</li>
+<li>Close some channels</li>
+<li>Increase timebase</li>
+<li>
+<p>Lower update frequency</p>
+</li>
+<li>
+<p><strong>Disable Grid</strong></p>
+</li>
+<li>Grid rendering can be expensive</li>
+<li>
+<p>Toggle off with <code>Ctrl+G</code></p>
+</li>
+<li>
+<p><strong>Use Normal Mode</strong></p>
+</li>
+<li>Split view uses more resources</li>
+<li>Switch to normal mode</li>
+</ol>
+<h3 id="choppy-display">Choppy Display<a class="headerlink" href="#choppy-display" title="Permanent link">&para;</a></h3>
+<p><strong>Symptoms:</strong></p>
+<ul>
+<li>Stuttering updates</li>
+<li>Inconsistent frame rate</li>
+<li>Visual jittering</li>
+</ul>
+<p><strong>Solutions:</strong></p>
+<ol>
+<li><strong>Check Network Latency</strong></li>
+<li>View status bar latency</li>
+<li>Should be &lt;100ms</li>
+<li>
+<p>Reduce network hops</p>
+</li>
+<li>
+<p><strong>Disable GPU Acceleration</strong></p>
+</li>
+<li>If GPU is causing issues</li>
+<li>File → Preferences → Display</li>
+<li>
+<p>Uncheck "Use GPU acceleration"</p>
+</li>
+<li>
+<p><strong>Update Graphics Drivers</strong></p>
+</li>
+<li>Outdated drivers can cause issues</li>
+<li>Update to latest version</li>
+</ol>
+<h2 id="best-practices">Best Practices<a class="headerlink" href="#best-practices" title="Permanent link">&para;</a></h2>
+<h3 id="for-monitoring">For Monitoring<a class="headerlink" href="#for-monitoring" title="Permanent link">&para;</a></h3>
+<p>!!! tip "Continuous Monitoring" - Use AUTO trigger mode - Enable auto-scaling - Add key measurements to table - Enable statistics for trending</p>
+<h3 id="for-debugging">For Debugging<a class="headerlink" href="#for-debugging" title="Permanent link">&para;</a></h3>
+<p>!!! tip "Debug Workflow" - Start with AUTO mode to see signal - Switch to NORMAL for stable trigger - Adjust trigger level in real-time - Use visual markers for reference points</p>
+<h3 id="for-testing">For Testing<a class="headerlink" href="#for-testing" title="Permanent link">&para;</a></h3>
+<p>!!! tip "Test Setup" - Use NORMAL mode for repeatable measurements - Enable all needed measurements - Set up cursors or markers - Capture when event occurs</p>
+<h3 id="for-recording">For Recording<a class="headerlink" href="#for-recording" title="Permanent link">&para;</a></h3>
+<p>!!! tip "Recording Data" - Use batch capture during Live View - Set appropriate interval - Monitor in Live View - Auto-save to files</p>
+<h2 id="keyboard-shortcuts-for-live-view">Keyboard Shortcuts for Live View<a class="headerlink" href="#keyboard-shortcuts-for-live-view" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Shortcut</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Ctrl+L</code></td>
+<td>Start/stop Live View</td>
+</tr>
+<tr>
+<td><code>Ctrl+C</code></td>
+<td>Capture from Live View</td>
+</tr>
+<tr>
+<td><code>Esc</code></td>
+<td>Stop Live View</td>
+</tr>
+<tr>
+<td><code>Ctrl+G</code></td>
+<td>Toggle grid</td>
+</tr>
+<tr>
+<td><code>Ctrl+R</code></td>
+<td>Toggle cursors</td>
+</tr>
+<tr>
+<td><code>Ctrl+M</code></td>
+<td>Add marker</td>
+</tr>
+<tr>
+<td><code>Ctrl+0</code></td>
+<td>Reset zoom</td>
+</tr>
+<tr>
+<td><code>F5</code></td>
+<td>Refresh display</td>
+</tr>
+</tbody>
+</table>
+<h2 id="advanced-live-view">Advanced Live View<a class="headerlink" href="#advanced-live-view" title="Permanent link">&para;</a></h2>
+<h3 id="with-fft-analysis">With FFT Analysis<a class="headerlink" href="#with-fft-analysis" title="Permanent link">&para;</a></h3>
+<p><strong>Real-Time Frequency Analysis:</strong></p>
+<ol>
+<li>Enable Live View</li>
+<li>Open FFT tab</li>
+<li>Select source channel</li>
+<li>FFT updates in real-time</li>
+<li>Peaks tracked automatically</li>
+</ol>
+<p><strong>Useful For:</strong></p>
+<ul>
+<li>Monitoring frequency stability</li>
+<li>Detecting harmonics</li>
+<li>Tracking spectral changes</li>
+</ul>
+<h3 id="with-protocol-decoding">With Protocol Decoding<a class="headerlink" href="#with-protocol-decoding" title="Permanent link">&para;</a></h3>
+<p><strong>Live Protocol Decode:</strong></p>
+<ol>
+<li>Configure protocol decoder</li>
+<li>Enable Live View</li>
+<li>Decoder processes each frame</li>
+<li>Results update in table</li>
+<li>Visual overlay on waveform</li>
+</ol>
+<p><strong>Useful For:</strong></p>
+<ul>
+<li>Monitoring bus traffic</li>
+<li>Debugging communication</li>
+<li>Verifying data integrity</li>
+</ul>
+<h3 id="with-reference-waveforms">With Reference Waveforms<a class="headerlink" href="#with-reference-waveforms" title="Permanent link">&para;</a></h3>
+<p><strong>Live Comparison:</strong></p>
+<ol>
+<li>Save current waveform as reference</li>
+<li>Continue Live View</li>
+<li>Reference overlaid on live data</li>
+<li>See differences in real-time</li>
+</ol>
+<p><strong>Useful For:</strong></p>
+<ul>
+<li>Comparing before/after</li>
+<li>Tracking signal degradation</li>
+<li>Quality control</li>
+</ul>
+<h2 id="performance-comparison">Performance Comparison<a class="headerlink" href="#performance-comparison" title="Permanent link">&para;</a></h2>
+<h3 id="pyqtgraph-vs-matplotlib">PyQtGraph vs Matplotlib<a class="headerlink" href="#pyqtgraph-vs-matplotlib" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Feature</th>
+<th>PyQtGraph</th>
+<th>Matplotlib</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FPS (typical)</td>
+<td>100-1000+</td>
+<td>10-30</td>
+</tr>
+<tr>
+<td>CPU usage</td>
+<td>Low-Medium</td>
+<td>Medium-High</td>
+</tr>
+<tr>
+<td>GPU acceleration</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Latency</td>
+<td>Lower</td>
+<td>Higher</td>
+</tr>
+<tr>
+<td>Installation</td>
+<td>Optional</td>
+<td>Fallback</td>
+</tr>
+<tr>
+<td>Platforms</td>
+<td>All</td>
+<td>All</td>
+</tr>
+</tbody>
+</table>
+<h3 id="network-impact">Network Impact<a class="headerlink" href="#network-impact" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Connection</th>
+<th>Latency</th>
+<th>FPS Impact</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Direct Gigabit</td>
+<td>&lt;10ms</td>
+<td>Minimal</td>
+</tr>
+<tr>
+<td>LAN Gigabit</td>
+<td>10-50ms</td>
+<td>Low</td>
+</tr>
+<tr>
+<td>LAN 100Mbps</td>
+<td>20-100ms</td>
+<td>Medium</td>
+</tr>
+<tr>
+<td>WiFi</td>
+<td>50-200ms</td>
+<td>High</td>
+</tr>
+<tr>
+<td>Remote/VPN</td>
+<td>100-500ms</td>
+<td>Very High</td>
+</tr>
+</tbody>
+</table>
+<h2 id="next-steps">Next Steps<a class="headerlink" href="#next-steps" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="../visual-measurements/">Visual Measurements</a> - Add interactive markers to live display</li>
+<li><a href="../fft-analysis/">FFT Analysis</a> - Real-time frequency analysis</li>
+<li><a href="../interface/">Interface Guide</a> - Learn all GUI controls</li>
+<li><a href="../protocol-decoding/">Protocol Decoding</a> - Decode protocols in real-time</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/little-did-I-know/Siglent-Oscilloscope" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://pypi.org/project/Siglent-Oscilloscope/" target="_blank" rel="noopener" title="pypi.org" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.8 200.5c-7.7-30.9-22.3-54.2-53.4-54.2h-40.1v47.4c0 36.8-31.2 67.8-66.8 67.8H172.7c-29.2 0-53.4 25-53.4 54.3v101.8c0 29 25.2 46 53.4 54.3 33.8 9.9 66.3 11.7 106.8 0 26.9-7.8 53.4-23.5 53.4-54.3v-40.7H226.2v-13.6h160.2c31.1 0 42.6-21.7 53.4-54.2 11.2-33.5 10.7-65.7 0-108.6M286.2 444.7a20.4 20.4 0 1 1 0-40.7 20.4 20.4 0 1 1 0 40.7M167.8 248.1h106.8c29.7 0 53.4-24.5 53.4-54.3V91.9c0-29-24.4-50.7-53.4-55.6-35.8-5.9-74.7-5.6-106.8.1-45.2 8-53.4 24.7-53.4 55.6v40.7h106.9v13.6h-147c-31.1 0-58.3 18.7-66.8 54.2-9.8 40.7-10.2 66.1 0 108.6 7.6 31.6 25.7 54.2 56.8 54.2H101v-48.8c0-35.3 30.5-66.4 66.8-66.4m-6.6-183.4a20.4 20.4 0 1 1 0 40.8 20.4 20.4 0 1 1 0-40.8"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.annotate", "content.code.copy", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
