@@ -1,5 +1,5 @@
 site_name: Siglent Oscilloscope Control
-site_description: Python library for controlling Siglent oscilloscopes via SCPI over Ethernet
+site_description: Python library for controlling Siglent test equipment via SCPI over Ethernet
 site_author: Robin Mumm
 site_url: https://siglent-oscilloscope.readthedocs.io
 repo_url: https://github.com/little-did-I-know/Siglent-Oscilloscope
@@ -8,6 +8,8 @@ edit_uri: edit/main/docs/
 
 theme:
   name: material
+  logo: ../resources/Test Equipment.png
+  favicon: ../resources/Test Equipment.ico
   palette:
     # Light mode
     - scheme: default

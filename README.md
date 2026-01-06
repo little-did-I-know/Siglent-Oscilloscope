@@ -1,3 +1,7 @@
+<div align="center">
+  <img src="resources/Test Equipment.png" alt="Siglent Test Equipment Control" width="400">
+</div>
+
 # Siglent Oscilloscope Control
 
 [![CI](https://github.com/little-did-I-know/Siglent-Oscilloscope/actions/workflows/ci.yml/badge.svg)](https://github.com/little-did-I-know/Siglent-Oscilloscope/actions/workflows/ci.yml)
@@ -12,19 +16,30 @@
 [![GitHub last commit](https://img.shields.io/github/last-commit/little-did-I-know/Siglent-Oscilloscope)](https://github.com/little-did-I-know/Siglent-Oscilloscope/commits/main)
 [![Buy Me A Coffee](https://img.shields.io/badge/Buy%20Me%20A%20Coffee-Support-yellow.svg?style=flat&logo=buy-me-a-coffee)](https://buymeacoffee.com/little.did.i.know)
 
-A professional Python package for controlling Siglent oscilloscopes via Ethernet/LAN. Features both a comprehensive programmatic API and a high-performance PyQt6-based GUI application with real-time visualization.
+A professional Python package for controlling Siglent test equipment via Ethernet/LAN: oscilloscopes, function generators (AWGs), and power supplies. Features both a comprehensive programmatic API and a high-performance PyQt6-based GUI application with real-time visualization.
 
 ## Features
 
 ### Core Features
 
-- **Programmatic API**: Control your oscilloscope from Python scripts
+- **Oscilloscope Control**: Complete programmatic API for waveform capture, measurements, and analysis
+- **Function Generator Control**: Generate waveforms with SDG series arbitrary waveform generators
+- **Power Supply Control**: Configure and monitor Siglent SPD series programmable power supplies
 - **Automation & Data Collection**: High-level API for batch capture, continuous monitoring, and analysis
-- **GUI Application**: Modern PyQt6-based graphical interface
+- **GUI Application**: Modern PyQt6-based graphical interface for oscilloscopes
 - **Waveform Acquisition**: Capture and download waveform data in multiple formats (NPZ, CSV, MAT, HDF5)
 - **Channel Configuration**: Control voltage scale, coupling, offset, bandwidth
 - **Trigger Settings**: Configure trigger modes, levels, edge detection
 - **Advanced Analysis**: Built-in FFT, SNR, THD, and statistical analysis tools
+
+### Function Generator Features
+
+- **Basic Waveforms**: Sine, square, ramp, pulse, noise, DC
+- **Waveform Parameters**: Frequency, amplitude, offset, phase control
+- **Advanced Controls**: Pulse duty cycle, ramp symmetry
+- **Multi-Channel Sync**: Phase-locked channel synchronization
+- **Model Detection**: Auto-detect SDG1000X/SDG2000X capabilities
+- **Generic SCPI Support**: Works with any SCPI-compliant AWG
 
 ### GUI Features (New!)
 
@@ -652,6 +667,87 @@ See `examples/` directory for complete automation examples including:
 - Trigger-based capture (`trigger_based_capture.py`)
 - Advanced analysis with visualization (`advanced_analysis.py`)
 
+## Function Generator Control
+
+Control Siglent SDG series function generators and arbitrary waveform generators via SCPI:
+
+```python
+from siglent import FunctionGenerator
+
+# Connect to function generator
+awg = FunctionGenerator('192.168.1.100')
+awg.connect()
+
+# Get device information
+print(awg.identify())
+print(f"Model: {awg.model_capability.model_name}")
+print(f"Channels: {awg.model_capability.num_channels}")
+
+# Generate a sine wave
+awg.channel1.configure_sine(frequency=1000.0, amplitude=5.0, offset=0.0)
+awg.channel1.enable()
+
+# Generate a square wave on channel 2
+awg.channel2.configure_square(frequency=500.0, amplitude=3.3)
+awg.channel2.enable()
+
+# Pulse wave with duty cycle
+awg.channel1.configure_pulse(
+    frequency=10e3,      # 10 kHz
+    amplitude=2.0,       # 2 Vpp
+    duty_cycle=25.0,     # 25% duty cycle
+    offset=0.5           # 0.5V DC offset
+)
+
+# Triangle/Ramp wave with symmetry control
+awg.channel1.configure_ramp(
+    frequency=1000.0,
+    amplitude=4.0,
+    symmetry=50.0        # 50% = triangle wave
+)
+
+# Manual configuration
+awg.channel1.function = "SINE"
+awg.channel1.frequency = 2500.0  # Hz
+awg.channel1.amplitude = 3.0     # Vpp
+awg.channel1.offset = 1.5        # V
+awg.channel1.phase = 90.0        # degrees
+
+# Synchronize multiple channels
+awg.sync_channels(phase_offset=90.0)  # 90° phase shift between channels
+
+# Turn off all outputs
+awg.all_outputs_off()
+
+awg.disconnect()
+```
+
+**Or using context manager:**
+
+```python
+with FunctionGenerator('192.168.1.100') as awg:
+    awg.channel1.configure_sine(frequency=1000.0, amplitude=5.0)
+    awg.channel1.enable()
+```
+
+**Supported Models:**
+
+- **SDG1000X Series**: SDG1020, SDG1025, SDG1032X
+- **SDG2000X Series**: SDG2042X, SDG2082X, SDG2122X
+- **Generic SCPI AWGs**: Any SCPI-99 compliant arbitrary waveform generator
+
+**Features:**
+
+- Basic waveform generation (sine, square, ramp, pulse, noise, DC)
+- Frequency, amplitude, and offset control
+- Phase control for channel synchronization
+- Pulse duty cycle adjustment
+- Ramp symmetry control (sawtooth/triangle)
+- Model-specific capability detection
+- Generic SCPI fallback for unknown models
+
+See `examples/function_generator_basic.py` for complete usage examples.
+
 ## Examples
 
 See the `examples/` directory for complete working examples:
@@ -661,6 +757,7 @@ See the `examples/` directory for complete working examples:
 - **measurements.py** - Automated measurements
 - **live_plot.py** - Real-time plotting
 - **probe_calibration_analysis.py** - Automated report generation with region extraction and AI analysis
+- **function_generator_basic.py** - Function generator control and waveform generation
 
 ## Supported Models
 

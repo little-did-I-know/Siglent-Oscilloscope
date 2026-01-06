@@ -7,6 +7,87 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.6.0] - 2026-01-06
+
+### Added
+
+**Function Generator / Arbitrary Waveform Generator (AWG) Support** 🎵
+- **New `FunctionGenerator` class** for controlling Siglent SDG series and generic SCPI AWGs
+  - Installation: `pip install "Siglent-Oscilloscope"` (included in base package)
+  - Control via Ethernet/LAN using SCPI commands (default port: 5024)
+  - Context manager support for automatic connection/disconnection
+  - Dynamic channel creation based on model capabilities
+
+- **Supported Models**
+  - **SDG1000X Series**: SDG1020, SDG1025, SDG1032X (up to 30 MHz, 20 Vpp)
+  - **SDG2000X Series**: SDG2042X, SDG2082X, SDG2122X (up to 120 MHz, 20 Vpp)
+  - **Generic SCPI AWGs**: Automatic fallback for any SCPI-99 compliant arbitrary waveform generator
+  - Model-specific capability detection with conservative generic defaults
+
+- **Waveform Generation Features**
+  - **Basic Waveforms**: Sine, square, ramp, pulse, noise, DC
+  - **Waveform Parameters**:
+    - Frequency control with per-channel limits (up to 120 MHz on SDG2122X)
+    - Amplitude control in Vpp (peak-to-peak volts)
+    - DC offset control
+    - Phase control for channel synchronization (0-360°)
+  - **Advanced Waveform Controls**:
+    - Pulse duty cycle adjustment (0-100%)
+    - Ramp symmetry control (0% = sawtooth down, 50% = triangle, 100% = sawtooth up)
+  - **Multi-Channel Synchronization**: Phase-locked channel sync with configurable phase offset
+
+- **SCPI Command Architecture** (`siglent/awg_scpi_commands.py`)
+  - Generic SCPI-99 command set (e.g., `SOUR1:FREQ 1000`)
+  - Siglent SDG-specific command overrides (e.g., `C1:BSWV FRQ,1000`)
+  - Automatic fallback to generic commands for unknown models
+  - Template-based command generation with parameter validation
+
+- **Model Capability Detection** (`siglent/awg_models.py`)
+  - Automatic model detection via `*IDN?` query
+  - Per-channel specifications: max frequency, max amplitude, resolution
+  - Feature flags: modulation, sweep, burst, arbitrary waveforms, noise
+  - Registry of 6 pre-configured Siglent models with full specifications
+  - Generic capability creation for unknown models
+
+- **Channel Control** (`siglent/awg_output.py`)
+  - Individual channel configuration with property-based interface
+  - Parameter validation against model-specific limits
+  - Convenience methods: `configure_sine()`, `configure_square()`, `configure_pulse()`, `configure_ramp()`
+  - Output enable/disable control
+  - Channel configuration querying with `get_configuration()`
+
+- **Safety Features**
+  - `all_outputs_off()` method for quick shutdown
+  - Parameter limit validation to prevent hardware damage
+  - Automatic error handling with informative exceptions
+
+- **Comprehensive Testing**
+  - 43 unit tests with mock connection support
+  - Tests for model detection, SCPI commands, channel control, and operations
+  - Mock AWG mode added to `MockConnection` for deterministic testing
+  - Full coverage of all waveform types and parameters
+
+- **Documentation and Examples**
+  - Updated README.md with function generator section and usage examples
+  - New example script: `examples/function_generator_basic.py`
+    - 6 practical examples covering all major features
+    - Command-line interface with IP address configuration
+    - Demonstrations of sine, square, pulse, ramp, and synchronized waveforms
+  - Updated package docstring with function generator import examples
+  - API documentation for all AWG modules
+
+**Package Updates**
+- Added `FunctionGenerator` to main package exports in `siglent/__init__.py`
+- Updated package description to include function generator support
+- Module architecture follows PowerSupply pattern for consistency
+
+### Changed
+
+**Documentation**
+- Updated main README.md to describe multi-equipment support (oscilloscopes, power supplies, function generators)
+- Added "Function Generator Features" section to feature list
+- Expanded "Examples" section to include function generator example script
+
 ## [0.5.1] - 2026-01-05
 
 ### Fixed
