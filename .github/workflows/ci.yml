@@ -114,8 +114,8 @@ jobs:
 
       - name: Test import
         run: |
-          python -c "from siglent import Oscilloscope; print('Import successful')"
-          python -c "import siglent; print('Version:', siglent.__version__)"
+          python -c "from scpi_control import Oscilloscope; print('Import successful')"
+          python -c "import scpi_control; print('Version:', siglent.__version__)"
 
       - name: Test CLI command availability
         run: |
@@ -189,7 +189,7 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
     environment:
       name: testpypi
-      url: https://test.pypi.org/project/Siglent-Oscilloscope/
+      url: https://test.pypi.org/project/SCPI-Instrument-Control/
 
     steps:
       - name: Download distribution artifacts
