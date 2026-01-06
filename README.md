@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="resources/Test Equipment.png" alt="Siglent Test Equipment Control" width="400">
+  <img src="resources/Test Equipment Wide.png" alt="Siglent Test Equipment Control" width="400">
 </div>
 
 # Siglent Oscilloscope Control
@@ -18,12 +18,44 @@
 
 A professional Python package for controlling Siglent test equipment via Ethernet/LAN: oscilloscopes, function generators (AWGs), and power supplies. Features both a comprehensive programmatic API and a high-performance PyQt6-based GUI application with real-time visualization.
 
+---
+
+## 🆕 What's New in v0.6.0 - Function Generator Support!
+
+**Control arbitrary waveform generators programmatically!** Generate precision waveforms with the new `FunctionGenerator` class for Siglent SDG series and generic SCPI AWGs.
+
+```python
+from siglent import FunctionGenerator
+
+with FunctionGenerator('192.168.1.100') as awg:
+    # Generate a 1kHz sine wave at 5Vpp
+    awg.channel1.configure_sine(frequency=1000, amplitude=5.0)
+    awg.channel1.enable()
+
+    # Create synchronized dual-channel outputs with 90° phase shift
+    awg.channel2.configure_sine(frequency=1000, amplitude=5.0)
+    awg.sync_channels(phase_offset=90.0)
+    awg.channel2.enable()
+```
+
+**Key highlights:**
+- 🎵 **6 Waveform Types**: Sine, square, ramp, pulse, noise, DC
+- 🎛️ **Precise Control**: Frequency up to 120MHz, amplitude up to 20Vpp (model dependent)
+- 🔄 **Multi-Channel Sync**: Phase-locked outputs with configurable phase offset
+- ⚡ **Advanced Shaping**: Pulse duty cycle (0-100%), ramp symmetry (sawtooth ↔ triangle)
+- 🔌 **Universal Support**: Auto-detects SDG1000X/2000X models + generic SCPI fallback
+- 🛡️ **Safe Defaults**: Parameter validation prevents hardware damage
+
+[See full documentation below ↓](#function-generator-control)
+
+---
+
 ## Features
 
 ### Core Features
 
 - **Oscilloscope Control**: Complete programmatic API for waveform capture, measurements, and analysis
-- **Function Generator Control**: Generate waveforms with SDG series arbitrary waveform generators
+- **Function Generator Control** 🆕: Generate and synchronize waveforms with SDG series arbitrary waveform generators
 - **Power Supply Control**: Configure and monitor Siglent SPD series programmable power supplies
 - **Automation & Data Collection**: High-level API for batch capture, continuous monitoring, and analysis
 - **GUI Application**: Modern PyQt6-based graphical interface for oscilloscopes
@@ -31,15 +63,6 @@ A professional Python package for controlling Siglent test equipment via Etherne
 - **Channel Configuration**: Control voltage scale, coupling, offset, bandwidth
 - **Trigger Settings**: Configure trigger modes, levels, edge detection
 - **Advanced Analysis**: Built-in FFT, SNR, THD, and statistical analysis tools
-
-### Function Generator Features
-
-- **Basic Waveforms**: Sine, square, ramp, pulse, noise, DC
-- **Waveform Parameters**: Frequency, amplitude, offset, phase control
-- **Advanced Controls**: Pulse duty cycle, ramp symmetry
-- **Multi-Channel Sync**: Phase-locked channel synchronization
-- **Model Detection**: Auto-detect SDG1000X/SDG2000X capabilities
-- **Generic SCPI Support**: Works with any SCPI-compliant AWG
 
 ### GUI Features (New!)
 
@@ -669,29 +692,38 @@ See `examples/` directory for complete automation examples including:
 
 ## Function Generator Control
 
-Control Siglent SDG series function generators and arbitrary waveform generators via SCPI:
+Control Siglent SDG series function generators and arbitrary waveform generators via SCPI with full programmatic access to all waveform parameters.
+
+### Quick Start
 
 ```python
 from siglent import FunctionGenerator
 
-# Connect to function generator
+# Connect and generate a sine wave
+with FunctionGenerator('192.168.1.100') as awg:
+    awg.channel1.configure_sine(frequency=1000, amplitude=5.0)
+    awg.channel1.enable()
+```
+
+### Basic Waveform Generation
+
+Generate standard waveforms with precision control:
+
+```python
+from siglent import FunctionGenerator
+
 awg = FunctionGenerator('192.168.1.100')
 awg.connect()
 
-# Get device information
-print(awg.identify())
-print(f"Model: {awg.model_capability.model_name}")
-print(f"Channels: {awg.model_capability.num_channels}")
-
-# Generate a sine wave
+# Sine wave - Perfect for harmonic analysis
 awg.channel1.configure_sine(frequency=1000.0, amplitude=5.0, offset=0.0)
 awg.channel1.enable()
 
-# Generate a square wave on channel 2
+# Square wave - Clock signals, digital testing
 awg.channel2.configure_square(frequency=500.0, amplitude=3.3)
 awg.channel2.enable()
 
-# Pulse wave with duty cycle
+# Pulse wave - PWM simulation, gate signals
 awg.channel1.configure_pulse(
     frequency=10e3,      # 10 kHz
     amplitude=2.0,       # 2 Vpp
@@ -699,54 +731,97 @@ awg.channel1.configure_pulse(
     offset=0.5           # 0.5V DC offset
 )
 
-# Triangle/Ramp wave with symmetry control
+# Triangle/Ramp wave - Sweep signals, modulation
 awg.channel1.configure_ramp(
     frequency=1000.0,
     amplitude=4.0,
-    symmetry=50.0        # 50% = triangle wave
+    symmetry=50.0        # 0% = sawtooth down, 50% = triangle, 100% = sawtooth up
 )
-
-# Manual configuration
-awg.channel1.function = "SINE"
-awg.channel1.frequency = 2500.0  # Hz
-awg.channel1.amplitude = 3.0     # Vpp
-awg.channel1.offset = 1.5        # V
-awg.channel1.phase = 90.0        # degrees
-
-# Synchronize multiple channels
-awg.sync_channels(phase_offset=90.0)  # 90° phase shift between channels
-
-# Turn off all outputs
-awg.all_outputs_off()
 
 awg.disconnect()
 ```
 
-**Or using context manager:**
+### Advanced Features
+
+**Multi-Channel Synchronization** - Phase-locked outputs for quadrature signals:
 
 ```python
 with FunctionGenerator('192.168.1.100') as awg:
-    awg.channel1.configure_sine(frequency=1000.0, amplitude=5.0)
+    # Create I/Q signals (90° phase shift)
+    awg.channel1.configure_sine(frequency=1e6, amplitude=1.0)
+    awg.channel2.configure_sine(frequency=1e6, amplitude=1.0)
+    awg.sync_channels(phase_offset=90.0)  # 90° phase shift
+
     awg.channel1.enable()
+    awg.channel2.enable()
 ```
 
-**Supported Models:**
+**Manual Parameter Control** - Fine-tune individual parameters:
 
-- **SDG1000X Series**: SDG1020, SDG1025, SDG1032X
-- **SDG2000X Series**: SDG2042X, SDG2082X, SDG2122X
-- **Generic SCPI AWGs**: Any SCPI-99 compliant arbitrary waveform generator
+```python
+# Precise manual control
+awg.channel1.function = "SINE"
+awg.channel1.frequency = 2.5e3    # 2.5 kHz
+awg.channel1.amplitude = 3.0      # 3 Vpp
+awg.channel1.offset = 1.5         # 1.5V DC offset
+awg.channel1.phase = 45.0         # 45° phase
+awg.channel1.enable()
+```
 
-**Features:**
+**Model Detection & Capabilities** - Auto-detect hardware limits:
 
-- Basic waveform generation (sine, square, ramp, pulse, noise, DC)
-- Frequency, amplitude, and offset control
-- Phase control for channel synchronization
-- Pulse duty cycle adjustment
-- Ramp symmetry control (sawtooth/triangle)
-- Model-specific capability detection
-- Generic SCPI fallback for unknown models
+```python
+# Automatic model detection
+print(awg.identify())
+print(f"Model: {awg.model_capability.model_name}")
+print(f"Channels: {awg.model_capability.num_channels}")
+print(f"Max Frequency: {awg.model_capability.channel_specs[0].max_frequency / 1e6}MHz")
+print(f"Max Amplitude: {awg.model_capability.channel_specs[0].max_amplitude}Vpp")
 
-See `examples/function_generator_basic.py` for complete usage examples.
+# Parameters are automatically validated against model limits
+try:
+    awg.channel1.frequency = 200e6  # Exceeds model maximum
+except Exception as e:
+    print(f"Error: {e}")  # InvalidParameterError with helpful message
+```
+
+**Safety Features** - Built-in protection:
+
+```python
+# Quickly disable all outputs (safety shutdown)
+awg.all_outputs_off()
+
+# Parameters validated before sending to hardware
+awg.channel1.amplitude = 25.0  # ❌ Raises error if exceeds model max (e.g., 20Vpp)
+awg.channel1.frequency = -100  # ❌ Raises error for invalid values
+```
+
+### Supported Models & Specifications
+
+| Model Series | Channels | Max Frequency | Max Amplitude | Sample Rate | Status |
+|-------------|----------|---------------|---------------|-------------|--------|
+| **SDG1032X** | 2 | 30 MHz | 20 Vpp | 150 MSa/s | ✅ Full Support |
+| **SDG1025** | 2 | 25 MHz | 10 Vpp | 125 MSa/s | ✅ Full Support |
+| **SDG1020** | 2 | 20 MHz | 10 Vpp | 125 MSa/s | ✅ Full Support |
+| **SDG2122X** | 2 | 120 MHz | 20 Vpp | 1.2 GSa/s | ✅ Full Support |
+| **SDG2082X** | 2 | 80 MHz | 20 Vpp | 1.2 GSa/s | ✅ Full Support |
+| **SDG2042X** | 2 | 40 MHz | 20 Vpp | 1.2 GSa/s | ✅ Full Support |
+| **Generic SCPI AWG** | Auto-detect | Auto-detect | Auto-detect | — | ⚡ Fallback Mode |
+
+**Feature Availability:**
+- ✅ All models: Sine, square, ramp, pulse, noise, DC waveforms
+- ✅ All models: Frequency, amplitude, offset, phase control
+- ✅ All models: Multi-channel synchronization (2-channel models)
+- ✅ All models: Parameter validation and safety limits
+- ✅ SDG series: Pulse duty cycle, ramp symmetry control
+- ⚡ Generic SCPI: Conservative defaults, basic waveforms only
+
+**Architecture:**
+- **Model Detection**: Automatic via `*IDN?` query with fuzzy matching
+- **Command Sets**: Siglent-specific (`C1:BSWV FRQ,1000`) + Generic SCPI fallback (`SOUR1:FREQ 1000`)
+- **Validation**: Per-channel limits enforced before hardware commands
+
+See `examples/function_generator_basic.py` for complete usage examples with all waveform types.
 
 ## Examples
 
@@ -759,20 +834,36 @@ See the `examples/` directory for complete working examples:
 - **probe_calibration_analysis.py** - Automated report generation with region extraction and AI analysis
 - **function_generator_basic.py** - Function generator control and waveform generation
 
-## Supported Models
+## Supported Equipment
 
-### Fully Tested
+### Oscilloscopes (Fully Tested)
 
 - **SDS800X HD Series**: SDS804X HD, SDS824X HD
 - **SDS1000X-E Series**: SDS1102X-E, SDS1104X-E, SDS1202X-E, SDS1204X-E
 - **SDS2000X Plus Series**: SDS2104X+, SDS2204X+, SDS2354X+
 - **SDS5000X Series**: SDS5034X, SDS5054X, SDS5104X
 
-### Compatibility
+**Compatibility:** Should work with other Siglent oscilloscopes that support SCPI commands over Ethernet. Model-specific features are auto-detected via the `ModelCapability` registry.
 
-Should work with other Siglent oscilloscopes that support SCPI commands over Ethernet. Model-specific features are auto-detected via the `ModelCapability` registry.
+### Function Generators / AWGs (New in v0.6.0!) 🆕
 
-**Note**: Some SCPI commands vary between models. The library includes model-specific command variants for HD, X, and Plus series.
+- **SDG1000X Series**: SDG1020 (20MHz), SDG1025 (25MHz), SDG1032X (30MHz)
+- **SDG2000X Series**: SDG2042X (40MHz), SDG2082X (80MHz), SDG2122X (120MHz)
+- **Generic SCPI AWGs**: Any SCPI-99 compliant arbitrary waveform generator
+
+**Capabilities:** Automatic model detection with per-channel specifications. Generic fallback mode for unknown models with conservative defaults.
+
+### Power Supplies (Stable)
+
+- **SPD3303X Series**: SPD3303X, SPD3303X-E (3 channels, 195W)
+- **SPD1305X Series**: SPD1305X (1 channel, 195W)
+- **Generic SCPI PSUs**: SCPI-99 compliant programmable power supplies
+
+**Features:** Voltage/current control, measurements, tracking modes, OVP/OCP protection, data logging.
+
+### Architecture Notes
+
+**SCPI Command Variants:** The library includes model-specific command variants for different series (HD, X, Plus for oscilloscopes; SDG for function generators; SPD for power supplies) with automatic fallback to generic SCPI-99 commands for unknown models.
 
 ## Contributing
 

@@ -84,8 +84,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 **Documentation**
+- Added prominent "What's New in v0.6.0" section at top of README with feature highlights
 - Updated main README.md to describe multi-equipment support (oscilloscopes, power supplies, function generators)
-- Added "Function Generator Features" section to feature list
+- Enhanced "Function Generator Control" section with comprehensive examples:
+  - Quick start examples
+  - Basic waveform generation with use cases
+  - Advanced features: multi-channel sync, manual control, model detection
+  - Safety features and parameter validation
+  - Complete specifications table for all supported models
+- Reorganized "Supported Models" → "Supported Equipment" with sections for:
+  - Oscilloscopes (fully tested)
+  - Function Generators / AWGs (new in v0.6.0)
+  - Power Supplies (stable)
+- Added project logo to README header (`resources/Test Equipment.png`)
 - Expanded "Examples" section to include function generator example script
 
 ## [0.5.1] - 2026-01-05

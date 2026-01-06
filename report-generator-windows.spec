@@ -122,7 +122,7 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    icon=None,  # Add icon path here if you have one: 'resources/icon.ico'
+    icon='resources/Test Equipment.ico',
 )
 
 coll = COLLECT(
@@ -159,6 +159,6 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    icon=None,
+    icon='resources/Test Equipment.ico',
 )
 """
