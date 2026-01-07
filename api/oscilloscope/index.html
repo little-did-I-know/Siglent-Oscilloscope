@@ -6,13 +6,13 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Python library for controlling Siglent oscilloscopes via SCPI over Ethernet">
+        <meta name="description" content="Universal Python library for controlling SCPI-compatible test equipment (oscilloscopes, function generators, power supplies) via Ethernet/LAN">
       
       
         <meta name="author" content="Robin Mumm">
       
       
-        <link rel="canonical" href="https://siglent-oscilloscope.readthedocs.io/api/oscilloscope/">
+        <link rel="canonical" href="https://little-did-I-know.github.io/SCPI-Instrument-Control/api/oscilloscope/">
       
       
         <link rel="prev" href="../../report-generator/api-reference/">
@@ -29,7 +29,7 @@
     
     
       
-        <title>Oscilloscope - Siglent Oscilloscope Control</title>
+        <title>Oscilloscope - SCPI Instrument Control</title>
       
     
     
@@ -102,7 +102,7 @@
 
 <header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../.." title="Siglent Oscilloscope Control" class="md-header__button md-logo" aria-label="Siglent Oscilloscope Control" data-md-component="logo">
+    <a href="../.." title="SCPI Instrument Control" class="md-header__button md-logo" aria-label="SCPI Instrument Control" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -116,7 +116,7 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            Siglent Oscilloscope Control
+            SCPI Instrument Control
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
@@ -204,13 +204,13 @@
     
     
       <div class="md-header__source">
-        <a href="https://github.com/little-did-I-know/Siglent-Oscilloscope" title="Go to repository" class="md-source" data-md-component="source">
+        <a href="https://github.com/little-did-I-know/SCPI-Instrument-Control" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
   </div>
   <div class="md-source__repository">
-    little-did-I-know/Siglent-Oscilloscope
+    little-did-I-know/SCPI-Instrument-Control
   </div>
 </a>
       </div>
@@ -432,23 +432,23 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="Siglent Oscilloscope Control" class="md-nav__button md-logo" aria-label="Siglent Oscilloscope Control" data-md-component="logo">
+    <a href="../.." title="SCPI Instrument Control" class="md-nav__button md-logo" aria-label="SCPI Instrument Control" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
 
     </a>
-    Siglent Oscilloscope Control
+    SCPI Instrument Control
   </label>
   
     <div class="md-nav__source">
-      <a href="https://github.com/little-did-I-know/Siglent-Oscilloscope" title="Go to repository" class="md-source" data-md-component="source">
+      <a href="https://github.com/little-did-I-know/SCPI-Instrument-Control" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
   </div>
   <div class="md-source__repository">
-    little-did-I-know/Siglent-Oscilloscope
+    little-did-I-know/SCPI-Instrument-Control
   </div>
 </a>
     </div>
@@ -1410,7 +1410,7 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#siglent.oscilloscope" class="md-nav__link">
+  <a href="#scpi_control.oscilloscope" class="md-nav__link">
     <span class="md-ellipsis">
       
         <code class="doc-symbol doc-symbol-toc doc-symbol-module"></code>&nbsp;oscilloscope
@@ -1421,7 +1421,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#siglent.oscilloscope.Oscilloscope" class="md-nav__link">
+  <a href="#scpi_control.oscilloscope.Oscilloscope" class="md-nav__link">
     <span class="md-ellipsis">
       
         <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;Oscilloscope
@@ -1433,7 +1433,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#siglent.oscilloscope.Oscilloscope.vector_display" class="md-nav__link">
+  <a href="#scpi_control.oscilloscope.Oscilloscope.vector_display" class="md-nav__link">
     <span class="md-ellipsis">
       
         <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;vector_display
@@ -1444,7 +1444,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#siglent.oscilloscope.Oscilloscope.is_connected" class="md-nav__link">
+  <a href="#scpi_control.oscilloscope.Oscilloscope.is_connected" class="md-nav__link">
     <span class="md-ellipsis">
       
         <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;is_connected
@@ -1455,7 +1455,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#siglent.oscilloscope.Oscilloscope.timebase" class="md-nav__link">
+  <a href="#scpi_control.oscilloscope.Oscilloscope.timebase" class="md-nav__link">
     <span class="md-ellipsis">
       
         <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;timebase
@@ -1466,7 +1466,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#siglent.oscilloscope.Oscilloscope.device_info" class="md-nav__link">
+  <a href="#scpi_control.oscilloscope.Oscilloscope.device_info" class="md-nav__link">
     <span class="md-ellipsis">
       
         <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;device_info
@@ -1477,7 +1477,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#siglent.oscilloscope.Oscilloscope.supported_channels" class="md-nav__link">
+  <a href="#scpi_control.oscilloscope.Oscilloscope.supported_channels" class="md-nav__link">
     <span class="md-ellipsis">
       
         <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;supported_channels
@@ -1488,7 +1488,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#siglent.oscilloscope.Oscilloscope.connect" class="md-nav__link">
+  <a href="#scpi_control.oscilloscope.Oscilloscope.connect" class="md-nav__link">
     <span class="md-ellipsis">
       
         <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;connect
@@ -1499,7 +1499,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#siglent.oscilloscope.Oscilloscope.disconnect" class="md-nav__link">
+  <a href="#scpi_control.oscilloscope.Oscilloscope.disconnect" class="md-nav__link">
     <span class="md-ellipsis">
       
         <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;disconnect
@@ -1510,7 +1510,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#siglent.oscilloscope.Oscilloscope.write" class="md-nav__link">
+  <a href="#scpi_control.oscilloscope.Oscilloscope.write" class="md-nav__link">
     <span class="md-ellipsis">
       
         <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;write
@@ -1521,7 +1521,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#siglent.oscilloscope.Oscilloscope.query" class="md-nav__link">
+  <a href="#scpi_control.oscilloscope.Oscilloscope.query" class="md-nav__link">
     <span class="md-ellipsis">
       
         <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;query
@@ -1532,7 +1532,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#siglent.oscilloscope.Oscilloscope.read_raw" class="md-nav__link">
+  <a href="#scpi_control.oscilloscope.Oscilloscope.read_raw" class="md-nav__link">
     <span class="md-ellipsis">
       
         <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;read_raw
@@ -1543,7 +1543,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#siglent.oscilloscope.Oscilloscope.identify" class="md-nav__link">
+  <a href="#scpi_control.oscilloscope.Oscilloscope.identify" class="md-nav__link">
     <span class="md-ellipsis">
       
         <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;identify
@@ -1554,7 +1554,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#siglent.oscilloscope.Oscilloscope.reset" class="md-nav__link">
+  <a href="#scpi_control.oscilloscope.Oscilloscope.reset" class="md-nav__link">
     <span class="md-ellipsis">
       
         <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;reset
@@ -1565,7 +1565,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#siglent.oscilloscope.Oscilloscope.clear_status" class="md-nav__link">
+  <a href="#scpi_control.oscilloscope.Oscilloscope.clear_status" class="md-nav__link">
     <span class="md-ellipsis">
       
         <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;clear_status
@@ -1576,7 +1576,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#siglent.oscilloscope.Oscilloscope.get_error" class="md-nav__link">
+  <a href="#scpi_control.oscilloscope.Oscilloscope.get_error" class="md-nav__link">
     <span class="md-ellipsis">
       
         <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;get_error
@@ -1587,7 +1587,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#siglent.oscilloscope.Oscilloscope.wait_complete" class="md-nav__link">
+  <a href="#scpi_control.oscilloscope.Oscilloscope.wait_complete" class="md-nav__link">
     <span class="md-ellipsis">
       
         <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;wait_complete
@@ -1598,7 +1598,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#siglent.oscilloscope.Oscilloscope.trigger_single" class="md-nav__link">
+  <a href="#scpi_control.oscilloscope.Oscilloscope.trigger_single" class="md-nav__link">
     <span class="md-ellipsis">
       
         <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;trigger_single
@@ -1609,7 +1609,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#siglent.oscilloscope.Oscilloscope.trigger_force" class="md-nav__link">
+  <a href="#scpi_control.oscilloscope.Oscilloscope.trigger_force" class="md-nav__link">
     <span class="md-ellipsis">
       
         <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;trigger_force
@@ -1620,7 +1620,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#siglent.oscilloscope.Oscilloscope.run" class="md-nav__link">
+  <a href="#scpi_control.oscilloscope.Oscilloscope.run" class="md-nav__link">
     <span class="md-ellipsis">
       
         <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;run
@@ -1631,7 +1631,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#siglent.oscilloscope.Oscilloscope.stop" class="md-nav__link">
+  <a href="#scpi_control.oscilloscope.Oscilloscope.stop" class="md-nav__link">
     <span class="md-ellipsis">
       
         <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;stop
@@ -1642,7 +1642,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#siglent.oscilloscope.Oscilloscope.set_timebase" class="md-nav__link">
+  <a href="#scpi_control.oscilloscope.Oscilloscope.set_timebase" class="md-nav__link">
     <span class="md-ellipsis">
       
         <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;set_timebase
@@ -1653,7 +1653,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#siglent.oscilloscope.Oscilloscope.auto_setup" class="md-nav__link">
+  <a href="#scpi_control.oscilloscope.Oscilloscope.auto_setup" class="md-nav__link">
     <span class="md-ellipsis">
       
         <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;auto_setup
@@ -1664,7 +1664,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#siglent.oscilloscope.Oscilloscope.get_waveform" class="md-nav__link">
+  <a href="#scpi_control.oscilloscope.Oscilloscope.get_waveform" class="md-nav__link">
     <span class="md-ellipsis">
       
         <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;get_waveform
@@ -1675,7 +1675,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#siglent.oscilloscope.Oscilloscope.get_channel" class="md-nav__link">
+  <a href="#scpi_control.oscilloscope.Oscilloscope.get_channel" class="md-nav__link">
     <span class="md-ellipsis">
       
         <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;get_channel
@@ -2599,7 +2599,7 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#siglent.oscilloscope" class="md-nav__link">
+  <a href="#scpi_control.oscilloscope" class="md-nav__link">
     <span class="md-ellipsis">
       
         <code class="doc-symbol doc-symbol-toc doc-symbol-module"></code>&nbsp;oscilloscope
@@ -2610,7 +2610,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#siglent.oscilloscope.Oscilloscope" class="md-nav__link">
+  <a href="#scpi_control.oscilloscope.Oscilloscope" class="md-nav__link">
     <span class="md-ellipsis">
       
         <code class="doc-symbol doc-symbol-toc doc-symbol-class"></code>&nbsp;Oscilloscope
@@ -2622,7 +2622,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#siglent.oscilloscope.Oscilloscope.vector_display" class="md-nav__link">
+  <a href="#scpi_control.oscilloscope.Oscilloscope.vector_display" class="md-nav__link">
     <span class="md-ellipsis">
       
         <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;vector_display
@@ -2633,7 +2633,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#siglent.oscilloscope.Oscilloscope.is_connected" class="md-nav__link">
+  <a href="#scpi_control.oscilloscope.Oscilloscope.is_connected" class="md-nav__link">
     <span class="md-ellipsis">
       
         <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;is_connected
@@ -2644,7 +2644,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#siglent.oscilloscope.Oscilloscope.timebase" class="md-nav__link">
+  <a href="#scpi_control.oscilloscope.Oscilloscope.timebase" class="md-nav__link">
     <span class="md-ellipsis">
       
         <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;timebase
@@ -2655,7 +2655,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#siglent.oscilloscope.Oscilloscope.device_info" class="md-nav__link">
+  <a href="#scpi_control.oscilloscope.Oscilloscope.device_info" class="md-nav__link">
     <span class="md-ellipsis">
       
         <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;device_info
@@ -2666,7 +2666,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#siglent.oscilloscope.Oscilloscope.supported_channels" class="md-nav__link">
+  <a href="#scpi_control.oscilloscope.Oscilloscope.supported_channels" class="md-nav__link">
     <span class="md-ellipsis">
       
         <code class="doc-symbol doc-symbol-toc doc-symbol-attribute"></code>&nbsp;supported_channels
@@ -2677,7 +2677,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#siglent.oscilloscope.Oscilloscope.connect" class="md-nav__link">
+  <a href="#scpi_control.oscilloscope.Oscilloscope.connect" class="md-nav__link">
     <span class="md-ellipsis">
       
         <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;connect
@@ -2688,7 +2688,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#siglent.oscilloscope.Oscilloscope.disconnect" class="md-nav__link">
+  <a href="#scpi_control.oscilloscope.Oscilloscope.disconnect" class="md-nav__link">
     <span class="md-ellipsis">
       
         <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;disconnect
@@ -2699,7 +2699,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#siglent.oscilloscope.Oscilloscope.write" class="md-nav__link">
+  <a href="#scpi_control.oscilloscope.Oscilloscope.write" class="md-nav__link">
     <span class="md-ellipsis">
       
         <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;write
@@ -2710,7 +2710,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#siglent.oscilloscope.Oscilloscope.query" class="md-nav__link">
+  <a href="#scpi_control.oscilloscope.Oscilloscope.query" class="md-nav__link">
     <span class="md-ellipsis">
       
         <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;query
@@ -2721,7 +2721,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#siglent.oscilloscope.Oscilloscope.read_raw" class="md-nav__link">
+  <a href="#scpi_control.oscilloscope.Oscilloscope.read_raw" class="md-nav__link">
     <span class="md-ellipsis">
       
         <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;read_raw
@@ -2732,7 +2732,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#siglent.oscilloscope.Oscilloscope.identify" class="md-nav__link">
+  <a href="#scpi_control.oscilloscope.Oscilloscope.identify" class="md-nav__link">
     <span class="md-ellipsis">
       
         <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;identify
@@ -2743,7 +2743,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#siglent.oscilloscope.Oscilloscope.reset" class="md-nav__link">
+  <a href="#scpi_control.oscilloscope.Oscilloscope.reset" class="md-nav__link">
     <span class="md-ellipsis">
       
         <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;reset
@@ -2754,7 +2754,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#siglent.oscilloscope.Oscilloscope.clear_status" class="md-nav__link">
+  <a href="#scpi_control.oscilloscope.Oscilloscope.clear_status" class="md-nav__link">
     <span class="md-ellipsis">
       
         <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;clear_status
@@ -2765,7 +2765,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#siglent.oscilloscope.Oscilloscope.get_error" class="md-nav__link">
+  <a href="#scpi_control.oscilloscope.Oscilloscope.get_error" class="md-nav__link">
     <span class="md-ellipsis">
       
         <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;get_error
@@ -2776,7 +2776,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#siglent.oscilloscope.Oscilloscope.wait_complete" class="md-nav__link">
+  <a href="#scpi_control.oscilloscope.Oscilloscope.wait_complete" class="md-nav__link">
     <span class="md-ellipsis">
       
         <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;wait_complete
@@ -2787,7 +2787,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#siglent.oscilloscope.Oscilloscope.trigger_single" class="md-nav__link">
+  <a href="#scpi_control.oscilloscope.Oscilloscope.trigger_single" class="md-nav__link">
     <span class="md-ellipsis">
       
         <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;trigger_single
@@ -2798,7 +2798,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#siglent.oscilloscope.Oscilloscope.trigger_force" class="md-nav__link">
+  <a href="#scpi_control.oscilloscope.Oscilloscope.trigger_force" class="md-nav__link">
     <span class="md-ellipsis">
       
         <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;trigger_force
@@ -2809,7 +2809,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#siglent.oscilloscope.Oscilloscope.run" class="md-nav__link">
+  <a href="#scpi_control.oscilloscope.Oscilloscope.run" class="md-nav__link">
     <span class="md-ellipsis">
       
         <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;run
@@ -2820,7 +2820,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#siglent.oscilloscope.Oscilloscope.stop" class="md-nav__link">
+  <a href="#scpi_control.oscilloscope.Oscilloscope.stop" class="md-nav__link">
     <span class="md-ellipsis">
       
         <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;stop
@@ -2831,7 +2831,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#siglent.oscilloscope.Oscilloscope.set_timebase" class="md-nav__link">
+  <a href="#scpi_control.oscilloscope.Oscilloscope.set_timebase" class="md-nav__link">
     <span class="md-ellipsis">
       
         <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;set_timebase
@@ -2842,7 +2842,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#siglent.oscilloscope.Oscilloscope.auto_setup" class="md-nav__link">
+  <a href="#scpi_control.oscilloscope.Oscilloscope.auto_setup" class="md-nav__link">
     <span class="md-ellipsis">
       
         <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;auto_setup
@@ -2853,7 +2853,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#siglent.oscilloscope.Oscilloscope.get_waveform" class="md-nav__link">
+  <a href="#scpi_control.oscilloscope.Oscilloscope.get_waveform" class="md-nav__link">
     <span class="md-ellipsis">
       
         <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;get_waveform
@@ -2864,7 +2864,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#siglent.oscilloscope.Oscilloscope.get_channel" class="md-nav__link">
+  <a href="#scpi_control.oscilloscope.Oscilloscope.get_channel" class="md-nav__link">
     <span class="md-ellipsis">
       
         <code class="doc-symbol doc-symbol-toc doc-symbol-method"></code>&nbsp;get_channel
@@ -2918,7 +2918,7 @@
 
 
 
-<a id="siglent.oscilloscope"></a>
+<a id="scpi_control.oscilloscope"></a>
     <div class="doc doc-contents first">
 
         <p>Main Oscilloscope class for controlling Siglent oscilloscopes.</p>
@@ -2948,11 +2948,11 @@ SDS2000X Plus, and SDS5000X.</p>
 
 
 
-<h2 id="siglent.oscilloscope.Oscilloscope" class="doc doc-heading">
+<h2 id="scpi_control.oscilloscope.Oscilloscope" class="doc doc-heading">
 <code class="doc-symbol doc-symbol-heading doc-symbol-class"></code>            <span class="doc doc-object-name doc-class-name">Oscilloscope</span>
 
 
-<a href="#siglent.oscilloscope.Oscilloscope" class="headerlink" title="Permanent link">&para;</a></h2>
+<a href="#scpi_control.oscilloscope.Oscilloscope" class="headerlink" title="Permanent link">&para;</a></h2>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">Oscilloscope</span><span class="p">(</span><span class="n">host</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">port</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">5024</span><span class="p">,</span> <span class="n">timeout</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">5.0</span><span class="p">,</span> <span class="n">connection</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">BaseConnection</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span>
 </span></code></pre></div>
 
@@ -3058,7 +3058,7 @@ scope.disconnect()</p>
                 <code>connection</code>
             </td>
             <td>
-                  <code><span title="typing.Optional">Optional</span>[<span title="siglent.connection.BaseConnection">BaseConnection</span>]</code>
+                  <code><span title="typing.Optional">Optional</span>[<span title="scpi_control.connection.BaseConnection">BaseConnection</span>]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3086,7 +3086,7 @@ Call connect() to establish connection and initialize channels.</p>
 
 
                   <details class="mkdocstrings-source">
-                    <summary>Source code in <code>siglent/oscilloscope.py</code></summary>
+                    <summary>Source code in <code>scpi_control/oscilloscope.py</code></summary>
                     <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-47"> 47</a></span>
 <span class="normal"><a href="#__codelineno-0-48"> 48</a></span>
 <span class="normal"><a href="#__codelineno-0-49"> 49</a></span>
@@ -3223,7 +3223,7 @@ Call connect() to establish connection and initialize channels.</p>
 
 
 
-<h3 id="siglent.oscilloscope.Oscilloscope.vector_display" class="doc doc-heading">
+<h3 id="scpi_control.oscilloscope.Oscilloscope.vector_display" class="doc doc-heading">
 <code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>            <span class="doc doc-object-name doc-attribute-name">vector_display</span>
 
 
@@ -3231,7 +3231,7 @@ Call connect() to establish connection and initialize channels.</p>
       <small class="doc doc-label doc-label-property"><code>property</code></small>
   </span>
 
-<a href="#siglent.oscilloscope.Oscilloscope.vector_display" class="headerlink" title="Permanent link">&para;</a></h3>
+<a href="#scpi_control.oscilloscope.Oscilloscope.vector_display" class="headerlink" title="Permanent link">&para;</a></h3>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">vector_display</span>
 </span></code></pre></div>
 
@@ -3307,7 +3307,7 @@ scope.vector_display.draw(circle)</p>
 
 
 
-<h3 id="siglent.oscilloscope.Oscilloscope.is_connected" class="doc doc-heading">
+<h3 id="scpi_control.oscilloscope.Oscilloscope.is_connected" class="doc doc-heading">
 <code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>            <span class="doc doc-object-name doc-attribute-name">is_connected</span>
 
 
@@ -3315,7 +3315,7 @@ scope.vector_display.draw(circle)</p>
       <small class="doc doc-label doc-label-property"><code>property</code></small>
   </span>
 
-<a href="#siglent.oscilloscope.Oscilloscope.is_connected" class="headerlink" title="Permanent link">&para;</a></h3>
+<a href="#scpi_control.oscilloscope.Oscilloscope.is_connected" class="headerlink" title="Permanent link">&para;</a></h3>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">is_connected</span><span class="p">:</span> <span class="nb">bool</span>
 </span></code></pre></div>
 
@@ -3354,7 +3354,7 @@ scope.vector_display.draw(circle)</p>
 
 
 
-<h3 id="siglent.oscilloscope.Oscilloscope.timebase" class="doc doc-heading">
+<h3 id="scpi_control.oscilloscope.Oscilloscope.timebase" class="doc doc-heading">
 <code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>            <span class="doc doc-object-name doc-attribute-name">timebase</span>
 
 
@@ -3363,7 +3363,7 @@ scope.vector_display.draw(circle)</p>
       <small class="doc doc-label doc-label-writable"><code>writable</code></small>
   </span>
 
-<a href="#siglent.oscilloscope.Oscilloscope.timebase" class="headerlink" title="Permanent link">&para;</a></h3>
+<a href="#scpi_control.oscilloscope.Oscilloscope.timebase" class="headerlink" title="Permanent link">&para;</a></h3>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">timebase</span><span class="p">:</span> <span class="nb">float</span>
 </span></code></pre></div>
 
@@ -3379,7 +3379,7 @@ scope.vector_display.draw(circle)</p>
 
 
 
-<h3 id="siglent.oscilloscope.Oscilloscope.device_info" class="doc doc-heading">
+<h3 id="scpi_control.oscilloscope.Oscilloscope.device_info" class="doc doc-heading">
 <code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>            <span class="doc doc-object-name doc-attribute-name">device_info</span>
 
 
@@ -3387,7 +3387,7 @@ scope.vector_display.draw(circle)</p>
       <small class="doc doc-label doc-label-property"><code>property</code></small>
   </span>
 
-<a href="#siglent.oscilloscope.Oscilloscope.device_info" class="headerlink" title="Permanent link">&para;</a></h3>
+<a href="#scpi_control.oscilloscope.Oscilloscope.device_info" class="headerlink" title="Permanent link">&para;</a></h3>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">device_info</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span>
 </span></code></pre></div>
 
@@ -3436,7 +3436,7 @@ scope.vector_display.draw(circle)</p>
 
 
 
-<h3 id="siglent.oscilloscope.Oscilloscope.supported_channels" class="doc doc-heading">
+<h3 id="scpi_control.oscilloscope.Oscilloscope.supported_channels" class="doc doc-heading">
 <code class="doc-symbol doc-symbol-heading doc-symbol-attribute"></code>            <span class="doc doc-object-name doc-attribute-name">supported_channels</span>
 
 
@@ -3444,7 +3444,7 @@ scope.vector_display.draw(circle)</p>
       <small class="doc doc-label doc-label-property"><code>property</code></small>
   </span>
 
-<a href="#siglent.oscilloscope.Oscilloscope.supported_channels" class="headerlink" title="Permanent link">&para;</a></h3>
+<a href="#scpi_control.oscilloscope.Oscilloscope.supported_channels" class="headerlink" title="Permanent link">&para;</a></h3>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">supported_channels</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>
 </span></code></pre></div>
 
@@ -3508,11 +3508,11 @@ print(scope.supported_channels)
 <div class="doc doc-object doc-function">
 
 
-<h3 id="siglent.oscilloscope.Oscilloscope.connect" class="doc doc-heading">
+<h3 id="scpi_control.oscilloscope.Oscilloscope.connect" class="doc doc-heading">
 <code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">connect</span>
 
 
-<a href="#siglent.oscilloscope.Oscilloscope.connect" class="headerlink" title="Permanent link">&para;</a></h3>
+<a href="#scpi_control.oscilloscope.Oscilloscope.connect" class="headerlink" title="Permanent link">&para;</a></h3>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">connect</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span>
 </span></code></pre></div>
 
@@ -3534,7 +3534,7 @@ model-specific capabilities and channels.</p>
       <tbody>
           <tr class="doc-section-item">
             <td>
-                  <code><a class="autorefs autorefs-internal" title="            SiglentConnectionError (siglent.exceptions.SiglentConnectionError)" href="../exceptions/#siglent.exceptions.SiglentConnectionError">SiglentConnectionError</a></code>
+                  <code><a class="autorefs autorefs-internal" title="            SiglentConnectionError (scpi_control.exceptions.SiglentConnectionError)" href="../exceptions/#scpi_control.exceptions.SiglentConnectionError">SiglentConnectionError</a></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3544,7 +3544,7 @@ model-specific capabilities and channels.</p>
           </tr>
           <tr class="doc-section-item">
             <td>
-                  <code><a class="autorefs autorefs-internal" title="            SiglentTimeoutError (siglent.exceptions.SiglentTimeoutError)" href="../exceptions/#siglent.exceptions.SiglentTimeoutError">SiglentTimeoutError</a></code>
+                  <code><a class="autorefs autorefs-internal" title="            SiglentTimeoutError (scpi_control.exceptions.SiglentTimeoutError)" href="../exceptions/#scpi_control.exceptions.SiglentTimeoutError">SiglentTimeoutError</a></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3557,7 +3557,7 @@ model-specific capabilities and channels.</p>
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>siglent/oscilloscope.py</code></summary>
+              <summary>Source code in <code>scpi_control/oscilloscope.py</code></summary>
               <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-135">135</a></span>
 <span class="normal"><a href="#__codelineno-0-136">136</a></span>
 <span class="normal"><a href="#__codelineno-0-137">137</a></span>
@@ -3652,11 +3652,11 @@ model-specific capabilities and channels.</p>
 <div class="doc doc-object doc-function">
 
 
-<h3 id="siglent.oscilloscope.Oscilloscope.disconnect" class="doc doc-heading">
+<h3 id="scpi_control.oscilloscope.Oscilloscope.disconnect" class="doc doc-heading">
 <code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">disconnect</span>
 
 
-<a href="#siglent.oscilloscope.Oscilloscope.disconnect" class="headerlink" title="Permanent link">&para;</a></h3>
+<a href="#scpi_control.oscilloscope.Oscilloscope.disconnect" class="headerlink" title="Permanent link">&para;</a></h3>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">disconnect</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span>
 </span></code></pre></div>
 
@@ -3666,7 +3666,7 @@ model-specific capabilities and channels.</p>
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>siglent/oscilloscope.py</code></summary>
+              <summary>Source code in <code>scpi_control/oscilloscope.py</code></summary>
               <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-179">179</a></span>
 <span class="normal"><a href="#__codelineno-0-180">180</a></span>
 <span class="normal"><a href="#__codelineno-0-181">181</a></span>
@@ -3709,11 +3709,11 @@ model-specific capabilities and channels.</p>
 <div class="doc doc-object doc-function">
 
 
-<h3 id="siglent.oscilloscope.Oscilloscope.write" class="doc doc-heading">
+<h3 id="scpi_control.oscilloscope.Oscilloscope.write" class="doc doc-heading">
 <code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">write</span>
 
 
-<a href="#siglent.oscilloscope.Oscilloscope.write" class="headerlink" title="Permanent link">&para;</a></h3>
+<a href="#scpi_control.oscilloscope.Oscilloscope.write" class="headerlink" title="Permanent link">&para;</a></h3>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">write</span><span class="p">(</span><span class="n">command</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
 </span></code></pre></div>
 
@@ -3764,7 +3764,7 @@ model-specific capabilities and channels.</p>
       <tbody>
           <tr class="doc-section-item">
             <td>
-                  <code><a class="autorefs autorefs-internal" title="            SiglentConnectionError (siglent.exceptions.SiglentConnectionError)" href="../exceptions/#siglent.exceptions.SiglentConnectionError">SiglentConnectionError</a></code>
+                  <code><a class="autorefs autorefs-internal" title="            SiglentConnectionError (scpi_control.exceptions.SiglentConnectionError)" href="../exceptions/#scpi_control.exceptions.SiglentConnectionError">SiglentConnectionError</a></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3774,7 +3774,7 @@ model-specific capabilities and channels.</p>
           </tr>
           <tr class="doc-section-item">
             <td>
-                  <code><a class="autorefs autorefs-internal" title="            CommandError (siglent.exceptions.CommandError)" href="../exceptions/#siglent.exceptions.CommandError">CommandError</a></code>
+                  <code><a class="autorefs autorefs-internal" title="            CommandError (scpi_control.exceptions.CommandError)" href="../exceptions/#scpi_control.exceptions.CommandError">CommandError</a></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3787,7 +3787,7 @@ model-specific capabilities and channels.</p>
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>siglent/oscilloscope.py</code></summary>
+              <summary>Source code in <code>scpi_control/oscilloscope.py</code></summary>
               <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-206">206</a></span>
 <span class="normal"><a href="#__codelineno-0-207">207</a></span>
 <span class="normal"><a href="#__codelineno-0-208">208</a></span>
@@ -3820,11 +3820,11 @@ model-specific capabilities and channels.</p>
 <div class="doc doc-object doc-function">
 
 
-<h3 id="siglent.oscilloscope.Oscilloscope.query" class="doc doc-heading">
+<h3 id="scpi_control.oscilloscope.Oscilloscope.query" class="doc doc-heading">
 <code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">query</span>
 
 
-<a href="#siglent.oscilloscope.Oscilloscope.query" class="headerlink" title="Permanent link">&para;</a></h3>
+<a href="#scpi_control.oscilloscope.Oscilloscope.query" class="headerlink" title="Permanent link">&para;</a></h3>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">query</span><span class="p">(</span><span class="n">command</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span>
 </span></code></pre></div>
 
@@ -3898,7 +3898,7 @@ model-specific capabilities and channels.</p>
       <tbody>
           <tr class="doc-section-item">
             <td>
-                  <code><a class="autorefs autorefs-internal" title="            SiglentConnectionError (siglent.exceptions.SiglentConnectionError)" href="../exceptions/#siglent.exceptions.SiglentConnectionError">SiglentConnectionError</a></code>
+                  <code><a class="autorefs autorefs-internal" title="            SiglentConnectionError (scpi_control.exceptions.SiglentConnectionError)" href="../exceptions/#scpi_control.exceptions.SiglentConnectionError">SiglentConnectionError</a></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3908,7 +3908,7 @@ model-specific capabilities and channels.</p>
           </tr>
           <tr class="doc-section-item">
             <td>
-                  <code><a class="autorefs autorefs-internal" title="            SiglentTimeoutError (siglent.exceptions.SiglentTimeoutError)" href="../exceptions/#siglent.exceptions.SiglentTimeoutError">SiglentTimeoutError</a></code>
+                  <code><a class="autorefs autorefs-internal" title="            SiglentTimeoutError (scpi_control.exceptions.SiglentTimeoutError)" href="../exceptions/#scpi_control.exceptions.SiglentTimeoutError">SiglentTimeoutError</a></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3918,7 +3918,7 @@ model-specific capabilities and channels.</p>
           </tr>
           <tr class="doc-section-item">
             <td>
-                  <code><a class="autorefs autorefs-internal" title="            CommandError (siglent.exceptions.CommandError)" href="../exceptions/#siglent.exceptions.CommandError">CommandError</a></code>
+                  <code><a class="autorefs autorefs-internal" title="            CommandError (scpi_control.exceptions.CommandError)" href="../exceptions/#scpi_control.exceptions.CommandError">CommandError</a></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -3931,7 +3931,7 @@ model-specific capabilities and channels.</p>
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>siglent/oscilloscope.py</code></summary>
+              <summary>Source code in <code>scpi_control/oscilloscope.py</code></summary>
               <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-219">219</a></span>
 <span class="normal"><a href="#__codelineno-0-220">220</a></span>
 <span class="normal"><a href="#__codelineno-0-221">221</a></span>
@@ -3976,11 +3976,11 @@ model-specific capabilities and channels.</p>
 <div class="doc doc-object doc-function">
 
 
-<h3 id="siglent.oscilloscope.Oscilloscope.read_raw" class="doc doc-heading">
+<h3 id="scpi_control.oscilloscope.Oscilloscope.read_raw" class="doc doc-heading">
 <code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">read_raw</span>
 
 
-<a href="#siglent.oscilloscope.Oscilloscope.read_raw" class="headerlink" title="Permanent link">&para;</a></h3>
+<a href="#scpi_control.oscilloscope.Oscilloscope.read_raw" class="headerlink" title="Permanent link">&para;</a></h3>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">read_raw</span><span class="p">(</span><span class="n">size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bytes</span>
 </span></code></pre></div>
 
@@ -4044,7 +4044,7 @@ model-specific capabilities and channels.</p>
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>siglent/oscilloscope.py</code></summary>
+              <summary>Source code in <code>scpi_control/oscilloscope.py</code></summary>
               <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-238">238</a></span>
 <span class="normal"><a href="#__codelineno-0-239">239</a></span>
 <span class="normal"><a href="#__codelineno-0-240">240</a></span>
@@ -4073,11 +4073,11 @@ model-specific capabilities and channels.</p>
 <div class="doc doc-object doc-function">
 
 
-<h3 id="siglent.oscilloscope.Oscilloscope.identify" class="doc doc-heading">
+<h3 id="scpi_control.oscilloscope.Oscilloscope.identify" class="doc doc-heading">
 <code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">identify</span>
 
 
-<a href="#siglent.oscilloscope.Oscilloscope.identify" class="headerlink" title="Permanent link">&para;</a></h3>
+<a href="#scpi_control.oscilloscope.Oscilloscope.identify" class="headerlink" title="Permanent link">&para;</a></h3>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">identify</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span>
 </span></code></pre></div>
 
@@ -4115,7 +4115,7 @@ model-specific capabilities and channels.</p>
 </details>
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>siglent/oscilloscope.py</code></summary>
+              <summary>Source code in <code>scpi_control/oscilloscope.py</code></summary>
               <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-249">249</a></span>
 <span class="normal"><a href="#__codelineno-0-250">250</a></span>
 <span class="normal"><a href="#__codelineno-0-251">251</a></span>
@@ -4144,11 +4144,11 @@ model-specific capabilities and channels.</p>
 <div class="doc doc-object doc-function">
 
 
-<h3 id="siglent.oscilloscope.Oscilloscope.reset" class="doc doc-heading">
+<h3 id="scpi_control.oscilloscope.Oscilloscope.reset" class="doc doc-heading">
 <code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">reset</span>
 
 
-<a href="#siglent.oscilloscope.Oscilloscope.reset" class="headerlink" title="Permanent link">&para;</a></h3>
+<a href="#scpi_control.oscilloscope.Oscilloscope.reset" class="headerlink" title="Permanent link">&para;</a></h3>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">reset</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span>
 </span></code></pre></div>
 
@@ -4159,7 +4159,7 @@ model-specific capabilities and channels.</p>
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>siglent/oscilloscope.py</code></summary>
+              <summary>Source code in <code>scpi_control/oscilloscope.py</code></summary>
               <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-260">260</a></span>
 <span class="normal"><a href="#__codelineno-0-261">261</a></span>
 <span class="normal"><a href="#__codelineno-0-262">262</a></span>
@@ -4182,11 +4182,11 @@ model-specific capabilities and channels.</p>
 <div class="doc doc-object doc-function">
 
 
-<h3 id="siglent.oscilloscope.Oscilloscope.clear_status" class="doc doc-heading">
+<h3 id="scpi_control.oscilloscope.Oscilloscope.clear_status" class="doc doc-heading">
 <code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">clear_status</span>
 
 
-<a href="#siglent.oscilloscope.Oscilloscope.clear_status" class="headerlink" title="Permanent link">&para;</a></h3>
+<a href="#scpi_control.oscilloscope.Oscilloscope.clear_status" class="headerlink" title="Permanent link">&para;</a></h3>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">clear_status</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span>
 </span></code></pre></div>
 
@@ -4196,7 +4196,7 @@ model-specific capabilities and channels.</p>
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>siglent/oscilloscope.py</code></summary>
+              <summary>Source code in <code>scpi_control/oscilloscope.py</code></summary>
               <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-268">268</a></span>
 <span class="normal"><a href="#__codelineno-0-269">269</a></span>
 <span class="normal"><a href="#__codelineno-0-270">270</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-268"><a id="__codelineno-0-268" name="__codelineno-0-268"></a><span class="k">def</span><span class="w"> </span><span class="nf">clear_status</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -4211,11 +4211,11 @@ model-specific capabilities and channels.</p>
 <div class="doc doc-object doc-function">
 
 
-<h3 id="siglent.oscilloscope.Oscilloscope.get_error" class="doc doc-heading">
+<h3 id="scpi_control.oscilloscope.Oscilloscope.get_error" class="doc doc-heading">
 <code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">get_error</span>
 
 
-<a href="#siglent.oscilloscope.Oscilloscope.get_error" class="headerlink" title="Permanent link">&para;</a></h3>
+<a href="#scpi_control.oscilloscope.Oscilloscope.get_error" class="headerlink" title="Permanent link">&para;</a></h3>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">get_error</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span>
 </span></code></pre></div>
 
@@ -4248,7 +4248,7 @@ model-specific capabilities and channels.</p>
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>siglent/oscilloscope.py</code></summary>
+              <summary>Source code in <code>scpi_control/oscilloscope.py</code></summary>
               <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-272">272</a></span>
 <span class="normal"><a href="#__codelineno-0-273">273</a></span>
 <span class="normal"><a href="#__codelineno-0-274">274</a></span>
@@ -4271,11 +4271,11 @@ model-specific capabilities and channels.</p>
 <div class="doc doc-object doc-function">
 
 
-<h3 id="siglent.oscilloscope.Oscilloscope.wait_complete" class="doc doc-heading">
+<h3 id="scpi_control.oscilloscope.Oscilloscope.wait_complete" class="doc doc-heading">
 <code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">wait_complete</span>
 
 
-<a href="#siglent.oscilloscope.Oscilloscope.wait_complete" class="headerlink" title="Permanent link">&para;</a></h3>
+<a href="#scpi_control.oscilloscope.Oscilloscope.wait_complete" class="headerlink" title="Permanent link">&para;</a></h3>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">wait_complete</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span>
 </span></code></pre></div>
 
@@ -4285,7 +4285,7 @@ model-specific capabilities and channels.</p>
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>siglent/oscilloscope.py</code></summary>
+              <summary>Source code in <code>scpi_control/oscilloscope.py</code></summary>
               <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-280">280</a></span>
 <span class="normal"><a href="#__codelineno-0-281">281</a></span>
 <span class="normal"><a href="#__codelineno-0-282">282</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-280"><a id="__codelineno-0-280" name="__codelineno-0-280"></a><span class="k">def</span><span class="w"> </span><span class="nf">wait_complete</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -4300,11 +4300,11 @@ model-specific capabilities and channels.</p>
 <div class="doc doc-object doc-function">
 
 
-<h3 id="siglent.oscilloscope.Oscilloscope.trigger_single" class="doc doc-heading">
+<h3 id="scpi_control.oscilloscope.Oscilloscope.trigger_single" class="doc doc-heading">
 <code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">trigger_single</span>
 
 
-<a href="#siglent.oscilloscope.Oscilloscope.trigger_single" class="headerlink" title="Permanent link">&para;</a></h3>
+<a href="#scpi_control.oscilloscope.Oscilloscope.trigger_single" class="headerlink" title="Permanent link">&para;</a></h3>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">trigger_single</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span>
 </span></code></pre></div>
 
@@ -4314,7 +4314,7 @@ model-specific capabilities and channels.</p>
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>siglent/oscilloscope.py</code></summary>
+              <summary>Source code in <code>scpi_control/oscilloscope.py</code></summary>
               <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-284">284</a></span>
 <span class="normal"><a href="#__codelineno-0-285">285</a></span>
 <span class="normal"><a href="#__codelineno-0-286">286</a></span>
@@ -4331,11 +4331,11 @@ model-specific capabilities and channels.</p>
 <div class="doc doc-object doc-function">
 
 
-<h3 id="siglent.oscilloscope.Oscilloscope.trigger_force" class="doc doc-heading">
+<h3 id="scpi_control.oscilloscope.Oscilloscope.trigger_force" class="doc doc-heading">
 <code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">trigger_force</span>
 
 
-<a href="#siglent.oscilloscope.Oscilloscope.trigger_force" class="headerlink" title="Permanent link">&para;</a></h3>
+<a href="#scpi_control.oscilloscope.Oscilloscope.trigger_force" class="headerlink" title="Permanent link">&para;</a></h3>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">trigger_force</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span>
 </span></code></pre></div>
 
@@ -4345,7 +4345,7 @@ model-specific capabilities and channels.</p>
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>siglent/oscilloscope.py</code></summary>
+              <summary>Source code in <code>scpi_control/oscilloscope.py</code></summary>
               <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-289">289</a></span>
 <span class="normal"><a href="#__codelineno-0-290">290</a></span>
 <span class="normal"><a href="#__codelineno-0-291">291</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-289"><a id="__codelineno-0-289" name="__codelineno-0-289"></a><span class="k">def</span><span class="w"> </span><span class="nf">trigger_force</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -4360,11 +4360,11 @@ model-specific capabilities and channels.</p>
 <div class="doc doc-object doc-function">
 
 
-<h3 id="siglent.oscilloscope.Oscilloscope.run" class="doc doc-heading">
+<h3 id="scpi_control.oscilloscope.Oscilloscope.run" class="doc doc-heading">
 <code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">run</span>
 
 
-<a href="#siglent.oscilloscope.Oscilloscope.run" class="headerlink" title="Permanent link">&para;</a></h3>
+<a href="#scpi_control.oscilloscope.Oscilloscope.run" class="headerlink" title="Permanent link">&para;</a></h3>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">run</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span>
 </span></code></pre></div>
 
@@ -4374,7 +4374,7 @@ model-specific capabilities and channels.</p>
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>siglent/oscilloscope.py</code></summary>
+              <summary>Source code in <code>scpi_control/oscilloscope.py</code></summary>
               <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-293">293</a></span>
 <span class="normal"><a href="#__codelineno-0-294">294</a></span>
 <span class="normal"><a href="#__codelineno-0-295">295</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-293"><a id="__codelineno-0-293" name="__codelineno-0-293"></a><span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -4389,11 +4389,11 @@ model-specific capabilities and channels.</p>
 <div class="doc doc-object doc-function">
 
 
-<h3 id="siglent.oscilloscope.Oscilloscope.stop" class="doc doc-heading">
+<h3 id="scpi_control.oscilloscope.Oscilloscope.stop" class="doc doc-heading">
 <code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">stop</span>
 
 
-<a href="#siglent.oscilloscope.Oscilloscope.stop" class="headerlink" title="Permanent link">&para;</a></h3>
+<a href="#scpi_control.oscilloscope.Oscilloscope.stop" class="headerlink" title="Permanent link">&para;</a></h3>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">stop</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span>
 </span></code></pre></div>
 
@@ -4403,7 +4403,7 @@ model-specific capabilities and channels.</p>
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>siglent/oscilloscope.py</code></summary>
+              <summary>Source code in <code>scpi_control/oscilloscope.py</code></summary>
               <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-297">297</a></span>
 <span class="normal"><a href="#__codelineno-0-298">298</a></span>
 <span class="normal"><a href="#__codelineno-0-299">299</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-297"><a id="__codelineno-0-297" name="__codelineno-0-297"></a><span class="k">def</span><span class="w"> </span><span class="nf">stop</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -4418,11 +4418,11 @@ model-specific capabilities and channels.</p>
 <div class="doc doc-object doc-function">
 
 
-<h3 id="siglent.oscilloscope.Oscilloscope.set_timebase" class="doc doc-heading">
+<h3 id="scpi_control.oscilloscope.Oscilloscope.set_timebase" class="doc doc-heading">
 <code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">set_timebase</span>
 
 
-<a href="#siglent.oscilloscope.Oscilloscope.set_timebase" class="headerlink" title="Permanent link">&para;</a></h3>
+<a href="#scpi_control.oscilloscope.Oscilloscope.set_timebase" class="headerlink" title="Permanent link">&para;</a></h3>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">set_timebase</span><span class="p">(</span><span class="n">seconds_per_div</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
 </span></code></pre></div>
 
@@ -4432,7 +4432,7 @@ model-specific capabilities and channels.</p>
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>siglent/oscilloscope.py</code></summary>
+              <summary>Source code in <code>scpi_control/oscilloscope.py</code></summary>
               <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-311">311</a></span>
 <span class="normal"><a href="#__codelineno-0-312">312</a></span>
 <span class="normal"><a href="#__codelineno-0-313">313</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-311"><a id="__codelineno-0-311" name="__codelineno-0-311"></a><span class="k">def</span><span class="w"> </span><span class="nf">set_timebase</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">seconds_per_div</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -4447,11 +4447,11 @@ model-specific capabilities and channels.</p>
 <div class="doc doc-object doc-function">
 
 
-<h3 id="siglent.oscilloscope.Oscilloscope.auto_setup" class="doc doc-heading">
+<h3 id="scpi_control.oscilloscope.Oscilloscope.auto_setup" class="doc doc-heading">
 <code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">auto_setup</span>
 
 
-<a href="#siglent.oscilloscope.Oscilloscope.auto_setup" class="headerlink" title="Permanent link">&para;</a></h3>
+<a href="#scpi_control.oscilloscope.Oscilloscope.auto_setup" class="headerlink" title="Permanent link">&para;</a></h3>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">auto_setup</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span>
 </span></code></pre></div>
 
@@ -4461,7 +4461,7 @@ model-specific capabilities and channels.</p>
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>siglent/oscilloscope.py</code></summary>
+              <summary>Source code in <code>scpi_control/oscilloscope.py</code></summary>
               <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-315">315</a></span>
 <span class="normal"><a href="#__codelineno-0-316">316</a></span>
 <span class="normal"><a href="#__codelineno-0-317">317</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-315"><a id="__codelineno-0-315" name="__codelineno-0-315"></a><span class="k">def</span><span class="w"> </span><span class="nf">auto_setup</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -4476,11 +4476,11 @@ model-specific capabilities and channels.</p>
 <div class="doc doc-object doc-function">
 
 
-<h3 id="siglent.oscilloscope.Oscilloscope.get_waveform" class="doc doc-heading">
+<h3 id="scpi_control.oscilloscope.Oscilloscope.get_waveform" class="doc doc-heading">
 <code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">get_waveform</span>
 
 
-<a href="#siglent.oscilloscope.Oscilloscope.get_waveform" class="headerlink" title="Permanent link">&para;</a></h3>
+<a href="#scpi_control.oscilloscope.Oscilloscope.get_waveform" class="headerlink" title="Permanent link">&para;</a></h3>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">get_waveform</span><span class="p">(</span><span class="n">channel</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">WaveformData</span>
 </span></code></pre></div>
 
@@ -4537,7 +4537,7 @@ model-specific capabilities and channels.</p>
 
   
       dataclass
-   (siglent.waveform.WaveformData)" href="../waveform/#siglent.waveform.WaveformData">WaveformData</a></code>
+   (scpi_control.waveform.WaveformData)" href="../waveform/#scpi_control.waveform.WaveformData">WaveformData</a></code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -4550,7 +4550,7 @@ model-specific capabilities and channels.</p>
 
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>siglent/oscilloscope.py</code></summary>
+              <summary>Source code in <code>scpi_control/oscilloscope.py</code></summary>
               <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-319">319</a></span>
 <span class="normal"><a href="#__codelineno-0-320">320</a></span>
 <span class="normal"><a href="#__codelineno-0-321">321</a></span>
@@ -4583,11 +4583,11 @@ model-specific capabilities and channels.</p>
 <div class="doc doc-object doc-function">
 
 
-<h3 id="siglent.oscilloscope.Oscilloscope.get_channel" class="doc doc-heading">
+<h3 id="scpi_control.oscilloscope.Oscilloscope.get_channel" class="doc doc-heading">
 <code class="doc-symbol doc-symbol-heading doc-symbol-method"></code>            <span class="doc doc-object-name doc-function-name">get_channel</span>
 
 
-<a href="#siglent.oscilloscope.Oscilloscope.get_channel" class="headerlink" title="Permanent link">&para;</a></h3>
+<a href="#scpi_control.oscilloscope.Oscilloscope.get_channel" class="headerlink" title="Permanent link">&para;</a></h3>
 <div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">get_channel</span><span class="p">(</span><span class="n">channel_num</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Channel</span><span class="p">]</span>
 </span></code></pre></div>
 
@@ -4638,7 +4638,7 @@ model-specific capabilities and channels.</p>
       <tbody>
           <tr class="doc-section-item">
             <td>
-                  <code><span title="typing.Optional">Optional</span>[<a class="autorefs autorefs-internal" title="            Channel (siglent.channel.Channel)" href="../channel/#siglent.channel.Channel">Channel</a>]</code>
+                  <code><span title="typing.Optional">Optional</span>[<a class="autorefs autorefs-internal" title="            Channel (scpi_control.channel.Channel)" href="../channel/#scpi_control.channel.Channel">Channel</a>]</code>
             </td>
             <td>
               <div class="doc-md-description">
@@ -4663,7 +4663,7 @@ ch1 = scope.get_channel(1)</p>
 </details>
 
             <details class="mkdocstrings-source">
-              <summary>Source code in <code>siglent/oscilloscope.py</code></summary>
+              <summary>Source code in <code>scpi_control/oscilloscope.py</code></summary>
               <div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-403">403</a></span>
 <span class="normal"><a href="#__codelineno-0-404">404</a></span>
 <span class="normal"><a href="#__codelineno-0-405">405</a></span>
@@ -4774,7 +4774,7 @@ ch1 = scope.get_channel(1)</p>
       
       
     
-    <a href="https://github.com/little-did-I-know/Siglent-Oscilloscope" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+    <a href="https://github.com/little-did-I-know/SCPI-Instrument-Control" target="_blank" rel="noopener" title="github.com" class="md-social__link">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
     </a>
   
@@ -4785,7 +4785,7 @@ ch1 = scope.get_channel(1)</p>
       
       
     
-    <a href="https://pypi.org/project/Siglent-Oscilloscope/" target="_blank" rel="noopener" title="pypi.org" class="md-social__link">
+    <a href="https://pypi.org/project/SCPI-Instrument-Control/" target="_blank" rel="noopener" title="pypi.org" class="md-social__link">
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.8 200.5c-7.7-30.9-22.3-54.2-53.4-54.2h-40.1v47.4c0 36.8-31.2 67.8-66.8 67.8H172.7c-29.2 0-53.4 25-53.4 54.3v101.8c0 29 25.2 46 53.4 54.3 33.8 9.9 66.3 11.7 106.8 0 26.9-7.8 53.4-23.5 53.4-54.3v-40.7H226.2v-13.6h160.2c31.1 0 42.6-21.7 53.4-54.2 11.2-33.5 10.7-65.7 0-108.6M286.2 444.7a20.4 20.4 0 1 1 0-40.7 20.4 20.4 0 1 1 0 40.7M167.8 248.1h106.8c29.7 0 53.4-24.5 53.4-54.3V91.9c0-29-24.4-50.7-53.4-55.6-35.8-5.9-74.7-5.6-106.8.1-45.2 8-53.4 24.7-53.4 55.6v40.7h106.9v13.6h-147c-31.1 0-58.3 18.7-66.8 54.2-9.8 40.7-10.2 66.1 0 108.6 7.6 31.6 25.7 54.2 56.8 54.2H101v-48.8c0-35.3 30.5-66.4 66.8-66.4m-6.6-183.4a20.4 20.4 0 1 1 0 40.8 20.4 20.4 0 1 1 0-40.8"/></svg>
     </a>
   
