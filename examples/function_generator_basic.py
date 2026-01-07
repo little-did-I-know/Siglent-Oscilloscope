@@ -24,21 +24,15 @@ import time
 from scpi_control import FunctionGenerator
 
 # Configure logging
-logging.basicConfig(
-    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-)
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 logger = logging.getLogger(__name__)
 
 
 def main():
     """Main function to demonstrate AWG control."""
     parser = argparse.ArgumentParser(description="Control Siglent Function Generator")
-    parser.add_argument(
-        "--ip", type=str, default="192.168.1.100", help="Function generator IP address"
-    )
-    parser.add_argument(
-        "--port", type=int, default=5024, help="SCPI port (default: 5024)"
-    )
+    parser.add_argument("--ip", type=str, default="192.168.1.100", help="Function generator IP address")
+    parser.add_argument("--port", type=int, default=5024, help="SCPI port (default: 5024)")
     args = parser.parse_args()
 
     logger.info(f"Connecting to function generator at {args.ip}:{args.port}")
@@ -113,10 +107,7 @@ def main():
         awg.channel1.offset = 1.5  # 1.5V DC offset
         awg.channel1.phase = 0.0
         awg.channel1.enable()
-        logger.info(
-            f"Channel 1 configured manually: {awg.channel1.function}, "
-            f"{awg.channel1.frequency}Hz, {awg.channel1.amplitude}Vpp"
-        )
+        logger.info(f"Channel 1 configured manually: {awg.channel1.function}, " f"{awg.channel1.frequency}Hz, {awg.channel1.amplitude}Vpp")
 
         time.sleep(2)
 
