@@ -36,9 +36,9 @@ is_linux = sys.platform.startswith('linux')
 
 # Icon file paths (create these in resources/ directory)
 if is_windows:
-    icon_file = 'resources/siglent-icon.ico'
+    icon_file = 'resources/Test Equipment.ico'
 elif is_macos:
-    icon_file = 'resources/siglent-icon.icns'
+    icon_file = 'resources/Test Equipment.icns'
 else:
     icon_file = None  # Linux doesn't use icon in executable
 

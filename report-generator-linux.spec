@@ -29,6 +29,9 @@ block_cipher = None
 datas = []
 hiddenimports = []
 
+# Include application icon
+datas += [('resources/Test Equipment.png', 'resources')]
+
 # PyQt6 data files
 datas += collect_data_files('PyQt6')
 
@@ -144,6 +147,9 @@ appdir.mkdir(exist_ok=True)
 
 # Copy executable
 shutil.copytree('dist/SiglentReportGenerator', appdir / 'usr/bin', dirs_exist_ok=True)
+
+# Copy icon
+shutil.copy('resources/Test Equipment.png', appdir / 'siglent-report-generator.png')
 
 # Create desktop file
 desktop_content = '''[Desktop Entry]
