@@ -141,10 +141,7 @@ class DAQAIPanel(QWidget):
         # Response area
         self.response_text = QTextEdit()
         self.response_text.setReadOnly(True)
-        self.response_text.setPlaceholderText(
-            "AI analysis results will appear here...\n\n"
-            "Connect to an AI provider and collect some data to get started."
-        )
+        self.response_text.setPlaceholderText("AI analysis results will appear here...\n\n" "Connect to an AI provider and collect some data to get started.")
         self.response_text.setStyleSheet(
             """
             QTextEdit {
@@ -218,9 +215,7 @@ class DAQAIPanel(QWidget):
             QMessageBox.warning(
                 self,
                 "Connection Failed",
-                f"Failed to connect to AI provider:\n{str(e)}\n\n"
-                "For Ollama, ensure the server is running:\n"
-                "  ollama serve",
+                f"Failed to connect to AI provider:\n{str(e)}\n\n" "For Ollama, ensure the server is running:\n" "  ollama serve",
             )
             logger.error(f"LLM connection failed: {e}")
 

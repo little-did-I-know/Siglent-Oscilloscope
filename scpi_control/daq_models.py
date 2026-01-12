@@ -313,8 +313,4 @@ def list_supported_models() -> List[str]:
 
 def get_models_by_manufacturer(manufacturer: str) -> List[DAQCapability]:
     """Get all models from a specific manufacturer."""
-    return [
-        cap
-        for cap in DAQ_MODEL_REGISTRY.values()
-        if cap.manufacturer.lower() == manufacturer.lower()
-    ]
+    return [cap for cap in DAQ_MODEL_REGISTRY.values() if cap.manufacturer.lower() == manufacturer.lower()]

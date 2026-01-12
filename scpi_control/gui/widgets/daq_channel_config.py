@@ -258,9 +258,7 @@ class DAQChannelConfig(QWidget):
             row.config_changed.connect(self._on_channel_changed)
             self.channel_rows[ch] = row
             # Insert before stretch
-            self.channel_layout.insertWidget(
-                self.channel_layout.count() - 1, row
-            )
+            self.channel_layout.insertWidget(self.channel_layout.count() - 1, row)
 
     def _on_channel_changed(self, channel: int, config: Dict):
         """Handle channel configuration change."""
@@ -280,11 +278,7 @@ class DAQChannelConfig(QWidget):
         Returns:
             List of enabled channel numbers
         """
-        return [
-            ch
-            for ch, row in self.channel_rows.items()
-            if row.get_config()["enabled"]
-        ]
+        return [ch for ch, row in self.channel_rows.items() if row.get_config()["enabled"]]
 
     def set_all_configs(self, configs: Dict[int, Dict]):
         """Set configuration for all channels.

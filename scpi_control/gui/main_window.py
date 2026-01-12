@@ -748,17 +748,8 @@ class MainWindow(QMainWindow):
             if self.daq.model_capability:
                 cap = self.daq.model_capability
                 channels = cap.get_all_channels()
-                status_msg = (
-                    f"DAQ Connected: {model} | "
-                    f"{len(channels)} channels | {ip}"
-                )
-                info_msg = (
-                    f"Successfully connected to data logger:\n\n"
-                    f"Manufacturer: {manufacturer}\n"
-                    f"Model: {model}\n"
-                    f"Channels: {len(channels)}\n"
-                    f"IP Address: {ip}"
-                )
+                status_msg = f"DAQ Connected: {model} | " f"{len(channels)} channels | {ip}"
+                info_msg = f"Successfully connected to data logger:\n\n" f"Manufacturer: {manufacturer}\n" f"Model: {model}\n" f"Channels: {len(channels)}\n" f"IP Address: {ip}"
             else:
                 status_msg = f"DAQ Connected to {model} at {ip}"
                 info_msg = f"Successfully connected to {model}\nIP: {ip}"

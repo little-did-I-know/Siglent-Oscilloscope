@@ -110,11 +110,7 @@ class DAQContextBuilder:
 
         for ch in channels:
             # Get values for this channel
-            values = [
-                d["readings"].get(ch)
-                for d in data_buffer
-                if ch in d.get("readings", {})
-            ]
+            values = [d["readings"].get(ch) for d in data_buffer if ch in d.get("readings", {})]
             values = [v for v in values if v is not None]
 
             # Get channel config
@@ -159,9 +155,7 @@ class DAQContextBuilder:
         # Use recent data
         recent_data = data_buffer[-window_size:] if len(data_buffer) > window_size else data_buffer
 
-        context = DAQContextBuilder.build_session_context(
-            recent_data, channels, channel_configs
-        )
+        context = DAQContextBuilder.build_session_context(recent_data, channels, channel_configs)
 
         prompt = (
             "Please analyze the trends in this DAQ data. For each channel:\n"
@@ -179,11 +173,7 @@ class DAQContextBuilder:
         prompt += "\n## Recent Readings (last 10 samples)\n\n"
         for entry in recent_data[-10:]:
             timestamp = entry["timestamp"]
-            readings_str = ", ".join(
-                f"CH{ch}={entry['readings'].get(ch, 'N/A'):.4f}"
-                for ch in channels
-                if ch in entry.get("readings", {})
-            )
+            readings_str = ", ".join(f"CH{ch}={entry['readings'].get(ch, 'N/A'):.4f}" for ch in channels if ch in entry.get("readings", {}))
             prompt += f"t={timestamp:.2f}s: {readings_str}\n"
 
         return prompt
@@ -206,11 +196,7 @@ class DAQContextBuilder:
             Prompt string for LLM
         """
         # Get values for this channel
-        values = [
-            d["readings"].get(channel)
-            for d in data_buffer
-            if channel in d.get("readings", {})
-        ]
+        values = [d["readings"].get(channel) for d in data_buffer if channel in d.get("readings", {})]
         values = [v for v in values if v is not None]
 
         config = channel_config or {}
@@ -261,9 +247,7 @@ class DAQContextBuilder:
         Returns:
             Prompt string for LLM
         """
-        context = DAQContextBuilder.build_session_context(
-            data_buffer, channels, channel_configs, session_metadata
-        )
+        context = DAQContextBuilder.build_session_context(data_buffer, channels, channel_configs, session_metadata)
 
         prompt = (
             "Please generate a comprehensive summary report for this data acquisition session. "
@@ -299,9 +283,7 @@ class DAQContextBuilder:
         Returns:
             Full prompt with context and question
         """
-        context = DAQContextBuilder.build_session_context(
-            data_buffer, channels, channel_configs
-        )
+        context = DAQContextBuilder.build_session_context(data_buffer, channels, channel_configs)
 
         prompt = (
             "You are a data acquisition expert assistant. "

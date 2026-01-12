@@ -84,10 +84,7 @@ class DAQWorker(QThread):
         self.scan_count = 0
         start_time = datetime.now()
 
-        logger.info(
-            f"DAQ worker started: channels={self.channels}, "
-            f"interval={self.scan_interval}s, duration={self.duration}"
-        )
+        logger.info(f"DAQ worker started: channels={self.channels}, " f"interval={self.scan_interval}s, duration={self.duration}")
 
         # Configure the DAQ for scanning
         try:
@@ -117,9 +114,7 @@ class DAQWorker(QThread):
 
                     # Update status
                     channels_str = ", ".join([f"CH{r.channel}" for r in readings if r.channel])
-                    self.status_update.emit(
-                        f"Scan {self.scan_count}: {len(readings)} readings from {channels_str}"
-                    )
+                    self.status_update.emit(f"Scan {self.scan_count}: {len(readings)} readings from {channels_str}")
 
             except Exception as e:
                 self._emit_error("acquisition", e)

@@ -201,9 +201,7 @@ class DAQSCPICommandSet:
                 try:
                     return template.format(**kwargs)
                 except KeyError as e:
-                    raise ValueError(
-                        f"Missing required parameter for command '{command_name}': {e}"
-                    )
+                    raise ValueError(f"Missing required parameter for command '{command_name}': {e}")
 
         # Fall back to generic SCPI commands
         if command_name in self.GENERIC_COMMANDS:
@@ -211,9 +209,7 @@ class DAQSCPICommandSet:
             try:
                 return template.format(**kwargs)
             except KeyError as e:
-                raise ValueError(
-                    f"Missing required parameter for command '{command_name}': {e}"
-                )
+                raise ValueError(f"Missing required parameter for command '{command_name}': {e}")
 
         raise KeyError(f"Unknown command: '{command_name}' for variant '{self.variant}'")
 

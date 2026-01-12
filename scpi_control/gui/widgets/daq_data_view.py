@@ -186,9 +186,7 @@ class DAQDataView(QWidget):
         headers = ["Time (s)"] + [f"CH{ch}" for ch in channels]
         self.data_table.setColumnCount(len(headers))
         self.data_table.setHorizontalHeaderLabels(headers)
-        self.data_table.horizontalHeader().setSectionResizeMode(
-            QHeaderView.ResizeMode.Stretch
-        )
+        self.data_table.horizontalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
 
         # Create traces for each channel
         if self.plot_widget:
@@ -241,11 +239,7 @@ class DAQDataView(QWidget):
         self._update_table(elapsed, readings)
 
         # Update info label
-        self.info_label.setText(
-            f"Points: {len(self.data_buffer)} | "
-            f"Time: {elapsed:.1f}s | "
-            f"Channels: {len(self.channels)}"
-        )
+        self.info_label.setText(f"Points: {len(self.data_buffer)} | " f"Time: {elapsed:.1f}s | " f"Channels: {len(self.channels)}")
 
     def _update_chart(self):
         """Update the PyQtGraph chart with buffered data."""
@@ -257,9 +251,7 @@ class DAQDataView(QWidget):
 
         for ch in self.channels:
             if ch in self.traces:
-                values = [
-                    d["readings"].get(ch, float("nan")) for d in self.data_buffer
-                ]
+                values = [d["readings"].get(ch, float("nan")) for d in self.data_buffer]
                 self.traces[ch].setData(times, values)
 
     def _update_table(self, timestamp: float, readings: List):

@@ -127,10 +127,7 @@ class DataLogger:
         try:
             idn_string = self.identify()
             self._device_info = self._parse_idn(idn_string)
-            logger.info(
-                f"Connected to: {self._device_info.get('manufacturer', 'Unknown')} "
-                f"{self._device_info.get('model', 'Unknown')}"
-            )
+            logger.info(f"Connected to: {self._device_info.get('manufacturer', 'Unknown')} " f"{self._device_info.get('model', 'Unknown')}")
 
             self.model_capability = detect_daq_from_idn(idn_string)
             logger.info(f"Model capability: {self.model_capability}")
@@ -141,9 +138,7 @@ class DataLogger:
         except Exception as e:
             logger.error(f"Failed to identify device: {e}")
             self.disconnect()
-            raise exceptions.SiglentConnectionError(
-                f"Connected but failed to identify device: {e}"
-            )
+            raise exceptions.SiglentConnectionError(f"Connected but failed to identify device: {e}")
 
     def disconnect(self) -> None:
         """Close connection to the Data Logger."""
@@ -210,9 +205,7 @@ class DataLogger:
             resolution: Resolution (AUTO, MIN, MAX, or specific value)
         """
         ch_str = format_channel_list(channels)
-        cmd = self._get_command(
-            "configure_voltage_dc", range=range, resolution=resolution, channels=ch_str
-        )
+        cmd = self._get_command("configure_voltage_dc", range=range, resolution=resolution, channels=ch_str)
         self.write(cmd)
         logger.info(f"Configured DC voltage on {ch_str}")
 
@@ -224,9 +217,7 @@ class DataLogger:
     ) -> None:
         """Configure channels for AC voltage measurement."""
         ch_str = format_channel_list(channels)
-        cmd = self._get_command(
-            "configure_voltage_ac", range=range, resolution=resolution, channels=ch_str
-        )
+        cmd = self._get_command("configure_voltage_ac", range=range, resolution=resolution, channels=ch_str)
         self.write(cmd)
         logger.info(f"Configured AC voltage on {ch_str}")
 
@@ -238,9 +229,7 @@ class DataLogger:
     ) -> None:
         """Configure channels for DC current measurement."""
         ch_str = format_channel_list(channels)
-        cmd = self._get_command(
-            "configure_current_dc", range=range, resolution=resolution, channels=ch_str
-        )
+        cmd = self._get_command("configure_current_dc", range=range, resolution=resolution, channels=ch_str)
         self.write(cmd)
         logger.info(f"Configured DC current on {ch_str}")
 
@@ -252,9 +241,7 @@ class DataLogger:
     ) -> None:
         """Configure channels for AC current measurement."""
         ch_str = format_channel_list(channels)
-        cmd = self._get_command(
-            "configure_current_ac", range=range, resolution=resolution, channels=ch_str
-        )
+        cmd = self._get_command("configure_current_ac", range=range, resolution=resolution, channels=ch_str)
         self.write(cmd)
         logger.info(f"Configured AC current on {ch_str}")
 
@@ -296,25 +283,15 @@ class DataLogger:
 
         if self._scpi_commands and self._scpi_commands.variant == "keysight_daq":
             if sensor_type.upper() == "TC":
-                cmd = self._get_command(
-                    "configure_temperature_tc", tc_type=sensor_subtype, channels=ch_str
-                )
+                cmd = self._get_command("configure_temperature_tc", tc_type=sensor_subtype, channels=ch_str)
             elif sensor_type.upper() == "RTD":
-                cmd = self._get_command(
-                    "configure_temperature_rtd", rtd_type=sensor_subtype, channels=ch_str
-                )
+                cmd = self._get_command("configure_temperature_rtd", rtd_type=sensor_subtype, channels=ch_str)
             elif sensor_type.upper() in ("THER", "THERM", "THERMISTOR"):
-                cmd = self._get_command(
-                    "configure_temperature_therm", therm_type=sensor_subtype, channels=ch_str
-                )
+                cmd = self._get_command("configure_temperature_therm", therm_type=sensor_subtype, channels=ch_str)
             else:
-                cmd = self._get_command(
-                    "configure_temperature", sensor_type=sensor_type, channels=ch_str
-                )
+                cmd = self._get_command("configure_temperature", sensor_type=sensor_type, channels=ch_str)
         else:
-            cmd = self._get_command(
-                "configure_temperature", sensor_type=f"{sensor_type},{sensor_subtype}", channels=ch_str
-            )
+            cmd = self._get_command("configure_temperature", sensor_type=f"{sensor_type},{sensor_subtype}", channels=ch_str)
 
         self.write(cmd)
         logger.info(f"Configured temperature ({sensor_type} {sensor_subtype}) on {ch_str}")
@@ -474,9 +451,7 @@ class DataLogger:
             List of Reading objects
         """
         ch_str = format_channel_list(channels)
-        cmd = self._get_command(
-            "measure_voltage_dc", range=range, resolution=resolution, channels=ch_str
-        )
+        cmd = self._get_command("measure_voltage_dc", range=range, resolution=resolution, channels=ch_str)
         response = self.query(cmd)
         readings = self._parse_readings(response)
 
@@ -499,9 +474,7 @@ class DataLogger:
     ) -> List[Reading]:
         """Measure AC voltage immediately."""
         ch_str = format_channel_list(channels)
-        cmd = self._get_command(
-            "measure_voltage_ac", range=range, resolution=resolution, channels=ch_str
-        )
+        cmd = self._get_command("measure_voltage_ac", range=range, resolution=resolution, channels=ch_str)
         response = self.query(cmd)
         readings = self._parse_readings(response)
 
@@ -523,9 +496,7 @@ class DataLogger:
     ) -> List[Reading]:
         """Measure DC current immediately."""
         ch_str = format_channel_list(channels)
-        cmd = self._get_command(
-            "measure_current_dc", range=range, resolution=resolution, channels=ch_str
-        )
+        cmd = self._get_command("measure_current_dc", range=range, resolution=resolution, channels=ch_str)
         response = self.query(cmd)
         readings = self._parse_readings(response)
 
@@ -570,9 +541,7 @@ class DataLogger:
     ) -> List[Reading]:
         """Measure temperature immediately."""
         ch_str = format_channel_list(channels)
-        cmd = self._get_command(
-            "measure_temperature", sensor_type=sensor_type, channels=ch_str
-        )
+        cmd = self._get_command("measure_temperature", sensor_type=sensor_type, channels=ch_str)
         response = self.query(cmd)
         readings = self._parse_readings(response)
 

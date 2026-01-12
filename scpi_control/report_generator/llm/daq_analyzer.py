@@ -49,9 +49,7 @@ class DAQAnalyzer:
             return "No data available for trend analysis."
 
         system_prompt = get_daq_system_prompt("trends")
-        user_prompt = DAQContextBuilder.build_trend_analysis_request(
-            data_buffer, channels, channel_configs, window_size
-        )
+        user_prompt = DAQContextBuilder.build_trend_analysis_request(data_buffer, channels, channel_configs, window_size)
 
         analysis = self.client.complete(
             prompt=user_prompt,
@@ -82,9 +80,7 @@ class DAQAnalyzer:
             return None
 
         system_prompt = get_daq_system_prompt("thresholds")
-        user_prompt = DAQContextBuilder.build_threshold_suggestion_request(
-            data_buffer, channel, channel_config
-        )
+        user_prompt = DAQContextBuilder.build_threshold_suggestion_request(data_buffer, channel, channel_config)
 
         response = self.client.complete(
             prompt=user_prompt,
@@ -149,9 +145,7 @@ class DAQAnalyzer:
             return "No data available for summary generation."
 
         system_prompt = get_daq_system_prompt("summary")
-        user_prompt = DAQContextBuilder.build_session_summary_request(
-            data_buffer, channels, channel_configs, session_metadata
-        )
+        user_prompt = DAQContextBuilder.build_session_summary_request(data_buffer, channels, channel_configs, session_metadata)
 
         summary = self.client.complete(
             prompt=user_prompt,
@@ -184,9 +178,7 @@ class DAQAnalyzer:
             return "No data available. Please start a logging session first."
 
         system_prompt = get_daq_system_prompt("chat")
-        user_prompt = DAQContextBuilder.build_chat_context(
-            data_buffer, channels, question, channel_configs
-        )
+        user_prompt = DAQContextBuilder.build_chat_context(data_buffer, channels, question, channel_configs)
 
         answer = self.client.complete(
             prompt=user_prompt,
@@ -218,9 +210,7 @@ class DAQAnalyzer:
 
         system_prompt = get_daq_system_prompt("expert")
 
-        context = DAQContextBuilder.build_session_context(
-            data_buffer, channels, channel_configs
-        )
+        context = DAQContextBuilder.build_session_context(data_buffer, channels, channel_configs)
 
         prompt = (
             "Please analyze this DAQ data for anomalies and unusual patterns. "
@@ -267,9 +257,7 @@ class DAQAnalyzer:
 
         system_prompt = get_daq_system_prompt("expert")
 
-        context = DAQContextBuilder.build_session_context(
-            data_buffer, [channel_a, channel_b], channel_configs
-        )
+        context = DAQContextBuilder.build_session_context(data_buffer, [channel_a, channel_b], channel_configs)
 
         prompt = (
             f"Please compare Channel {channel_a} and Channel {channel_b} from this DAQ data. "
